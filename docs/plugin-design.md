@@ -57,19 +57,19 @@ not expose game API details across those boundaries.
 The Openplanet settings are:
 
 - Endpoint URL
-- Optional authentication token
 - Maximum retry count, default `3`, minimum `0`, maximum `10`
 
-Capture and delivery are disabled while the endpoint URL is empty. An empty
-token sends requests without an `Authorization` header. No URL validation is
-performed; request failures use the normal delivery rules. Settings take effect
-immediately, including during a round. Enabling capture mid-round may therefore
-produce a partial game without a `start` event.
+Capture and delivery are disabled while the endpoint URL is empty. No URL
+validation is performed; the configured endpoint is trusted with short-lived
+Openplanet identity tokens. Settings take effect immediately, including during
+a round. Enabling capture mid-round may therefore produce a partial game
+without a `start` event.
 
-Changing the URL or token does not clear the queue or cancel an event. Every
-attempt uses the current URL and token, including retries of previously queued
-events. The token must be masked in settings where Openplanet permits it and
-must never be logged.
+Changing the URL does not clear the queue or cancel an event. Every attempt,
+including retries of previously queued events, uses the current URL and obtains
+a fresh identity token with `Auth::GetToken()`. Authentication failure must
+never result in an unauthenticated request; it consumes an attempt and follows
+the normal retry delay and exhaustion rules. Tokens must never be logged.
 
 ## Time
 
@@ -132,8 +132,8 @@ Delivery rules:
 - Send JSON with `POST`, `Content-Type: application/json; charset=utf-8`,
   `event_type: <type>`, `event-id: <eventId>`, and
   `event-sequence: <sequence>`. Event headers match the payload and remain
-  unchanged across retries. Include `Authorization: Bearer <token>` only when
-  the token is nonempty.
+  unchanged across retries. Include the freshly acquired Openplanet identity
+  token as `Authorization: Bearer <token>` on every request.
 - Use a fixed 10-second request timeout. A timeout is a retryable network error.
 - Treat any `2xx` response as success and ignore its response body.
 - Retry network errors, `408`, `429`, and `5xx` responses.
@@ -148,8 +148,8 @@ Delivery rules:
   then advance the FIFO.
 
 Retries reuse the immutable serialized event, including its ID, sequence,
-schema version, timestamp, and duration. They use only the current endpoint and
-token from settings.
+schema version, timestamp, and duration. They use the current endpoint and a
+new Openplanet identity token.
 
 ## Contract
 

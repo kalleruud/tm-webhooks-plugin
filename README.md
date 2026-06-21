@@ -49,14 +49,18 @@ time. Its precision depends on how the game exposes each event:
 Open **Openplanet > Settings > TM Webhooks > Webhook** and set:
 
 - **Endpoint URL**: destination for HTTP POST requests
-- **Authentication token**: optional secret sent as `Authorization: Bearer <token>`
 - **Maximum retry count**: retries after the initial attempt, from 0 to 10
 
 Capture and delivery are disabled while the URL is empty. Requests use
 `Content-Type: application/json; charset=utf-8` plus `event_type`, `event-id`,
-and `event-sequence` headers matching the corresponding payload fields. When
-the token is empty, the request is sent without authentication. The token is
-masked and never logged.
+and `event-sequence` headers matching the corresponding payload fields. Before
+each delivery attempt, the plugin obtains a short-lived Openplanet identity
+token and sends it as `Authorization: Bearer <token>`. If authentication fails,
+the webhook is not sent and the attempt follows the configured retry policy.
+
+The configured endpoint is trusted with the identity token. Receivers must
+validate it through Openplanet using the server-side secret for the originating
+plugin registration. Those secrets must never be distributed with the plugin.
 
 ## Dependencies
 

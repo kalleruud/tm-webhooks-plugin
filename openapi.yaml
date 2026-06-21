@@ -13,7 +13,6 @@ paths:
       summary: Receive one Trackmania race event
       security:
         - bearerAuth: []
-        - {}
       parameters:
         - name: event_type
           in: header
@@ -106,7 +105,9 @@ components:
     bearerAuth:
       type: http
       scheme: bearer
-      description: Optional. Omit authentication when the plugin token setting is empty.
+      description: >-
+        Required short-lived Openplanet identity token. Validate it with the
+        server-side secret for the shared plugin registration.
   headers:
     RetryAfter:
       description: Delay as integer seconds or an HTTP date.

@@ -36,15 +36,13 @@ void Update(float dt)
 
 void LogConfigurationState()
 {
-    int state = Setting_EndpointUrl.Length == 0 ? 0 : (Setting_AuthenticationToken.Length == 0 ? 1 : 2);
+    int state = Setting_EndpointUrl.Length == 0 ? 0 : 1;
     if (state == g_configurationState) return;
     g_configurationState = state;
     if (state == 0) {
         warn("[config] capture disabled: endpoint URL is empty");
-    } else if (state == 1) {
-        print("[config] capture enabled without authentication; waiting for a supported local round");
     } else {
-        print("[config] capture enabled; waiting for a supported local round");
+        print("[config] capture enabled with Openplanet authentication; waiting for a supported local round");
     }
 }
 

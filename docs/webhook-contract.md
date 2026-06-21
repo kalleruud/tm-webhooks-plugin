@@ -14,15 +14,17 @@ Content-Type: application/json; charset=utf-8
 event_type: <type>
 event-id: <eventId>
 event-sequence: <sequence>
-[Authorization: Bearer <token>]
+Authorization: Bearer <openplanet-token>
 ```
 
 `event_type` is required and exactly matches the payload's `type` property.
 `event-id` and `event-sequence` are required and exactly match the payload's
 `eventId` and `sequence` properties. All three event headers remain unchanged
 across retries.
-`Authorization` is included only when a nonempty authentication token is
-configured. An empty token sends an unauthenticated request.
+`Authorization` is required. The plugin obtains a fresh, short-lived Openplanet
+identity token before each delivery attempt and never sends an unauthenticated
+request. The receiver must validate the token with Openplanet using the
+server-side secret for the shared plugin registration.
 
 There is no outer payload wrapper. The `type` property discriminates the event
 shape. Object schemas permit undeclared properties for forward compatibility.

@@ -28,11 +28,23 @@ class WebhookDelivery
         PendingWebhook@ pending = queue[0];
         uint retries = 0;
         while (true) {
+            string authToken = AcquireAuthToken();
+            if (authToken.Length == 0) {
+                LogResponseWarning(pending.eventId, retries + 1, 0, "Openplanet authentication failed");
+                if (retries >= Setting_MaximumRetryCount) {
+                    LogDropped(pending.eventId, retries + 1, 0, "Openplanet authentication failed");
+                    break;
+                }
+                retries++;
+                sleep(RetryDelayMs(retries));
+                continue;
+            }
             Net::HttpRequest@ request = CreateRequest(
                 pending.eventId,
                 pending.eventType,
                 pending.eventSequence,
-                pending.payload
+                pending.payload,
+                authToken
             );
             request.Start();
             uint startedAt = Time::Now;
@@ -53,11 +65,19 @@ class WebhookDelivery
         queue.RemoveAt(0);
     }
 
+    string AcquireAuthToken()
+    {
+        auto tokenTask = Auth::GetToken();
+        while (!tokenTask.Finished()) yield();
+        return tokenTask.Token();
+    }
+
     Net::HttpRequest@ CreateRequest(
         const string &in eventId,
         const string &in eventType,
         uint eventSequence,
-        const string &in payload
+        const string &in payload,
+        const string &in authToken
     )
     {
         Net::HttpRequest@ request = Net::HttpRequest();
@@ -67,9 +87,7 @@ class WebhookDelivery
         request.Headers["event_type"] = eventType;
         request.Headers["event-id"] = eventId;
         request.Headers["event-sequence"] = tostring(eventSequence);
-        if (Setting_AuthenticationToken.Length > 0) {
-            request.Headers["Authorization"] = "Bearer " + Setting_AuthenticationToken;
-        }
+        request.Headers["Authorization"] = "Bearer " + authToken;
         request.Body = payload;
         return request;
     }
@@ -88,8 +106,10 @@ class WebhookDelivery
             int64 retryAt = Time::ParseFormatString("%a, %d %b %Y %H:%M:%S GMT", retryAfter);
             if (retryAt > Time::Stamp) return uint(retryAt - Time::Stamp) * 1000;
         }
-        return retry * 5000;
+        return RetryDelayMs(retry);
     }
+
+    uint RetryDelayMs(uint retry) { return retry * 5000; }
 
     void LogResponseWarning(const string &in id, uint attempt, int status, const string &in body)
     {
