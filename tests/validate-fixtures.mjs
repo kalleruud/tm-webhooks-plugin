@@ -56,7 +56,7 @@ function validateFixture(events, expectedEventTypes) {
 
   for (const event of events) {
     assertNoEmptyStrings(event)
-    assert.equal(event.schemaVersion, '1.0.0')
+    assert.equal(event.schemaVersion, '1.1.0')
     assert.match(event.eventId, uuid)
     assert.match(event.game.gameId, uuid)
     assert.equal(event.source.pluginName, 'TM Webhooks')
