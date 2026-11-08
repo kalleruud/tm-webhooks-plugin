@@ -36,9 +36,12 @@
       },
       "isLaps": true,
       "totalLaps": 2,
-      "checkpointsPerLap": 3
+      "checkpointsPerLap": 3,
+      "level": "white"
     },
-    "mode": { "name": "campaign" }
+    "mode": {
+      "name": "campaign"
+    }
   },
   {
     "schemaVersion": "1.0.0",

@@ -18,6 +18,7 @@ class MapSnapshot
     string author;
     string environment;
     string mapType;
+    string level;
     bool isLaps;
     uint totalLaps;
     uint checkpointsPerLap;

@@ -41,7 +41,8 @@
         "bronze": 65000
       },
       "isLaps": false,
-      "checkpointsPerLap": 3
+      "checkpointsPerLap": 3,
+      "level": "custom"
     },
     "mode": {
       "name": "solo",

@@ -1,0 +1,32 @@
+[
+  {
+    "difficulty": 0,
+    "level": "white"
+  },
+  {
+    "difficulty": 1,
+    "level": "green"
+  },
+  {
+    "difficulty": 2,
+    "level": "blue"
+  },
+  {
+    "difficulty": 3,
+    "level": "red"
+  },
+  {
+    "difficulty": 4,
+    "level": "black"
+  },
+  {
+    "difficulty": 5,
+    "level": "custom"
+  },
+  {
+    "difficulty": 6
+  },
+  {
+    "difficulty": 4294967295
+  }
+]
