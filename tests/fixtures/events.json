@@ -1,6 +1,6 @@
 [
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "start",
     "eventId": "4fda6f13-e003-47f6-a5df-32ec4e826749",
     "sequence": 0,
@@ -36,12 +36,15 @@
       },
       "isLaps": true,
       "totalLaps": 2,
-      "checkpointsPerLap": 3
+      "checkpointsPerLap": 3,
+      "level": "white"
     },
-    "mode": { "name": "campaign" }
+    "mode": {
+      "name": "campaign"
+    }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "first_throttle",
     "eventId": "652d3844-9e57-4528-94e4-1bfe20c0b194",
     "sequence": 1,
@@ -63,7 +66,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "checkpoint",
     "eventId": "60f3ac65-5b08-4510-b440-1089e171e836",
     "sequence": 2,
@@ -90,7 +93,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "lap",
     "eventId": "c2de11c5-cfeb-43b0-9c2b-6047f1258078",
     "sequence": 3,
@@ -117,7 +120,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "respawn",
     "eventId": "1a169f9d-522e-4934-a58c-3c59ee5982f8",
     "sequence": 4,
@@ -144,7 +147,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "finish",
     "eventId": "e33e7e69-58a4-47db-a927-6ff7e5d29c14",
     "sequence": 5,
@@ -171,7 +174,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "end",
     "eventId": "136c1d30-75ad-477a-b66f-6880cf62ce92",
     "sequence": 6,

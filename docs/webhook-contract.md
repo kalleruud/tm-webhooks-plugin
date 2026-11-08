@@ -1,7 +1,7 @@
 # Webhook Contract
 
 This document defines the human-readable webhook model for schema version
-`1.0.0`. `openapi.yaml` is the machine-readable authority and must remain
+`1.1.0`. `openapi.yaml` is the machine-readable authority and must remain
 synchronized with this document.
 
 ## Transport
@@ -88,19 +88,20 @@ when non-empty.
 
 ### Map
 
-| Field               | Type                 | Description                                | Rules                                          |
-| ------------------- | -------------------- | ------------------------------------------ | ---------------------------------------------- |
-| `name`              | string               | Display name of the map                    | Required                                       |
-| `uid`               | string               | Unique identifier of the map               | Required                                       |
-| `author`            | string               | Creator of the map                         | Required                                       |
-| `environment`       | string               | Environment or setting used by the map     | Required                                       |
-| `type`              | string               | Map type reported by the game              | Required                                       |
-| `medalTimesMs`      | MedalTimes           | Target medal times in milliseconds         | Required; zero values mean unknown/not exposed |
-| `isLaps`            | boolean              | Whether the map uses multiple laps         | Required                                       |
-| `totalLaps`         | positive integer     | Number of laps required to finish          | Optional; emitted only for lap maps when `> 0` |
-| `checkpointsPerLap` | non-negative integer | Number of intermediate checkpoints per lap | Required; excludes start and finish            |
+| Field               | Type                 | Description                                | Rules                                            |
+| ------------------- | -------------------- | ------------------------------------------ | ------------------------------------------------ |
+| `name`              | string               | Display name of the map                    | Required                                         |
+| `uid`               | string               | Unique identifier of the map               | Required                                         |
+| `author`            | string               | Creator of the map                         | Required                                         |
+| `environment`       | string               | Environment or setting used by the map     | Required                                         |
+| `type`              | string               | Map type reported by the game              | Required                                         |
+| `level`             | string               | Game-reported map difficulty               | Optional; white, green, blue, red, black, custom |
+| `medalTimesMs`      | MedalTimes           | Target medal times in milliseconds         | Required; zero values mean unknown/not exposed   |
+| `isLaps`            | boolean              | Whether the map uses multiple laps         | Required                                         |
+| `totalLaps`         | positive integer     | Number of laps required to finish          | Optional; emitted only for lap maps when `> 0`   |
+| `checkpointsPerLap` | non-negative integer | Number of intermediate checkpoints per lap | Required; excludes start and finish              |
 
-Trackmania Next sources the map from `app.RootMap`; Trackmania Turbo sources it from `app.Challenge`. `start.map` is always emitted. It is `null` only if a start event is emitted before the game exposes a map object; Map string fields are serialized from scalar game API values and are never emitted as empty strings. `environment` is sourced from the map's `CollectionName` in both games.
+Trackmania Next sources the map from `app.RootMap`; Trackmania Turbo sources it from `app.Challenge`. `start.map` is always emitted. It is `null` only if a start event is emitted before the game exposes a map object; Map string fields are serialized from scalar game API values and are never emitted as empty strings. `environment` preserves the map's raw `CollectionName`, and `type` preserves its raw `MapType` in both games. Optional `level` reads `CGameCtnChallenge.Difficulty` and emits only `white`, `green`, `blue`, `red`, `black`, or `custom`. Unknown or unavailable difficulty is omitted; names and medal times are never used to infer it. This property describes the map, not guaranteed campaign membership. Both [Turbo](https://turbo.openplanet.dev/lookup/CGameCtnChallenge) and [Next](https://next.openplanet.dev/lookup/CGameCtnChallenge) expose the unnamed enum in that order (values 0–5).
 
 ### MedalTimes
 
@@ -171,7 +172,7 @@ Every event contains:
 
 | Field           | Type                 | Description                             | Rules                                                    |
 | --------------- | -------------------- | --------------------------------------- | -------------------------------------------------------- |
-| `schemaVersion` | string               | Version of the webhook payload schema   | Required SemVer; initially `1.0.0`                       |
+| `schemaVersion` | string               | Version of the webhook payload schema   | Required SemVer; currently `1.1.0`                       |
 | `type`          | string               | Kind of event represented               | Required event discriminator                             |
 | `eventId`       | UUID string          | Unique identity of the captured event   | Globally unique UUID v4; immutable across retries        |
 | `sequence`      | non-negative integer | Event position within the round         | Contiguous capture order within `game.gameId`            |
@@ -199,7 +200,7 @@ Emitted exactly once when a fully captured round begins.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "start",
   "eventId": "4fda6f13-e003-47f6-a5df-32ec4e826749",
   "sequence": 0,
@@ -254,7 +255,7 @@ at most once per player per game and never re-armed.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "first_throttle",
   "eventId": "652d3844-9e57-4528-94e4-1bfe20c0b194",
   "sequence": 1,
@@ -297,7 +298,7 @@ These event types share one contract:
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "checkpoint",
   "eventId": "a86f8d3d-7a36-4ec4-a9c9-60c69932bfd1",
   "sequence": 2,
@@ -343,7 +344,7 @@ the playground, fall back to `aborted`.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "end",
   "eventId": "b0985c12-77ac-4f81-8f69-19e89f937df1",
   "sequence": 6,

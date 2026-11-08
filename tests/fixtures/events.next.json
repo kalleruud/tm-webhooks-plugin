@@ -1,6 +1,6 @@
 [
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "start",
     "eventId": "95042f27-95e1-4772-bc05-c740b756dc95",
     "sequence": 0,
@@ -41,7 +41,8 @@
         "bronze": 65000
       },
       "isLaps": false,
-      "checkpointsPerLap": 3
+      "checkpointsPerLap": 3,
+      "level": "custom"
     },
     "mode": {
       "name": "solo",
@@ -49,7 +50,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "first_throttle",
     "eventId": "07c680bc-a0ff-4ae4-837b-b9ea10096502",
     "sequence": 1,
@@ -73,7 +74,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "checkpoint",
     "eventId": "df4b435d-e3e2-4703-8417-ef508afd25a8",
     "sequence": 2,
@@ -101,7 +102,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "finish",
     "eventId": "0a365d96-f1aa-40c1-85df-f4703b1c373c",
     "sequence": 3,
@@ -132,7 +133,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "end",
     "eventId": "bdc6d667-d2bb-45c3-9665-e42da24fd8ca",
     "sequence": 4,

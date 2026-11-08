@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: TM Webhooks
-  version: 1.0.0
+  version: 1.1.0
   description: Webhook contract emitted by the Trackmania Turbo and Trackmania Next plugins.
 servers:
   - url: https://webhook-receiver.example.org/api
@@ -145,7 +145,7 @@ components:
         schemaVersion:
           type: string
           pattern: '^[0-9]+\.[0-9]+\.[0-9]+$'
-          examples: ['1.0.0']
+          examples: ['1.1.0']
         type:
           type: string
           minLength: 1
@@ -321,10 +321,14 @@ components:
           description: Creator nickname from the game API.
         environment:
           type: string
-          description: Environment or setting used by the map.
+          description: Raw CollectionName reported by the game API.
         type:
           type: string
-          description: Map type reported by the game API.
+          description: Raw MapType reported by the game API.
+        level:
+          type: string
+          enum: [white, green, blue, red, black, custom]
+          description: Map Difficulty property, not guaranteed campaign membership. Omitted when unknown or unavailable; never inferred from names or medal times.
         medalTimesMs:
           $ref: '#/components/schemas/MedalTimes'
           description: Target medal times; zero means unknown or not exposed.
