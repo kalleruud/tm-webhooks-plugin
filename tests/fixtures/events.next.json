@@ -1,6 +1,6 @@
 [
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "start",
     "eventId": "95042f27-95e1-4772-bc05-c740b756dc95",
     "sequence": 0,
@@ -21,11 +21,13 @@
         "name": "Driver One",
         "login": "driver-one",
         "localId": "123456789",
-        "accountId": "8f3c8a6e-5ed4-4d50-9d0d-82ea735cba47"
+        "accountId": "8f3c8a6e-5ed4-4d50-9d0d-82ea735cba47",
+        "attemptId": "7238e214-6f45-4287-ac15-bb8e08f8684f"
       },
       {
         "playerIndex": 1,
-        "name": "Driver Two"
+        "name": "Driver Two",
+        "attemptId": "015e4898-1eb8-45d6-bd72-0ab9432132cf"
       }
     ],
     "map": {
@@ -49,7 +51,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "first_throttle",
     "eventId": "07c680bc-a0ff-4ae4-837b-b9ea10096502",
     "sequence": 1,
@@ -69,11 +71,12 @@
       "name": "Driver One",
       "login": "driver-one",
       "localId": "123456789",
-      "accountId": "8f3c8a6e-5ed4-4d50-9d0d-82ea735cba47"
+      "accountId": "8f3c8a6e-5ed4-4d50-9d0d-82ea735cba47",
+      "attemptId": "7238e214-6f45-4287-ac15-bb8e08f8684f"
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "checkpoint",
     "eventId": "df4b435d-e3e2-4703-8417-ef508afd25a8",
     "sequence": 2,
@@ -90,7 +93,8 @@
     },
     "player": {
       "playerIndex": 1,
-      "name": "Driver Two"
+      "name": "Driver Two",
+      "attemptId": "015e4898-1eb8-45d6-bd72-0ab9432132cf"
     },
     "checkpoint": {
       "checkpointIndex": 1,
@@ -101,7 +105,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "finish",
     "eventId": "0a365d96-f1aa-40c1-85df-f4703b1c373c",
     "sequence": 3,
@@ -121,7 +125,8 @@
       "name": "Driver One",
       "login": "driver-one",
       "localId": "123456789",
-      "accountId": "8f3c8a6e-5ed4-4d50-9d0d-82ea735cba47"
+      "accountId": "8f3c8a6e-5ed4-4d50-9d0d-82ea735cba47",
+      "attemptId": "7238e214-6f45-4287-ac15-bb8e08f8684f"
     },
     "checkpoint": {
       "checkpointIndex": 4,
@@ -132,7 +137,7 @@
     }
   },
   {
-    "schemaVersion": "1.0.0",
+    "schemaVersion": "1.1.0",
     "type": "end",
     "eventId": "bdc6d667-d2bb-45c3-9665-e42da24fd8ca",
     "sequence": 4,

@@ -1,10 +1,11 @@
-const string SCHEMA_VERSION = "1.0.0";
+const string SCHEMA_VERSION = "1.1.0";
 const string PLUGIN_NAME = "TM Webhooks";
 const uint MAX_QUEUE_SIZE = 1000;
 
 class PlayerSnapshot
 {
     uint playerIndex;
+    string attemptId;
     string name;
     string login;
     string localId;

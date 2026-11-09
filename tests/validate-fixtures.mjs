@@ -25,6 +25,7 @@ function assertNoEmptyStrings(value, path = '$') {
 function assertPlayer(player, index) {
   assert.ok(player)
   assert.equal(player.playerIndex, index)
+  assert.match(player.attemptId, uuid)
   if ('name' in player) assert.equal(typeof player.name, 'string')
   if ('login' in player) {
     assert.equal(typeof player.login, 'string')
@@ -43,18 +44,54 @@ async function readFixture(name) {
   )
 }
 
+// Identity is scoped to an attempt, not a name, time, account, or roster index.
+function validateAttemptIdentities(events) {
+  const seen = new Set()
+  let roster
+  let gameId
+  for (const event of events) {
+    if (event.type === 'start') {
+      roster = event.players
+      gameId = event.game.gameId
+      for (const [index, player] of roster.entries()) {
+        assertPlayer(player, index)
+        assert.ok(!seen.has(player.attemptId), 'attempt UUID must be fresh')
+        assert.notEqual(player.attemptId, gameId)
+        seen.add(player.attemptId)
+      }
+    } else {
+      assert.ok(roster, 'player events need a captured start in these fixtures')
+      assert.equal(event.game.gameId, gameId)
+      if (event.type === 'end') {
+        assert.ok(!('player' in event))
+        assert.ok(!('attemptId' in event))
+        roster = undefined
+      } else {
+        assertPlayer(event.player, event.player.playerIndex)
+        assert.equal(
+          event.player.attemptId,
+          roster[event.player.playerIndex].attemptId,
+          'attempt UUID must survive throttle, checkpoints, laps, respawns, and finish'
+        )
+      }
+    }
+  }
+}
+
 function validateFixture(events, expectedEventTypes) {
   assert.deepEqual(
     events.map(event => event.type),
     expectedEventTypes
   )
 
+  validateAttemptIdentities(events)
+
   const start = events.find(event => event.type === 'start')
   const finish = events.find(event => event.type === 'finish')
 
   for (const event of events) {
     assertNoEmptyStrings(event)
-    assert.equal(event.schemaVersion, '1.0.0')
+    assert.equal(event.schemaVersion, '1.1.0')
     assert.match(event.eventId, uuid)
     assert.match(event.game.gameId, uuid)
     assert.equal(event.source.pluginName, 'TM Webhooks')
@@ -157,4 +194,49 @@ assert.ok(!('accountId' in nextEvents[2].player))
 
 console.log(
   `Validated ${turboEvents.length + nextEvents.length} webhook event fixtures.`
+)
+
+// Both adapters share the identity contract. Restarting the same roster creates
+// new attempts; a start-line respawn in the old round must retain its UUID.
+const lifecycle = await readFixture('attempt-lifecycle.json')
+for (const game of ['turbo', 'next']) {
+  const events = lifecycle[game]
+  validateAttemptIdentities(events)
+  const starts = events.filter(event => event.type === 'start')
+  assert.equal(starts.length, 2)
+  assert.equal(
+    events.find(event => event.type === 'end').endReason,
+    'restarted'
+  )
+  assert.equal(
+    events.find(event => event.type === 'respawn').checkpoint.checkpointIndex,
+    0
+  )
+  assert.deepEqual(
+    starts[0].players.map(player => player.name),
+    starts[1].players.map(player => player.name)
+  )
+
+  for (const invalid of ['', 'not-a-uuid', starts[0].game.gameId, undefined]) {
+    const broken = structuredClone(events)
+    broken[0].players[0].attemptId = invalid
+    assert.throws(() => validateAttemptIdentities(broken))
+  }
+  const respawnChanged = structuredClone(events)
+  respawnChanged.find(event => event.type === 'respawn').player.attemptId =
+    starts[1].players[0].attemptId
+  assert.throws(() => validateAttemptIdentities(respawnChanged))
+
+  const reused = structuredClone(events)
+  reused.filter(event => event.type === 'start')[1].players[0].attemptId =
+    starts[0].players[0].attemptId
+  assert.throws(() => validateAttemptIdentities(reused))
+  if (starts[0].players.length > 1) {
+    const shared = structuredClone(events)
+    shared[0].players[1].attemptId = shared[0].players[0].attemptId
+    assert.throws(() => validateAttemptIdentities(shared))
+  }
+}
+console.log(
+  'Validated attempt identity across respawns, restarts, and player slots in both games.'
 )

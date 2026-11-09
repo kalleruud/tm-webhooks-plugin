@@ -7,6 +7,7 @@ Json::Value@ SerializePlayer(PlayerSnapshot@ player)
 {
     Json::Value@ json = Json::Object();
     json["playerIndex"] = player.playerIndex;
+    PutNonEmptyString(json, "attemptId", player.attemptId);
     PutNonEmptyString(json, "name", player.name);
     PutNonEmptyString(json, "login", player.login);
     PutNonEmptyString(json, "localId", player.localId);

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: TM Webhooks
-  version: 1.0.0
+  version: 1.1.0
   description: Webhook contract emitted by the Trackmania Turbo and Trackmania Next plugins.
 servers:
   - url: https://webhook-receiver.example.org/api
@@ -145,7 +145,7 @@ components:
         schemaVersion:
           type: string
           pattern: '^[0-9]+\.[0-9]+\.[0-9]+$'
-          examples: ['1.0.0']
+          examples: ['1.1.0']
         type:
           type: string
           minLength: 1
@@ -213,8 +213,15 @@ components:
     Player:
       type: object
       additionalProperties: true
-      required: [playerIndex]
+      required: [playerIndex, attemptId]
       properties:
+        attemptId:
+          type: string
+          format: uuid
+          description: >-
+            UUID v4 for this captured player attempt, independent of names,
+            positions, and times. Shared by start.players and every player
+            race event; a new round allocates new attempt IDs, respawns do not.
         playerIndex:
           type: integer
           minimum: 0

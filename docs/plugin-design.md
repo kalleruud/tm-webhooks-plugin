@@ -12,6 +12,11 @@ Trackmania modes. The detailed webhook payload model is defined in
 - **Round**: One continuous in-game timing session, from its single `start`
   event through its single final `end` event. Stopping or restarting the timer
   ends the round. A new timer session is a new round and game.
+- **Attempt**: One captured player's continuously timed run. Its UUID v4 is
+  allocated by the shared round tracker before start serialization. The tracker
+  owns a frozen player snapshot, so adapter observations cannot change its ID
+  or metadata. All player events reuse it; respawns preserve it and a new round
+  replaces it. It is not a hot-seat participant or arcade turn identity.
 - **Player index**: The required zero-based identity for a player within one
   game. Platform account identifiers are optional metadata.
 
@@ -158,7 +163,7 @@ machine-readable source for generated endpoint types. They must be updated in
 the same change whenever payloads, authentication, response codes, or headers
 change.
 
-The initial schema version is `1.0.0` and follows SemVer:
+The current unpublished schema version is `1.1.0` and follows SemVer:
 
 - MAJOR: removed or renamed fields, changed meanings or types, or removed event
   variants

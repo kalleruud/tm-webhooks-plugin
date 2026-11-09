@@ -1,7 +1,7 @@
 # Webhook Contract
 
 This document defines the human-readable webhook model for schema version
-`1.0.0`. `openapi.yaml` is the machine-readable authority and must remain
+`1.1.0`. `openapi.yaml` is the machine-readable authority and must remain
 synchronized with this document.
 
 ## Transport
@@ -72,6 +72,7 @@ models instead of repeating their fields at the event root.
 
 | Field         | Type                 | Description                          | Rules                                        |
 | ------------- | -------------------- | ------------------------------------ | -------------------------------------------- |
+| `attemptId`   | UUID string          | Identity of this captured attempt    | Required UUID v4, stable across all events   |
 | `playerIndex` | non-negative integer | Position of the player in the roster | Required, zero-based, stable within the game |
 | `name`        | string               | Display name of the player           | Optional; omitted when unavailable           |
 | `login`       | string               | Game login of the player             | Optional; omitted when not exposed           |
@@ -80,6 +81,20 @@ models instead of repeating their fields at the event root.
 
 `start.players` is ordered by contiguous index, so
 `players[i].playerIndex == i`. Its length equals `game.totalPlayers`.
+Each entry has an independently generated UUID v4 in `attemptId`. Player race
+events carry the same value in `player.attemptId` as the corresponding
+`start.players[i].attemptId`. Checkpoints, laps, and checkpoint respawns retain
+it. A restart or new round assigns fresh IDs to every captured player, even
+when names, accounts, player indices, and times are unchanged. A split-screen
+round has a distinct attempt ID for each player. `game.gameId` continues to
+identify the round; `end` has no player or attempt ID.
+
+Receivers should use attempt IDs for attempt correlation instead of matching
+names or times. These IDs do not identify a human across hot-seat turns.
+Session, participant, and arcade-turn references are not yet emitted: their
+runtime lifecycle remains unverified. Neither `score` nor `player_name` is
+emitted by this partial implementation of issue #27.
+
 Trackmania Next sources `login`, `localId`, and `accountId` from MLFeed V4's
 login, login MwId, and WebServices user ID. Turbo sources `name` and `login`
 from `CTrackManiaPlayer`, and omits `localId` and `accountId` because its
@@ -171,7 +186,7 @@ Every event contains:
 
 | Field           | Type                 | Description                             | Rules                                                    |
 | --------------- | -------------------- | --------------------------------------- | -------------------------------------------------------- |
-| `schemaVersion` | string               | Version of the webhook payload schema   | Required SemVer; initially `1.0.0`                       |
+| `schemaVersion` | string               | Version of the webhook payload schema   | Required SemVer; currently `1.1.0`                       |
 | `type`          | string               | Kind of event represented               | Required event discriminator                             |
 | `eventId`       | UUID string          | Unique identity of the captured event   | Globally unique UUID v4; immutable across retries        |
 | `sequence`      | non-negative integer | Event position within the round         | Contiguous capture order within `game.gameId`            |
@@ -199,7 +214,7 @@ Emitted exactly once when a fully captured round begins.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "start",
   "eventId": "4fda6f13-e003-47f6-a5df-32ec4e826749",
   "sequence": 0,
@@ -217,6 +232,7 @@ Emitted exactly once when a fully captured round begins.
   "players": [
     {
       "playerIndex": 0,
+      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
       "name": "Player One",
       "login": "player-one"
     }
@@ -254,7 +270,7 @@ at most once per player per game and never re-armed.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "first_throttle",
   "eventId": "652d3844-9e57-4528-94e4-1bfe20c0b194",
   "sequence": 1,
@@ -271,6 +287,7 @@ at most once per player per game and never re-armed.
   },
   "player": {
     "playerIndex": 0,
+    "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
     "name": "Player One",
     "login": "player-one"
   }
@@ -297,7 +314,7 @@ These event types share one contract:
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "checkpoint",
   "eventId": "a86f8d3d-7a36-4ec4-a9c9-60c69932bfd1",
   "sequence": 2,
@@ -314,6 +331,7 @@ These event types share one contract:
   },
   "player": {
     "playerIndex": 0,
+    "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
     "name": "Player One",
     "login": "player-one"
   },
@@ -343,7 +361,7 @@ the playground, fall back to `aborted`.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "end",
   "eventId": "b0985c12-77ac-4f81-8f69-19e89f937df1",
   "sequence": 6,
