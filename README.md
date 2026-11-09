@@ -137,3 +137,54 @@ Stop that background process before starting another on the same port:
 ```bash
 kill "$(cat .local/webhook-receiver/receiver.pid)"
 ```
+
+### Turbo name-entry diagnostic test (development build 1.0.1)
+
+The optional probe investigates #27. It does **not** turn observations into
+`score` or `player_name` webhooks. Next keeps its existing race capture and does
+not compile or run this Turbo-only probe.
+
+1. Build/install the latest shared plugin (`./scripts/build-op.sh all`), or use
+   `dist/tm-webhooks.op`. Reload it in Turbo with Developer signature mode.
+   If compilation fails, report the exact Openplanet error and line before testing.
+2. Keep the normal endpoint `/api/webhook`. In **Settings > TM Webhooks > Name
+   diagnostics**, set **Diagnostic URL** to
+   `http://10.0.1.2:8787/api/diagnostics`, then enable **Enable name-entry probe**.
+   The probe uses the existing webhook authentication token. Raw UI variable
+   dumps may contain profile and leaderboard data; send only to your test receiver.
+3. Start before entering arcade. Play one complete three-attempt turn. At name
+   entry, type `OLE`, wait two seconds without confirming, then confirm. Leave
+   the leaderboard visible for five seconds. Note which row is blank and which
+   displays `OLE`. Run another turn using the same name. If possible, let a
+   subsequent name editor time out without confirmation.
+4. In a separate hot-seat test, start the probe before entering the mode. Confirm
+   a name for one participant, switch slots, rename the other, and switch back.
+   Report the order of actions. Stop the probe when finished.
+
+The probe samples at most four times per second for up to ten minutes and sends
+only changed snapshots. It retains at most 32 pending samples and reports drops
+and sequence gaps; diagnostic deliveries are best-effort with a five-second
+request timeout. Slow receivers and transitions between samples can lose
+observations, so this is evidence gathering, not verified name-event capture.
+It stays active outside races, including name-entry and results screens. Raw
+variable dumps are capped at 16 KiB each with explicit truncation markers.
+Normal race event payloads and delivery are unchanged. A runtime probe exception
+disables the probe so race capture can continue.
+
+The receiver accepts authenticated `POST /api/diagnostics`, saves these records
+in a separate `*.diagnostics.jsonl` file, and exposes its latest ten diagnostic
+records through `GET /diagnostics`. `GET /health` reports both counts and paths.
+Race event captures remain in the original JSONL file. Raw diagnostics are not
+printed to the receiver console. Test its HTTP behavior with
+`node --test tests/webhook-receiver.test.mjs`.
+
+The public score cross-check follows the
+[TurboCup reader](https://github.com/chrizonix/OpenPlanet-Plugins/blob/master/Scripts/Plugin_TurboCup.as):
+`PlayerInfos[].RaceScore.BestTime` / `LastRaceTime` plus the network player name.
+Its [companion recorder](https://github.com/chrizonix/TrackMania-Turbo-Recorder)
+consumes these polled records; neither establishes explicit arcade name
+confirmation. The probe additionally tests the documented
+[`Dbg_DumpDeclareForVariables`](https://turbo.openplanet.dev/Game/CGamePlaygroundScript)
+binding on shared/local UI, rules, and matching local name-entry pages. The dump
+format and visibility of `LibTMC_ScoresTable_ScoreWritten`, entered names, and
+hot-seat slot variables must be verified from your run before production parsing.

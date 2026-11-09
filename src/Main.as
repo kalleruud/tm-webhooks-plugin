@@ -1,3 +1,6 @@
+#if TURBO
+TurboNameProbe@ g_nameProbe;
+#endif
 RoundTracker@ g_tracker;
 GameAdapter@ g_adapter;
 WebhookDelivery@ g_delivery;
@@ -13,6 +16,10 @@ void Main()
     @g_adapter = CreateGameAdapter();
     print("[init] " + AdapterGameName());
     startnew(CoroutineFunc(DeliveryLoop));
+#if TURBO
+    @g_nameProbe = TurboNameProbe();
+    startnew(CoroutineFunc(NameProbeLoop));
+#endif
 }
 
 #if TMNEXT
@@ -25,11 +32,24 @@ void EnsureTrackmaniaNextDependencies()
 }
 #endif
 
+#if TURBO
+void NameProbeLoop() { g_nameProbe.Run(); }
+#endif
+
 void DeliveryLoop() { g_delivery.Run(); }
 
 void Update(float dt)
 {
     LogConfigurationState();
+#if TURBO
+    if (g_nameProbe !is null) {
+        try { g_nameProbe.Update(); }
+        catch {
+            Setting_NameProbeEnabled = false;
+            warn("[name-probe] Runtime probe failed and was disabled; race capture continues.");
+        }
+    }
+#endif
     if (g_adapter is null || g_tracker is null) return;
     g_tracker.Update(g_adapter.Observe());
 }

@@ -125,6 +125,33 @@ test('authenticated webhook path rejects missing/wrong credentials without savin
     health = await (await fetch(`${receiver.url}/health`)).json()
     assert.equal(health.received, 1)
     assert.ok(!(await readFile(health.file, 'utf8')).includes(token))
+    const diagnostic = {
+      type: 'turbo_name_probe',
+      sequence: 0,
+      state: { names: ['', 'OLE'] },
+    }
+    assert.equal((await post('/api/diagnostics', 'Bearer wrong')).status, 401)
+    const accepted = await fetch(`${receiver.url}/api/diagnostics`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(diagnostic),
+    })
+    assert.equal(accepted.status, 204)
+    const stats = await (await fetch(`${receiver.url}/health`)).json()
+    assert.equal(stats.received, 1)
+    assert.equal(stats.diagnosticReceived, 1)
+    const diagnostics = await (
+      await fetch(`${receiver.url}/diagnostics`)
+    ).json()
+    assert.deepEqual(diagnostics[0].payload, diagnostic)
+    const captured = JSON.parse(
+      (await readFile(stats.diagnosticFile, 'utf8')).trim()
+    )
+    assert.deepEqual(captured.payload, diagnostic)
+    assert.ok(!JSON.stringify(captured).includes(token))
+    assert.ok(
+      !(await readFile(stats.file, 'utf8')).includes('turbo_name_probe')
+    )
   } finally {
     if (receiver) await receiver.stop()
     await rm(directory, { recursive: true, force: true })

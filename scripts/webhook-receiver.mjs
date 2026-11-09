@@ -45,6 +45,10 @@ const file = resolve(
   `${new Date().toISOString().replaceAll(':', '-')}-${process.pid}.jsonl`
 )
 const output = await open(file, 'ax', 0o600)
+const diagnosticFile = file.replace(/\.jsonl$/, '.diagnostics.jsonl')
+let diagnosticOutput
+let diagnosticReceived = 0
+const recentDiagnostics = []
 const recent = []
 let writes = Promise.resolve()
 let received = 0
@@ -81,10 +85,22 @@ async function readBody(req) {
 const server = createServer(async (req, res) => {
   try {
     if (req.method === 'GET' && req.url === '/health') {
-      json(res, 200, { status: 'ok', received, file })
+      json(res, 200, {
+        status: 'ok',
+        received,
+        file,
+        diagnosticReceived,
+        diagnosticFile,
+      })
     } else if (req.method === 'GET' && req.url === '/events') {
       json(res, 200, recent)
-    } else if (req.method === 'POST' && req.url === '/api/webhook') {
+    } else if (req.method === 'GET' && req.url === '/diagnostics') {
+      json(res, 200, recentDiagnostics)
+    } else if (
+      req.method === 'POST' &&
+      ['/api/webhook', '/api/diagnostics'].includes(req.url)
+    ) {
+      const diagnostic = req.url === '/api/diagnostics'
       if (!authorized(req)) {
         req.resume()
         res.setHeader('WWW-Authenticate', 'Bearer')
@@ -102,11 +118,26 @@ const server = createServer(async (req, res) => {
         payload,
       }
       // Serialize disk writes; acknowledge only after saving. Keep retries intact.
-      const write = writes.then(() =>
-        output.appendFile(JSON.stringify(record) + '\n')
-      )
+      const write = writes.then(async () => {
+        if (diagnostic && !diagnosticOutput)
+          diagnosticOutput = await open(diagnosticFile, 'ax', 0o600)
+        await (diagnostic ? diagnosticOutput : output).appendFile(
+          JSON.stringify(record) + '\n'
+        )
+      })
       writes = write.catch(() => {})
       await write
+      if (diagnostic) {
+        diagnosticReceived++
+        recentDiagnostics.push(record)
+        if (recentDiagnostics.length > 10) recentDiagnostics.shift()
+        console.log(
+          `[diagnostic] #${diagnosticReceived} sequence=${payload.sequence ?? '?'}`
+        )
+        res.writeHead(204)
+        res.end()
+        return
+      }
       received++
       recent.push(record)
       if (recent.length > 100) recent.shift()
@@ -138,6 +169,7 @@ server.maxConnections = 64
 server.on('error', async error => {
   console.error(error.message)
   await output.close()
+  if (diagnosticOutput) await diagnosticOutput.close()
   process.exit(1)
 })
 server.listen(port, values.host, () => {
@@ -153,6 +185,7 @@ function stop() {
   server.close(async () => {
     await writes
     await output.close()
+    if (diagnosticOutput) await diagnosticOutput.close()
   })
   server.closeIdleConnections()
 }
