@@ -138,7 +138,7 @@ Stop that background process before starting another on the same port:
 kill "$(cat .local/webhook-receiver/receiver.pid)"
 ```
 
-### Turbo name-entry diagnostic test (development build 1.0.1)
+### Turbo name-entry diagnostic test (development build 1.0.2)
 
 The optional probe investigates #27. It does **not** turn observations into
 `score` or `player_name` webhooks. Next keeps its existing race capture and does
@@ -188,3 +188,19 @@ confirmation. The probe additionally tests the documented
 binding on shared/local UI, rules, and matching local name-entry pages. The dump
 format and visibility of `LibTMC_ScoresTable_ScoreWritten`, entered names, and
 hot-seat slot variables must be verified from your run before production parsing.
+
+Probe version 2 (plugin 1.0.2) additionally records visible score/name layer
+metadata and bounded label text, preserving empty labels and their control
+paths. It checks the compiled page's ScriptText as well as ManialinkPageUtf8
+when selecting name-entry pages. The 1.0.1 arcade test verified access to
+`LibTMC_ScoresTable_NewName = "1111"` and a changed new-name trigger after
+submission. The score-written boolean had already reset between samples, and
+leaderboard arrays appeared as `[???]`, so neither the boolean alone nor the
+array dump is sufficient for complete result capture. The new label probe tests
+whether the displayed blank/name/time rows can supply the missing association;
+it does not infer a row from time or display order. Label scans are capped at
+32 layers, depth 8, 512 controls, and 96 labels (160 bytes of text each), with
+visibility, truncation, and scan-limit flags. For this next test, reload the new
+plugin, re-enable the probe, show the leaderboard containing `1111` and the
+blank row for five seconds, then submit another name and leave the resulting
+leaderboard visible for five seconds.

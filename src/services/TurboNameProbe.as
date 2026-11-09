@@ -11,6 +11,8 @@ class TurboNameProbe
     uint dropped;
     bool enabled;
     string captureId;
+    uint visitedControls;
+    uint capturedLabels;
 
     void Update()
     {
@@ -42,7 +44,7 @@ class TurboNameProbe
         previous = fingerprint;
         Json::Value@ message = Json::Object();
         message["type"] = "turbo_name_probe";
-        message["probeVersion"] = 1;
+        message["probeVersion"] = 2;
         message["pluginVersion"] = Meta::ExecutingPlugin().Version;
         message["captureId"] = captureId;
         message["sequence"] = sequence++;
@@ -73,12 +75,38 @@ class TurboNameProbe
             if (script.UIManager !is null) {
                 AddDump(dumps, "uiAll", script, script.UIManager.UIAll);
                 AddDump(dumps, "localUI", script, script.UIManager.LocalPlayerConfig);
+                Json::Value@ layers = Json::Array();
+                visitedControls = 0;
+                capturedLabels = 0;
+                for (uint i = 0; i < script.UIManager.UILayers.Length && i < 32; i++) {
+                    auto layer = script.UIManager.UILayers[i];
+                    if (layer is null) continue;
+                    Json::Value@ info = Json::Object();
+                    info["index"] = i;
+                    info["attachId"] = layer.AttachId;
+                    info["visible"] = layer.IsVisible;
+                    if (layer.LocalPage !is null) {
+                        info["url"] = layer.LocalPage.Url;
+                        string source = layer.LocalPage.ScriptText;
+                        bool relevant = source.Contains("LibTMC_ScoresTable") || source.Contains("Net_CurPlayerIndex") || source.Contains("Net_ScoresTableMenuName");
+                        info["hasNameVariables"] = relevant;
+                        string attach = layer.AttachId.ToLower();
+                        if (layer.IsVisible && (relevant || attach.Contains("score") || attach.Contains("name") || attach.Contains("hotseat"))) {
+                            Json::Value@ labels = Json::Array();
+                            ReadLabels(layer.LocalPage.MainFrame, "", true, 0, labels);
+                            info["labels"] = labels;
+                        }
+                    }
+                    layers.Add(info);
+                }
+                state["uiLayers"] = layers;
+                state["labelScanLimited"] = visitedControls >= 512 || capturedLabels >= 96;
                 uint pageCount = 0;
                 for (uint i = 0; i < script.UIManager.UILayers.Length && pageCount < 4; i++) {
                     auto layer = script.UIManager.UILayers[i];
                     if (layer is null || layer.LocalPage is null) continue;
-                    string page = layer.ManialinkPageUtf8;
-                    if (!page.Contains("LibTMC_ScoresTable") && !page.Contains("Net_CurPlayerIndex")) continue;
+                    string page = layer.ManialinkPageUtf8 + layer.LocalPage.ScriptText;
+                    if (!page.Contains("LibTMC_ScoresTable") && !page.Contains("Net_CurPlayerIndex") && !page.Contains("Net_ScoresTableMenuName")) continue;
                     string key = "nameLayer" + i;
                     AddDump(dumps, key, script, layer.LocalPage);
                     state[key + "Visible"] = layer.IsVisible;
@@ -125,6 +153,31 @@ class TurboNameProbe
         }
         state["racePlayers"] = racers;
         return state;
+    }
+
+    void ReadLabels(CGameManialinkFrame@ frame, const string &in path, bool parentVisible, uint depth, Json::Value@ labels)
+    {
+        if (frame is null || depth >= 8 || visitedControls >= 512 || capturedLabels >= 96) return;
+        bool visible = parentVisible && frame.Visible;
+        for (uint i = 0; i < frame.Controls.Length && visitedControls < 512 && capturedLabels < 96; i++) {
+            auto control = frame.Controls[i];
+            if (control is null) continue;
+            visitedControls++;
+            string location = path + "/" + i + ":" + control.ControlId;
+            auto label = cast<CGameManialinkLabel>(control);
+            if (label !is null) {
+                string text = label.Value;
+                Json::Value@ item = Json::Object();
+                item["path"] = location;
+                item["visible"] = visible && label.Visible;
+                item["text"] = text.SubStr(0, Math::Min(text.Length, uint(160)));
+                item["truncated"] = text.Length > 160;
+                labels.Add(item);
+                capturedLabels++;
+            }
+            auto child = cast<CGameManialinkFrame>(control);
+            if (child !is null) ReadLabels(child, location, visible, depth + 1, labels);
+        }
     }
 
     void AddDump(Json::Value@ dumps, const string &in key, CGamePlaygroundScript@ script, CMwNod@ node)
