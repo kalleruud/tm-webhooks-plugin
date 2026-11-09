@@ -255,3 +255,22 @@ Rebuild/reload and repeat ending the turn during the last attempt to validate
 that end reason;
 score completeness should remain true when all attempts were captured, even
 though one was aborted. No retroactive changes are made to saved captures.
+
+Development build 1.0.5 addresses the cancellation-boundary test. The live
+trace showed two Running attempts consuming credits 2→1 and 1→0, followed by a
+third countdown that never reached Running. Unknown race-end transitions can
+precede the mode's phase/credit update by several frames. The Turbo adapter now
+waits up to 250 ms for that state, without replaying stale player observations
+or advancing the last captured race timer. Consumed credits or postgame/final
+state identify an unfinished attempt as aborted. A tentative timer restart also
+waits for credits to settle. Unresolved transitions remain unknown. Next's race
+path is unchanged.
+
+Only a race that reaches Running produces a start and attempt ID. Cancelling
+in countdown does not fabricate a third race or ID; capture remains partial
+when the full turn cannot be represented. If every attempt is cancelled and no
+name entry is offered, no score is emitted. The cancellation fixture records
+observed input states and expected payloads; it does not execute the game API.
+For the next test, reload 1.0.5, enable diagnostics again, and repeat cancellation
+after a checkpoint, after start, and during countdown. Expect two started
+attempts ending aborted and no third start for the cancelled countdown.

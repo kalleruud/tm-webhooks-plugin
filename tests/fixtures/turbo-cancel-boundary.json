@@ -1,0 +1,271 @@
+{
+  "description": "Observed 1.0.4 state transitions; expected 1.0.5 race payloads. The final countdown never reaches Running.",
+  "observations": [
+    {
+      "at": "2026-11-09T18:34:07.600Z",
+      "raceState": 0,
+      "raceStartTime": 3387500,
+      "phase": 1,
+      "credits": 2
+    },
+    {
+      "at": "2026-11-09T18:34:10.631Z",
+      "raceState": 1,
+      "raceStartTime": 3387500,
+      "phase": 1,
+      "credits": 2
+    },
+    {
+      "at": "2026-11-09T18:34:24.787Z",
+      "raceState": 0,
+      "raceStartTime": 0,
+      "phase": 0,
+      "credits": 1
+    },
+    {
+      "at": "2026-11-09T18:34:25.043Z",
+      "raceState": 0,
+      "raceStartTime": 3405000,
+      "phase": 1,
+      "credits": 1
+    },
+    {
+      "at": "2026-11-09T18:34:28.072Z",
+      "raceState": 1,
+      "raceStartTime": 3405000,
+      "phase": 1,
+      "credits": 1
+    },
+    {
+      "at": "2026-11-09T18:34:31.360Z",
+      "raceState": 0,
+      "raceStartTime": 0,
+      "phase": 0,
+      "credits": 0
+    },
+    {
+      "at": "2026-11-09T18:34:31.610Z",
+      "raceState": 0,
+      "raceStartTime": 3411500,
+      "phase": 1,
+      "credits": 0
+    },
+    {
+      "at": "2026-11-09T18:34:32.618Z",
+      "raceState": 0,
+      "raceStartTime": 0,
+      "phase": 3,
+      "credits": 0
+    }
+  ],
+  "expectedEvents": [
+    {
+      "schemaVersion": "1.1.0",
+      "type": "start",
+      "eventId": "a69601c0-d0f5-441c-8aba-4ee3afc6e323",
+      "sequence": 0,
+      "occurredAt": "2026-06-21T12:34:56.789Z",
+      "durationMs": 0,
+      "game": {
+        "gameId": "4caac362-7bbf-465e-a301-6103391a3efa",
+        "totalPlayers": 1
+      },
+      "source": {
+        "pluginName": "TM Webhooks",
+        "pluginVersion": "1.0.5",
+        "game": "turbo"
+      },
+      "players": [
+        {
+          "playerIndex": 0,
+          "name": "Player One",
+          "login": "player-one",
+          "attemptId": "c9bc83b2-a541-4773-8c0d-e9ebde8fc162",
+          "sessionId": "e037d595-2c97-4ad5-b1d2-da1c3fd020fb",
+          "turnId": "1afe3bea-3353-413f-9442-f8413aa0d93b"
+        }
+      ],
+      "map": {
+        "name": "Example Map",
+        "uid": "ExampleMapUid",
+        "author": "Mapper",
+        "environment": "Stadium",
+        "type": "TrackMania\\TM_Race",
+        "medalTimesMs": {
+          "author": 25000,
+          "gold": 28000,
+          "silver": 32000,
+          "bronze": 40000
+        },
+        "isLaps": true,
+        "totalLaps": 2,
+        "checkpointsPerLap": 3
+      },
+      "mode": {
+        "name": "arcade"
+      }
+    },
+    {
+      "schemaVersion": "1.1.0",
+      "type": "first_throttle",
+      "eventId": "4f05cb1a-7b0e-4542-886a-f94cc6a3a692",
+      "sequence": 1,
+      "occurredAt": "2026-06-21T12:34:56.914Z",
+      "durationMs": 125,
+      "game": {
+        "gameId": "4caac362-7bbf-465e-a301-6103391a3efa",
+        "totalPlayers": 1
+      },
+      "source": {
+        "pluginName": "TM Webhooks",
+        "pluginVersion": "1.0.5",
+        "game": "turbo"
+      },
+      "player": {
+        "playerIndex": 0,
+        "name": "Player One",
+        "login": "player-one",
+        "attemptId": "c9bc83b2-a541-4773-8c0d-e9ebde8fc162",
+        "sessionId": "e037d595-2c97-4ad5-b1d2-da1c3fd020fb",
+        "turnId": "1afe3bea-3353-413f-9442-f8413aa0d93b"
+      }
+    },
+    {
+      "schemaVersion": "1.1.0",
+      "type": "checkpoint",
+      "eventId": "97296c7e-28d8-4ee9-9050-abc2812c8773",
+      "sequence": 2,
+      "occurredAt": "2026-06-21T12:35:01.789Z",
+      "durationMs": 5000,
+      "game": {
+        "gameId": "4caac362-7bbf-465e-a301-6103391a3efa",
+        "totalPlayers": 1
+      },
+      "source": {
+        "pluginName": "TM Webhooks",
+        "pluginVersion": "1.0.5",
+        "game": "turbo"
+      },
+      "player": {
+        "playerIndex": 0,
+        "name": "Player One",
+        "login": "player-one",
+        "attemptId": "c9bc83b2-a541-4773-8c0d-e9ebde8fc162",
+        "sessionId": "e037d595-2c97-4ad5-b1d2-da1c3fd020fb",
+        "turnId": "1afe3bea-3353-413f-9442-f8413aa0d93b"
+      },
+      "checkpoint": {
+        "checkpointIndex": 1,
+        "checkpointLapIndex": 1,
+        "lapNumber": 1
+      }
+    },
+    {
+      "schemaVersion": "1.1.0",
+      "type": "end",
+      "eventId": "6b4b1687-18a3-4404-aa0a-1dbb794c9cc7",
+      "sequence": 3,
+      "occurredAt": "2026-06-21T12:35:24.790Z",
+      "durationMs": 28000,
+      "game": {
+        "gameId": "4caac362-7bbf-465e-a301-6103391a3efa",
+        "totalPlayers": 1
+      },
+      "source": {
+        "pluginName": "TM Webhooks",
+        "pluginVersion": "1.0.5",
+        "game": "turbo"
+      },
+      "endReason": "aborted"
+    },
+    {
+      "schemaVersion": "1.1.0",
+      "type": "start",
+      "eventId": "45a45234-481a-4bf1-b8f1-a929dea98ed0",
+      "sequence": 0,
+      "occurredAt": "2026-06-21T12:34:56.789Z",
+      "durationMs": 0,
+      "game": {
+        "gameId": "34b19a52-1ead-455c-8631-2607a00507c8",
+        "totalPlayers": 1
+      },
+      "source": {
+        "pluginName": "TM Webhooks",
+        "pluginVersion": "1.0.5",
+        "game": "turbo"
+      },
+      "players": [
+        {
+          "playerIndex": 0,
+          "name": "Player One",
+          "login": "player-one",
+          "attemptId": "a117fe78-d5b5-4342-b1b6-462c84866726",
+          "sessionId": "e037d595-2c97-4ad5-b1d2-da1c3fd020fb",
+          "turnId": "1afe3bea-3353-413f-9442-f8413aa0d93b"
+        }
+      ],
+      "map": {
+        "name": "Example Map",
+        "uid": "ExampleMapUid",
+        "author": "Mapper",
+        "environment": "Stadium",
+        "type": "TrackMania\\TM_Race",
+        "medalTimesMs": {
+          "author": 25000,
+          "gold": 28000,
+          "silver": 32000,
+          "bronze": 40000
+        },
+        "isLaps": true,
+        "totalLaps": 2,
+        "checkpointsPerLap": 3
+      },
+      "mode": {
+        "name": "arcade"
+      }
+    },
+    {
+      "schemaVersion": "1.1.0",
+      "type": "first_throttle",
+      "eventId": "b883eb27-5187-4fab-a77a-7bfa78bb7f69",
+      "sequence": 1,
+      "occurredAt": "2026-06-21T12:34:56.914Z",
+      "durationMs": 125,
+      "game": {
+        "gameId": "34b19a52-1ead-455c-8631-2607a00507c8",
+        "totalPlayers": 1
+      },
+      "source": {
+        "pluginName": "TM Webhooks",
+        "pluginVersion": "1.0.5",
+        "game": "turbo"
+      },
+      "player": {
+        "playerIndex": 0,
+        "name": "Player One",
+        "login": "player-one",
+        "attemptId": "a117fe78-d5b5-4342-b1b6-462c84866726",
+        "sessionId": "e037d595-2c97-4ad5-b1d2-da1c3fd020fb",
+        "turnId": "1afe3bea-3353-413f-9442-f8413aa0d93b"
+      }
+    },
+    {
+      "schemaVersion": "1.1.0",
+      "type": "end",
+      "eventId": "897bfa1f-279d-4f59-9964-3f5e6a0af015",
+      "sequence": 2,
+      "occurredAt": "2026-06-21T12:35:24.790Z",
+      "durationMs": 28000,
+      "game": {
+        "gameId": "34b19a52-1ead-455c-8631-2607a00507c8",
+        "totalPlayers": 1
+      },
+      "source": {
+        "pluginName": "TM Webhooks",
+        "pluginVersion": "1.0.5",
+        "game": "turbo"
+      },
+      "endReason": "aborted"
+    }
+  ]
+}

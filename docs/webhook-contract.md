@@ -362,7 +362,12 @@ standard arcade end-turn button is reported as `aborted`. The end-turn button
 ends the whole arcade turn, including its current unfinished attempt; it is
 distinct from a per-attempt restart. Standard arcade can return directly to the
 before-start state, so its postgame/final phase distinguishes the interrupted
-attempt from a timer restart into preparation. A fully captured turn can still
+attempt from a timer restart into preparation. Mode phase/credit updates may
+lag the player reset: unknown and tentative restart transitions wait up to
+250 ms for clarification. A consumed arcade credit marks an unfinished attempt
+aborted. During that wait the round is retained without replaying player
+observations; end duration stays at the last observed race timer. If the state
+remains inconclusive, the reason is unknown. A fully captured turn can still
 have `captureComplete: true` when its final attempt was aborted: completeness
 describes capture coverage, not whether every attempt finished.
 

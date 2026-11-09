@@ -500,8 +500,9 @@ components:
                 Possible values are `completed` when the round finished normally,
                 `restarted` when a restart ended it, `aborted` when capture ended
                 before completion (including the Trackmania Turbo arcade end-turn button; standard arcade
-                uses its postgame/final phase to distinguish this from a restart), and
-                `unknown` when no more specific reason is available. Trackmania
+                uses its postgame/final phase or consumed credit to distinguish this from a restart), and
+                `unknown` when no more specific reason is available. Standard arcade can wait
+                up to 250 ms for delayed phase/credit state before emitting end. Trackmania
                 Next uses completed for a captured finish, restarted for a stable
                 replacement spawn, and aborted for other exits.
     ArcadeScoreEvent:

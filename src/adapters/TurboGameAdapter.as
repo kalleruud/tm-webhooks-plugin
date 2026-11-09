@@ -8,6 +8,11 @@ class TurboGameAdapter : GameAdapter
     bool roundCompleted;
     string pendingEndReason;
     string launchModeHint;
+    int arcadeRoundCredits = -1;
+    bool observedRound;
+    bool waitingForEnd;
+    bool restartCandidate;
+    uint endPendingSince;
 
     GameObservation@ Observe()
     {
@@ -42,6 +47,10 @@ class TurboGameAdapter : GameAdapter
             startArmed = false;
             roundCompleted = false;
             pendingEndReason = "";
+            observedRound = false;
+            waitingForEnd = false;
+            restartCandidate = false;
+            arcadeRoundCredits = -1;
         }
         @observation.map = ReadTurboMap(app);
         auto uiConfig = app.PlaygroundScript.UIManager.LocalPlayerConfig;
@@ -74,6 +83,9 @@ class TurboGameAdapter : GameAdapter
                 startArmed = false;
                 roundCompleted = false;
                 pendingEndReason = "";
+                arcadeRoundCredits = -1;
+                int phase, credits;
+                if (ReadArcadeEndState(app, phase, credits)) arcadeRoundCredits = credits;
             }
             if (candidateSessionKey != activeSessionKey) continue;
             PlayerSnapshot@ player = PlayerSnapshot();
@@ -111,35 +123,58 @@ class TurboGameAdapter : GameAdapter
         @observation.mode = ReadTurboMode(app, splitScreen, launchModeHint);
         observation.active = observation.local && !observation.playerStates.IsEmpty();
         if (observation.active) {
+            observedRound = true;
+            waitingForEnd = false;
             observation.sessionKey = activeSessionKey;
             LogTurboState("active", "Turbo capture detected an active local round with " + observation.players.Length + " player(s).");
         } else {
             observation.endReason = pendingEndReason.Length > 0
                 ? pendingEndReason
                 : (roundCompleted ? "completed" : "unknown");
-            // Ending an arcade turn can return directly to BeforeStart. Its script
-            // enters postgame/final, while a timer restart enters preparation.
-            if (observation.endReason == "restarted" && !roundCompleted &&
-                observation.mode !is null && observation.mode.name == "arcade" && uiConfig !is null) {
-                try {
-                    string dump = app.PlaygroundScript.Dbg_DumpDeclareForVariables(uiConfig, false);
-                    int phase;
-                    if (dump.Length > 65536 || !ReadTurboUiInteger(dump, "netread", "Net_GamePhase", phase)) {
-                        observation.endReason = "unknown";
-                    } else if (phase == 2 || phase == 3) {
+            // Mode state can lag the player's reset by several frames. The live
+            // cancel traces show credits 2->1 and 1->0 after the inactive frame.
+            bool standardArcade = observation.mode !is null && observation.mode.name == "arcade";
+            if (observedRound && !roundCompleted && standardArcade &&
+                (observation.endReason == "restarted" || observation.endReason == "unknown")) {
+                int phase, credits;
+                observation.endReason = "unknown";
+                if (!waitingForEnd) { waitingForEnd = true; restartCandidate = false; endPendingSince = Time::Now; }
+                bool haveState = ReadArcadeEndState(app, phase, credits);
+                if (haveState) {
+                    if (phase == 2 || phase == 3 || (arcadeRoundCredits >= 0 && credits < arcadeRoundCredits)) {
                         observation.endReason = "aborted";
-                    } else if (phase != 0 && phase != 1) {
-                        observation.endReason = "unknown";
+                    } else if (phase == 0 && arcadeRoundCredits >= 0 && credits == arcadeRoundCredits) {
+                        restartCandidate = true;
                     }
-                } catch {
-                    observation.endReason = "unknown";
-                    warn("[detect] Arcade end phase unavailable; reason left unknown.");
+                }
+                if (observation.endReason == "unknown") {
+                    if (Time::Now - endPendingSince < 250) {
+                        observation.pendingEnd = true;
+                        return observation;
+                    }
+                    if (haveState && restartCandidate && credits == arcadeRoundCredits) observation.endReason = "restarted";
                 }
             }
+            observedRound = false;
+            waitingForEnd = false;
             pendingEndReason = "";
             LogTurboState("players", "Turbo capture armed and waiting for the race timer to start.");
         }
         return observation;
+    }
+
+    bool ReadArcadeEndState(CGameManiaPlanet@ app, int &out phase, int &out credits)
+    {
+        if (app.PlaygroundScript is null || app.PlaygroundScript.UIManager is null ||
+            app.PlaygroundScript.ServerModeName != "TMC_LocalArcade") return false;
+        auto ui = app.PlaygroundScript.UIManager.LocalPlayerConfig;
+        auto network = cast<CTrackManiaNetwork>(app.Network);
+        if (ui is null || network is null || network.TmRaceRules is null || TurboSecretModeType(network.TmRaceRules, "arcade").Length > 0) return false;
+        try {
+            string dump = app.PlaygroundScript.Dbg_DumpDeclareForVariables(ui, false);
+            return dump.Length <= 65536 && ReadTurboUiInteger(dump, "netread", "Net_GamePhase", phase) &&
+                ReadTurboUiInteger(dump, "netread", "Net_Credits_Count", credits) && phase >= -1 && phase <= 4 && credits >= 0 && credits <= 2;
+        } catch { return false; }
     }
 
     void LogTurboState(const string &in state, const string &in message)

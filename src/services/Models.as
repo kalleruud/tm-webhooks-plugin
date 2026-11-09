@@ -56,6 +56,7 @@ class GameObservation
 {
     bool local;
     bool active;
+    bool pendingEnd;
     string sessionKey;
     string endReason = "unknown";
     array<PlayerSnapshot@> players;

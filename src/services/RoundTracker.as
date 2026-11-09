@@ -26,6 +26,9 @@ class RoundTracker
             if (running && (observation is null || !observation.active)) Stop("aborted");
             return;
         }
+        // Turbo may need a few frames for its mode to publish an end reason.
+        // Keep the frozen round without replaying stale player observations.
+        if (observation.pendingEnd && running) return;
         if (!observation.active) {
             if (running) Stop(observation.endReason);
             return;
