@@ -53,7 +53,8 @@ class TurboGameAdapter : GameAdapter
             if (tmPlayer is null || tmPlayer.EnableOnlineMode || tmPlayer.AutoPilotEnabled) continue;
             if (tmPlayer.RaceState == CTrackManiaPlayer::ERaceState::BeforeStart) {
                 if (activeSessionKey.Length > 0) {
-                    pendingEndReason = roundCompleted ? "completed" : "restarted";
+                    if (roundCompleted) pendingEndReason = "completed";
+                    else if (pendingEndReason != "aborted") pendingEndReason = "restarted";
                 }
                 startArmed = true;
                 activeSessionKey = "";
@@ -116,6 +117,25 @@ class TurboGameAdapter : GameAdapter
             observation.endReason = pendingEndReason.Length > 0
                 ? pendingEndReason
                 : (roundCompleted ? "completed" : "unknown");
+            // Arcade GiveUp can return directly to BeforeStart. Its script
+            // enters postgame/final, while a timer restart enters preparation.
+            if (observation.endReason == "restarted" && !roundCompleted &&
+                observation.mode !is null && observation.mode.name == "arcade" && uiConfig !is null) {
+                try {
+                    string dump = app.PlaygroundScript.Dbg_DumpDeclareForVariables(uiConfig, false);
+                    int phase;
+                    if (dump.Length > 65536 || !ReadTurboUiInteger(dump, "netread", "Net_GamePhase", phase)) {
+                        observation.endReason = "unknown";
+                    } else if (phase == 2 || phase == 3) {
+                        observation.endReason = "aborted";
+                    } else if (phase != 0 && phase != 1) {
+                        observation.endReason = "unknown";
+                    }
+                } catch {
+                    observation.endReason = "unknown";
+                    warn("[detect] Arcade end phase unavailable; reason left unknown.");
+                }
+            }
             pendingEndReason = "";
             LogTurboState("players", "Turbo capture armed and waiting for the race timer to start.");
         }

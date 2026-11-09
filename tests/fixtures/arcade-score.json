@@ -235,11 +235,11 @@
   },
   {
     "schemaVersion": "1.1.0",
-    "type": "finish",
+    "type": "checkpoint",
     "eventId": "e045ff5e-de1a-4c3e-8d92-6a42cec53499",
     "sequence": 1,
     "occurredAt": "2026-06-21T12:35:24.789Z",
-    "durationMs": 28000,
+    "durationMs": 22060,
     "game": {
       "gameId": "06ab337b-f86a-4aed-bef3-2e73b1a390a2",
       "totalPlayers": 1
@@ -258,9 +258,9 @@
       "turnId": "1367e330-058b-4a5c-b816-c1ffd437d9a9"
     },
     "checkpoint": {
-      "checkpointIndex": 8,
-      "checkpointLapIndex": 4,
-      "lapNumber": 2
+      "checkpointIndex": 1,
+      "checkpointLapIndex": 1,
+      "lapNumber": 1
     }
   },
   {
@@ -269,7 +269,7 @@
     "eventId": "43d341cf-e3a5-4cc4-a654-b436d8f2801f",
     "sequence": 2,
     "occurredAt": "2026-06-21T12:35:24.790Z",
-    "durationMs": 28000,
+    "durationMs": 26010,
     "game": {
       "gameId": "06ab337b-f86a-4aed-bef3-2e73b1a390a2",
       "totalPlayers": 1
@@ -279,7 +279,7 @@
       "pluginVersion": "1.0.3",
       "game": "turbo"
     },
-    "endReason": "completed"
+    "endReason": "aborted"
   },
   {
     "schemaVersion": "1.1.0",

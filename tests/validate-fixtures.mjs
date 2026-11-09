@@ -338,3 +338,25 @@ for (const corrupt of [
 console.log(
   'Validated arcade score envelopes, captured attempt references, repeated names, and session sequencing.'
 )
+
+// A fully observed turn can include an aborted attempt: completeness describes
+// capture coverage, not whether every attempt finished successfully.
+assert.equal(scores[0].attemptIds.length, 3)
+const givenUp = scores[0].attemptIds[2]
+const givenUpRound = arcade.find(
+  event =>
+    event.type === 'start' &&
+    event.players.some(player => player.attemptId === givenUp)
+).game.gameId
+assert.ok(
+  !arcade.some(
+    event => event.game?.gameId === givenUpRound && event.type === 'finish'
+  )
+)
+assert.equal(
+  arcade.find(
+    event => event.game?.gameId === givenUpRound && event.type === 'end'
+  ).endReason,
+  'aborted'
+)
+assert.equal(scores[0].captureComplete, true)
