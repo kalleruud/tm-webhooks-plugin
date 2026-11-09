@@ -244,11 +244,14 @@ implementation requiring live session/turn-boundary validation. Hot-seat,
 secret variants, and Next equivalents remain disabled until verified.
 
 Development build 1.0.4 corrects an end-reason defect found in the `4444` live
-test: two finished attempts and the final give-up were all correctly included
-in a single complete score, but the final round was labelled `restarted`.
-Standard arcade can return directly to BeforeStart on give-up. Its observed
+test: two finished attempts and a third attempt interrupted by the button that
+ends the whole turn were correctly included in one complete score, but the
+final round was labelled `restarted`. This was not a per-attempt Give up test.
+The arcade end-turn button clears remaining credits and ends the current race.
+Standard arcade can then return directly to BeforeStart. Its observed
 postgame/final phase now marks that unfinished round `aborted`, while timer
 restart behavior remains unchanged. Existing explicit aborted state is retained.
-Rebuild/reload and repeat a last-attempt give-up to validate that end reason;
+Rebuild/reload and repeat ending the turn during the last attempt to validate
+that end reason;
 score completeness should remain true when all attempts were captured, even
 though one was aborted. No retroactive changes are made to saved captures.

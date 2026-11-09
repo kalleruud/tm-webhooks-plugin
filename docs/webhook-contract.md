@@ -357,10 +357,14 @@ player fields.
 | ---------------- | ---- | ------------------------------- | ------------------------------------------------- |
 | `endReason`      | enum | Reason the captured round ended | `completed`, `restarted`, `aborted`, or `unknown` |
 
-In Trackmania Turbo, choosing **Give up** is reported as `aborted`. Standard
-arcade can return directly to the before-start state after giving up; its
-postgame/final script phase distinguishes that exit from a timer restart into
-preparation. The game does not need to expose an eliminated frame for this path.
+In Trackmania Turbo, an unfinished attempt ended by elimination or by the
+standard arcade end-turn button is reported as `aborted`. The end-turn button
+ends the whole arcade turn, including its current unfinished attempt; it is
+distinct from a per-attempt restart. Standard arcade can return directly to the
+before-start state, so its postgame/final phase distinguishes the interrupted
+attempt from a timer restart into preparation. A fully captured turn can still
+have `captureComplete: true` when its final attempt was aborted: completeness
+describes capture coverage, not whether every attempt finished.
 
 In Trackmania Next, a captured finish is reported as `completed` and a stable
 replacement spawn is reported as `restarted`. Other exits, including quitting

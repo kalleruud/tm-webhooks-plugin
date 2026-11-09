@@ -117,7 +117,7 @@ class TurboGameAdapter : GameAdapter
             observation.endReason = pendingEndReason.Length > 0
                 ? pendingEndReason
                 : (roundCompleted ? "completed" : "unknown");
-            // Arcade GiveUp can return directly to BeforeStart. Its script
+            // Ending an arcade turn can return directly to BeforeStart. Its script
             // enters postgame/final, while a timer restart enters preparation.
             if (observation.endReason == "restarted" && !roundCompleted &&
                 observation.mode !is null && observation.mode.name == "arcade" && uiConfig !is null) {
