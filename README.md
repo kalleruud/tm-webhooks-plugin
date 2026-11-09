@@ -89,3 +89,46 @@ The output file is `dist/tm-webhooks.op`. The archive contains the root
 
 Unsigned builds require Openplanet Developer signature mode. Public
 distribution requires the normal Openplanet review and signing process.
+
+## Local test receiver
+
+Requires Node.js 22 or newer; no packages to install. From this repository:
+
+```bash
+node scripts/webhook-receiver.mjs --host 0.0.0.0 --port 8787
+```
+
+Set the plugin's **Endpoint URL** to
+`http://<receiver-LAN-IP>:8787/webhook` (on Svetlana: `http://10.0.1.2:8787/webhook`).
+Leave **Authentication token** empty for this test receiver. It accepts requests
+without authentication; bind to `127.0.0.1` (the default) for local-only tests,
+or `0.0.0.0` for LAN testing. It is a development capture tool, not a production
+receiver, and does not enforce the webhook schema.
+
+Each delivery prints its full payload and appends a record containing
+`receivedAt`, the three event headers, and `payload` to a new per-run JSONL file
+in `.local/webhook-receiver/`. This directory is gitignored. Authorization
+headers are never saved. Retries are retained as separate deliveries with their
+original event IDs. Old session files are preserved across restarts. Override
+the storage location with `--data-dir /persistent/path`.
+
+- `GET /health`: status, count received during this run, and session file path.
+- `GET /events`: latest 100 deliveries from this run as JSON.
+- `POST /webhook`: saves a JSON object and returns `204`; malformed bodies return
+  `400`, bodies larger than 1 MiB return `413`, and save failures return `503`.
+
+Stop with **Ctrl+C**; rerun the command for a later session. To keep it running
+in the background on a Unix-like system:
+
+```bash
+mkdir -p .local/webhook-receiver
+nohup node scripts/webhook-receiver.mjs --host 0.0.0.0 --port 8787 > .local/webhook-receiver/receiver.log 2>&1 &
+echo $! > .local/webhook-receiver/receiver.pid
+tail -f .local/webhook-receiver/receiver.log
+```
+
+Stop that background process before starting another on the same port:
+
+```bash
+kill "$(cat .local/webhook-receiver/receiver.pid)"
+```
