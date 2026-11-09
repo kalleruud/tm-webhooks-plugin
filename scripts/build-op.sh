@@ -5,6 +5,12 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 repository_root="$(cd -- "$script_dir/.." && pwd)"
 target="${1:-all}"
 output_directory="${2:-$repository_root/dist}"
+profile="${3:-production}"
+if [[ "$target" == "diagnostics" ]]; then profile="diagnostics"; target="all"; fi
+case "$profile" in
+  production|diagnostics) ;;
+  *) echo "Error: profile must be production or diagnostics" >&2; exit 1 ;;
+esac
 
 case "$target" in
   all|shared|unified) ;;
@@ -28,10 +34,25 @@ if [[ ! -f "$manifest" ]]; then
   exit 1
 fi
 
+stage="$(mktemp -d)"
+trap 'rm -rf -- "$stage"' EXIT
+cp -- "$manifest" "$stage/info.toml"
+cp -R -- "$repository_root/src" "$stage/src"
 artifact="$output_directory/tm-webhooks.op"
+if [[ "$profile" == "diagnostics" ]]; then
+  artifact="$output_directory/tm-webhooks-diagnostics.op"
+  mkdir -p "$stage/diagnostics/generated"
+  cp -- "$repository_root"/diagnostics/*.as "$stage/diagnostics/"
+  cp -- "$repository_root"/diagnostics/generated/*.as "$stage/diagnostics/generated/"
+  cp -- "$repository_root"/diagnostics/generated/*-api.json "$stage/diagnostics/generated/"
+  # The define enables diagnostics-only entry points. No production source
+  # references diagnostics; the release workflow continues using the default.
+  sed -i 's/name = "TM Webhooks"/name = "TM Webhooks (Diagnostics)"/; /siteid = /d' "$stage/info.toml"
+  printf '\ndefines = ["DIAGNOSTICS"]\n' >> "$stage/info.toml"
+fi
 rm -f -- "$artifact"
 (
-  cd -- "$repository_root"
-  zip -rq "$artifact" info.toml src
+  cd -- "$stage"
+  zip -rq "$artifact" .
 )
 printf 'Created %s\n' "$artifact"

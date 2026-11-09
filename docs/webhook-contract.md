@@ -361,3 +361,18 @@ the playground, fall back to `aborted`.
   "endReason": "completed"
 }
 ```
+
+## Separate diagnostics transport
+
+Diagnostics builds optionally send large game-state captures to a **different**
+endpoint/token configured in the Diagnostics category. These are not race events,
+do not enter the race FIFO, and do not use race event headers or sequence numbers.
+Production archives omit diagnostics entirely. The diagnostics receiver requires
+a dedicated bearer token even when race webhooks are configured without auth.
+
+See [the diagnostics harness](diagnostics-harness.md) for the capture semantics,
+privacy exclusions, limits, chunk ordering/idempotency, local spool, retention,
+and receiver operations. `POST /diagnostics/v1/chunks` and its versioned envelope,
+manifest, and acknowledgement are specified alongside the race contract in
+[openapi.yaml](../openapi.yaml). A receiver-complete upload may contain a partial
+or truncated probe; consumers must inspect the manifest status and coverage.

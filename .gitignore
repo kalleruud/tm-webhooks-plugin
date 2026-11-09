@@ -1,2 +1,7 @@
 dist
 *.op
+
+# Captured game state and receiver credentials stay local.
+diagnostics-data/
+.env.diagnostics
+__pycache__/

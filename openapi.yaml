@@ -101,8 +101,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /diagnostics/v1/chunks:
+    post:
+      operationId: receiveDiagnosticsChunk
+      summary: Receive one diagnostics dump chunk
+      description: >-
+        Separate standalone diagnostics receiver, not the race webhook service.
+        Requires the dedicated diagnostics token. Maximum request size 1 MiB,
+        maximum stored capture 32 MiB, maximum 1024 chunks. Records occupy indices
+        0 through total-2; the manifest occupies total-1. All chunks must agree on
+        game and total. Replaying an identical chunk is idempotent. Partial captures
+        remain incomplete until every chunk is present. Acknowledgements follow
+        file flush and rename; backups and power-loss durability depend on storage.
+      servers:
+        - url: http://127.0.0.1:8787
+          description: Default local diagnostics receiver.
+      security:
+        - diagnosticsBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiagnosticsChunk'
+      responses:
+        '200':
+          description: Identical chunk already stored.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiagnosticsAck'
+        '201':
+          description: Chunk stored; complete is true only when all chunks exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiagnosticsAck'
+        '400':
+          description: Invalid JSON or chunk contract.
+        '401':
+          description: Missing or incorrect dedicated bearer token.
+        '409':
+          description: Conflicting chunk content, game, or total for this capture ID.
+        '413':
+          description: Chunk or capture exceeds size limits.
+        '415':
+          description: Content type must be application/json.
+        '503':
+          description: Temporary storage failure; retry the same chunk.
+        '507':
+          description: Receiver storage quota exhausted; free space or let retention expire.
 components:
   securitySchemes:
+    diagnosticsBearer:
+      type: http
+      scheme: bearer
+      description: Required dedicated diagnostics receiver token; independent of race webhooks.
     bearerAuth:
       type: http
       scheme: bearer
@@ -113,6 +167,102 @@ components:
       schema:
         type: string
   schemas:
+    DiagnosticsChunk:
+      type: object
+      required: [schemaVersion, captureId, game, index, total, kind, data]
+      properties:
+        schemaVersion:
+          type: string
+          const: 1.0.0
+        captureId:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+        game:
+          type: string
+          enum: [turbo, next]
+        index:
+          type: integer
+          minimum: 0
+          maximum: 1023
+        total:
+          type: integer
+          minimum: 2
+          maximum: 1024
+        kind:
+          type: string
+          enum: [records, manifest]
+        data:
+          oneOf:
+            - type: array
+              items:
+                type: object
+                additionalProperties: true
+            - $ref: '#/components/schemas/DiagnosticsManifest'
+      allOf:
+        - if:
+            properties:
+              kind:
+                const: records
+          then:
+            properties:
+              data:
+                type: array
+        - if:
+            properties:
+              kind:
+                const: manifest
+          then:
+            properties:
+              data:
+                $ref: '#/components/schemas/DiagnosticsManifest'
+    DiagnosticsManifest:
+      type: object
+      additionalProperties: true
+      required: [startedAt, endedAt, status]
+      properties:
+        startedAt:
+          type: string
+        endedAt:
+          type: string
+        status:
+          type: string
+          enum: [complete, truncated, cancelled, failed]
+        inventoryHash:
+          type: string
+          description: SHA-256 of the normalized documented API inventory.
+        capturedFields:
+          type: integer
+          minimum: 0
+        excludedFields:
+          type: integer
+          minimum: 0
+        unsupportedFields:
+          type: integer
+          minimum: 0
+        failedFields:
+          type: integer
+          minimum: 0
+        truncations:
+          type: integer
+          minimum: 0
+    DiagnosticsAck:
+      type: object
+      required: [captureId, index, complete, missing]
+      properties:
+        captureId:
+          type: string
+          format: uuid
+        index:
+          type: integer
+          minimum: 0
+        complete:
+          type: boolean
+        missing:
+          type: array
+          items:
+            type: integer
+            minimum: 0
     Event:
       oneOf:
         - $ref: '#/components/schemas/StartEvent'

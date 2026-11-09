@@ -89,3 +89,15 @@ The output file is `dist/tm-webhooks.op`. The archive contains the root
 
 Unsigned builds require Openplanet Developer signature mode. Public
 distribution requires the normal Openplanet review and signing process.
+
+## Optional diagnostics harness
+
+Build `bash scripts/build-op.sh diagnostics` (Windows:
+`.\scripts\build-op.ps1 diagnostics`) for an on-demand game-state dump probe and
+separate diagnostics endpoint/token settings. Run its standalone receiver with
+`bun tools/diagnostics-receiver/server.mjs` and a dedicated `DIAGNOSTICS_TOKEN`.
+Default production packages exclude all diagnostics source and settings.
+
+See [diagnostics setup, coverage, and validation](docs/diagnostics-harness.md).
+The probe reports coverage gaps and truncation explicitly; live Turbo/Next
+compile/load testing is required before using a refreshed API inventory.
