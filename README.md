@@ -8,10 +8,13 @@
 
 ---
 
-The plugin sends a separate webhook for `start`, `first_throttle`,
-`checkpoint`, `lap`, `respawn`, `finish`, and `end`. Every event carries a UUID,
-an in-round sequence number, an RFC 3339 UTC timestamp, the in-game duration,
-and stable game/source metadata. See [the webhook contract](docs/webhook-contract.md)
+The plugin sends race webhooks for `start`, `first_throttle`, `checkpoint`,
+`lap`, `respawn`, `finish`, and `end`, with attempt IDs, per-round sequencing,
+UTC timestamps, in-game durations, and game/source metadata. Opt-in standard
+Turbo arcade capture adds confirmed-name `score` events. Opt-in standard Turbo
+Hot Seat capture adds `player_name` and completed-attempt `score` events with
+participant IDs and shared session sequencing. These session events omit
+race-only game/duration fields. See [the webhook contract](docs/webhook-contract.md)
 or [the OpenAPI description](openapi.yaml) for the complete payload model.
 
 ## Supported play
@@ -274,3 +277,41 @@ observed input states and expected payloads; it does not execute the game API.
 For the next test, reload 1.0.5, enable diagnostics again, and repeat cancellation
 after a checkpoint, after start, and during countdown. Expect two started
 attempts ending aborted and no third start for the cancelled countdown.
+
+### Experimental Hot Seat names and scores (development build 1.0.6)
+
+The first Hot Seat capture verified `7777` at slot 0 and a human roster count of 2. The diagnostic probe expired before the `8888`/`9999` edits; those transitions
+are not yet runtime-verified. This build adds opt-in Hot Seat name/score capture
+using the verified scalar bindings plus the game script's slot lifecycle.
+It does not infer a participant from the shared engine profile or login.
+
+1. Build/reload 1.0.6 and enable **Webhook > Capture hot-seat names and scores
+   (experimental)**. Keep the endpoint and token already configured. Restart
+   Hot Seat with two participants so capture observes fresh name confirmations;
+   names present before enabling capture are intentionally not inferred.
+2. Start a fresh diagnostic capture (toggle **Enable name-entry probe** off/on)
+   with the existing `/api/diagnostics` URL. While enabled, 1.0.6 starts a fresh
+   ten-minute diagnostic window on mode/map changes. Probe expiry does not stop
+   the separate name/score capture.
+3. Name the two slots `7777` and `8888`. Complete one attempt for each, then
+   rename the second slot to `9999` and complete another attempt. Switch back
+   to `7777` and play again. Tell me when done and the action order.
+
+Expect `player_name` on explicit confirmations and one `score` after each
+captured finish. Names and scores share a session sequence, while races keep
+per-game sequences. The second participant's UUID must stay the same when
+renamed to `9999`; switching slots must not emit a rename for `7777`. Existing
+race/score payloads stay immutable. Aborted/restarted attempts emit no score.
+If a slot has no captured confirmed name, its score omits `player` entirely;
+a later name event resolves earlier attempts through the participant UUID.
+The authoritative finish time is used, not the best time in the score table.
+
+Sessions/participant IDs reset on roster selection/restart generation, roster
+size changes, exit, map or script/UI replacement. The configured human count
+is `Net_NbPlayer`, not the shared engine count `Net_NbPlayers`. This verified
+path requires one engine racer; unverified double-driver/multiple-racer variants
+are excluded. At most 16 slot
+identities and one last-scored attempt ID are kept. Secret variants are excluded;
+Next keeps its race capture and does not invent the Turbo name-entry lifecycle.
+The new Hot Seat path remains experimental pending live validation, including
+late names, identical-name confirmation, slot switching, restart and teardown.

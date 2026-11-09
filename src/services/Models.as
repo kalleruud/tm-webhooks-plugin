@@ -8,6 +8,7 @@ class PlayerSnapshot
     string attemptId;
     string sessionId;
     string turnId;
+    string participantId;
     string name;
     string login;
     string localId;
@@ -89,6 +90,9 @@ class CapturedEvent
     string mapUid;
     array<string> attemptIds;
     bool captureComplete;
+    string participantId;
+    string scoreMode;
+    int timeMs = -1;
 }
 
 class PendingWebhook

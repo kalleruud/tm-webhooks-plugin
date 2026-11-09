@@ -392,3 +392,137 @@ assert.equal(finalCountdown[1].raceStartTime, 0)
 console.log(
   'Validated expected cancellation payloads and no fabricated countdown attempt; runtime transition handling requires game testing.'
 )
+
+function validateHotSeat(events) {
+  const names = new Map()
+  const owners = new Map()
+  const roundPlayers = new Map()
+  const finishTimes = new Map()
+  const scored = new Set()
+  const sessionSequences = new Map()
+  const roundSequences = new Map()
+  for (const event of events) {
+    assertNoEmptyStrings(event)
+    assert.match(event.eventId, uuid)
+    assert.equal(event.schemaVersion, '1.1.0')
+    if (['player_name', 'score'].includes(event.type)) {
+      assert.ok(!('game' in event) && !('durationMs' in event))
+      assert.match(event.sessionId, uuid)
+      assert.match(event.participantId, uuid)
+      assert.equal(event.sequence, sessionSequences.get(event.sessionId) ?? 0)
+      sessionSequences.set(event.sessionId, event.sequence + 1)
+      const key = `${event.sessionId}:${event.participantId}`
+      if (event.type === 'player_name') {
+        assert.equal(typeof event.name, 'string')
+        assert.ok(event.name.length > 0)
+        assert.notEqual(
+          event.name,
+          names.get(key),
+          'identical confirmed name must not emit again'
+        )
+        names.set(key, event.name)
+      } else {
+        assert.equal(event.mode, 'hot-seat')
+        assert.equal(typeof event.mapUid, 'string')
+        assert.match(event.attemptId, uuid)
+        assert.equal(owners.get(event.attemptId), key)
+        assert.equal(event.result.status, 'finished')
+        assert.equal(event.result.timeMs, finishTimes.get(event.attemptId))
+        assert.ok(
+          !scored.has(event.attemptId),
+          'one score per completed captured attempt'
+        )
+        scored.add(event.attemptId)
+        for (const field of ['turnId', 'attemptIds', 'captureComplete'])
+          assert.ok(!(field in event))
+        if (names.has(key)) assert.equal(event.player.name, names.get(key))
+        else
+          assert.ok(
+            !('player' in event),
+            'no default/profile name or empty wrapper'
+          )
+      }
+    } else {
+      const game = event.game.gameId
+      assert.equal(event.sequence, roundSequences.get(game) ?? 0)
+      roundSequences.set(game, event.sequence + 1)
+      if (event.type === 'start') {
+        roundPlayers.set(game, event.players)
+        for (const [index, player] of event.players.entries()) {
+          assertPlayer(player, index)
+          assert.match(player.sessionId, uuid)
+          assert.match(player.participantId, uuid)
+          assert.ok(!('turnId' in player))
+          assert.ok(!owners.has(player.attemptId))
+          owners.set(
+            player.attemptId,
+            `${player.sessionId}:${player.participantId}`
+          )
+        }
+      } else if (event.player) {
+        assert.deepEqual(
+          event.player,
+          roundPlayers.get(game)[event.player.playerIndex]
+        )
+        if (event.type === 'finish')
+          finishTimes.set(event.player.attemptId, event.durationMs)
+      }
+    }
+  }
+  assert.equal(
+    scored.size,
+    finishTimes.size,
+    'each observed finish has a score'
+  )
+}
+const hotseat = await readFixture('hotseat-events.json')
+validateHotSeat(hotseat)
+const hotNames = hotseat.filter(event => event.type === 'player_name')
+assert.deepEqual(
+  hotNames.map(event => event.name),
+  ['7777', '8888', '9999']
+)
+assert.equal(hotNames[1].participantId, hotNames[2].participantId)
+assert.notEqual(hotNames[0].participantId, hotNames[1].participantId)
+const hotScores = hotseat.filter(event => event.type === 'score')
+assert.ok(!('player' in hotScores[0])) // Named later through the same participant UUID.
+assert.equal(hotScores[2].player.name, '8888') // Existing payload is not rewritten by rename.
+assert.equal(hotScores.at(-1).player.name, '9999')
+for (const corrupt of [
+  events => {
+    events.find(e => e.type === 'score').player = { name: 'BLUE' }
+  },
+  events => {
+    events.find(e => e.type === 'score').result.timeMs++
+  },
+  events => {
+    events.find(e => e.type === 'score').participantId =
+      hotNames[0].participantId
+  },
+  events => {
+    events.find(e => e.type === 'player_name').game = {
+      gameId: hotNames[0].sessionId,
+      totalPlayers: 1,
+    }
+  },
+  events => {
+    events.find(e => e.type === 'score').durationMs = 0
+  },
+  events => {
+    events.filter(e => e.type === 'player_name')[2].name = '8888'
+  },
+  events => {
+    events.filter(e => e.type === 'score')[1].sequence = 0
+  },
+  events => {
+    events.filter(e => e.type === 'player_name')[2].participantId =
+      hotNames[0].participantId
+  },
+]) {
+  const invalid = structuredClone(hotseat)
+  corrupt(invalid)
+  assert.throws(() => validateHotSeat(invalid))
+}
+console.log(
+  'Validated Hot Seat session sequencing, stable rename identity, late names, immutable earlier names, final times, and no scores for aborted/restarted attempts.'
+)

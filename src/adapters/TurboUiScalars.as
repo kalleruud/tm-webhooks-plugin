@@ -43,4 +43,17 @@ bool ReadTurboUiInteger(const string &in dump, const string &in section, const s
     return true;
 }
 
+bool ReadTurboUiText(const string &in dump, const string &in section, const string &in key, string &out value)
+{
+    value = "";
+    string raw;
+    if (!ReadTurboUiScalar(dump, section, "Text", key, raw)) return false;
+    try {
+        Json::Value@ parsed = Json::Parse(raw);
+        if (parsed.GetType() != Json::Type::String) return false;
+        value = string(parsed);
+        return true;
+    } catch { return false; }
+}
+
 #endif

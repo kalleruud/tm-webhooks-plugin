@@ -10,7 +10,7 @@ paths:
   /webhook:
     post:
       operationId: receiveTrackmaniaEvent
-      summary: Receive one Trackmania race or session score event
+      summary: Receive one Trackmania race or session name/score event
       security:
         - bearerAuth: []
         - {}
@@ -31,6 +31,7 @@ paths:
                 finish,
                 end,
                 score,
+                player_name,
               ]
         - name: event-id
           in: header
@@ -129,7 +130,8 @@ components:
         - $ref: '#/components/schemas/FirstThrottleEvent'
         - $ref: '#/components/schemas/PlayerCheckpointEvent'
         - $ref: '#/components/schemas/EndEvent'
-        - $ref: '#/components/schemas/ArcadeScoreEvent'
+        - $ref: '#/components/schemas/ScoreEvent'
+        - $ref: '#/components/schemas/PlayerNameEvent'
       discriminator:
         propertyName: type
         mapping:
@@ -140,7 +142,8 @@ components:
           respawn: '#/components/schemas/PlayerCheckpointEvent'
           finish: '#/components/schemas/PlayerCheckpointEvent'
           end: '#/components/schemas/EndEvent'
-          score: '#/components/schemas/ArcadeScoreEvent'
+          score: '#/components/schemas/ScoreEvent'
+          player_name: '#/components/schemas/PlayerNameEvent'
     BaseEvent:
       type: object
       additionalProperties: true
@@ -167,7 +170,7 @@ components:
           type: integer
           format: int64
           minimum: 0
-          description: Capture order within game.gameId for race events or sessionId for score events.
+          description: Capture order within game.gameId for race events or the combined player_name/score stream within sessionId.
         occurredAt:
           type: string
           format: date-time
@@ -233,11 +236,15 @@ components:
         sessionId:
           type: string
           format: uuid
-          description: Local arcade session identity when experimental name capture is enabled and verified state is available.
+          description: Local arcade or hot-seat session identity when experimental name capture is enabled and verified state is available.
         turnId:
           type: string
           format: uuid
           description: Arcade turn identity shared across its captured rounds; omitted outside arcade name capture.
+        participantId:
+          type: string
+          format: uuid
+          description: Hot-seat human slot identity within a session, stable across confirmed name edits and controller handovers; independent of engine player/login.
         attemptId:
           type: string
           format: uuid
@@ -250,7 +257,7 @@ components:
           minimum: 0
         name:
           type: string
-          description: Display name from the game API.
+          description: Display name from the game API; not necessarily the human name entered in local multiplayer.
         login:
           type: string
           description: Game login; omitted when not exposed by the runtime.
@@ -505,6 +512,82 @@ components:
                 up to 250 ms for delayed phase/credit state before emitting end. Trackmania
                 Next uses completed for a captured finish, restarted for a stable
                 replacement spawn, and aborted for other exits.
+    ScoreEvent:
+      oneOf:
+        - $ref: '#/components/schemas/ArcadeScoreEvent'
+        - $ref: '#/components/schemas/HotSeatScoreEvent'
+      discriminator:
+        propertyName: mode
+        mapping:
+          arcade: '#/components/schemas/ArcadeScoreEvent'
+          hot-seat: '#/components/schemas/HotSeatScoreEvent'
+    PlayerNameEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          required: [sessionId, participantId, name]
+          properties:
+            game: false
+            durationMs: false
+            type:
+              type: string
+              enum: [player_name]
+            sessionId:
+              type: string
+              format: uuid
+            participantId:
+              type: string
+              format: uuid
+            name:
+              type: string
+              minLength: 1
+              description: First explicitly confirmed name or a confirmed change; identical already-confirmed edits and participant switches emit nothing.
+    HotSeatScoreEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          required: [sessionId, participantId, mode, mapUid, attemptId, result]
+          properties:
+            game: false
+            durationMs: false
+            type:
+              type: string
+              enum: [score]
+            sessionId:
+              type: string
+              format: uuid
+            participantId:
+              type: string
+              format: uuid
+            mode:
+              type: string
+              enum: [hot-seat]
+            mapUid:
+              type: string
+              minLength: 1
+            attemptId:
+              type: string
+              format: uuid
+            player:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+              description: Omitted entirely until a name is explicitly confirmed for this participant.
+            result:
+              type: object
+              required: [status, timeMs]
+              properties:
+                status:
+                  type: string
+                  enum: [finished]
+                timeMs:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  description: Authoritative completed-attempt time, not the participant's historical best.
     ArcadeScoreEvent:
       allOf:
         - $ref: '#/components/schemas/BaseEvent'

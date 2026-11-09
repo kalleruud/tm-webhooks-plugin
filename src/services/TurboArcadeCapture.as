@@ -61,7 +61,8 @@ class TurboArcadeCapture
     {
         valid = false;
         auto app = cast<CGameManiaPlanet>(GetApp());
-        if (!Setting_ArcadeScores || !CaptureEnabled() || app is null || app.CurrentPlayground is null || app.Challenge is null ||
+        if (observation is null || !observation.local || observation.mode is null || observation.mode.name != "arcade" ||
+            !Setting_ArcadeScores || !CaptureEnabled() || app is null || app.CurrentPlayground is null || app.Challenge is null ||
             app.PlaygroundScript is null || app.PlaygroundScript.UIManager is null ||
             app.Challenge.IdName.Length == 0 || app.CurrentPlayground.GameTerminals.Length != 1 || app.PlaygroundScript.ServerModeName != "TMC_LocalArcade") {
             Reset();
@@ -165,6 +166,7 @@ class TurboArcadeCapture
     {
         CapturedEvent@ event = CapturedEvent();
         event.eventType = "score";
+        event.scoreMode = "arcade";
         event.eventId = CreateUuidV4();
         event.occurredAt = OccurredAtUtc();
         event.sequence = sequence++;

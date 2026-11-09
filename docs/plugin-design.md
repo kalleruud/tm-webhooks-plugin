@@ -21,8 +21,10 @@ Trackmania modes. The detailed webhook payload model is defined in
   game. Platform account identifiers are optional metadata.
 
 In Trackmania Turbo hot seat, each player's continuously timed attempt is a
-separate round and game. The full configured roster is retained, while
-player-scoped events include a full snapshot of the active player.
+separate round and game. The race roster contains observed engine players, while experimental Hot Seat
+session tracking assigns a separate participant UUID to each configured human
+slot. Player-scoped race events retain their engine snapshot and add that
+participant reference; the engine login is not a human identity.
 
 ## Supported Games and Modes
 
@@ -211,3 +213,18 @@ This path is opt-in and Turbo-only. The shared serializer separates session
 score envelopes from race envelopes. Next retains race capture with attempt
 IDs and emits no arcade score. Runtime lifecycle/parser failures invalidate
 pending association instead of reusing a previous turn's attempts.
+
+## Experimental Hot Seat correlation
+
+`TurboHotSeatCapture` reads the verified scalar UI surface before the shared
+round tracker freezes snapshots. A bounded slot table owns participant UUIDs
+and confirmed names; roster generation/count and observed selection/restart
+phases distinguish new sessions from controller handovers. An explicit changed
+name trigger is accepted only with an unchanged active slot/handover counter.
+The initial stale trigger and unknown names are ignored. Completion is read
+from the existing player observation, and each score references the frozen
+attempt/session/participant snapshot rather than a shared login or time match.
+The existing finish is queued before the Hot Seat score. Name/score sequences
+are combined per session and never consume race sequence numbers. Diagnostic
+probe expiry does not disable production capture. Hot Seat remains opt-in until
+the switching/rename, late-name, restart and map/session tests pass in-game.

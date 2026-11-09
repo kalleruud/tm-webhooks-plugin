@@ -11,6 +11,7 @@ class TurboNameProbe
     uint dropped;
     bool enabled;
     string captureId;
+    string contextKey;
     uint visitedControls;
     uint capturedLabels;
 
@@ -21,8 +22,10 @@ class TurboNameProbe
             pending.Resize(0);
             return;
         }
-        if (!enabled) {
+        string currentContext = ProbeContextKey();
+        if (!enabled || (currentContext.Length > 0 && currentContext != contextKey)) {
             enabled = true;
+            contextKey = currentContext;
             startedAt = Time::Now;
             nextSample = Time::Now;
             sequence = 0;
@@ -58,6 +61,13 @@ class TurboNameProbe
             message["droppedSamples"] = dropped;
         }
         pending.InsertLast(Json::Write(message));
+    }
+
+    string ProbeContextKey()
+    {
+        auto app = cast<CGameManiaPlanet>(GetApp());
+        if (app is null || app.PlaygroundScript is null || app.Challenge is null) return "";
+        return app.PlaygroundScript.ServerModeName + ":" + app.Challenge.IdName;
     }
 
     Json::Value@ Observe()

@@ -1,6 +1,7 @@
 #if TURBO
 TurboNameProbe@ g_nameProbe;
 TurboArcadeCapture@ g_arcadeCapture;
+TurboHotSeatCapture@ g_hotSeatCapture;
 #endif
 RoundTracker@ g_tracker;
 GameAdapter@ g_adapter;
@@ -20,6 +21,7 @@ void Main()
 #if TURBO
     @g_nameProbe = TurboNameProbe();
     @g_arcadeCapture = TurboArcadeCapture(g_delivery);
+    @g_hotSeatCapture = TurboHotSeatCapture(g_delivery);
     startnew(CoroutineFunc(NameProbeLoop));
 #endif
 }
@@ -61,10 +63,17 @@ void Update(float dt)
         Setting_ArcadeScores = false;
         warn("[arcade] Runtime name capture failed and was disabled.");
     }
+    try { g_hotSeatCapture.BeforeRound(observation); }
+    catch {
+        g_hotSeatCapture.Reset();
+        Setting_HotSeatScores = false;
+        warn("[hot-seat] Runtime name capture failed and was disabled.");
+    }
 #endif
     g_tracker.Update(observation);
 #if TURBO
     g_arcadeCapture.AfterRound(g_tracker);
+    g_hotSeatCapture.AfterRound(g_tracker, observation);
 #endif
 }
 
