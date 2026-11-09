@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Small LAN test receiver. Uses only Node's standard library.
 import { createServer } from 'node:http'
-import { mkdir, open } from 'node:fs/promises'
+import { timingSafeEqual } from 'node:crypto'
+import { mkdir, open, readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 
@@ -10,14 +11,29 @@ const { values } = parseArgs({
     host: { type: 'string', default: '127.0.0.1' },
     port: { type: 'string', default: '8787' },
     'data-dir': { type: 'string', default: '.local/webhook-receiver' },
+    'token-file': { type: 'string' },
     help: { type: 'boolean', default: false },
   },
 })
 if (values.help) {
   console.log(
-    'node scripts/webhook-receiver.mjs [--host 0.0.0.0] [--port 8787] [--data-dir PATH]'
+    'node scripts/webhook-receiver.mjs [--host 0.0.0.0] [--port 8787] [--data-dir PATH] [--token-file PATH]'
   )
   process.exit(0)
+}
+const token = values['token-file']
+  ? (await readFile(values['token-file'], 'utf8')).trim()
+  : ''
+if (values['token-file'] && !token)
+  throw new Error('Token file must not be empty')
+const expectedAuthorization = Buffer.from('Bearer ' + token)
+function authorized(req) {
+  if (!token) return true
+  const actual = Buffer.from(req.headers.authorization ?? '')
+  return (
+    actual.length === expectedAuthorization.length &&
+    timingSafeEqual(actual, expectedAuthorization)
+  )
 }
 const port = Number(values.port)
 if (!Number.isInteger(port) || port < 0 || port > 65535)
@@ -68,7 +84,13 @@ const server = createServer(async (req, res) => {
       json(res, 200, { status: 'ok', received, file })
     } else if (req.method === 'GET' && req.url === '/events') {
       json(res, 200, recent)
-    } else if (req.method === 'POST' && req.url === '/webhook') {
+    } else if (req.method === 'POST' && req.url === '/api/webhook') {
+      if (!authorized(req)) {
+        req.resume()
+        res.setHeader('WWW-Authenticate', 'Bearer')
+        json(res, 401, { error: 'Unauthorized' })
+        return
+      }
       const payload = await readBody(req)
       const record = {
         receivedAt: new Date().toISOString(),
@@ -97,7 +119,7 @@ const server = createServer(async (req, res) => {
     } else {
       json(res, 404, {
         error:
-          'Use POST /webhook, GET /health, or GET /events (latest 100 deliveries)',
+          'Use POST /api/webhook, GET /health, or GET /events (latest 100 deliveries)',
       })
     }
   } catch (error) {
@@ -120,7 +142,7 @@ server.on('error', async error => {
 })
 server.listen(port, values.host, () => {
   console.log(
-    `Receiver: http://${values.host}:${server.address().port}/webhook`
+    `Receiver: http://${values.host}:${server.address().port}/api/webhook`
   )
   console.log(`Session file: ${file}`)
   console.log(

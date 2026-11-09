@@ -99,9 +99,14 @@ node scripts/webhook-receiver.mjs --host 0.0.0.0 --port 8787
 ```
 
 Set the plugin's **Endpoint URL** to
-`http://<receiver-LAN-IP>:8787/webhook` (on Svetlana: `http://10.0.1.2:8787/webhook`).
-Leave **Authentication token** empty for this test receiver. It accepts requests
-without authentication; bind to `127.0.0.1` (the default) for local-only tests,
+`http://<receiver-LAN-IP>:8787/api/webhook` (on Svetlana: `http://10.0.1.2:8787/api/webhook`).
+For authenticated POSTs, start with `--token-file /path/to/token` and put the
+same token in the plugin's **Authentication token** setting. Keep the token file
+outside version control (for example, `.local/webhook-receiver/token`). An
+explicit token file must contain a nonempty token; missing or incorrect bearer
+credentials receive `401` and are not saved. With no token file, leave the
+plugin token empty. Authentication applies to webhook POSTs; health and recent
+event reads remain available without credentials. Bind to `127.0.0.1` (the default) for local-only tests,
 or `0.0.0.0` for LAN testing. It is a development capture tool, not a production
 receiver, and does not enforce the webhook schema.
 
@@ -114,7 +119,7 @@ the storage location with `--data-dir /persistent/path`.
 
 - `GET /health`: status, count received during this run, and session file path.
 - `GET /events`: latest 100 deliveries from this run as JSON.
-- `POST /webhook`: saves a JSON object and returns `204`; malformed bodies return
+- `POST /api/webhook`: saves a JSON object and returns `204`; malformed bodies return
   `400`, bodies larger than 1 MiB return `413`, and save failures return `503`.
 
 Stop with **Ctrl+C**; rerun the command for a later session. To keep it running
