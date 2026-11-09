@@ -52,6 +52,8 @@ class RoundTracker
             PlayerSnapshot@ player = PlayerSnapshot();
             player.playerIndex = source.playerIndex;
             player.attemptId = CreateUuidV4();
+            player.sessionId = source.sessionId;
+            player.turnId = source.turnId;
             player.name = source.name;
             player.login = source.login;
             player.localId = source.localId;

@@ -8,7 +8,7 @@ Trackmania modes. The detailed webhook payload model is defined in
 
 - **Game**: A complete race activity where one or more people race. In the
   supported scope, a game contains exactly one round and receives a new unique
-  game ID when that round begins. Multi-round correlation is out of scope.
+  game ID when that round begins. Experimental standard Turbo arcade capture correlates rounds through session and turn UUIDs.
 - **Round**: One continuous in-game timing session, from its single `start`
   event through its single final `end` event. Stopping or restarting the timer
   ends the round. A new timer session is a new round and game.
@@ -194,3 +194,20 @@ CI must:
 - Verify representative JSON fixtures against every event schema.
 - Build the shared plugin artifact.
 - Run shared service tests against both game adapters where practical.
+
+## Experimental arcade name correlation
+
+`TurboArcadeCapture` observes supported UI scalars outside active races and
+assigns session/turn context before `RoundTracker` freezes player snapshots.
+It retains captured attempt IDs across round end. Explicit submission is a
+changed `LibTMC_ScoresTable_NewNameTrigger` after an observed insertion index;
+`WriteName` clears that index when committing the name. The transient
+`ScoreWritten` flag is not sufficient: the 1111 and 2222 live captures already
+showed it reset at the next sample. The stale initial trigger is a baseline,
+not an event. Opaque leaderboard arrays and unavailable LocalPage handles are
+not used to fabricate ranks, times, or best-attempt identity.
+
+This path is opt-in and Turbo-only. The shared serializer separates session
+score envelopes from race envelopes. Next retains race capture with attempt
+IDs and emits no arcade score. Runtime lifecycle/parser failures invalidate
+pending association instead of reusing a previous turn's attempts.

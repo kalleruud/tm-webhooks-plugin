@@ -91,9 +91,13 @@ identify the round; `end` has no player or attempt ID.
 
 Receivers should use attempt IDs for attempt correlation instead of matching
 names or times. These IDs do not identify a human across hot-seat turns.
-Session, participant, and arcade-turn references are not yet emitted: their
-runtime lifecycle remains unverified. Neither `score` nor `player_name` is
-emitted by this partial implementation of issue #27.
+With experimental standard Turbo arcade score capture enabled, `sessionId`
+and `turnId` are included in start player entries and player race events.
+They correlate captured attempts across rounds. Session IDs reset on leaving
+arcade, map/script/UI replacement, or a change in the configured player count.
+Turn IDs follow observed arcade phase/credit lifecycle, never a count of finishes.
+Participant IDs, hot-seat name/score events, and secret variants are not enabled.
+These runtime boundaries still require the targeted gameplay tests in README.
 
 Trackmania Next sources `login`, `localId`, and `accountId` from MLFeed V4's
 login, login MwId, and WebServices user ID. Turbo sources `name` and `login`
@@ -182,7 +186,8 @@ start-checkpoint-finish map with one intermediate checkpoint finishes at index
 
 ### Common Fields
 
-Every event contains:
+Race events contain the following fields. Session-scoped `score` uses the same
+metadata but omits `game` and `durationMs`, as detailed below:
 
 | Field           | Type                 | Description                             | Rules                                                    |
 | --------------- | -------------------- | --------------------------------------- | -------------------------------------------------------- |
@@ -379,3 +384,38 @@ the playground, fall back to `aborted`.
   "endReason": "completed"
 }
 ```
+
+### `score` (experimental standard Turbo arcade)
+
+Enable **Capture arcade scores (experimental)** to test name/attempt correlation.
+This emits one session-scoped score after a changed explicit UI name-submission
+trigger and subsequent insertion-index clearing. It does not depend on catching
+the transient ScoreWritten boolean, text stability, profile names, or matching
+finish times. Timeout/default names do not change the submission trigger.
+
+A score includes common `schemaVersion`, `type`, `eventId`, `sequence`,
+`occurredAt`, and `source`, plus required `sessionId`, `turnId`,
+`mode: "arcade"`, `mapUid`, `player: {name}`, `attemptIds`, and
+`captureComplete`. It omits `game` and `durationMs`. No rank, time, or best
+attempt is claimed while reliable leaderboard/ghost association remains unverified.
+
+The session-scoped sequence starts at zero and increments for each captured
+score in that session. Race sequences still restart for each `game.gameId`.
+Receivers choose sequence scope by event type and deduplicate retries by
+`eventId`. A score may arrive after the `end` events of its referenced attempts;
+`end` closes only a round, not the arcade turn or local session. Delivery uses
+the same HTTP headers and FIFO; retries preserve the serialized score.
+
+The tracker ignores stale submission triggers at attachment. Consecutive turns
+with identical submitted names can produce distinct scores because the trigger,
+turn ID and captured attempt IDs change. Only captured attempts are listed, in
+capture order. Late attachment or an unavailable lifecycle snapshot marks the
+turn partial (`captureComplete: false`); no missing IDs are fabricated. A newly
+verified turn boundary discards pending state from the previous turn. Retention
+is limited to 256 attempt references per turn; overflow suppresses that turn's
+score instead of sending a misleading truncated list.
+
+`tests/fixtures/arcade-score.json` demonstrates a complete turn, repeated-name
+partial turn, post-round submission, and separate round/session sequencing.
+The unpublished schema remains `1.1.0`. This partial implementation does not
+claim completion of issue #27 or enable unverified equivalents in Next.

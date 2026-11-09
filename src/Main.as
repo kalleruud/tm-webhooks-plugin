@@ -1,5 +1,6 @@
 #if TURBO
 TurboNameProbe@ g_nameProbe;
+TurboArcadeCapture@ g_arcadeCapture;
 #endif
 RoundTracker@ g_tracker;
 GameAdapter@ g_adapter;
@@ -18,6 +19,7 @@ void Main()
     startnew(CoroutineFunc(DeliveryLoop));
 #if TURBO
     @g_nameProbe = TurboNameProbe();
+    @g_arcadeCapture = TurboArcadeCapture(g_delivery);
     startnew(CoroutineFunc(NameProbeLoop));
 #endif
 }
@@ -51,7 +53,19 @@ void Update(float dt)
     }
 #endif
     if (g_adapter is null || g_tracker is null) return;
-    g_tracker.Update(g_adapter.Observe());
+    auto observation = g_adapter.Observe();
+#if TURBO
+    try { g_arcadeCapture.BeforeRound(observation); }
+    catch {
+        g_arcadeCapture.Reset();
+        Setting_ArcadeScores = false;
+        warn("[arcade] Runtime name capture failed and was disabled.");
+    }
+#endif
+    g_tracker.Update(observation);
+#if TURBO
+    g_arcadeCapture.AfterRound(g_tracker);
+#endif
 }
 
 void LogConfigurationState()

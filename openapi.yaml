@@ -10,7 +10,7 @@ paths:
   /webhook:
     post:
       operationId: receiveTrackmaniaEvent
-      summary: Receive one Trackmania race event
+      summary: Receive one Trackmania race or session score event
       security:
         - bearerAuth: []
         - {}
@@ -21,7 +21,17 @@ paths:
           description: Event discriminator matching the request body's `type` property.
           schema:
             type: string
-            enum: [start, first_throttle, checkpoint, lap, respawn, finish, end]
+            enum:
+              [
+                start,
+                first_throttle,
+                checkpoint,
+                lap,
+                respawn,
+                finish,
+                end,
+                score,
+              ]
         - name: event-id
           in: header
           required: true
@@ -119,6 +129,7 @@ components:
         - $ref: '#/components/schemas/FirstThrottleEvent'
         - $ref: '#/components/schemas/PlayerCheckpointEvent'
         - $ref: '#/components/schemas/EndEvent'
+        - $ref: '#/components/schemas/ArcadeScoreEvent'
       discriminator:
         propertyName: type
         mapping:
@@ -129,6 +140,7 @@ components:
           respawn: '#/components/schemas/PlayerCheckpointEvent'
           finish: '#/components/schemas/PlayerCheckpointEvent'
           end: '#/components/schemas/EndEvent'
+          score: '#/components/schemas/ArcadeScoreEvent'
     BaseEvent:
       type: object
       additionalProperties: true
@@ -138,8 +150,6 @@ components:
         - eventId
         - sequence
         - occurredAt
-        - durationMs
-        - game
         - source
       properties:
         schemaVersion:
@@ -157,7 +167,7 @@ components:
           type: integer
           format: int64
           minimum: 0
-          description: Contiguous capture order within the game.
+          description: Capture order within game.gameId for race events or sessionId for score events.
         occurredAt:
           type: string
           format: date-time
@@ -171,6 +181,11 @@ components:
           $ref: '#/components/schemas/Game'
         source:
           $ref: '#/components/schemas/Source'
+    RaceEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          required: [game, durationMs]
     Source:
       type: object
       additionalProperties: true
@@ -215,6 +230,14 @@ components:
       additionalProperties: true
       required: [playerIndex, attemptId]
       properties:
+        sessionId:
+          type: string
+          format: uuid
+          description: Local arcade session identity when experimental name capture is enabled and verified state is available.
+        turnId:
+          type: string
+          format: uuid
+          description: Arcade turn identity shared across its captured rounds; omitted outside arcade name capture.
         attemptId:
           type: string
           format: uuid
@@ -243,7 +266,7 @@ components:
             omitted when the runtime does not expose it.
     PlayerEvent:
       allOf:
-        - $ref: '#/components/schemas/BaseEvent'
+        - $ref: '#/components/schemas/RaceEvent'
         - type: object
           additionalProperties: true
           required: [player]
@@ -396,7 +419,7 @@ components:
             rule family cannot be resolved.
     StartEvent:
       allOf:
-        - $ref: '#/components/schemas/BaseEvent'
+        - $ref: '#/components/schemas/RaceEvent'
         - type: object
           additionalProperties: true
           required: [type, players, map, mode]
@@ -459,7 +482,7 @@ components:
               $ref: '#/components/schemas/Checkpoint'
     EndEvent:
       allOf:
-        - $ref: '#/components/schemas/BaseEvent'
+        - $ref: '#/components/schemas/RaceEvent'
         - type: object
           additionalProperties: true
           required: [type, endReason]
@@ -480,6 +503,56 @@ components:
                 `unknown` when no more specific reason is available. Trackmania
                 Next uses completed for a captured finish, restarted for a stable
                 replacement spawn, and aborted for other exits.
+    ArcadeScoreEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          required:
+            [
+              sessionId,
+              turnId,
+              mode,
+              mapUid,
+              player,
+              attemptIds,
+              captureComplete,
+            ]
+          properties:
+            game: false
+            durationMs: false
+            type:
+              type: string
+              enum: [score]
+            sessionId:
+              type: string
+              format: uuid
+            turnId:
+              type: string
+              format: uuid
+            mode:
+              type: string
+              enum: [arcade]
+            mapUid:
+              type: string
+              minLength: 1
+            player:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  description: Explicitly submitted name from the verified UI name trigger, not the engine profile name.
+            attemptIds:
+              type: array
+              uniqueItems: true
+              items:
+                type: string
+                format: uuid
+              description: Only captured attempt UUIDs, in capture order. May be empty for a late partial capture.
+            captureComplete:
+              type: boolean
+              description: True only when the turn's idle-to-preparation boundary and its attempts were observed without lifecycle gaps.
     ErrorResponse:
       type: object
       additionalProperties: true

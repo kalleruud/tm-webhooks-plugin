@@ -240,3 +240,101 @@ for (const game of ['turbo', 'next']) {
 console.log(
   'Validated attempt identity across respawns, restarts, and player slots in both games.'
 )
+
+function validateArcadeScores(events) {
+  const attempts = new Map()
+  const turns = new Map()
+  const roundSequences = new Map()
+  const sessionSequences = new Map()
+  const ended = new Set()
+  const rounds = new Map()
+  for (const event of events) {
+    assertNoEmptyStrings(event)
+    assert.equal(event.schemaVersion, '1.1.0')
+    assert.match(event.eventId, uuid)
+    if (event.type === 'score') {
+      assert.ok(!('game' in event))
+      assert.ok(!('durationMs' in event))
+      assert.match(event.sessionId, uuid)
+      assert.match(event.turnId, uuid)
+      assert.equal(event.sequence, sessionSequences.get(event.sessionId) ?? 0)
+      sessionSequences.set(event.sessionId, event.sequence + 1)
+      assert.equal(event.mode, 'arcade')
+      assert.equal(typeof event.player.name, 'string')
+      assert.equal(typeof event.captureComplete, 'boolean')
+      assert.equal(typeof event.mapUid, 'string')
+      assert.ok(event.mapUid.length > 0)
+      assert.equal(new Set(event.attemptIds).size, event.attemptIds.length)
+      assert.deepEqual(event.attemptIds, turns.get(event.turnId))
+      for (const id of event.attemptIds) {
+        assert.equal(attempts.get(id).sessionId, event.sessionId)
+        assert.equal(attempts.get(id).turnId, event.turnId)
+        assert.ok(ended.has(id), 'fixture submissions occur after round end')
+      }
+    } else {
+      const game = event.game.gameId
+      assert.equal(event.sequence, roundSequences.get(game) ?? 0)
+      roundSequences.set(game, event.sequence + 1)
+      if (event.type === 'start') {
+        rounds.set(game, event.players)
+        for (const [i, player] of event.players.entries()) {
+          assertPlayer(player, i)
+          assert.match(player.sessionId, uuid)
+          assert.match(player.turnId, uuid)
+          assert.ok(!attempts.has(player.attemptId))
+          attempts.set(player.attemptId, player)
+          if (!turns.has(player.turnId)) turns.set(player.turnId, [])
+          turns.get(player.turnId).push(player.attemptId)
+        }
+      } else if (event.player) {
+        assert.deepEqual(
+          event.player,
+          rounds.get(game)[event.player.playerIndex]
+        )
+      } else if (event.type === 'end') {
+        for (const player of rounds.get(game)) ended.add(player.attemptId)
+      }
+    }
+  }
+}
+const arcade = await readFixture('arcade-score.json')
+validateArcadeScores(arcade)
+const scores = arcade.filter(event => event.type === 'score')
+assert.equal(scores.length, 2)
+assert.equal(scores[0].player.name, scores[1].player.name)
+assert.notEqual(scores[0].turnId, scores[1].turnId)
+assert.equal(scores[0].captureComplete, true)
+assert.equal(scores[1].captureComplete, false)
+for (const corrupt of [
+  event => {
+    event.game = { gameId: event.sessionId, totalPlayers: 1 }
+  },
+  event => {
+    event.durationMs = 0
+  },
+  event => {
+    event.player.name = ''
+  },
+  event => {
+    delete event.captureComplete
+  },
+  event => {
+    event.sequence = 99
+  },
+  event => {
+    event.turnId = event.sessionId
+  },
+  event => {
+    event.attemptIds.reverse()
+  },
+  event => {
+    event.attemptIds.push(event.attemptIds[0])
+  },
+]) {
+  const invalid = structuredClone(arcade)
+  corrupt(invalid.find(event => event.type === 'score'))
+  assert.throws(() => validateArcadeScores(invalid))
+}
+console.log(
+  'Validated arcade score envelopes, captured attempt references, repeated names, and session sequencing.'
+)

@@ -14,3 +14,8 @@ bool Setting_NameProbeEnabled = false;
 [Setting name="Diagnostic URL" description="Use the local receiver /api/diagnostics endpoint. Uses the webhook authentication token. Leave empty to disable." category="Name diagnostics"]
 string Setting_NameProbeUrl = "";
 #endif
+
+#if TURBO
+[Setting name="Capture arcade scores (experimental)" description="Capture confirmed standard arcade names and correlate captured attempts. Secret modes and hot seat are not enabled yet." category="Webhook"]
+bool Setting_ArcadeScores = false;
+#endif

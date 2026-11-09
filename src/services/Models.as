@@ -6,6 +6,8 @@ class PlayerSnapshot
 {
     uint playerIndex;
     string attemptId;
+    string sessionId;
+    string turnId;
     string name;
     string login;
     string localId;
@@ -81,6 +83,11 @@ class CapturedEvent
     int theoreticalDurationMs = -1;
     int lostMs = -1;
     string endReason;
+    string sessionId;
+    string turnId;
+    string mapUid;
+    array<string> attemptIds;
+    bool captureComplete;
 }
 
 class PendingWebhook

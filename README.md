@@ -204,3 +204,41 @@ visibility, truncation, and scan-limit flags. For this next test, reload the new
 plugin, re-enable the probe, show the leaderboard containing `1111` and the
 blank row for five seconds, then submit another name and leave the resulting
 leaderboard visible for five seconds.
+
+### Experimental arcade scores (development build 1.0.3)
+
+The 1.0.1/1.0.2 tests read `1111` and `2222` from the explicit name-trigger
+transition. `ScoreWritten` was already false in those samples. The displayed
+leaderboard arrays remain opaque and the inspected server layers' `LocalPage`
+handles were null, so the implementation does not claim rank/time/best-attempt
+association. These fields are optional in issue #27.
+
+Version 1.0.3 adds an opt-in **Webhook > Capture arcade scores (experimental)**
+setting. In standard Turbo arcade with one local terminal, it assigns session
+and turn context to newly captured attempts, retains their IDs across race end,
+and sends a `score` to the regular `/api/webhook` after a changed submission
+trigger and observed insertion-index clearing. The score name is the entered
+name, not the engine profile name. Names are parsed only from the verified
+scalar dump shape; malformed or unavailable state invalidates association.
+The unchanged diagnostic probe is optional and helps inspect test failures.
+
+Build/reload 1.0.3, then test with the existing URL and token:
+
+1. Enable **Capture arcade scores (experimental)** before entering arcade or
+   while on its idle leaderboard. Start a new turn, play its attempts, submit
+   `3333`, and leave the leaderboard visible. Expect one `score` after the race
+   events, with `player.name: "3333"` and only that turn's captured attempt IDs.
+2. Play another turn with the **same name**. Expect a different `turnId`, fresh
+   attempt IDs, and the next session-scoped score sequence. No extra score
+   should appear while the leaderboard remains visible.
+3. In a separate turn, let name entry time out. Expect no score for the default
+   name. Restart an attempt and use a checkpoint respawn in another turn: the
+   restart should allocate a new attempt ID, while the respawn keeps its ID.
+4. Enable capture or reload mid-turn. A resulting score must be partial, with
+   `captureComplete: false`; never three fabricated IDs. Test leaving/re-entering
+   arcade and changing maps to check session reset behavior.
+
+If the UI dump call fails at runtime, arcade score capture disables itself and
+logs an `[arcade]` warning; normal race capture continues. This is still a draft
+implementation requiring live session/turn-boundary validation. Hot-seat,
+secret variants, and Next equivalents remain disabled until verified.
