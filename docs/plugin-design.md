@@ -2,13 +2,13 @@
 
 The plugin sends ordered webhooks when race events occur in supported local
 Trackmania modes. The detailed webhook payload model is defined in
-[`contract.md`](contract.md) and must remain synchronized with `openapi.yaml`.
+[`webhook-contract.md`](webhook-contract.md) and must remain synchronized with `openapi.yaml`.
 
 ## Glossary
 
 - **Game**: A complete race activity where one or more people race. In the
   supported scope, a game contains exactly one round and receives a new unique
-  game ID when that round begins. Experimental standard Turbo arcade capture correlates rounds through session and turn UUIDs.
+  game ID when that round begins. Standard Turbo arcade capture correlates rounds through session and turn UUIDs.
 - **Round**: One continuous in-game timing session, from its single `start`
   event through its single final `end` event. Stopping or restarting the timer
   ends the round. A new timer session is a new round and game.
@@ -21,7 +21,7 @@ Trackmania modes. The detailed webhook payload model is defined in
   game. Platform account identifiers are optional metadata.
 
 In Trackmania Turbo hot seat, each player's continuously timed attempt is a
-separate round and game. The race roster contains observed engine players, while experimental Hot Seat
+separate round and game. The race roster contains observed engine players, while Hot Seat
 session tracking assigns a separate participant UUID to each configured human
 slot. Player-scoped race events retain their engine snapshot and add that
 participant reference; the engine login is not a human identity.
@@ -160,7 +160,7 @@ token from settings.
 
 ## Contract
 
-`contract.md` is the human-readable webhook model. `openapi.yaml` is the
+`docs/webhook-contract.md` is the human-readable webhook model. `openapi.yaml` is the
 machine-readable source for generated endpoint types. They must be updated in
 the same change whenever payloads, authentication, response codes, or headers
 change.
@@ -197,34 +197,29 @@ CI must:
 - Build the shared plugin artifact.
 - Run shared service tests against both game adapters where practical.
 
-## Experimental arcade name correlation
+## Arcade name correlation
 
-`TurboArcadeCapture` observes supported UI scalars outside active races and
-assigns session/turn context before `RoundTracker` freezes player snapshots.
-It retains captured attempt IDs across round end. Explicit submission is a
-changed `LibTMC_ScoresTable_NewNameTrigger` after an observed insertion index;
-`WriteName` clears that index when committing the name. The transient
-`ScoreWritten` flag is not sufficient: the 1111 and 2222 live captures already
-showed it reset at the next sample. The stale initial trigger is a baseline,
-not an event. Opaque leaderboard arrays and unavailable LocalPage handles are
-not used to fabricate ranks, times, or best-attempt identity.
+`TurboArcadeCapture` reads verified Turbo UI scalars before `RoundTracker`
+freezes player snapshots. It retains captured attempt IDs across round end and
+assigns session/turn context using observed mode phases and credit changes.
+A changed explicit name-submission trigger followed by insertion-index clearing
+confirms a committed name. The transient `ScoreWritten` flag is insufficient;
+stale initial triggers are ignored. Unavailable lifecycle data invalidates the
+pending association. Partial turns are marked incomplete and attempt retention
+is bounded at 256 references; overflow suppresses the score.
 
-This path is opt-in and Turbo-only. The shared serializer separates session
-score envelopes from race envelopes. Next retains race capture with attempt
-IDs and emits no arcade score. Runtime lifecycle/parser failures invalidate
-pending association instead of reusing a previous turn's attempts.
+## Hot Seat correlation
 
-## Experimental Hot Seat correlation
+`TurboHotSeatCapture` assigns participant UUIDs to configured human slots.
+Roster generation/count and selection/restart phases distinguish new sessions
+from controller handovers. A changed name trigger is accepted only with stable
+slot/handover counters. Completion uses the existing authoritative player
+observation and frozen attempt ownership, so switching slots or renaming cannot
+reassign a previous result. The existing finish precedes the score. Name and
+score events share session sequencing independently of race sequences.
 
-`TurboHotSeatCapture` reads the verified scalar UI surface before the shared
-round tracker freezes snapshots. A bounded slot table owns participant UUIDs
-and confirmed names; roster generation/count and observed selection/restart
-phases distinguish new sessions from controller handovers. An explicit changed
-name trigger is accepted only with an unchanged active slot/handover counter.
-The initial stale trigger and unknown names are ignored. Completion is read
-from the existing player observation, and each score references the frozen
-attempt/session/participant snapshot rather than a shared login or time match.
-The existing finish is queued before the Hot Seat score. Name/score sequences
-are combined per session and never consume race sequence numbers. Diagnostic
-probe expiry does not disable production capture. Hot Seat remains opt-in until
-the switching/rename, late-name, restart and map/session tests pass in-game.
+Both services activate automatically with an endpoint in their verified standard
+Turbo modes. Secret and unverified multiple-racer variants are excluded. The
+shared serializer separates session envelopes from race envelopes. Next retains
+race capture with attempt IDs. A runtime name-access exception disables that
+service until plugin reload while race capture continues.

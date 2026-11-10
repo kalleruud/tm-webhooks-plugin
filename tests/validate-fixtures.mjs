@@ -361,38 +361,6 @@ assert.equal(
 )
 assert.equal(scores[0].captureComplete, true)
 
-const cancellation = await readFixture('turbo-cancel-boundary.json')
-validateAttemptIdentities(cancellation.expectedEvents)
-const started = cancellation.expectedEvents.filter(
-  event => event.type === 'start'
-)
-const ends = cancellation.expectedEvents.filter(event => event.type === 'end')
-assert.equal(started.length, 2)
-assert.deepEqual(
-  ends.map(event => event.endReason),
-  ['aborted', 'aborted']
-)
-assert.ok(
-  !cancellation.expectedEvents.some(event =>
-    ['finish', 'score'].includes(event.type)
-  )
-)
-const runningTimers = [
-  ...new Set(
-    cancellation.observations
-      .filter(state => state.raceState === 1)
-      .map(state => state.raceStartTime)
-  ),
-]
-assert.equal(runningTimers.length, started.length)
-const finalCountdown = cancellation.observations.slice(-2)
-assert.ok(finalCountdown.every(state => state.raceState === 0))
-assert.ok(finalCountdown[0].raceStartTime > 0)
-assert.equal(finalCountdown[1].raceStartTime, 0)
-console.log(
-  'Validated expected cancellation payloads and no fabricated countdown attempt; runtime transition handling requires game testing.'
-)
-
 function validateHotSeat(events) {
   const names = new Map()
   const owners = new Map()

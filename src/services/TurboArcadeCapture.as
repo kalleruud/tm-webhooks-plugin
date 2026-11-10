@@ -14,6 +14,7 @@ class TurboArcadeCapture
     int scopePlayers = -1;
     bool baseline;
     bool valid;
+    bool disabled;
     bool complete;
     bool overflow;
     uint attemptsAtCreditChange;
@@ -34,6 +35,12 @@ class TurboArcadeCapture
         overflow = false;
         attemptsAtCreditChange = 0;
         lastRound = "";
+    }
+
+    void Disable()
+    {
+        Reset();
+        disabled = true;
     }
 
     void Reset()
@@ -60,9 +67,10 @@ class TurboArcadeCapture
     void BeforeRound(GameObservation@ observation)
     {
         valid = false;
+        if (disabled) return;
         auto app = cast<CGameManiaPlanet>(GetApp());
         if (observation is null || !observation.local || observation.mode is null || observation.mode.name != "arcade" ||
-            !Setting_ArcadeScores || !CaptureEnabled() || app is null || app.CurrentPlayground is null || app.Challenge is null ||
+            !CaptureEnabled() || app is null || app.CurrentPlayground is null || app.Challenge is null ||
             app.PlaygroundScript is null || app.PlaygroundScript.UIManager is null ||
             app.Challenge.IdName.Length == 0 || app.CurrentPlayground.GameTerminals.Length != 1 || app.PlaygroundScript.ServerModeName != "TMC_LocalArcade") {
             Reset();
@@ -122,13 +130,7 @@ class TurboArcadeCapture
         if (index >= 0 && turnId.Length > 0) pendingIndex = index;
         if (baseline && trigger != previousTrigger && trigger > 0 && pendingIndex >= 0 && turnId.Length > 0) {
             submittedName = "";
-            string raw;
-            if ((phase == 3 || phase == -1) && ReadTurboUiScalar(dump, "netwrite", "Text", "LibTMC_ScoresTable_NewName", raw)) {
-                try {
-                    Json::Value@ name = Json::Parse(raw);
-                    if (name.GetType() == Json::Type::String) submittedName = string(name);
-                } catch { submittedName = ""; }
-            }
+            if (phase == 3 || phase == -1) ReadTurboUiText(dump, "netwrite", "LibTMC_ScoresTable_NewName", submittedName);
         }
         previousTrigger = trigger;
         previousPhase = phase;
@@ -138,7 +140,7 @@ class TurboArcadeCapture
         // WriteName clears the insertion index; a timeout never advances trigger.
         if (submittedName.Length > 0 && index == -1 && (phase == 3 || phase == -1) && !overflow) EmitScore();
         if (phase == -1 && submittedName.Length == 0) ClearTurn();
-        if (turnId.Length > 0 && observation !is null && observation.mode !is null && observation.mode.name == "arcade") {
+        if (turnId.Length > 0) {
             for (uint i = 0; i < observation.players.Length; i++) {
                 observation.players[i].sessionId = sessionId;
                 observation.players[i].turnId = turnId;
@@ -178,7 +180,6 @@ class TurboArcadeCapture
         @event.player = PlayerSnapshot();
         event.player.name = submittedName;
         delivery.Enqueue(event.eventId, event.eventType, event.sequence, SerializeEvent(event));
-        print("[arcade] Confirmed score name=" + submittedName + " capturedAttempts=" + attempts.Length);
         ClearTurn();
     }
 }

@@ -1,5 +1,4 @@
 #if TURBO
-TurboNameProbe@ g_nameProbe;
 TurboArcadeCapture@ g_arcadeCapture;
 TurboHotSeatCapture@ g_hotSeatCapture;
 #endif
@@ -19,10 +18,8 @@ void Main()
     print("[init] " + AdapterGameName());
     startnew(CoroutineFunc(DeliveryLoop));
 #if TURBO
-    @g_nameProbe = TurboNameProbe();
     @g_arcadeCapture = TurboArcadeCapture(g_delivery);
     @g_hotSeatCapture = TurboHotSeatCapture(g_delivery);
-    startnew(CoroutineFunc(NameProbeLoop));
 #endif
 }
 
@@ -36,38 +33,23 @@ void EnsureTrackmaniaNextDependencies()
 }
 #endif
 
-#if TURBO
-void NameProbeLoop() { g_nameProbe.Run(); }
-#endif
-
 void DeliveryLoop() { g_delivery.Run(); }
 
 void Update(float dt)
 {
     LogConfigurationState();
-#if TURBO
-    if (g_nameProbe !is null) {
-        try { g_nameProbe.Update(); }
-        catch {
-            Setting_NameProbeEnabled = false;
-            warn("[name-probe] Runtime probe failed and was disabled; race capture continues.");
-        }
-    }
-#endif
     if (g_adapter is null || g_tracker is null) return;
     auto observation = g_adapter.Observe();
 #if TURBO
     try { g_arcadeCapture.BeforeRound(observation); }
     catch {
-        g_arcadeCapture.Reset();
-        Setting_ArcadeScores = false;
-        warn("[arcade] Runtime name capture failed and was disabled.");
+        g_arcadeCapture.Disable();
+        warn("[arcade] Name capture unavailable until plugin reload; race capture continues.");
     }
     try { g_hotSeatCapture.BeforeRound(observation); }
     catch {
-        g_hotSeatCapture.Reset();
-        Setting_HotSeatScores = false;
-        warn("[hot-seat] Runtime name capture failed and was disabled.");
+        g_hotSeatCapture.Disable();
+        warn("[hot-seat] Name capture unavailable until plugin reload; race capture continues.");
     }
 #endif
     g_tracker.Update(observation);

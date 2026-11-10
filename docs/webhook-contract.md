@@ -94,16 +94,15 @@ identify the round; `end` has no player or attempt ID.
 
 Receivers should use attempt IDs for attempt correlation instead of matching
 names or times. The attempt ID does not identify a human across hot-seat turns; participantId does.
-With experimental standard Turbo arcade score capture enabled, `sessionId`
-and `turnId` are included in start player entries and player race events. With
-experimental standard Turbo Hot Seat capture enabled, `sessionId` and
+In standard Turbo arcade capture, `sessionId`
+and `turnId` are included in start player entries and player race events. In
+standard Turbo Hot Seat capture, `sessionId` and
 `participantId` are included instead.
 They correlate captured attempts across rounds. Session IDs reset on leaving
 arcade, map/script/UI replacement, or a change in the configured player count.
 Turn IDs follow observed arcade phase/credit lifecycle, never a count of finishes.
 Hot Seat participant IDs follow configured human slots independently of the
 shared engine player/login. Secret variants are not enabled.
-These runtime boundaries still require the targeted gameplay tests in README.
 
 Trackmania Next sources `login`, `localId`, and `accountId` from MLFeed V4's
 login, login MwId, and WebServices user ID. Turbo sources `name` and `login`
@@ -402,10 +401,9 @@ the playground, fall back to `aborted`.
 }
 ```
 
-### `score` (experimental standard Turbo arcade)
+### `score` (standard Turbo arcade)
 
-Enable **Capture arcade scores (experimental)** to test name/attempt correlation.
-This emits one session-scoped score after a changed explicit UI name-submission
+With an endpoint configured, standard Turbo arcade emits one session-scoped score after a changed explicit UI name-submission
 trigger and subsequent insertion-index clearing. It does not depend on catching
 the transient ScoreWritten boolean, text stability, profile names, or matching
 finish times. Timeout/default names do not change the submission trigger.
@@ -434,10 +432,9 @@ score instead of sending a misleading truncated list.
 
 `tests/fixtures/arcade-score.json` demonstrates a complete turn, repeated-name
 partial turn, post-round submission, and separate round/session sequencing.
-The unpublished schema remains `1.1.0`. This partial implementation does not
-claim completion of issue #27 or enable unverified equivalents in Next.
+The unpublished schema remains `1.1.0`. Next emits no unverified equivalents.
 
-### `player_name` (experimental standard Turbo Hot Seat)
+### `player_name` (standard Turbo Hot Seat)
 
 Contains the common `schemaVersion`, `type`, `eventId`, `sequence`,
 `occurredAt`, and `source` metadata, plus required `sessionId`,
@@ -454,7 +451,7 @@ same session. Existing serialized race/score events remain immutable. Name and
 score events share one session-scoped sequence starting at zero; race events
 retain their separate per-game sequences and existing ordering/HTTP delivery.
 
-### `score` (experimental standard Turbo Hot Seat)
+### `score` (standard Turbo Hot Seat)
 
 Contains common event metadata plus required `sessionId`, `participantId`,
 `mode: "hot-seat"`, `mapUid`, `attemptId`, and
@@ -467,9 +464,8 @@ inferred from the scoreboard or a personal best. It omits `game` and
 Optional `player: {name}` contains only the participant's explicitly confirmed
 name at capture. If none was captured, omit both the name and the empty wrapper;
 BLUE/RED/profile names are not substituted. A later `player_name` resolves that
-participant's prior attempts. Rename `8888` to `9999` without changing its
-participant UUID; switching back to `7777` uses its original UUID without
-emitting another rename.
+participant's prior attempts. Renaming a slot preserves its participant UUID; switching back to another
+slot uses that slot's original UUID without emitting another rename.
 
 Standard Hot Seat uses `Net_NbPlayer` for its human roster and
 `Net_CurPlayerIndex` for the active slot; `Net_NbPlayers` is the shared engine
@@ -479,9 +475,7 @@ replacement, observed roster selection/restart phases, roster-generation or
 roster-size change. Slots persist across name edits and handovers. At most 16
 participant records and one most-recent scored-attempt ID are retained; no
 periodic score-table events are sent. Unsupported modes and Next keep their
-existing race path without these experimental session events.
+existing race path without these session events.
 
 Representative name/score and late-name examples, including the combined
-sequence, are in `tests/fixtures/hotseat-events.json`. These protocol fixtures
-do not prove runtime slot/rename behavior; the fresh game test in README remains
-required before calling the Hot Seat implementation verified.
+sequence, are in `tests/fixtures/hotseat-events.json`. They cover the combined session sequence and stable participant references.

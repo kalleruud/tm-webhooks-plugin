@@ -2,7 +2,7 @@
 name = "TM Webhooks"
 author = "MrKallerud"
 category = "Utilities"
-version = "1.0.6"
+version = "1.0.7"
 siteid = 888
 
 [script]

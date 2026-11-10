@@ -10,8 +10,8 @@
 
 The plugin sends race webhooks for `start`, `first_throttle`, `checkpoint`,
 `lap`, `respawn`, `finish`, and `end`, with attempt IDs, per-round sequencing,
-UTC timestamps, in-game durations, and game/source metadata. Opt-in standard
-Turbo arcade capture adds confirmed-name `score` events. Opt-in standard Turbo
+UTC timestamps, in-game durations, and game/source metadata. Standard
+Turbo arcade capture adds confirmed-name `score` events. Standard Turbo
 Hot Seat capture adds `player_name` and completed-attempt `score` events with
 participant IDs and shared session sequencing. These session events omit
 race-only game/duration fields. See [the webhook contract](docs/webhook-contract.md)
@@ -93,225 +93,31 @@ The output file is `dist/tm-webhooks.op`. The archive contains the root
 Unsigned builds require Openplanet Developer signature mode. Public
 distribution requires the normal Openplanet review and signing process.
 
-## Local test receiver
+## Entered names and scores
 
-Requires Node.js 22 or newer; no packages to install. From this repository:
+With an endpoint configured, standard Trackmania Turbo arcade and Hot Seat
+capture entered names automatically:
 
-```bash
-node scripts/webhook-receiver.mjs --host 0.0.0.0 --port 8787
-```
+- **Arcade:** one `score` after explicit name confirmation and commit links the
+  name to the captured attempts in that turn. Partial captures are marked
+  `captureComplete: false`; missing attempts are never fabricated. Cancelling
+  in countdown does not create a race or attempt ID. Timeout/default names do
+  not produce a score. Unverified rank, time and best-attempt data are omitted.
+- **Hot Seat:** `player_name` records a confirmed name or rename, and `score`
+  follows each captured completed attempt. A participant UUID identifies the
+  human slot across name edits and controller handovers. Default/profile names
+  are not substituted when no entered name was captured. Later name events can
+  resolve earlier attempts through the participant UUID.
 
-Set the plugin's **Endpoint URL** to
-`http://<receiver-LAN-IP>:8787/api/webhook` (on Svetlana: `http://10.0.1.2:8787/api/webhook`).
-For authenticated POSTs, start with `--token-file /path/to/token` and put the
-same token in the plugin's **Authentication token** setting. Keep the token file
-outside version control (for example, `.local/webhook-receiver/token`). An
-explicit token file must contain a nonempty token; missing or incorrect bearer
-credentials receive `401` and are not saved. With no token file, leave the
-plugin token empty. Authentication applies to webhook POSTs; health and recent
-event reads remain available without credentials. Bind to `127.0.0.1` (the default) for local-only tests,
-or `0.0.0.0` for LAN testing. It is a development capture tool, not a production
-receiver, and does not enforce the webhook schema.
+Race sequences belong to `game.gameId`; name/score sequences belong to
+`sessionId`. Name/score events omit race-only `game` and `durationMs` fields.
+The player name in an existing race snapshot remains engine metadata, while
+session events contain the entered name. Retries preserve the captured payload.
 
-Each delivery prints its full payload and appends a record containing
-`receivedAt`, the three event headers, and `payload` to a new per-run JSONL file
-in `.local/webhook-receiver/`. This directory is gitignored. Authorization
-headers are never saved. Retries are retained as separate deliveries with their
-original event IDs. Old session files are preserved across restarts. Override
-the storage location with `--data-dir /persistent/path`.
-
-- `GET /health`: status, count received during this run, and session file path.
-- `GET /events`: latest 100 deliveries from this run as JSON.
-- `POST /api/webhook`: saves a JSON object and returns `204`; malformed bodies return
-  `400`, bodies larger than 1 MiB return `413`, and save failures return `503`.
-
-Stop with **Ctrl+C**; rerun the command for a later session. To keep it running
-in the background on a Unix-like system:
-
-```bash
-mkdir -p .local/webhook-receiver
-nohup node scripts/webhook-receiver.mjs --host 0.0.0.0 --port 8787 > .local/webhook-receiver/receiver.log 2>&1 &
-echo $! > .local/webhook-receiver/receiver.pid
-tail -f .local/webhook-receiver/receiver.log
-```
-
-Stop that background process before starting another on the same port:
-
-```bash
-kill "$(cat .local/webhook-receiver/receiver.pid)"
-```
-
-### Turbo name-entry diagnostic test (development build 1.0.2)
-
-The optional probe investigates #27. It does **not** turn observations into
-`score` or `player_name` webhooks. Next keeps its existing race capture and does
-not compile or run this Turbo-only probe.
-
-1. Build/install the latest shared plugin (`./scripts/build-op.sh all`), or use
-   `dist/tm-webhooks.op`. Reload it in Turbo with Developer signature mode.
-   If compilation fails, report the exact Openplanet error and line before testing.
-2. Keep the normal endpoint `/api/webhook`. In **Settings > TM Webhooks > Name
-   diagnostics**, set **Diagnostic URL** to
-   `http://10.0.1.2:8787/api/diagnostics`, then enable **Enable name-entry probe**.
-   The probe uses the existing webhook authentication token. Raw UI variable
-   dumps may contain profile and leaderboard data; send only to your test receiver.
-3. Start before entering arcade. Play one complete three-attempt turn. At name
-   entry, type `OLE`, wait two seconds without confirming, then confirm. Leave
-   the leaderboard visible for five seconds. Note which row is blank and which
-   displays `OLE`. Run another turn using the same name. If possible, let a
-   subsequent name editor time out without confirmation.
-4. In a separate hot-seat test, start the probe before entering the mode. Confirm
-   a name for one participant, switch slots, rename the other, and switch back.
-   Report the order of actions. Stop the probe when finished.
-
-The probe samples at most four times per second for up to ten minutes and sends
-only changed snapshots. It retains at most 32 pending samples and reports drops
-and sequence gaps; diagnostic deliveries are best-effort with a five-second
-request timeout. Slow receivers and transitions between samples can lose
-observations, so this is evidence gathering, not verified name-event capture.
-It stays active outside races, including name-entry and results screens. Raw
-variable dumps are capped at 16 KiB each with explicit truncation markers.
-Normal race event payloads and delivery are unchanged. A runtime probe exception
-disables the probe so race capture can continue.
-
-The receiver accepts authenticated `POST /api/diagnostics`, saves these records
-in a separate `*.diagnostics.jsonl` file, and exposes its latest ten diagnostic
-records through `GET /diagnostics`. `GET /health` reports both counts and paths.
-Race event captures remain in the original JSONL file. Raw diagnostics are not
-printed to the receiver console. Test its HTTP behavior with
-`node --test tests/webhook-receiver.test.mjs`.
-
-The public score cross-check follows the
-[TurboCup reader](https://github.com/chrizonix/OpenPlanet-Plugins/blob/master/Scripts/Plugin_TurboCup.as):
-`PlayerInfos[].RaceScore.BestTime` / `LastRaceTime` plus the network player name.
-Its [companion recorder](https://github.com/chrizonix/TrackMania-Turbo-Recorder)
-consumes these polled records; neither establishes explicit arcade name
-confirmation. The probe additionally tests the documented
-[`Dbg_DumpDeclareForVariables`](https://turbo.openplanet.dev/Game/CGamePlaygroundScript)
-binding on shared/local UI, rules, and matching local name-entry pages. The dump
-format and visibility of `LibTMC_ScoresTable_ScoreWritten`, entered names, and
-hot-seat slot variables must be verified from your run before production parsing.
-
-Probe version 2 (plugin 1.0.2) additionally records visible score/name layer
-metadata and bounded label text, preserving empty labels and their control
-paths. It checks the compiled page's ScriptText as well as ManialinkPageUtf8
-when selecting name-entry pages. The 1.0.1 arcade test verified access to
-`LibTMC_ScoresTable_NewName = "1111"` and a changed new-name trigger after
-submission. The score-written boolean had already reset between samples, and
-leaderboard arrays appeared as `[???]`, so neither the boolean alone nor the
-array dump is sufficient for complete result capture. The new label probe tests
-whether the displayed blank/name/time rows can supply the missing association;
-it does not infer a row from time or display order. Label scans are capped at
-32 layers, depth 8, 512 controls, and 96 labels (160 bytes of text each), with
-visibility, truncation, and scan-limit flags. For this next test, reload the new
-plugin, re-enable the probe, show the leaderboard containing `1111` and the
-blank row for five seconds, then submit another name and leave the resulting
-leaderboard visible for five seconds.
-
-### Experimental arcade scores (development build 1.0.3)
-
-The 1.0.1/1.0.2 tests read `1111` and `2222` from the explicit name-trigger
-transition. `ScoreWritten` was already false in those samples. The displayed
-leaderboard arrays remain opaque and the inspected server layers' `LocalPage`
-handles were null, so the implementation does not claim rank/time/best-attempt
-association. These fields are optional in issue #27.
-
-Version 1.0.3 adds an opt-in **Webhook > Capture arcade scores (experimental)**
-setting. In standard Turbo arcade with one local terminal, it assigns session
-and turn context to newly captured attempts, retains their IDs across race end,
-and sends a `score` to the regular `/api/webhook` after a changed submission
-trigger and observed insertion-index clearing. The score name is the entered
-name, not the engine profile name. Names are parsed only from the verified
-scalar dump shape; malformed or unavailable state invalidates association.
-The unchanged diagnostic probe is optional and helps inspect test failures.
-
-Build/reload 1.0.3, then test with the existing URL and token:
-
-1. Enable **Capture arcade scores (experimental)** before entering arcade or
-   while on its idle leaderboard. Start a new turn, play its attempts, submit
-   `3333`, and leave the leaderboard visible. Expect one `score` after the race
-   events, with `player.name: "3333"` and only that turn's captured attempt IDs.
-2. Play another turn with the **same name**. Expect a different `turnId`, fresh
-   attempt IDs, and the next session-scoped score sequence. No extra score
-   should appear while the leaderboard remains visible.
-3. In a separate turn, let name entry time out. Expect no score for the default
-   name. Restart an attempt and use a checkpoint respawn in another turn: the
-   restart should allocate a new attempt ID, while the respawn keeps its ID.
-4. Enable capture or reload mid-turn. A resulting score must be partial, with
-   `captureComplete: false`; never three fabricated IDs. Test leaving/re-entering
-   arcade and changing maps to check session reset behavior.
-
-If the UI dump call fails at runtime, arcade score capture disables itself and
-logs an `[arcade]` warning; normal race capture continues. This is still a draft
-implementation requiring live session/turn-boundary validation. Hot-seat,
-secret variants, and Next equivalents remain disabled until verified.
-
-Development build 1.0.4 corrects an end-reason defect found in the `4444` live
-test: two finished attempts and a third attempt interrupted by the button that
-ends the whole turn were correctly included in one complete score, but the
-final round was labelled `restarted`. This was not a per-attempt Give up test.
-The arcade end-turn button clears remaining credits and ends the current race.
-Standard arcade can then return directly to BeforeStart. Its observed
-postgame/final phase now marks that unfinished round `aborted`, while timer
-restart behavior remains unchanged. Existing explicit aborted state is retained.
-Rebuild/reload and repeat ending the turn during the last attempt to validate
-that end reason;
-score completeness should remain true when all attempts were captured, even
-though one was aborted. No retroactive changes are made to saved captures.
-
-Development build 1.0.5 addresses the cancellation-boundary test. The live
-trace showed two Running attempts consuming credits 2→1 and 1→0, followed by a
-third countdown that never reached Running. Unknown race-end transitions can
-precede the mode's phase/credit update by several frames. The Turbo adapter now
-waits up to 250 ms for that state, without replaying stale player observations
-or advancing the last captured race timer. Consumed credits or postgame/final
-state identify an unfinished attempt as aborted. A tentative timer restart also
-waits for credits to settle. Unresolved transitions remain unknown. Next's race
-path is unchanged.
-
-Only a race that reaches Running produces a start and attempt ID. Cancelling
-in countdown does not fabricate a third race or ID; capture remains partial
-when the full turn cannot be represented. If every attempt is cancelled and no
-name entry is offered, no score is emitted. The cancellation fixture records
-observed input states and expected payloads; it does not execute the game API.
-For the next test, reload 1.0.5, enable diagnostics again, and repeat cancellation
-after a checkpoint, after start, and during countdown. Expect two started
-attempts ending aborted and no third start for the cancelled countdown.
-
-### Experimental Hot Seat names and scores (development build 1.0.6)
-
-The first Hot Seat capture verified `7777` at slot 0 and a human roster count of 2. The diagnostic probe expired before the `8888`/`9999` edits; those transitions
-are not yet runtime-verified. This build adds opt-in Hot Seat name/score capture
-using the verified scalar bindings plus the game script's slot lifecycle.
-It does not infer a participant from the shared engine profile or login.
-
-1. Build/reload 1.0.6 and enable **Webhook > Capture hot-seat names and scores
-   (experimental)**. Keep the endpoint and token already configured. Restart
-   Hot Seat with two participants so capture observes fresh name confirmations;
-   names present before enabling capture are intentionally not inferred.
-2. Start a fresh diagnostic capture (toggle **Enable name-entry probe** off/on)
-   with the existing `/api/diagnostics` URL. While enabled, 1.0.6 starts a fresh
-   ten-minute diagnostic window on mode/map changes. Probe expiry does not stop
-   the separate name/score capture.
-3. Name the two slots `7777` and `8888`. Complete one attempt for each, then
-   rename the second slot to `9999` and complete another attempt. Switch back
-   to `7777` and play again. Tell me when done and the action order.
-
-Expect `player_name` on explicit confirmations and one `score` after each
-captured finish. Names and scores share a session sequence, while races keep
-per-game sequences. The second participant's UUID must stay the same when
-renamed to `9999`; switching slots must not emit a rename for `7777`. Existing
-race/score payloads stay immutable. Aborted/restarted attempts emit no score.
-If a slot has no captured confirmed name, its score omits `player` entirely;
-a later name event resolves earlier attempts through the participant UUID.
-The authoritative finish time is used, not the best time in the score table.
-
-Sessions/participant IDs reset on roster selection/restart generation, roster
-size changes, exit, map or script/UI replacement. The configured human count
-is `Net_NbPlayer`, not the shared engine count `Net_NbPlayers`. This verified
-path requires one engine racer; unverified double-driver/multiple-racer variants
-are excluded. At most 16 slot
-identities and one last-scored attempt ID are kept. Secret variants are excluded;
-Next keeps its race capture and does not invent the Turbo name-entry lifecycle.
-The new Hot Seat path remains experimental pending live validation, including
-late names, identical-name confirmation, slot switching, restart and teardown.
+Name capture requires the verified standard Turbo mode and one local terminal;
+Hot Seat also requires one shared engine racer. Secret and unverified
+multiple-racer variants emit no name/score events. Next retains its existing
+race capture with attempt IDs and emits no unverified Turbo-style session events.
+If runtime name access fails, that name-capture path stops until plugin reload;
+normal race capture continues. See [the contract](docs/webhook-contract.md) for
+payloads and identity rules.

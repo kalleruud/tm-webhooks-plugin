@@ -236,7 +236,7 @@ components:
         sessionId:
           type: string
           format: uuid
-          description: Local arcade or hot-seat session identity when experimental name capture is enabled and verified state is available.
+          description: Local arcade or hot-seat session identity when verified mode state is available.
         turnId:
           type: string
           format: uuid

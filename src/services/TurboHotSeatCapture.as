@@ -20,10 +20,17 @@ class TurboHotSeatCapture
     int previousHandover;
     bool baseline;
     bool valid;
+    bool disabled;
     string scoredAttempt;
     array<HotSeatParticipant@> participants;
 
     TurboHotSeatCapture(WebhookDelivery@ sender) { @delivery = sender; }
+
+    void Disable()
+    {
+        Reset();
+        disabled = true;
+    }
 
     void Reset()
     {
@@ -43,9 +50,10 @@ class TurboHotSeatCapture
     void BeforeRound(GameObservation@ observation)
     {
         valid = false;
+        if (disabled) return;
         auto app = cast<CGameManiaPlanet>(GetApp());
         if (observation is null || !observation.local || observation.mode is null || observation.mode.name != "hot-seat" ||
-            !Setting_HotSeatScores || !CaptureEnabled() || app is null || app.Challenge is null ||
+            !CaptureEnabled() || app is null || app.Challenge is null ||
             app.Challenge.IdName.Length == 0 || app.CurrentPlayground is null ||
             app.CurrentPlayground.GameTerminals.Length != 1 || app.PlaygroundScript is null ||
             app.PlaygroundScript.ServerModeName != "TMC_HotSeat" || app.PlaygroundScript.UIManager is null) {
@@ -110,11 +118,9 @@ class TurboHotSeatCapture
         previousHandover = handover;
         previousTrigger = trigger;
         baseline = true;
-        if (observation !is null && observation.mode !is null && observation.mode.name == "hot-seat") {
-            for (uint i = 0; i < observation.players.Length; i++) {
-                observation.players[i].sessionId = sessionId;
-                observation.players[i].participantId = participants[slot].id;
-            }
+        for (uint i = 0; i < observation.players.Length; i++) {
+            observation.players[i].sessionId = sessionId;
+            observation.players[i].participantId = participants[slot].id;
         }
     }
 
@@ -160,7 +166,6 @@ class TurboHotSeatCapture
     void Enqueue(CapturedEvent@ event)
     {
         delivery.Enqueue(event.eventId, event.eventType, event.sequence, SerializeEvent(event));
-        print("[hot-seat] " + event.eventType + " participant=" + event.participantId + " sessionSequence=" + event.sequence);
     }
 }
 #endif
