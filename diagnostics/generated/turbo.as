@@ -1265,13 +1265,13 @@ void DiagnosticsRead_CAudioScriptMusic(DiagnosticsCapture@ c, CAudioScriptMusic@
     try { c.Field(fields, "CAudioScriptMusic.UpdateMode", Json::Value(int(node.UpdateMode))); } catch { c.Skipped("CAudioScriptMusic.UpdateMode", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.Dbg_ForceIntensity";
-    try { c.Field(fields, "CAudioScriptMusic.Dbg_ForceIntensity", Json::Value(node.Dbg_ForceIntensity)); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceIntensity", "failed", "getter exception"); }
+    try { c.Skipped("CAudioScriptMusic.Dbg_ForceIntensity", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceIntensity", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.Dbg_ForceSequential";
-    try { c.Field(fields, "CAudioScriptMusic.Dbg_ForceSequential", Json::Value(node.Dbg_ForceSequential)); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceSequential", "failed", "getter exception"); }
+    try { c.Skipped("CAudioScriptMusic.Dbg_ForceSequential", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceSequential", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.Dbg_ForceRandom";
-    try { c.Field(fields, "CAudioScriptMusic.Dbg_ForceRandom", Json::Value(node.Dbg_ForceRandom)); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceRandom", "failed", "getter exception"); }
+    try { c.Skipped("CAudioScriptMusic.Dbg_ForceRandom", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceRandom", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.LPF_CutoffRatio";
     try { c.Field(fields, "CAudioScriptMusic.LPF_CutoffRatio", c.Number(double(node.LPF_CutoffRatio))); } catch { c.Skipped("CAudioScriptMusic.LPF_CutoffRatio", "failed", "getter exception"); }
@@ -1292,7 +1292,7 @@ void DiagnosticsRead_CAudioScriptMusic(DiagnosticsCapture@ c, CAudioScriptMusic@
     try { c.Field(fields, "CAudioScriptMusic.FadeFiltersDuration", c.Number(double(node.FadeFiltersDuration))); } catch { c.Skipped("CAudioScriptMusic.FadeFiltersDuration", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.UseNewImplem";
-    try { c.Field(fields, "CAudioScriptMusic.UseNewImplem", Json::Value(node.UseNewImplem)); } catch { c.Skipped("CAudioScriptMusic.UseNewImplem", "failed", "getter exception"); }
+    try { c.Skipped("CAudioScriptMusic.UseNewImplem", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CAudioScriptMusic.UseNewImplem", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CAudioScriptSound(DiagnosticsCapture@ c, CAudioScriptSound@ node, Json::Value &inout fields, uint depth)
 {
@@ -18569,7 +18569,7 @@ void DiagnosticsRead_CGameSafeFrame(DiagnosticsCapture@ c, CGameSafeFrame@ node,
     try { c.Field(fields, "CGameSafeFrame.Zoom", c.Number(double(node.Zoom))); } catch { c.Skipped("CGameSafeFrame.Zoom", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CGameSafeFrame.Position";
-    try { c.Field(fields, "CGameSafeFrame.Position", c.Text(tostring(node.Position))); } catch { c.Skipped("CGameSafeFrame.Position", "failed", "getter exception"); }
+    try { c.Skipped("CGameSafeFrame.Position", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CGameSafeFrame.Position", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CGameSafeFrame.AutoZoom";
     try { c.Field(fields, "CGameSafeFrame.AutoZoom", Json::Value(node.AutoZoom)); } catch { c.Skipped("CGameSafeFrame.AutoZoom", "failed", "getter exception"); }
@@ -26866,7 +26866,7 @@ void DiagnosticsRead_CPlugSpline3D(DiagnosticsCapture@ c, CPlugSpline3D@ node, J
     try { c.Field(fields, "CPlugSpline3D.Length", c.Number(double(node.Length))); } catch { c.Skipped("CPlugSpline3D.Length", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CPlugSpline3D.Translate";
-    try { c.Field(fields, "CPlugSpline3D.Translate", c.Text(tostring(node.Translate))); } catch { c.Skipped("CPlugSpline3D.Translate", "failed", "getter exception"); }
+    try { c.Skipped("CPlugSpline3D.Translate", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CPlugSpline3D.Translate", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CPlugSpline3D.Keys";
     try { c.Field(fields, "CPlugSpline3D.Keys", c.Link(node.Keys, depth + 1)); } catch { c.Skipped("CPlugSpline3D.Keys", "failed", "getter exception"); }
@@ -30665,7 +30665,7 @@ void DiagnosticsRead_CSmPlayer(DiagnosticsCapture@ c, CSmPlayer@ node, Json::Val
     try { c.Field(fields, "CSmPlayer.GetLinearHue", c.Number(double(node.GetLinearHue))); } catch { c.Skipped("CSmPlayer.GetLinearHue", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CSmPlayer.ForceLinearHue";
-    try { c.Field(fields, "CSmPlayer.ForceLinearHue", c.Number(double(node.ForceLinearHue))); } catch { c.Skipped("CSmPlayer.ForceLinearHue", "failed", "getter exception"); }
+    try { c.Skipped("CSmPlayer.ForceLinearHue", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CSmPlayer.ForceLinearHue", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CSmPlayer.ForceModelId";
     try { c.Field(fields, "CSmPlayer.ForceModelId", Json::Value(node.ForceModelId.Value)); } catch { c.Skipped("CSmPlayer.ForceModelId", "failed", "getter exception"); }

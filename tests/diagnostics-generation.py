@@ -4,6 +4,7 @@ import importlib.util
 import json
 import subprocess
 import tempfile
+from unittest.mock import patch
 import unittest
 import zipfile
 from pathlib import Path
@@ -43,6 +44,36 @@ class DiagnosticsTests(unittest.TestCase):
                     if gen.PRIVATE.search(member['name']):
                         self.assertIn(f'c.Skipped("{key}", "excluded"', existing)
             self.assertNotIn('Dev::', existing)
+
+    def test_write_only_properties_never_generate_read_expressions(self):
+        # These exact property reads were rejected by Turbo 1.29.14 before the
+        # compiler asserted in ImplicitConversion. Check both games, even when a
+        # particular property is absent from one game's documentation.
+        for game in gen.GAMES:
+            inventory = json.loads((gen.OUT / f'{game}-api.json').read_text())
+            existing = (gen.OUT / f'{game}.as').read_text()
+            for item in inventory:
+                for member in item['members']:
+                    key = item['name'] + '.' + member['name']
+                    if key not in gen.WRITE_ONLY_MEMBERS:
+                        continue
+                    start = existing.index(f'void DiagnosticsRead_{item["name"]}(')
+                    end = existing.index('\n}', start)
+                    collector = existing[start:end]
+                    self.assertIn(f'c.Skipped("{key}", "unsupported", "getter unavailable', collector)
+                    self.assertNotRegex(collector, r'\bnode\.' + member['name'] + r'\b')
+
+    def test_explicit_accessor_metadata_overrides_an_otherwise_readable_type(self):
+        inventory = [{'name': 'CMwNod', 'nod': True, 'members': [
+            {'name': 'WriteOnly', 'type': 'float', 'readable': False},
+            {'name': 'Readable', 'type': 'float', 'readable': True},
+        ]}]
+        with tempfile.TemporaryDirectory() as directory, patch.object(gen, 'OUT', Path(directory)):
+            gen.generate('test', 'TURBO', inventory)
+            code = (Path(directory) / 'test.as').read_text()
+            self.assertNotIn('node.WriteOnly', code)
+            self.assertIn('getter unavailable', code)
+            self.assertIn('node.Readable', code)
 
     def test_production_has_no_diagnostics_source_or_define(self):
         with tempfile.TemporaryDirectory() as directory:

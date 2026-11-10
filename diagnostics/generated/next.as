@@ -1280,13 +1280,13 @@ void DiagnosticsRead_CAudioScriptMusic(DiagnosticsCapture@ c, CAudioScriptMusic@
     try { c.Field(fields, "CAudioScriptMusic.UpdateMode", Json::Value(int(node.UpdateMode))); } catch { c.Skipped("CAudioScriptMusic.UpdateMode", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.Dbg_ForceIntensity";
-    try { c.Field(fields, "CAudioScriptMusic.Dbg_ForceIntensity", Json::Value(node.Dbg_ForceIntensity)); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceIntensity", "failed", "getter exception"); }
+    try { c.Skipped("CAudioScriptMusic.Dbg_ForceIntensity", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceIntensity", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.Dbg_ForceSequential";
-    try { c.Field(fields, "CAudioScriptMusic.Dbg_ForceSequential", Json::Value(node.Dbg_ForceSequential)); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceSequential", "failed", "getter exception"); }
+    try { c.Skipped("CAudioScriptMusic.Dbg_ForceSequential", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceSequential", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.Dbg_ForceRandom";
-    try { c.Field(fields, "CAudioScriptMusic.Dbg_ForceRandom", Json::Value(node.Dbg_ForceRandom)); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceRandom", "failed", "getter exception"); }
+    try { c.Skipped("CAudioScriptMusic.Dbg_ForceRandom", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CAudioScriptMusic.Dbg_ForceRandom", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.LPF_CutoffRatio";
     try { c.Field(fields, "CAudioScriptMusic.LPF_CutoffRatio", c.Number(double(node.LPF_CutoffRatio))); } catch { c.Skipped("CAudioScriptMusic.LPF_CutoffRatio", "failed", "getter exception"); }
@@ -1307,7 +1307,7 @@ void DiagnosticsRead_CAudioScriptMusic(DiagnosticsCapture@ c, CAudioScriptMusic@
     try { c.Field(fields, "CAudioScriptMusic.FadeFiltersDuration", c.Number(double(node.FadeFiltersDuration))); } catch { c.Skipped("CAudioScriptMusic.FadeFiltersDuration", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.member = "CAudioScriptMusic.UseNewImplem";
-    try { c.Field(fields, "CAudioScriptMusic.UseNewImplem", Json::Value(node.UseNewImplem)); } catch { c.Skipped("CAudioScriptMusic.UseNewImplem", "failed", "getter exception"); }
+    try { c.Skipped("CAudioScriptMusic.UseNewImplem", "unsupported", "getter unavailable; compile-time read excluded"); } catch { c.Skipped("CAudioScriptMusic.UseNewImplem", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CAudioScriptSound(DiagnosticsCapture@ c, CAudioScriptSound@ node, Json::Value &inout fields, uint depth)
 {

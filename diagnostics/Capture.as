@@ -62,7 +62,7 @@ class DiagnosticsCapture
 
     Json::Value Text(const string &in value)
     {
-        if (value.Length <= maxString) return Json::Value(value);
+        if (uint(value.Length) <= maxString) return Json::Value(value);
         truncated++;
         Json::Value result = Json::Object();
         result["status"] = "truncated";
@@ -229,7 +229,7 @@ class DiagnosticsCapture
         result["pluginVersion"] = Meta::ExecutingPlugin().Version;
         result["runtimeVersion"] = Meta::OpenplanetVersion();
         result["runtimeCommit"] = Meta::OpenplanetVersionGitCommit();
-        result["collectorVersion"] = "1.0.0";
+        result["collectorVersion"] = "1.0.1";
         result["game"] = AdapterGameName();
         result["inventoryHash"] = DiagnosticsInventoryHash();
         result["objects"] = objectsRead;

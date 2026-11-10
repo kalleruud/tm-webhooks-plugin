@@ -73,9 +73,17 @@ spool file is eligible for Retry. Neither endpoint nor token is persisted there.
 The generator follows documented object-reference types, base classes, and their
 derived classes from `CTrackMania`. It emits typed property reads and bounded
 array traversal, never arbitrary method calls, constructors for game objects,
-or memory-offset reads. Readable and writable exposed properties are both read;
+or memory-offset reads. Properties with readable accessors are collected;
 no game property is written. The packaged inventories are appended as API-definition records (within the same
 capture budgets), including method signatures as reference metadata; methods are not invoked just because they exist.
+
+Public type pages do not distinguish every setter-only property from readable
+state. The generator excludes seven properties confirmed to lack get accessors by
+Turbo 1.29.14's compiler log, conservatively in both games, and respects explicit
+`readable: false` member metadata. These remain in the inventory and appear as
+unsupported with a getter-unavailable reason. Catching a runtime exception cannot
+protect a read rejected during compilation. Other runtime/API mismatches still
+require compile/load validation against the installed Openplanet version.
 
 A capture walks **live objects reachable from `GetApp()`**. It does not fabricate
 instances for classes absent from the active mode, and it cannot read every API

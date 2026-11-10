@@ -73,6 +73,21 @@ def refresh(game, root):
 
 
 PRIVATE = re.compile(r'token|password|secret|authorization|credential|cookie|login|account|profile|username|nickname|author|buddy|buddies|friend|url|folder|path|directory|filename|chat|message|email|address|ipaddress', re.I)
+# The public type pages list setters alongside readable fields without exposing
+# accessor flags. Turbo 1.29.14's compiler log confirms these seven have no get
+# accessor. Skip them in both games until runtime type metadata proves otherwise;
+# try/catch cannot protect a property expression that fails at compile time.
+WRITE_ONLY_MEMBERS = frozenset({
+    'CAudioScriptMusic.Dbg_ForceIntensity',
+    'CAudioScriptMusic.Dbg_ForceSequential',
+    'CAudioScriptMusic.Dbg_ForceRandom',
+    'CAudioScriptMusic.UseNewImplem',
+    'CGameSafeFrame.Position',
+    'CPlugSpline3D.Translate',
+    'CSmPlayer.ForceLinearHue',
+})
+
+
 PRIMITIVES = {'bool', 'int', 'uint', 'int8', 'uint8', 'int16', 'uint16', 'int64', 'uint64', 'float', 'double', 'string', 'wstring', 'MwId', 'vec2', 'vec3', 'vec4', 'int2', 'int3', 'nat2', 'nat3', 'quat', 'iso4', 'mat3', 'mat4'}
 
 
@@ -119,7 +134,10 @@ def generate(game, define, inventory):
             expr = f'node.{field}'
             arr = re.fullmatch(r'Mw(?:FastBuffer|FastArray|SArray|StridedArray|Array)<(.+)>', typ)
             value = expression(arr[1] if arr else typ, f'{expr}[i]' if arr else expr, names)
-            if PRIVATE.search(field):
+            if key in WRITE_ONLY_MEMBERS or member.get('readable') is False:
+                code = f'c.Skipped("{key}", "unsupported", "getter unavailable; compile-time read excluded")'
+                counts['unsupported'] += 1
+            elif PRIVATE.search(field):
                 code = f'c.Skipped("{key}", "excluded", "sensitive-name policy")'
                 counts['excluded'] += 1
             elif value is None:
