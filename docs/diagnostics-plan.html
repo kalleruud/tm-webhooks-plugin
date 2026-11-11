@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Diagnostics harness plan</title>
+    <style>
+      :root {
+        font-family: var(--font-sans, system-ui);
+        color: var(--foreground);
+        line-height: 1.55;
+      }
+      body {
+        margin: 0;
+      }
+      h1 {
+        font-size: 28px;
+        margin: 0 0 8px;
+      }
+      h2 {
+        font-size: 19px;
+        margin: 0 0 8px;
+      }
+      p {
+        margin: 8px 0;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius, 10px);
+        padding: 16px;
+        margin: 14px 0;
+      }
+      .tag {
+        color: var(--primary);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      li {
+        margin: 7px 0;
+      }
+      code {
+        font-family: var(--font-mono, monospace);
+        font-size: 0.9em;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td,
+      th {
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+        padding: 9px 5px;
+        vertical-align: top;
+      }
+      small {
+        color: var(--muted-foreground);
+      }
+      a {
+        color: var(--primary);
+      }
+    </style>
+  </head>
+  <body>
+    <span class="tag">Implementation proposal · Turbo + Next</span>
+    <h1>Plugin diagnostics harness</h1>
+    <p>
+      A dedicated receiver and an exhaustive, on-demand game-state probe,
+      shipped in a separate diagnostics build. Production packages exclude the
+      probe, its settings, and its startup hooks.
+    </p>
+    <section>
+      <h2>Architecture</h2>
+      <p>
+        <strong
+          >Diagnostics settings → capture job → typed collectors → bounded JSON
+          chunks → independent uploader → receiver → raw dumps + coverage
+          report</strong
+        >
+      </p>
+      <p>
+        The existing race-event queue remains independent. A diagnostics capture
+        works even when the normal webhook endpoint is empty.
+      </p>
+    </section>
+    <section>
+      <h2>1 · Verify API coverage first</h2>
+      <ul>
+        <li>
+          Inventory Turbo and Next types, readable members, game globals, and
+          supported helper APIs against the installed Openplanet versions and
+          their references.
+        </li>
+        <li>
+          Prototype reflection enumeration and value reads in both games. Use
+          generated, typed AngelScript collectors wherever generic reflection
+          cannot safely read values.
+        </li>
+        <li>
+          Record every inventoried member as captured, unavailable in this
+          game/state, excluded, unsupported, failed, or truncated, with a
+          reason. Track definitions separately from live values.
+        </li>
+      </ul>
+      <p>
+        <strong>Scope:</strong> exhaustive coverage of accessible, read-only
+        state. Enumerate method signatures where supported; invoke only verified
+        read-only getters. Do not blindly call game methods, scan raw memory, or
+        construct every game type. Some state exists only in particular modes.
+      </p>
+      <small
+        >Reference access currently returns HTTP 403. Reflection and
+        serialization capabilities must be proven before committing to exact
+        coverage.</small
+      >
+    </section>
+    <section>
+      <h2>2 · Build the diagnostics receiver</h2>
+      <ul>
+        <li>
+          Add a standalone Bun service under
+          <code>tools/diagnostics-receiver/</code>, with a configurable bind
+          address, port, storage directory, and dedicated bearer token.
+        </li>
+        <li>
+          Provide <code>POST /diagnostics/v1/chunks</code> and a health
+          endpoint. Validate schema version, capture ID, chunk index, declared
+          limits, and content hash before accepting a chunk.
+        </li>
+        <li>
+          Persist chunks atomically; acknowledge only durable writes.
+          Deduplicate identical retries and reject conflicting chunks. Track
+          incomplete captures and finalize only when the manifest and all
+          expected chunks exist.
+        </li>
+        <li>
+          Store raw JSON, capture metadata, coverage summaries, and per-section
+          errors. Supply CLI commands to list captures, inspect them, and
+          compare two captures by object path.
+        </li>
+        <li>
+          Bound request size, total capture size, disk retention, and
+          incomplete-upload lifetime. Include local run instructions and an
+          example endpoint; deployment is a separate step.
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>3 · Add the complete dump probe</h2>
+      <p>
+        Collect reachable state from the app, menu, playground, map, game mode,
+        scripts, rules, players, local inputs, race timers, checkpoints, laps,
+        scores, vehicles, camera, and exposed UI/editor state. Include Next
+        helper data when available and equivalent Turbo sources.
+      </p>
+      <ul>
+        <li>
+          Provide “Capture full dump”, cancel, progress, and last-result
+          controls, plus optional short capture sequences for before/after
+          transitions.
+        </li>
+        <li>
+          Walk reachable objects with stable dump-local IDs and references for
+          cycles; serialize primitives, enums, strings, vectors, arrays, and
+          object references with explicit type information.
+        </li>
+        <li>
+          Yield between bounded batches. Enforce time, depth, object-count,
+          array-length, string-length, and byte budgets; use generous full-dump
+          defaults with visible truncation and configurable limits.
+        </li>
+        <li>
+          Revalidate handles as scenes change. Isolate recoverable collector
+          errors; describe multi-frame captures with start/end times and
+          per-section timestamps rather than claiming one atomic snapshot.
+        </li>
+        <li>
+          Include game/plugin/runtime versions, build identity, active mode,
+          collector version, API inventory hash, limits, coverage counts, and
+          capture completion state.
+        </li>
+        <li>
+          Exclude authentication material and plugin secrets at collection time.
+          Player identifiers and other sensitive game values get an explicit
+          configurable policy documented in the diagnostics UI.
+        </li>
+      </ul>
+    </section>
+    <section>
+      <h2>4 · Separate configuration and delivery</h2>
+      <p>
+        Add a Diagnostics settings category with its own endpoint URL, bearer
+        token, capture limits, and upload status. Empty endpoint disables
+        uploads; captures require an explicit action. Never fall back to the
+        normal webhook URL or token.
+      </p>
+      <p>
+        Use a separate bounded upload queue with timeouts, cancellation, retry
+        backoff, Retry-After support, and stable chunk IDs. Retain a bounded
+        local spool for interrupted uploads, with visible cleanup controls.
+        Avoid logging payloads or credentials.
+      </p>
+    </section>
+    <section>
+      <h2>5 · Keep diagnostics out of production</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Build</th>
+            <th>Contents</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Production · default</strong></td>
+            <td>
+              Existing race webhooks; no diagnostics source, settings,
+              collectors, or hooks.
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Diagnostics · explicit</strong></td>
+            <td>
+              Same webhook plugin plus diagnostics module and guarded
+              integration hooks; visibly identified artifact.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        Extend both Bash and PowerShell packaging using staged files and a
+        diagnostics-only preprocessor define, verified against Openplanet
+        metadata. Keep common settings free of diagnostics declarations. Produce
+        distinct artifact names and automatically inspect production archives
+        for accidental diagnostics inclusion.
+      </p>
+    </section>
+    <section>
+      <h2>6 · Define and verify the contract</h2>
+      <ul>
+        <li>
+          Update <code>openapi.yaml</code> and
+          <code>docs/webhook-contract.md</code> with the separate diagnostics
+          protocol, authentication, manifest/chunk schemas, error semantics,
+          limits, and retry rules. Add receiver, build, and capture
+          documentation.
+        </li>
+        <li>
+          Test valid and malformed uploads, duplicate/conflicting chunks,
+          missing/out-of-order chunks, interrupted writes, auth failures,
+          oversized payloads, retention, and reconstruction.
+        </li>
+        <li>
+          Verify serializers for cycles, nulls, unusual numeric values,
+          unavailable fields, truncation, and scene changes. Exercise timeout,
+          offline, retry, cancellation, and spool recovery.
+        </li>
+        <li>
+          Build both variants through both packaging scripts where runtimes are
+          available; run existing fixture validation and
+          <code>npx prettier -w .</code>.
+        </li>
+        <li>
+          Compile/load in real Turbo and Next runtimes. Capture menus, loading,
+          solo races, supported multiplayer-local modes, respawn, finish, and
+          map transitions. Measure capture frame cost, memory, upload size, and
+          coverage.
+        </li>
+      </ul>
+      <p>
+        <strong>Done means:</strong> both games deliver reconstructable dumps
+        with honest coverage reports; normal race delivery still works;
+        interrupted captures are identifiable; production archives contain no
+        diagnostics implementation. Runtime checks that require your game
+        installations will be listed explicitly.
+      </p>
+    </section>
+    <p>
+      <small
+        >Current repository: normal webhook settings only, no receiver service,
+        and one shared package containing the entire src tree. Proposed order:
+        API feasibility → receiver/contract → probe → uploader/UI → packaging →
+        end-to-end verification.</small
+      >
+    </p>
+    <p>
+      <small
+        >API references: <a href="https://turbo.openplanet.dev/">Turbo</a> ·
+        <a href="https://next.openplanet.dev/">Next</a> ·
+        <a href="https://openplanet.dev/docs/reference/preprocessor"
+          >Openplanet preprocessor</a
+        >. This is the planning deliverable; implementation has not
+        started.</small
+      >
+    </p>
+  </body>
+</html>

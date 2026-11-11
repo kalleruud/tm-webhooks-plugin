@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: TM Webhooks
-  version: 1.0.0
+  version: 1.2.0
   description: Webhook contract emitted by the Trackmania Turbo and Trackmania Next plugins.
 servers:
   - url: https://webhook-receiver.example.org/api
@@ -101,8 +101,63 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /diagnostics/v1/chunks:
+    post:
+      operationId: receiveDiagnosticsChunk
+      summary: Receive a diagnostics stream packet or legacy chunk
+      description: >-
+        Separate standalone diagnostics receiver, not the race webhook service.
+        Requires the dedicated diagnostics token. Schema 1.1.0 streams individual
+        records (maximum 32 KiB, 32768 packets) without a total; the final manifest
+        index defines the total. Schema 1.0.0 accepts legacy chunks (maximum 1 MiB,
+        1024 chunks) with a declared total. Captures are capped at 32 MiB including
+        metadata reserve. Out-of-order packets and identical duplicates are
+        accepted; gaps or a lost manifest remain incomplete. Acknowledgements
+        follow writes; streaming senders do not wait for them or retry failures.
+      servers:
+        - url: http://127.0.0.1:8787
+          description: Default local diagnostics receiver.
+      security:
+        - diagnosticsBearer: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiagnosticsPacket'
+      responses:
+        '200':
+          description: Identical chunk already stored.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiagnosticsAck'
+        '201':
+          description: Chunk stored; complete is true only when all chunks exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiagnosticsAck'
+        '400':
+          description: Invalid JSON or chunk contract.
+        '401':
+          description: Missing or incorrect dedicated bearer token.
+        '409':
+          description: Conflicting chunk content, game, or total for this capture ID.
+        '413':
+          description: Chunk or capture exceeds size limits.
+        '415':
+          description: Content type must be application/json.
+        '503':
+          description: Temporary storage failure. Best-effort senders drop the packet.
+        '507':
+          description: Receiver storage quota exhausted; free space or let retention expire.
 components:
   securitySchemes:
+    diagnosticsBearer:
+      type: http
+      scheme: bearer
+      description: Required dedicated diagnostics receiver token; independent of race webhooks.
     bearerAuth:
       type: http
       scheme: bearer
@@ -113,6 +168,249 @@ components:
       schema:
         type: string
   schemas:
+    DiagnosticsPacket:
+      oneOf:
+        - $ref: '#/components/schemas/DiagnosticsChunk'
+        - $ref: '#/components/schemas/DiagnosticsStreamPacket'
+    DiagnosticsStreamPacket:
+      type: object
+      required: [schemaVersion, captureId, game, index, kind, data]
+      not:
+        properties:
+          total: {}
+        required: [total]
+      properties:
+        schemaVersion:
+          type: string
+          const: 1.1.0
+        captureId:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+        game:
+          type: string
+          enum: [turbo, next]
+        index:
+          type: integer
+          minimum: 0
+          maximum: 32767
+          description: Increasing attempted-record index; the final manifest's index defines the last index.
+        kind:
+          type: string
+          enum: [record, manifest]
+        data:
+          type: object
+          additionalProperties: true
+          allOf:
+            - if:
+                required: [kind]
+                properties:
+                  kind:
+                    const: run-sample
+              then:
+                $ref: '#/components/schemas/DiagnosticsRunSample'
+      allOf:
+        - if:
+            properties:
+              kind:
+                const: record
+          then:
+            properties:
+              index:
+                maximum: 32766
+        - if:
+            properties:
+              kind:
+                const: manifest
+          then:
+            properties:
+              data:
+                $ref: '#/components/schemas/DiagnosticsManifest'
+    DiagnosticsRunSample:
+      type: object
+      additionalProperties: true
+      required:
+        [
+          kind,
+          recordingId,
+          recordSequence,
+          elapsedMs,
+          observedAt,
+          playerId,
+          playerIndex,
+          sampleSequence,
+          mapUid,
+          apiType,
+          race,
+          sources,
+        ]
+      properties:
+        kind:
+          type: string
+          const: run-sample
+        recordingId:
+          type: string
+          format: uuid
+          description: Stable capture ID from recording Start until Stop or a limit.
+        recordSequence:
+          type: integer
+          minimum: 0
+          description: Matches the attempted stream packet index, including gaps for drops.
+        elapsedMs:
+          type: integer
+          minimum: 0
+          description: Observed monotonic milliseconds since recording start.
+        observedAt:
+          type: string
+        sampleSequence:
+          type: integer
+          minimum: 1
+        playerId:
+          type: string
+          description: Recording-local identity from game user identity and roster slot.
+        playerIndex:
+          type: integer
+          minimum: 0
+        userKey:
+          type: string
+          description: Source user identity; can be shared by split-screen participants.
+        name:
+          type: string
+          description: Display name, intentionally included with the user's requested player details.
+        mapUid:
+          type: string
+        attemptToken:
+          type: string
+          description: Source start token and map; changes are evidence to inspect, not proof of a restart.
+        apiType:
+          type: string
+        race:
+          type: object
+          additionalProperties: true
+          description: Race clock, state, checkpoint history, laps, respawns and finish where exposed. Missing fields remain absent.
+        input:
+          type: object
+          additionalProperties: true
+          description: Throttle, braking and steering, where exposed.
+        vehicle:
+          type: object
+          additionalProperties: true
+          description: Native speed, display speed, position, velocity, gears, RPM, contacts, skidding and damage where exposed. No unverified unit conversion.
+        sources:
+          type: object
+          additionalProperties:
+            type: string
+          description: Per-sample source overrides. Recording-start sources supply default field-to-API mappings.
+    DiagnosticsChunk:
+      type: object
+      required: [schemaVersion, captureId, game, index, total, kind, data]
+      properties:
+        schemaVersion:
+          type: string
+          const: 1.0.0
+        captureId:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+        game:
+          type: string
+          enum: [turbo, next]
+        index:
+          type: integer
+          minimum: 0
+          maximum: 1023
+        total:
+          type: integer
+          minimum: 2
+          maximum: 1024
+        kind:
+          type: string
+          enum: [records, manifest]
+        data:
+          oneOf:
+            - type: array
+              items:
+                type: object
+                additionalProperties: true
+            - $ref: '#/components/schemas/DiagnosticsManifest'
+      allOf:
+        - if:
+            properties:
+              kind:
+                const: records
+          then:
+            properties:
+              data:
+                type: array
+        - if:
+            properties:
+              kind:
+                const: manifest
+          then:
+            properties:
+              data:
+                $ref: '#/components/schemas/DiagnosticsManifest'
+    DiagnosticsManifest:
+      type: object
+      additionalProperties: true
+      required: [startedAt, endedAt, status]
+      properties:
+        startedAt:
+          type: string
+        endedAt:
+          type: string
+        status:
+          type: string
+          enum: [complete, truncated, cancelled, failed]
+        captureMode:
+          type: string
+          enum: [metadata-only, native-values, run-recorder]
+          description: Metadata-only captures omit generated native getters and helper value summaries.
+        attemptedRecords:
+          type: integer
+          minimum: 0
+        locallyDroppedRecords:
+          type: integer
+          minimum: 0
+        delivery:
+          type: string
+          description: Streaming is best-effort, without acknowledgement waits or retries.
+        inventoryHash:
+          type: string
+          description: SHA-256 of the normalized documented API inventory.
+        capturedFields:
+          type: integer
+          minimum: 0
+        excludedFields:
+          type: integer
+          minimum: 0
+        unsupportedFields:
+          type: integer
+          minimum: 0
+        failedFields:
+          type: integer
+          minimum: 0
+        truncations:
+          type: integer
+          minimum: 0
+    DiagnosticsAck:
+      type: object
+      required: [captureId, index, complete, missing]
+      properties:
+        captureId:
+          type: string
+          format: uuid
+        index:
+          type: integer
+          minimum: 0
+        complete:
+          type: boolean
+        missing:
+          type: [array, 'null']
+          description: Null until the streaming manifest supplies the final index.
+          items:
+            type: integer
+            minimum: 0
     Event:
       oneOf:
         - $ref: '#/components/schemas/StartEvent'

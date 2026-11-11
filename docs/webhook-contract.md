@@ -361,3 +361,55 @@ the playground, fall back to `aborted`.
   "endReason": "completed"
 }
 ```
+
+## Separate diagnostics transport
+
+Diagnostics builds optionally send large game-state captures to a **different**
+endpoint/token configured in the Diagnostics category. These are not race events,
+do not enter the race FIFO, and do not use race event headers or sequence numbers.
+Production archives omit diagnostics entirely. The diagnostics receiver requires
+a dedicated bearer token even when race webhooks are configured without auth.
+
+See [the diagnostics harness](diagnostics-harness.md) for the capture semantics,
+privacy exclusions, limits, stream ordering/idempotency, best-effort loss, retention,
+and receiver operations. `POST /diagnostics/v1/chunks` and its versioned envelope,
+manifest, and acknowledgement are specified alongside the race contract in
+[openapi.yaml](../openapi.yaml). A receiver-complete upload may contain a partial
+or truncated probe; consumers must inspect the manifest status and coverage.
+
+Diagnostic manifests optionally include `captureMode`: `metadata-only` skips
+generated native getters and helper value summaries; `native-values` enables
+them explicitly. Metadata-only is the default while investigating native getter
+freezes. A completed metadata capture does not imply game-state value coverage.
+
+Collector 1.1.0 uses periodic best-effort streaming on the same diagnostics endpoint.
+Each `schemaVersion: 1.1.0` packet has `captureId`, `game`, `index`, `kind`
+(`record` or `manifest`) and object `data`, with no declared `total`. The final
+manifest's index determines completion. Missing records or manifests remain
+incomplete; acknowledgements have `missing: null` until the final index is known.
+The plugin never waits for acknowledgements, retries failures, or spools whole
+dumps. Each stream packet is limited to 32 KiB; the sender uses 64 queue slots
+and four concurrent requests with five-second expiry. Collection intervals are
+configurable and captures never overlap. Legacy schema 1.0.0 chunks remain accepted.
+
+Collector 1.2.0 adds `captureMode: run-recorder` over the unchanged 1.1.0 stream
+envelope. One capture ID covers Start through Stop. Records include
+`run-recording-start`, `run-context`, `run-leaderboard`, `run-sample`,
+`run-native-event`, `run-coverage`, and `run-recording-end`, followed by a manifest.
+Each carries recording/record sequence and monotonic observation elapsed time.
+Player samples include recording-local player ID/roster slot, source user key,
+map/source attempt token, race/input/vehicle values and API provenance. Names and
+leaderboard player details are intentionally included. Missing native fields are
+omitted; native units are preserved without guessed conversions. Scores keep API
+list order distinct from rank. Stopping the recorder drains its existing queue.
+
+Timeline analysis keeps native events distinct from sampled transitions. An
+`impact_candidate` is explicitly an inference, not a confirmed wall collision.
+Sampling gaps and delivery gaps remain visible. See the run sample schema in
+OpenAPI and the harness guide for source mappings, timing and retention limits.
+
+Collector/build 1.2.1 keeps the same envelope and record shapes. HTTP dispatch now
+runs as bounded per-frame work: at most one request launch and one pending-request
+check per frame, with four requests in flight. It replaces the long-lived sender
+coroutine that exceeded Turbo's execution-time limit; collection still never
+waits for acknowledgements. Production packaging removes the diagnostic hook.

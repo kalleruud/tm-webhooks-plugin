@@ -1,0 +1,16 @@
+name: PR Diagnostics Harness
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  diagnostics:
+    name: Validate diagnostics receiver and packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+      - name: Receiver protocol and HTTP integration
+        run: bun test tests/diagnostics-receiver.test.mjs tests/diagnostics-timeline.test.mjs
+      - name: API generation and production isolation
+        run: python3 tests/diagnostics-generation.py

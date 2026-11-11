@@ -1,11 +1,14 @@
 [CmdletBinding()]
 param(
-    [ValidateSet("all", "shared", "unified")]
+    [ValidateSet("all", "shared", "unified", "diagnostics")]
     [string]$Target = "all",
-    [string]$OutputDirectory
+    [string]$OutputDirectory,
+    [ValidateSet("production", "diagnostics")]
+    [string]$Profile = "production"
 )
 
 $ErrorActionPreference = "Stop"
+if ($Target -eq "diagnostics") { $Profile = "diagnostics"; $Target = "all" }
 
 $repositoryRoot = Split-Path -Parent $PSScriptRoot
 if ([string]::IsNullOrWhiteSpace($OutputDirectory)) {
@@ -31,17 +34,34 @@ if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
     throw "Could not find $manifestPath"
 }
 
-$artifactPath = Join-Path $outputDirectoryPath "tm-webhooks.op"
+$artifactName = if ($Profile -eq "diagnostics") { "tm-webhooks-diagnostics.op" } else { "tm-webhooks.op" }
+$artifactPath = Join-Path $outputDirectoryPath $artifactName
 $temporaryZip = Join-Path $outputDirectoryPath "$([guid]::NewGuid()).zip"
+$stage = Join-Path ([System.IO.Path]::GetTempPath()) "tm-webhooks-$([guid]::NewGuid())"
 try {
-    Push-Location $repositoryRoot
-    try {
-        Compress-Archive -LiteralPath "info.toml", "src" -DestinationPath $temporaryZip -CompressionLevel Optimal
-    } finally {
-        Pop-Location
+    New-Item -ItemType Directory -Path $stage | Out-Null
+    Copy-Item -LiteralPath $manifestPath -Destination (Join-Path $stage "info.toml")
+    Copy-Item -LiteralPath $sourcePath -Destination (Join-Path $stage "src") -Recurse
+    $entries = @((Join-Path $stage "info.toml"), (Join-Path $stage "src"))
+    if ($Profile -eq "diagnostics") {
+        $diagnostics = Join-Path $stage "diagnostics"
+        New-Item -ItemType Directory -Path (Join-Path $diagnostics "generated") -Force | Out-Null
+        Copy-Item -Path (Join-Path $repositoryRoot "diagnostics/*.as") -Destination $diagnostics
+        Copy-Item -Path (Join-Path $repositoryRoot "diagnostics/generated/*.as") -Destination (Join-Path $diagnostics "generated")
+        Copy-Item -Path (Join-Path $repositoryRoot "diagnostics/generated/*-api.json") -Destination (Join-Path $diagnostics "generated")
+        $manifest = (Get-Content -LiteralPath $manifestPath -Raw) -replace 'name = "TM Webhooks"', 'name = "TM Webhooks (Diagnostics)"' -replace '(?m)^siteid = .*\r?\n', ''
+        $manifest += "`ndefines = [""DIAGNOSTICS""]`n"
+        [System.IO.File]::WriteAllText((Join-Path $stage "info.toml"), $manifest)
+        $entries += $diagnostics
+    } else {
+        $mainPath = Join-Path $stage "src/Main.as"
+        $main = (Get-Content -LiteralPath $mainPath -Raw) -replace '(?ms)^// DIAGNOSTICS_FRAME_PUMP_BEGIN\r?\n.*?^// DIAGNOSTICS_FRAME_PUMP_END\r?\n?', ''
+        [System.IO.File]::WriteAllText($mainPath, $main)
     }
+    Compress-Archive -LiteralPath $entries -DestinationPath $temporaryZip -CompressionLevel Optimal
     Copy-Item -LiteralPath $temporaryZip -Destination $artifactPath -Force
     Write-Output "Created $artifactPath"
 } finally {
     Remove-Item -LiteralPath $temporaryZip -Force -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath $stage -Recurse -Force -ErrorAction SilentlyContinue
 }
