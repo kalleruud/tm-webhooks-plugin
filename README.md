@@ -8,10 +8,13 @@
 
 ---
 
-The plugin sends a separate webhook for `start`, `first_throttle`,
-`checkpoint`, `lap`, `respawn`, `finish`, and `end`. Every event carries a UUID,
-an in-round sequence number, an RFC 3339 UTC timestamp, the in-game duration,
-and stable game/source metadata. See [the webhook contract](docs/webhook-contract.md)
+The plugin sends race webhooks for `start`, `first_throttle`, `checkpoint`,
+`lap`, `respawn`, `finish`, and `end`, with attempt IDs, per-round sequencing,
+UTC timestamps, in-game durations, and game/source metadata. Standard
+Turbo arcade capture adds confirmed-name `score` events. Standard Turbo
+Hot Seat capture adds `player_name` and completed-attempt `score` events with
+participant IDs and shared session sequencing. These session events omit
+race-only game/duration fields. See [the webhook contract](docs/webhook-contract.md)
 or [the OpenAPI description](openapi.yaml) for the complete payload model.
 
 ## Supported play
@@ -89,3 +92,32 @@ The output file is `dist/tm-webhooks.op`. The archive contains the root
 
 Unsigned builds require Openplanet Developer signature mode. Public
 distribution requires the normal Openplanet review and signing process.
+
+## Entered names and scores
+
+With an endpoint configured, standard Trackmania Turbo arcade and Hot Seat
+capture entered names automatically:
+
+- **Arcade:** one `score` after explicit name confirmation and commit links the
+  name to the captured attempts in that turn. Partial captures are marked
+  `captureComplete: false`; missing attempts are never fabricated. Cancelling
+  in countdown does not create a race or attempt ID. Timeout/default names do
+  not produce a score. Unverified rank, time and best-attempt data are omitted.
+- **Hot Seat:** `player_name` records a confirmed name or rename, and `score`
+  follows each captured completed attempt. A participant UUID identifies the
+  human slot across name edits and controller handovers. Default/profile names
+  are not substituted when no entered name was captured. Later name events can
+  resolve earlier attempts through the participant UUID.
+
+Race sequences belong to `game.gameId`; name/score sequences belong to
+`sessionId`. Name/score events omit race-only `game` and `durationMs` fields.
+The player name in an existing race snapshot remains engine metadata, while
+session events contain the entered name. Retries preserve the captured payload.
+
+Name capture requires the verified standard Turbo mode and one local terminal;
+Hot Seat also requires one shared engine racer. Secret and unverified
+multiple-racer variants emit no name/score events. Next retains its existing
+race capture with attempt IDs and emits no unverified Turbo-style session events.
+If runtime name access fails, that name-capture path stops until plugin reload;
+normal race capture continues. See [the contract](docs/webhook-contract.md) for
+payloads and identity rules.

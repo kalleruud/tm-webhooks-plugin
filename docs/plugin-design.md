@@ -2,22 +2,29 @@
 
 The plugin sends ordered webhooks when race events occur in supported local
 Trackmania modes. The detailed webhook payload model is defined in
-[`contract.md`](contract.md) and must remain synchronized with `openapi.yaml`.
+[`webhook-contract.md`](webhook-contract.md) and must remain synchronized with `openapi.yaml`.
 
 ## Glossary
 
 - **Game**: A complete race activity where one or more people race. In the
   supported scope, a game contains exactly one round and receives a new unique
-  game ID when that round begins. Multi-round correlation is out of scope.
+  game ID when that round begins. Standard Turbo arcade capture correlates rounds through session and turn UUIDs.
 - **Round**: One continuous in-game timing session, from its single `start`
   event through its single final `end` event. Stopping or restarting the timer
   ends the round. A new timer session is a new round and game.
+- **Attempt**: One captured player's continuously timed run. Its UUID v4 is
+  allocated by the shared round tracker before start serialization. The tracker
+  owns a frozen player snapshot, so adapter observations cannot change its ID
+  or metadata. All player events reuse it; respawns preserve it and a new round
+  replaces it. It is not a hot-seat participant or arcade turn identity.
 - **Player index**: The required zero-based identity for a player within one
   game. Platform account identifiers are optional metadata.
 
 In Trackmania Turbo hot seat, each player's continuously timed attempt is a
-separate round and game. The full configured roster is retained, while
-player-scoped events include a full snapshot of the active player.
+separate round and game. The race roster contains observed engine players, while Hot Seat
+session tracking assigns a separate participant UUID to each configured human
+slot. Player-scoped race events retain their engine snapshot and add that
+participant reference; the engine login is not a human identity.
 
 ## Supported Games and Modes
 
@@ -153,12 +160,12 @@ token from settings.
 
 ## Contract
 
-`contract.md` is the human-readable webhook model. `openapi.yaml` is the
+`docs/webhook-contract.md` is the human-readable webhook model. `openapi.yaml` is the
 machine-readable source for generated endpoint types. They must be updated in
 the same change whenever payloads, authentication, response codes, or headers
 change.
 
-The initial schema version is `1.0.0` and follows SemVer:
+The current unpublished schema version is `1.1.0` and follows SemVer:
 
 - MAJOR: removed or renamed fields, changed meanings or types, or removed event
   variants
@@ -189,3 +196,30 @@ CI must:
 - Verify representative JSON fixtures against every event schema.
 - Build the shared plugin artifact.
 - Run shared service tests against both game adapters where practical.
+
+## Arcade name correlation
+
+`TurboArcadeCapture` reads verified Turbo UI scalars before `RoundTracker`
+freezes player snapshots. It retains captured attempt IDs across round end and
+assigns session/turn context using observed mode phases and credit changes.
+A changed explicit name-submission trigger followed by insertion-index clearing
+confirms a committed name. The transient `ScoreWritten` flag is insufficient;
+stale initial triggers are ignored. Unavailable lifecycle data invalidates the
+pending association. Partial turns are marked incomplete and attempt retention
+is bounded at 256 references; overflow suppresses the score.
+
+## Hot Seat correlation
+
+`TurboHotSeatCapture` assigns participant UUIDs to configured human slots.
+Roster generation/count and selection/restart phases distinguish new sessions
+from controller handovers. A changed name trigger is accepted only with stable
+slot/handover counters. Completion uses the existing authoritative player
+observation and frozen attempt ownership, so switching slots or renaming cannot
+reassign a previous result. The existing finish precedes the score. Name and
+score events share session sequencing independently of race sequences.
+
+Both services activate automatically with an endpoint in their verified standard
+Turbo modes. Secret and unverified multiple-racer variants are excluded. The
+shared serializer separates session envelopes from race envelopes. Next retains
+race capture with attempt IDs. A runtime name-access exception disables that
+service until plugin reload while race capture continues.

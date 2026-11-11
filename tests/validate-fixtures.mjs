@@ -25,6 +25,7 @@ function assertNoEmptyStrings(value, path = '$') {
 function assertPlayer(player, index) {
   assert.ok(player)
   assert.equal(player.playerIndex, index)
+  assert.match(player.attemptId, uuid)
   if ('name' in player) assert.equal(typeof player.name, 'string')
   if ('login' in player) {
     assert.equal(typeof player.login, 'string')
@@ -54,7 +55,7 @@ function validateFixture(events, expectedEventTypes) {
 
   for (const event of events) {
     assertNoEmptyStrings(event)
-    assert.equal(event.schemaVersion, '1.0.0')
+    assert.equal(event.schemaVersion, '1.1.0')
     assert.match(event.eventId, uuid)
     assert.match(event.game.gameId, uuid)
     assert.equal(event.source.pluginName, 'TM Webhooks')
@@ -110,6 +111,10 @@ function validateFixture(events, expectedEventTypes) {
       )
     } else {
       assertPlayer(event.player, event.player.playerIndex)
+      assert.equal(
+        event.player.attemptId,
+        start.players[event.player.playerIndex].attemptId
+      )
       if (event.type !== 'first_throttle') assert.ok(event.checkpoint)
     }
   }
@@ -158,3 +163,29 @@ assert.ok(!('accountId' in nextEvents[2].player))
 console.log(
   `Validated ${turboEvents.length + nextEvents.length} webhook event fixtures.`
 )
+
+// Representative session payloads: arcade score, confirmed Hot Seat name and finish.
+const [arcade, name, score] = await readFixture('session-events.json')
+for (const event of [arcade, name, score]) {
+  assertNoEmptyStrings(event)
+  assert.equal(event.schemaVersion, '1.1.0')
+  assert.match(event.eventId, uuid)
+  assert.match(event.sessionId, uuid)
+  assert.ok(!('game' in event) && !('durationMs' in event))
+}
+assert.equal(arcade.type, 'score')
+assert.equal(arcade.mode, 'arcade')
+assert.match(arcade.turnId, uuid)
+arcade.attemptIds.forEach(id => assert.match(id, uuid))
+assert.equal(typeof arcade.captureComplete, 'boolean')
+assert.equal(name.type, 'player_name')
+assert.match(name.participantId, uuid)
+assert.equal(score.mode, 'hot-seat')
+assert.equal(score.sessionId, name.sessionId)
+assert.equal(score.participantId, name.participantId)
+assert.equal(score.player.name, name.name)
+assert.equal(score.sequence, name.sequence + 1)
+assert.match(score.attemptId, uuid)
+assert.equal(score.result.status, 'finished')
+assert.ok(Number.isInteger(score.result.timeMs) && score.result.timeMs >= 0)
+console.log('Validated arcade score and Hot Seat name/score payloads.')

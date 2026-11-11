@@ -1,0 +1,62 @@
+[
+  {
+    "schemaVersion": "1.1.0",
+    "type": "score",
+    "eventId": "e28f890d-eb39-4a70-8f69-ad139fe0e8f3",
+    "sequence": 0,
+    "occurredAt": "2026-11-09T17:43:33.750Z",
+    "source": {
+      "pluginName": "TM Webhooks",
+      "pluginVersion": "1.0.3",
+      "game": "turbo"
+    },
+    "sessionId": "08b71b17-dfa7-421b-895c-b28c2e55dbe3",
+    "turnId": "1367e330-058b-4a5c-b816-c1ffd437d9a9",
+    "mode": "arcade",
+    "mapUid": "ExampleMapUid",
+    "player": {
+      "name": "2222"
+    },
+    "attemptIds": ["57ef73e9-9407-4219-a08f-f4dd8e79c558"],
+    "captureComplete": true
+  },
+  {
+    "schemaVersion": "1.1.0",
+    "type": "player_name",
+    "eventId": "0b2b5412-9da6-4700-8343-c92f512ccf97",
+    "sequence": 0,
+    "occurredAt": "2026-11-09T19:20:00.000Z",
+    "source": {
+      "pluginName": "TM Webhooks",
+      "pluginVersion": "1.0.6",
+      "game": "turbo"
+    },
+    "sessionId": "0e4cb220-49d7-4c84-a42b-e4d21c212947",
+    "participantId": "d2d1593a-ae5b-4fcf-9cdc-ecfd2530bce2",
+    "name": "7777"
+  },
+  {
+    "schemaVersion": "1.1.0",
+    "type": "score",
+    "eventId": "908e2de4-61dc-40e5-86c4-799a9a2175b4",
+    "sequence": 1,
+    "occurredAt": "2026-11-09T19:20:00.000Z",
+    "source": {
+      "pluginName": "TM Webhooks",
+      "pluginVersion": "1.0.6",
+      "game": "turbo"
+    },
+    "sessionId": "0e4cb220-49d7-4c84-a42b-e4d21c212947",
+    "participantId": "d2d1593a-ae5b-4fcf-9cdc-ecfd2530bce2",
+    "mode": "hot-seat",
+    "mapUid": "ExampleMapUid",
+    "attemptId": "8d11a937-9e19-4382-97b7-0fcea4f1b10b",
+    "result": {
+      "status": "finished",
+      "timeMs": 26398
+    },
+    "player": {
+      "name": "7777"
+    }
+  }
+]

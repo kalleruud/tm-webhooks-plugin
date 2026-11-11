@@ -1,7 +1,7 @@
 # Webhook Contract
 
 This document defines the human-readable webhook model for schema version
-`1.0.0`. `openapi.yaml` is the machine-readable authority and must remain
+`1.1.0`. `openapi.yaml` is the machine-readable authority and must remain
 synchronized with this document.
 
 ## Transport
@@ -70,16 +70,40 @@ models instead of repeating their fields at the event root.
 
 ### Player
 
-| Field         | Type                 | Description                          | Rules                                        |
-| ------------- | -------------------- | ------------------------------------ | -------------------------------------------- |
-| `playerIndex` | non-negative integer | Position of the player in the roster | Required, zero-based, stable within the game |
-| `name`        | string               | Display name of the player           | Optional; omitted when unavailable           |
-| `login`       | string               | Game login of the player             | Optional; omitted when not exposed           |
-| `localId`     | string               | Decimal engine-local login ID        | Optional; Next-only                          |
-| `accountId`   | string               | Ubisoft/Nadeo WebServices account ID | Optional; Next-only                          |
+| Field           | Type                 | Description                          | Rules                                        |
+| --------------- | -------------------- | ------------------------------------ | -------------------------------------------- |
+| `sessionId`     | UUID string          | Local game session                   | Optional; verified arcade/Hot Seat capture   |
+| `turnId`        | UUID string          | Arcade turn across rounds            | Optional; arcade only                        |
+| `participantId` | UUID string          | Hot Seat human slot within session   | Optional; stable across confirmed renames    |
+| `attemptId`     | UUID string          | Identity of this captured attempt    | Required UUID v4, stable across all events   |
+| `playerIndex`   | non-negative integer | Position of the player in the roster | Required, zero-based, stable within the game |
+| `name`          | string               | Display name of the player           | Optional; omitted when unavailable           |
+| `login`         | string               | Game login of the player             | Optional; omitted when not exposed           |
+| `localId`       | string               | Decimal engine-local login ID        | Optional; Next-only                          |
+| `accountId`     | string               | Ubisoft/Nadeo WebServices account ID | Optional; Next-only                          |
 
 `start.players` is ordered by contiguous index, so
 `players[i].playerIndex == i`. Its length equals `game.totalPlayers`.
+Each entry has an independently generated UUID v4 in `attemptId`. Player race
+events carry the same value in `player.attemptId` as the corresponding
+`start.players[i].attemptId`. Checkpoints, laps, and checkpoint respawns retain
+it. A restart or new round assigns fresh IDs to every captured player, even
+when names, accounts, player indices, and times are unchanged. A split-screen
+round has a distinct attempt ID for each player. `game.gameId` continues to
+identify the round; `end` has no player or attempt ID.
+
+Receivers should use attempt IDs for attempt correlation instead of matching
+names or times. The attempt ID does not identify a human across hot-seat turns; participantId does.
+In standard Turbo arcade capture, `sessionId`
+and `turnId` are included in start player entries and player race events. In
+standard Turbo Hot Seat capture, `sessionId` and
+`participantId` are included instead.
+They correlate captured attempts across rounds. Session IDs reset on leaving
+arcade, map/script/UI replacement, or a change in the configured player count.
+Turn IDs follow observed arcade phase/credit lifecycle, never a count of finishes.
+Hot Seat participant IDs follow configured human slots independently of the
+shared engine player/login. Secret variants are not enabled.
+
 Trackmania Next sources `login`, `localId`, and `accountId` from MLFeed V4's
 login, login MwId, and WebServices user ID. Turbo sources `name` and `login`
 from `CTrackManiaPlayer`, and omits `localId` and `accountId` because its
@@ -167,11 +191,12 @@ start-checkpoint-finish map with one intermediate checkpoint finishes at index
 
 ### Common Fields
 
-Every event contains:
+Race events contain the following fields. Session-scoped `score` and `player_name` use the same
+metadata but omits `game` and `durationMs`, as detailed below:
 
 | Field           | Type                 | Description                             | Rules                                                    |
 | --------------- | -------------------- | --------------------------------------- | -------------------------------------------------------- |
-| `schemaVersion` | string               | Version of the webhook payload schema   | Required SemVer; initially `1.0.0`                       |
+| `schemaVersion` | string               | Version of the webhook payload schema   | Required SemVer; currently `1.1.0`                       |
 | `type`          | string               | Kind of event represented               | Required event discriminator                             |
 | `eventId`       | UUID string          | Unique identity of the captured event   | Globally unique UUID v4; immutable across retries        |
 | `sequence`      | non-negative integer | Event position within the round         | Contiguous capture order within `game.gameId`            |
@@ -199,7 +224,7 @@ Emitted exactly once when a fully captured round begins.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "start",
   "eventId": "4fda6f13-e003-47f6-a5df-32ec4e826749",
   "sequence": 0,
@@ -217,6 +242,7 @@ Emitted exactly once when a fully captured round begins.
   "players": [
     {
       "playerIndex": 0,
+      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
       "name": "Player One",
       "login": "player-one"
     }
@@ -254,7 +280,7 @@ at most once per player per game and never re-armed.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "first_throttle",
   "eventId": "652d3844-9e57-4528-94e4-1bfe20c0b194",
   "sequence": 1,
@@ -271,6 +297,7 @@ at most once per player per game and never re-armed.
   },
   "player": {
     "playerIndex": 0,
+    "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
     "name": "Player One",
     "login": "player-one"
   }
@@ -297,7 +324,7 @@ These event types share one contract:
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "checkpoint",
   "eventId": "a86f8d3d-7a36-4ec4-a9c9-60c69932bfd1",
   "sequence": 2,
@@ -314,6 +341,7 @@ These event types share one contract:
   },
   "player": {
     "playerIndex": 0,
+    "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
     "name": "Player One",
     "login": "player-one"
   },
@@ -334,8 +362,19 @@ player fields.
 | ---------------- | ---- | ------------------------------- | ------------------------------------------------- |
 | `endReason`      | enum | Reason the captured round ended | `completed`, `restarted`, `aborted`, or `unknown` |
 
-In Trackmania Turbo, choosing **Give up** transitions the active player to the
-game's eliminated state and is reported as `aborted`.
+In Trackmania Turbo, an unfinished attempt ended by elimination or by the
+standard arcade end-turn button is reported as `aborted`. The end-turn button
+ends the whole arcade turn, including its current unfinished attempt; it is
+distinct from a per-attempt restart. Standard arcade can return directly to the
+before-start state, so its postgame/final phase distinguishes the interrupted
+attempt from a timer restart into preparation. Mode phase/credit updates may
+lag the player reset: unknown and tentative restart transitions wait up to
+250 ms for clarification. A consumed arcade credit marks an unfinished attempt
+aborted. During that wait the round is retained without replaying player
+observations; end duration stays at the last observed race timer. If the state
+remains inconclusive, the reason is unknown. A fully captured turn can still
+have `captureComplete: true` when its final attempt was aborted: completeness
+describes capture coverage, not whether every attempt finished.
 
 In Trackmania Next, a captured finish is reported as `completed` and a stable
 replacement spawn is reported as `restarted`. Other exits, including quitting
@@ -343,7 +382,7 @@ the playground, fall back to `aborted`.
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "type": "end",
   "eventId": "b0985c12-77ac-4f81-8f69-19e89f937df1",
   "sequence": 6,
@@ -361,3 +400,81 @@ the playground, fall back to `aborted`.
   "endReason": "completed"
 }
 ```
+
+### `score` (standard Turbo arcade)
+
+With an endpoint configured, standard Turbo arcade emits one session-scoped score after a changed explicit UI name-submission
+trigger and subsequent insertion-index clearing. It does not depend on catching
+the transient ScoreWritten boolean, text stability, profile names, or matching
+finish times. Timeout/default names do not change the submission trigger.
+
+A score includes common `schemaVersion`, `type`, `eventId`, `sequence`,
+`occurredAt`, and `source`, plus required `sessionId`, `turnId`,
+`mode: "arcade"`, `mapUid`, `player: {name}`, `attemptIds`, and
+`captureComplete`. It omits `game` and `durationMs`. No rank, time, or best
+attempt is claimed while reliable leaderboard/ghost association remains unverified.
+
+The session-scoped sequence starts at zero and increments for each captured
+score in that session. Race sequences still restart for each `game.gameId`.
+Receivers choose sequence scope by event type and deduplicate retries by
+`eventId`. A score may arrive after the `end` events of its referenced attempts;
+`end` closes only a round, not the arcade turn or local session. Delivery uses
+the same HTTP headers and FIFO; retries preserve the serialized score.
+
+The tracker ignores stale submission triggers at attachment. Consecutive turns
+with identical submitted names can produce distinct scores because the trigger,
+turn ID and captured attempt IDs change. Only captured attempts are listed, in
+capture order. Late attachment or an unavailable lifecycle snapshot marks the
+turn partial (`captureComplete: false`); no missing IDs are fabricated. A newly
+verified turn boundary discards pending state from the previous turn. Retention
+is limited to 256 attempt references per turn; overflow suppresses that turn's
+score instead of sending a misleading truncated list.
+
+`tests/fixtures/session-events.json` includes a representative arcade score.
+The unpublished schema remains `1.1.0`. Next emits no unverified equivalents.
+
+### `player_name` (standard Turbo Hot Seat)
+
+Contains the common `schemaVersion`, `type`, `eventId`, `sequence`,
+`occurredAt`, and `source` metadata, plus required `sessionId`,
+`participantId`, and nonempty `name`. It omits `game` and `durationMs`;
+a name edit can be confirmed before any round exists. Emit on the first captured
+explicit confirmation or a changed confirmed name. An identical already-confirmed
+name, default colour label, typing, cancellation, or slot switch emits nothing.
+The shared name-trigger transition and stable slot/handover counters identify
+the edited participant; ambiguous transitions are skipped rather than guessed.
+A stale name present when capture starts is not treated as a new confirmation.
+
+The receiver updates that participant's display name across attempts in the
+same session. Existing serialized race/score events remain immutable. Name and
+score events share one session-scoped sequence starting at zero; race events
+retain their separate per-game sequences and existing ordering/HTTP delivery.
+
+### `score` (standard Turbo Hot Seat)
+
+Contains common event metadata plus required `sessionId`, `participantId`,
+`mode: "hot-seat"`, `mapUid`, `attemptId`, and
+`result: {status: "finished", timeMs}`. Emit once for each captured completed
+attempt when its authoritative final time is available, after its existing
+immediate `finish` event. Aborted/restarted attempts emit no score. Time is not
+inferred from the scoreboard or a personal best. It omits `game` and
+`durationMs`, and has no arcade turn/attempt-list/completeness fields.
+
+Optional `player: {name}` contains only the participant's explicitly confirmed
+name at capture. If none was captured, omit both the name and the empty wrapper;
+BLUE/RED/profile names are not substituted. A later `player_name` resolves that
+participant's prior attempts. Renaming a slot preserves its participant UUID; switching back to another
+slot uses that slot's original UUID without emitting another rename.
+
+Standard Hot Seat uses `Net_NbPlayer` for its human roster and
+`Net_CurPlayerIndex` for the active slot; `Net_NbPlayers` is the shared engine
+count and is not the human roster. This path requires one engine racer;
+unverified double-driver/multiple-racer variants are excluded. A session resets on exit, map/script/UI
+replacement, observed roster selection/restart phases, roster-generation or
+roster-size change. Slots persist across name edits and handovers. At most 16
+participant records and one most-recent scored-attempt ID are retained; no
+periodic score-table events are sent. Unsupported modes and Next keep their
+existing race path without these session events.
+
+Representative name and score payloads are in
+`tests/fixtures/session-events.json`.

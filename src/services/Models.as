@@ -1,10 +1,14 @@
-const string SCHEMA_VERSION = "1.0.0";
+const string SCHEMA_VERSION = "1.1.0";
 const string PLUGIN_NAME = "TM Webhooks";
 const uint MAX_QUEUE_SIZE = 1000;
 
 class PlayerSnapshot
 {
     uint playerIndex;
+    string attemptId;
+    string sessionId;
+    string turnId;
+    string participantId;
     string name;
     string login;
     string localId;
@@ -53,6 +57,7 @@ class GameObservation
 {
     bool local;
     bool active;
+    bool pendingEnd;
     string sessionKey;
     string endReason = "unknown";
     array<PlayerSnapshot@> players;
@@ -80,6 +85,14 @@ class CapturedEvent
     int theoreticalDurationMs = -1;
     int lostMs = -1;
     string endReason;
+    string sessionId;
+    string turnId;
+    string mapUid;
+    array<string> attemptIds;
+    bool captureComplete;
+    string participantId;
+    string scoreMode;
+    int timeMs = -1;
 }
 
 class PendingWebhook

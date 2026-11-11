@@ -26,6 +26,9 @@ class RoundTracker
             if (running && (observation is null || !observation.active)) Stop("aborted");
             return;
         }
+        // Turbo may need a few frames for its mode to publish an end reason.
+        // Keep the frozen round without replaying stale player observations.
+        if (observation.pendingEnd && running) return;
         if (!observation.active) {
             if (running) Stop(observation.endReason);
             return;
@@ -44,7 +47,23 @@ class RoundTracker
         sessionKey = observation.sessionKey;
         sequence = 0;
         lastDurationMs = 0;
-        roster = observation.players;
+        // Own the snapshots: adapters may reuse their objects on a later frame.
+        // Allocate before start so every event for this attempt shares its UUID.
+        roster.Resize(0);
+        for (uint i = 0; i < observation.players.Length; i++) {
+            PlayerSnapshot@ source = observation.players[i];
+            PlayerSnapshot@ player = PlayerSnapshot();
+            player.playerIndex = source.playerIndex;
+            player.attemptId = CreateUuidV4();
+            player.sessionId = source.sessionId;
+            player.turnId = source.turnId;
+            player.participantId = source.participantId;
+            player.name = source.name;
+            player.login = source.login;
+            player.localId = source.localId;
+            player.accountId = source.accountId;
+            roster.InsertLast(player);
+        }
         @roundMap = observation.map;
         tracked.Resize(roster.Length);
         for (uint i = 0; i < tracked.Length; i++) @tracked[i] = TrackedPlayer();
