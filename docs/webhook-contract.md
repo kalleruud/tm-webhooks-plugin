@@ -430,8 +430,7 @@ verified turn boundary discards pending state from the previous turn. Retention
 is limited to 256 attempt references per turn; overflow suppresses that turn's
 score instead of sending a misleading truncated list.
 
-`tests/fixtures/arcade-score.json` demonstrates a complete turn, repeated-name
-partial turn, post-round submission, and separate round/session sequencing.
+`tests/fixtures/session-events.json` includes a representative arcade score.
 The unpublished schema remains `1.1.0`. Next emits no unverified equivalents.
 
 ### `player_name` (standard Turbo Hot Seat)
@@ -477,5 +476,5 @@ participant records and one most-recent scored-attempt ID are retained; no
 periodic score-table events are sent. Unsupported modes and Next keep their
 existing race path without these session events.
 
-Representative name/score and late-name examples, including the combined
-sequence, are in `tests/fixtures/hotseat-events.json`. They cover the combined session sequence and stable participant references.
+Representative name and score payloads are in
+`tests/fixtures/session-events.json`.
