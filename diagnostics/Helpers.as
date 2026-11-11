@@ -15,7 +15,7 @@ void DiagnosticsHelpers(DiagnosticsCapture@ capture)
             record["checkpointCount"] = race.CPCount;
             record["lapCount"] = race.LapCount;
             auto app = cast<CTrackMania>(GetApp());
-            uint players;
+            uint players = 0;
             if (app !is null && app.CurrentPlayground !is null) {
                 auto playground = app.CurrentPlayground;
                 for (uint i = 0; i < playground.Players.Length && i < capture.maxArray; i++) {

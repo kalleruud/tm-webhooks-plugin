@@ -241,7 +241,7 @@ class DiagnosticsCapture
             path = item.path;
             objectIssues = 0;
             Json::Value fields = Json::Object();
-            uint runtimeMemberCount;
+            uint runtimeMemberCount = 0;
             Trace("reflection-type");
             auto type = Reflection::TypeOf(item.node);
             string runtimeType = type is null ? "unknown" : type.Name;

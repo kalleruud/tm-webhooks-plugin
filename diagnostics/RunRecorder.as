@@ -136,7 +136,7 @@ class DiagnosticsRunRecorder
             errorTimes[i] = Time::Now;
             break;
         }
-        bool known;
+        bool known = false;
         for (uint i = 0; i < errorSections.Length; i++) if (errorSections[i] == section) known = true;
         if (!known) { errorSections.InsertLast(section); errorTimes.InsertLast(Time::Now); }
         Json::Value record = Json::Object();
