@@ -56,11 +56,33 @@ full diagnostics endpoint (for example
 never inherit or fall back to the race webhook URL/token. Empty URL or token
 prevents upload; local capture still works.
 
-Use **Diagnostics status > Capture full dump and upload**, or the plugin menu
+Use **Diagnostics status > Capture diagnostics dump and upload**, or the plugin menu
 entry. Status shows capture and upload progress. Cancel interrupts at the next
 yield. A cancelled capture is saved with a partial manifest and can be uploaded
 with Retry. A failed upload retains the pending dump; Retry replays identical
 chunks safely. No captures run automatically on startup or on every frame.
+
+### First capture after a freeze
+
+Native game getters can block the game thread; script cancellation and try/catch
+cannot interrupt a blocked native call. **Read native game values (experimental)**
+therefore defaults to off. First run a **metadata-only** capture: this sends the
+root's reflection metadata and packaged API definitions, without invoking the
+generated game-value readers or helper summaries. Its manifest says
+`captureMode: metadata-only`; it is not a complete game-state snapshot.
+
+Keep **Write last-operation breadcrumb** enabled while diagnosing. Before native
+reads and major capture/upload stages, the probe writes and flushes
+`diagnostics-last-operation.json` in this plugin's storage folder. It contains
+phase/member names and counters, not captured values or tokens. If the game hangs,
+recover that file after restarting and share it to identify the last operation.
+A crash during a breadcrumb write can leave the file incomplete. Trace-write
+failure disables tracing and emits a warning. Tracing adds disk overhead.
+
+Only after a metadata capture succeeds should native-value reads be explicitly
+enabled for investigation. Retain small object/depth/array limits during that
+step. `captureMode: native-values` identifies these captures; enabling them is
+still experimental and can reproduce a blocking getter.
 
 Only one pending capture is retained in plugin storage as
 `diagnostics-pending.json`. Upload success deletes it. Retry or explicitly delete
@@ -121,8 +143,9 @@ length and a valid UTF-8 prefix.
 Defaults: 4096 objects, depth 12, 128 elements per array, 4096 bytes per string,
 and 30 seconds. Settings allow bounded increases. The capture has a fixed 16 MiB
 serialized-record budget; a record over 256 KiB is replaced by an explicit
-omission record. Chunks target 384 KiB. Work yields between objects and after
-approximately 2 ms between property reads; an individual native getter cannot
+omission record. Chunks target 384 KiB. Work yields between objects and at least every 32 checkpoints, or after
+approximately 2 ms between property reads. Array elements, reference scans, and
+reflection enumeration also checkpoint; an individual native getter cannot
 be preempted. Large arrays are capped before traversing their elements. These
 are cooperative budgets, not a guarantee that unsafe native getters cannot
 stall or crash the game. Catchable getter exceptions are recorded.

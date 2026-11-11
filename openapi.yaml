@@ -228,6 +228,10 @@ components:
         status:
           type: string
           enum: [complete, truncated, cancelled, failed]
+        captureMode:
+          type: string
+          enum: [metadata-only, native-values]
+          description: Metadata-only captures omit generated native getters and helper value summaries.
         inventoryHash:
           type: string
           description: SHA-256 of the normalized documented API inventory.

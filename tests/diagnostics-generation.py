@@ -40,7 +40,7 @@ class DiagnosticsTests(unittest.TestCase):
                     continue
                 for member in item['members']:
                     key = item['name'] + '.' + member['name']
-                    self.assertIn(f'c.member = "{key}"', existing)
+                    self.assertIn(f'c.BeginMember("{key}")', existing)
                     if gen.PRIVATE.search(member['name']):
                         self.assertIn(f'c.Skipped("{key}", "excluded"', existing)
             self.assertNotIn('Dev::', existing)
@@ -74,6 +74,20 @@ class DiagnosticsTests(unittest.TestCase):
             self.assertNotIn('node.WriteOnly', code)
             self.assertIn('getter unavailable', code)
             self.assertIn('node.Readable', code)
+
+    def test_array_reads_checkpoint_and_trace_before_each_native_element(self):
+        # A large native object array must not spend its entire cap in one
+        # uninterruptible script loop. Check the generated loop itself.
+        inventory = [{'name': 'CMwNod', 'nod': True, 'members': [
+            {'name': 'Children', 'type': 'MwFastBuffer<CMwNod@>'},
+        ]}]
+        with tempfile.TemporaryDirectory() as directory, patch.object(gen, 'OUT', Path(directory)):
+            gen.generate('test', 'TURBO', inventory)
+            code = (Path(directory) / 'test.as').read_text()
+            loop = code[code.index('for (uint i = 0;'):]
+            self.assertLess(loop.index('c.Checkpoint()'), loop.index('node.Children[i]'))
+            self.assertLess(loop.index('c.Trace("array-element"'), loop.index('node.Children[i]'))
+            self.assertIn('c.BeginMember("CMwNod.Children")', code)
 
     def test_production_has_no_diagnostics_source_or_define(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -15,16 +15,18 @@ string DiagnosticsGame()
 
 void RenderMenu()
 {
-    if (UI::MenuItem("Capture full diagnostics dump", "", false, !g_diagnosticsBusy)) startnew(DiagnosticsCaptureAndUpload);
+    if (UI::MenuItem("Capture diagnostics dump", "", false, !g_diagnosticsBusy)) startnew(DiagnosticsCaptureAndUpload);
 }
 
 [SettingsTab name="Diagnostics status"]
 void RenderDiagnosticsSettings()
 {
     UI::TextWrapped("DIAGNOSTICS BUILD: traverses exposed game objects. Sensitive member names are excluded, but free-text game values may still contain private data. Review local dumps before sharing them.");
+    UI::TextWrapped(Setting_DiagnosticsReadValues ? "Native value reads enabled (experimental)." : "Metadata-only capture: native value reads disabled.");
+    UI::TextWrapped("If capture hangs, restart and share diagnostics-last-operation.json from this plugin's storage folder.");
     UI::TextWrapped(g_diagnosticsStatus);
     if (!g_diagnosticsBusy) {
-        if (UI::Button("Capture full dump and upload")) startnew(DiagnosticsCaptureAndUpload);
+        if (UI::Button("Capture diagnostics dump and upload")) startnew(DiagnosticsCaptureAndUpload);
         if (IO::FileExists(IO::FromStorageFolder(DIAGNOSTICS_SPOOL))) {
             if (UI::Button("Retry pending upload")) startnew(DiagnosticsRetryUpload);
             if (UI::Button("Delete pending local dump")) {
@@ -61,14 +63,18 @@ void DiagnosticsCaptureAndUpload()
         capture.nodes.RemoveRange(0, capture.nodes.Length);
         // A valid capture always has at least one records chunk and a manifest.
         if (capture.chunks.IsEmpty()) capture.chunks.InsertLast("[]");
+        capture.Trace("assembling-upload");
+        yield();
         Json::Value saved = Json::Object();
         saved["captureId"] = capture.id;
         saved["game"] = DiagnosticsGame();
         Json::Value chunks = Json::Array();
-        for (uint i = 0; i < capture.chunks.Length; i++) chunks.Add(Json::Parse(capture.chunks[i]));
+        for (uint i = 0; i < capture.chunks.Length; i++) { chunks.Add(Json::Parse(capture.chunks[i])); yield(); }
         saved["chunks"] = chunks;
         saved["manifest"] = capture.Manifest();
+        capture.Trace("writing-spool");
         DiagnosticsWriteSpool(saved);
+        capture.Trace("uploading");
         if (!g_diagnosticsCancel) DiagnosticsUpload(saved);
         else g_diagnosticsStatus = "Capture cancelled; partial dump saved locally. Retry to upload it.";
     } catch {

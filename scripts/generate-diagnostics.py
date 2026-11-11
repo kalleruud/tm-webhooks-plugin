@@ -146,10 +146,10 @@ def generate(game, define, inventory):
             else:
                 counts['readable'] += 1
                 if arr:
-                    code = f'Json::Value values = Json::Array(); uint length = node.{field}.Length; for (uint i = 0; i < length && i < c.maxArray; i++) values.Add({value}); c.ArrayField(fields, "{key}", values, length)'
+                    code = f'Json::Value values = Json::Array(); uint length = node.{field}.Length; for (uint i = 0; i < length && i < c.maxArray; i++) {{ if (c.Checkpoint()) break; c.Trace("array-element", "{key}[" + i + "]"); values.Add({value}); }} c.ArrayField(fields, "{key}", values, length)'
                 else:
                     code = f'c.Field(fields, "{key}", {value})'
-            lines += ['    if (c.Checkpoint()) return;', f'    c.member = "{key}";', f'    try {{ {code}; }} catch {{ c.Skipped("{key}", "failed", "getter exception"); }}']
+            lines += ['    if (c.Checkpoint()) return;', f'    c.BeginMember("{key}");', f'    try {{ {code}; }} catch {{ c.Skipped("{key}", "failed", "getter exception"); }}']
         lines += ['}']
     digest = hashlib.sha256(json.dumps(inventory, sort_keys=True).encode()).hexdigest()
     lines += [f'string DiagnosticsInventoryHash() {{ return "{digest}"; }}', '#endif', '']

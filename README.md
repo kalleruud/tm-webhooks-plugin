@@ -101,3 +101,7 @@ Default production packages exclude all diagnostics source and settings.
 See [diagnostics setup, coverage, and validation](docs/diagnostics-harness.md).
 The probe reports coverage gaps and truncation explicitly; live Turbo/Next
 compile/load testing is required before using a refreshed API inventory.
+
+Diagnostics captures default to metadata-only while native getter freezes are
+being investigated. Enable native value reads explicitly only after a metadata
+capture succeeds; keep the last-operation breadcrumb enabled for troubleshooting.

@@ -376,3 +376,8 @@ and receiver operations. `POST /diagnostics/v1/chunks` and its versioned envelop
 manifest, and acknowledgement are specified alongside the race contract in
 [openapi.yaml](../openapi.yaml). A receiver-complete upload may contain a partial
 or truncated probe; consumers must inspect the manifest status and coverage.
+
+Diagnostic manifests optionally include `captureMode`: `metadata-only` skips
+generated native getters and helper value summaries; `native-values` enables
+them explicitly. Metadata-only is the default while investigating native getter
+freezes. A completed metadata capture does not imply game-state value coverage.
