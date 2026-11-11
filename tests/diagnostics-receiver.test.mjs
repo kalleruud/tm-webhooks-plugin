@@ -376,3 +376,90 @@ test('CLI diff preserves separate API-member identities within one type', async 
   assert.equal(changes[0].before.member.name, 'First')
   assert.equal(changes[0].after.member.type, 'bool')
 })
+
+test('run recording packets reconstruct a time-series timeline through the CLI', async t => {
+  const { send, directory } = await fixture(t)
+  const runSample = (elapsedMs, race) => ({
+    kind: 'run-sample',
+    recordingId: id,
+    playerId: 'driver-1',
+    userKey: 'user-1',
+    playerIndex: 0,
+    name: 'Test Driver',
+    elapsedMs,
+    sampleSequence: elapsedMs / 100 + 1,
+    attemptToken: 'map:start',
+    mapUid: 'map',
+    apiType: 'CTrackManiaPlayer',
+    race,
+    input: { throttle: elapsedMs ? 1 : 0, brake: false },
+    vehicle: { speed: elapsedMs ? 10 : 0 },
+    sources: {
+      'race.checkpointTimesMs': 'CTrackManiaPlayer.CurRace.Checkpoints',
+    },
+  })
+  const data = [
+    { kind: 'run-recording-start', elapsedMs: 0, sampleIntervalMs: 100 },
+    runSample(0, {
+      racing: false,
+      finished: false,
+      checkpointCount: 0,
+      respawns: 0,
+    }),
+    runSample(100, {
+      racing: true,
+      finished: false,
+      checkpointCount: 0,
+      respawns: 0,
+    }),
+    runSample(200, {
+      racing: true,
+      finished: true,
+      checkpointCount: 1,
+      checkpointTimesMs: [125],
+      respawns: 0,
+      finishTimeMs: 150,
+    }),
+    {
+      kind: 'run-leaderboard',
+      elapsedMs: 200,
+      rows: [{ name: 'Test Driver', points: 10 }],
+    },
+  ]
+  for (let index = 0; index < data.length; index++)
+    assert.equal(
+      (await send({ ...streamRecord, index, data: data[index] })).status,
+      201
+    )
+  assert.equal(
+    (
+      await send({
+        ...streamManifest,
+        index: data.length,
+        data: { ...manifest.data, captureMode: 'run-recorder' },
+      })
+    ).status,
+    201
+  )
+  const child = Bun.spawn(
+    [
+      'bun',
+      'tools/diagnostics-receiver/inspect.mjs',
+      'timeline',
+      directory,
+      id,
+    ],
+    { stdout: 'pipe', stderr: 'pipe' }
+  )
+  const report = JSON.parse(await new Response(child.stdout).text())
+  assert.equal(await child.exited, 0)
+  assert.equal(report.deliveryComplete, true)
+  assert.equal(report.players[0].name, 'Test Driver')
+  assert.equal(report.leaderboards[0].rows[0].points, 10)
+  assert.equal(
+    report.events.find(event => event.event === 'checkpoint_observed')
+      .raceTimeMs,
+    125
+  )
+  assert.equal(report.series['driver-1/vehicle.speed'].points.length, 3)
+})

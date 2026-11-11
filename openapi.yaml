@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: TM Webhooks
-  version: 1.1.0
+  version: 1.2.0
   description: Webhook contract emitted by the Trackmania Turbo and Trackmania Next plugins.
 servers:
   - url: https://webhook-receiver.example.org/api
@@ -201,6 +201,14 @@ components:
         data:
           type: object
           additionalProperties: true
+          allOf:
+            - if:
+                required: [kind]
+                properties:
+                  kind:
+                    const: run-sample
+              then:
+                $ref: '#/components/schemas/DiagnosticsRunSample'
       allOf:
         - if:
             properties:
@@ -218,6 +226,81 @@ components:
             properties:
               data:
                 $ref: '#/components/schemas/DiagnosticsManifest'
+    DiagnosticsRunSample:
+      type: object
+      additionalProperties: true
+      required:
+        [
+          kind,
+          recordingId,
+          recordSequence,
+          elapsedMs,
+          observedAt,
+          playerId,
+          playerIndex,
+          sampleSequence,
+          mapUid,
+          apiType,
+          race,
+          sources,
+        ]
+      properties:
+        kind:
+          type: string
+          const: run-sample
+        recordingId:
+          type: string
+          format: uuid
+          description: Stable capture ID from recording Start until Stop or a limit.
+        recordSequence:
+          type: integer
+          minimum: 0
+          description: Matches the attempted stream packet index, including gaps for drops.
+        elapsedMs:
+          type: integer
+          minimum: 0
+          description: Observed monotonic milliseconds since recording start.
+        observedAt:
+          type: string
+        sampleSequence:
+          type: integer
+          minimum: 1
+        playerId:
+          type: string
+          description: Recording-local identity from game user identity and roster slot.
+        playerIndex:
+          type: integer
+          minimum: 0
+        userKey:
+          type: string
+          description: Source user identity; can be shared by split-screen participants.
+        name:
+          type: string
+          description: Display name, intentionally included with the user's requested player details.
+        mapUid:
+          type: string
+        attemptToken:
+          type: string
+          description: Source start token and map; changes are evidence to inspect, not proof of a restart.
+        apiType:
+          type: string
+        race:
+          type: object
+          additionalProperties: true
+          description: Race clock, state, checkpoint history, laps, respawns and finish where exposed. Missing fields remain absent.
+        input:
+          type: object
+          additionalProperties: true
+          description: Throttle, braking and steering, where exposed.
+        vehicle:
+          type: object
+          additionalProperties: true
+          description: Native speed, display speed, position, velocity, gears, RPM, contacts, skidding and damage where exposed. No unverified unit conversion.
+        sources:
+          type: object
+          additionalProperties:
+            type: string
+          description: Per-sample source overrides. Recording-start sources supply default field-to-API mappings.
     DiagnosticsChunk:
       type: object
       required: [schemaVersion, captureId, game, index, total, kind, data]
@@ -281,7 +364,7 @@ components:
           enum: [complete, truncated, cancelled, failed]
         captureMode:
           type: string
-          enum: [metadata-only, native-values]
+          enum: [metadata-only, native-values, run-recorder]
           description: Metadata-only captures omit generated native getters and helper value summaries.
         attemptedRecords:
           type: integer

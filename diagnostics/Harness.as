@@ -1,5 +1,6 @@
 #if DIAGNOSTICS
 bool g_diagnosticsBusy;
+bool g_diagnosticsRecording;
 bool g_diagnosticsCancel;
 bool g_diagnosticsPeriodic;
 bool g_diagnosticsWorker;
@@ -102,6 +103,7 @@ void DiagnosticsWorker()
 void DiagnosticsStartPeriodic()
 {
     if (!DiagnosticsConfigured()) { g_diagnosticsStatus = "Set the dedicated diagnostics endpoint and token first."; return; }
+    if (Setting_DiagnosticsRunRecorder) { DiagnosticsStartRunRecording(); return; }
     g_diagnosticsPeriodic = true;
     DiagnosticsEnsureWorker();
 }
@@ -110,6 +112,7 @@ void DiagnosticsStop()
 {
     g_diagnosticsPeriodic = false;
     g_diagnosticsCancel = true;
+    if (g_diagnosticsRecording) { g_diagnosticsStatus = "Stopping recording; queued records will drain independently."; return; }
     g_diagnosticsDropped += g_diagnosticsQueue.Length;
     g_diagnosticsQueue.RemoveRange(0, g_diagnosticsQueue.Length);
     for (uint i = 0; i < g_diagnosticsRequests.Length; i++) g_diagnosticsRequests[i].request.Cancel();
@@ -119,7 +122,7 @@ void DiagnosticsStop()
 
 void RenderMenu()
 {
-    if (UI::MenuItem("Start periodic diagnostics", "", false, !g_diagnosticsPeriodic)) DiagnosticsStartPeriodic();
+    if (UI::MenuItem(Setting_DiagnosticsRunRecorder ? "Start run recording" : "Start periodic API exploration", "", false, !g_diagnosticsPeriodic && !g_diagnosticsBusy)) DiagnosticsStartPeriodic();
     if (UI::MenuItem("Stop diagnostics", "", false, g_diagnosticsPeriodic || g_diagnosticsBusy)) DiagnosticsStop();
 }
 
@@ -127,11 +130,11 @@ void RenderMenu()
 void RenderDiagnosticsSettings()
 {
     UI::TextWrapped("Best-effort streaming: collection does not wait for HTTP acknowledgements. Records can be dropped; no retries or local dump spool.");
-    UI::TextWrapped(Setting_DiagnosticsReadValues ? "Native value reads enabled (experimental; native getters can block)." : "Metadata-only capture: native value reads disabled.");
+    UI::TextWrapped(Setting_DiagnosticsRunRecorder ? "Run recorder: names/logins, leaderboard rows, map/mode, race clocks and car/input telemetry. This mode reads focused game APIs regardless of the broad-probe metadata-only setting." : (Setting_DiagnosticsReadValues ? "Broad native value reads enabled (experimental)." : "Metadata-only API exploration."));
     UI::TextWrapped(g_diagnosticsStatus);
     UI::Text("Requests started: " + g_diagnosticsStarted + ", failed: " + g_diagnosticsFailed + ", dropped locally: " + g_diagnosticsDropped);
-    if (!g_diagnosticsPeriodic && UI::Button("Start periodic diagnostics")) DiagnosticsStartPeriodic();
-    if (!g_diagnosticsBusy && !g_diagnosticsPeriodic && UI::Button("Send one capture")) startnew(CoroutineFunc(DiagnosticsCaptureAndUpload));
+    if (!g_diagnosticsBusy && !g_diagnosticsPeriodic && UI::Button(Setting_DiagnosticsRunRecorder ? "Start run recording" : "Start periodic API exploration")) DiagnosticsStartPeriodic();
+    if (!g_diagnosticsBusy && !g_diagnosticsPeriodic && UI::Button("Send one broad API probe")) startnew(CoroutineFunc(DiagnosticsCaptureAndUpload));
     if ((g_diagnosticsPeriodic || g_diagnosticsBusy) && UI::Button("Stop diagnostics")) DiagnosticsStop();
 }
 
@@ -149,6 +152,31 @@ void DiagnosticsCaptureAndUpload()
         if (!g_diagnosticsCancel) capture.SendManifest();
         g_diagnosticsStatus = "Capture finished; " + capture.packetIndex + " records attempted. Delivery is best-effort.";
     } catch { g_diagnosticsStatus = "Capture failed; records already sent remain on the receiver."; }
+    g_diagnosticsBusy = false;
+}
+#endif
+
+#if DIAGNOSTICS
+void DiagnosticsStartRunRecording()
+{
+    if (g_diagnosticsBusy || g_diagnosticsRecording) return;
+    if (!DiagnosticsConfigured()) { g_diagnosticsStatus = "Set the dedicated diagnostics endpoint and token first."; return; }
+    g_diagnosticsPeriodic = false;
+    g_diagnosticsCancel = false;
+    g_diagnosticsBusy = true;
+    g_diagnosticsRecording = true;
+    DiagnosticsEnsureWorker();
+    startnew(CoroutineFunc(DiagnosticsRecordRun));
+}
+
+void DiagnosticsRecordRun()
+{
+    try {
+        DiagnosticsRunRecorder recorder;
+        recorder.Run();
+        g_diagnosticsStatus = "Recording finished: " + recorder.packetIndex + " records attempted, " + recorder.dropped + " local drops. Pending HTTP packets drain without acknowledgement waits.";
+    } catch { g_diagnosticsStatus = "Run recording failed; previously received records remain available."; }
+    g_diagnosticsRecording = false;
     g_diagnosticsBusy = false;
 }
 #endif

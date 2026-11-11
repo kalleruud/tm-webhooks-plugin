@@ -93,12 +93,19 @@ distribution requires the normal Openplanet review and signing process.
 ## Optional diagnostics harness
 
 Build `bash scripts/build-op.sh diagnostics` (Windows:
-`.\scripts\build-op.ps1 diagnostics`) for periodic best-effort diagnostics with
-its own endpoint/token. Run `bun tools/diagnostics-receiver/server.mjs` with a
-dedicated `DIAGNOSTICS_TOKEN`. Production packages exclude all diagnostics code.
+`.\scripts\build-op.ps1 diagnostics`) and run the standalone Bun receiver with a
+dedicated `DIAGNOSTICS_TOKEN`. Production packages exclude diagnostics entirely.
 
-Use **Start periodic diagnostics** and configure the capture interval (default
-five seconds). Small records stream while collected, without acknowledgement
-waits, retries, or local dump spooling. Queues are bounded and failures can lose
-records. Native values remain opt-in while hang behavior is investigated;
-metadata-only is the default. See [setup and validation](docs/diagnostics-harness.md).
+Configure the separate diagnostics endpoint/token, click **Start run recording**,
+play a run, then **Stop diagnostics**. The recorder samples relevant player/race/
+vehicle/input APIs at a 100 ms target, captures map/environment/mode/player details
+and leaderboard names, and retains native events where exposed. One recording ID
+and timestamped samples support timeline reconstruction. Best-effort streaming
+uses bounded queues with no retries or acknowledgement waits.
+
+Use `inspect.mjs timeline` to analyze start/checkpoint/lap/respawn/finish and input
+transitions, acceleration evidence and labelled impact candidates. Wall hits are
+not fabricated where the API does not identify them. The older broad API crawler
+remains available with **Use run recorder** disabled.
+
+See [setup, source coverage and runtime validation](docs/diagnostics-harness.md).

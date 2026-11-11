@@ -4,6 +4,84 @@ The harness has a standalone Bun receiver and an explicit diagnostics plugin bui
 for Turbo and Next. Production packages exclude the diagnostics directory, settings,
 callbacks and collectors. Race webhook behavior and its FIFO remain independent.
 
+## Record a whole run (collector 1.2.0)
+
+**Use run recorder** is now on by default. Set the dedicated diagnostics endpoint
+and token, click **Start run recording**, play, then click **Stop diagnostics**.
+The recording has one capture ID for its whole lifetime; Stop queues an end record
+and manifest and lets existing HTTP packets drain independently. It does not clear
+them. Delivery remains best-effort with no retry or acknowledgement wait. This is
+separate from the older API exploration loop, whose Stop still cancels its queue.
+
+The target sample interval is **100 ms**, configurable from 50 to 2000 ms and
+snapshotted at Start. Each player sample retains its actual observation time,
+monotonic recording elapsed time, sample sequence, player ID, map UID, source start
+token and API provenance. Samples never pretend that all players were read at one
+instant. Player IDs combine source user identity and roster slot; `userKey` allows
+correlation if roster order changes and avoids conflating split-screen users who
+share an account. Attempt tokens are source evidence, not an asserted restart.
+
+| Evidence       | Turbo                                                                               | Next                                                                                   |
+| -------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Inputs         | `CTrackManiaPlayer.InputGasPedal/InputIsBraking/InputSteer`                         | `CSmScriptPlayer` equivalents                                                          |
+| Speed/position | `CTrackManiaPlayer.Speed/DisplaySpeed/Position`                                     | `CSmScriptPlayer.Speed/DisplaySpeed/Position/Velocity`                                 |
+| Car state      | Gear, RPM, turbo ratio, contacts, skidding/flying, distance, damage ratios          | Gear, RPM, turbo ratio, contacts, skidding/flying, distance, entity availability       |
+| Race           | RaceState, RaceStartTime, CurRace checkpoints/time, laps, respawns, continuous rank | Native script race fields plus MLFeed clock/checkpoints/laps/respawns/finish           |
+| Scores/names   | RaceRules.Scores, falling back to player.Score                                      | ArenaRules.Scores, falling back to player.Score                                        |
+| Native events  | StartLine, WayPoint, Respawn, GiveUp, Stunt                                         | Waypoint/respawn request, vehicle collisions and stunts where PendingEvents is exposed |
+
+Map name/UID/author/environment/medal targets, raw mode identifiers, inferred mode,
+UI phase, player count/local terminal count, player names/logins/user IDs/language/
+ladder details and car model are checked about once per second. Context and
+leaderboard snapshots are emitted when changed and at least once every five
+seconds. Leaderboard array order is not assumed to be finishing rank: list indices,
+rank sort values, points and native best/previous times are kept separately. These
+are the game's exposed score rows, not a fetched global online leaderboard.
+
+Samples intentionally include requested player/leaderboard names and user details;
+credentials, tokens, unrelated chat and profile resources are not collected. Up to
+16 playground players, 32 score rows, 256 checkpoint times and eight per-score Next
+race times are retained per snapshot. Source counts/truncation flags identify caps.
+Unexposed values are omitted rather than replaced with zero. Mismatched Next
+checkpoint-count/history sources are marked so analysis will not pair wrong times.
+
+Native race events are polled on each recorder loop/frame and deduplicated by a
+bounded set of event handles, without consuming/modifying the queue. They may be
+missed if the mode consumes them before observation. Native getters can still
+block; this is focused recording, not a guarantee of safe access in every mode.
+The recording ends at Stop, a configurable duration (default 15 minutes), 256 player
+identities, 32767 attempted records or the 16 MiB payload budget. HTTP gaps remain
+explicit; four requests and 64 queue slots stay bounded.
+
+### Reconstruct the timeline
+
+```bash
+bun tools/diagnostics-receiver/inspect.mjs timeline ./diagnostics-data <recording-uuid> > run-timeline.json
+```
+
+The timeline includes player/attempt observations, map/mode and leaderboard
+snapshots, native events, and field-by-field timestamped series with per-point API
+sources. If a field switches between native and feed APIs, the series is marked
+as mixed and retains every source rather than assigning all points to the first.
+Sample differences infer start, checkpoint, lap, respawn, finish, throttle and brake
+transitions. Their observation windows are retained; authoritative checkpoint and
+finish times are used when available. Starting mid-run never fabricates a start
+transition. Large sampling gaps are flagged, and delivery completion/missing packet
+indices remain distinct from probe status.
+
+Speed differences provide `derived.speedChangePerSecond` in **native speed units
+per second**, not an assumed m/s². Damage increases or a sharp speed drop with braking explicitly false at both
+observations
+may produce `impact_candidate`; respawns, attempt changes and large gaps suppress
+that inference. It is not proof of a collision or a wall target. Next's native
+vehicle-collision records are labelled separately, without inventing what was hit.
+Turbo's inspected race-event API has no dedicated wall-contact event. Raw evidence
+is retained so these API interpretations can be tested against your driving.
+
+For the older broad crawler, disable **Use run recorder**. The settings and scope
+below apply to that exploration mode; **Read native game values** does not disable
+the focused recorder's explicitly selected run fields.
+
 ## Build and run
 
 ```bash
@@ -40,8 +118,8 @@ Use HTTPS outside a trusted LAN.
 
 In **Openplanet > Settings > TM Webhooks (Diagnostics) > Diagnostics**, configure
 the full endpoint ending in `/diagnostics/v1/chunks` and the dedicated token. Neither
-is inherited from race webhooks. Then use **Diagnostics status > Start periodic
-diagnostics**, or **Send one capture**. The interval defaults to five seconds and
+is inherited from race webhooks. In run-recorder mode, use **Start run recording**. In API exploration mode, use
+**Start periodic API exploration** or **Send one broad API probe**. The broad-probe interval defaults to five seconds and
 is configurable from 1 to 300 seconds. It is a minimum between capture starts:
 captures never overlap, and missed intervals are skipped. A long capture may take
 longer than the configured interval. Periodic capture starts only by explicit action

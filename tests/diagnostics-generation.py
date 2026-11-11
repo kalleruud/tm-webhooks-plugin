@@ -2,6 +2,7 @@
 """Test API parsing regressions, exhaustive field accounting and package isolation."""
 import importlib.util
 import json
+import re
 import subprocess
 import tempfile
 from unittest.mock import patch
@@ -88,6 +89,30 @@ class DiagnosticsTests(unittest.TestCase):
             self.assertLess(loop.index('c.Checkpoint()'), loop.index('node.Children[i]'))
             self.assertLess(loop.index('c.Trace("array-element"'), loop.index('node.Children[i]'))
             self.assertIn('c.BeginMember("CMwNod.Children")', code)
+
+    def test_run_recorder_field_reads_match_each_games_documented_api(self):
+        for game, source in [('turbo', 'RunTurbo.as'), ('next', 'RunNext.as')]:
+            inventory = {item['name']: item for item in json.loads((gen.OUT / f'{game}-api.json').read_text())}
+            def members(name):
+                item = inventory[name]
+                own = {field['name'] for field in item['members']}
+                return own | members(item['base']) if item['base'] else own
+            bindings = {'player': 'CTrackManiaPlayer' if game == 'turbo' else 'CSmPlayer',
+                        'event': 'CTmRaceRulesEvent' if game == 'turbo' else 'CSmArenaRulesEvent',
+                        'score': 'CTmRaceRulesScore' if game == 'turbo' else 'CSmArenaScore',
+                        'script': 'CSmScriptPlayer', 'tmScore': 'CTrackManiaScore',
+                        'modeRules': 'CTrackManiaRaceRules' if game == 'turbo' else 'CSmArenaRulesMode'}
+            code = (ROOT / 'diagnostics' / source).read_text()
+            for variable, name in bindings.items():
+                if name not in inventory:
+                    continue
+                used = set(re.findall(r'\b' + variable + r'\.(\w+)', code))
+                self.assertFalse(used - members(name), f'{game}: {name} has no {used - members(name)}')
+                self.assertFalse({name + '.' + field for field in used} & gen.WRITE_ONLY_MEMBERS)
+            common = (ROOT / 'diagnostics' / 'RunRecorder.as').read_text()
+            for variable, name in [('user', 'CGamePlayerInfo'), ('map', 'CGameCtnChallenge')]:
+                used = set(re.findall(r'\b' + variable + r'\.(\w+)', common))
+                self.assertFalse(used - members(name), f'{game}: {name} has no {used - members(name)}')
 
     def test_production_has_no_diagnostics_source_or_define(self):
         with tempfile.TemporaryDirectory() as directory:

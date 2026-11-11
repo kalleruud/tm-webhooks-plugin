@@ -391,3 +391,19 @@ The plugin never waits for acknowledgements, retries failures, or spools whole
 dumps. Each stream packet is limited to 32 KiB; the sender uses 64 queue slots
 and four concurrent requests with five-second expiry. Collection intervals are
 configurable and captures never overlap. Legacy schema 1.0.0 chunks remain accepted.
+
+Collector 1.2.0 adds `captureMode: run-recorder` over the unchanged 1.1.0 stream
+envelope. One capture ID covers Start through Stop. Records include
+`run-recording-start`, `run-context`, `run-leaderboard`, `run-sample`,
+`run-native-event`, `run-coverage`, and `run-recording-end`, followed by a manifest.
+Each carries recording/record sequence and monotonic observation elapsed time.
+Player samples include recording-local player ID/roster slot, source user key,
+map/source attempt token, race/input/vehicle values and API provenance. Names and
+leaderboard player details are intentionally included. Missing native fields are
+omitted; native units are preserved without guessed conversions. Scores keep API
+list order distinct from rank. Stopping the recorder drains its existing queue.
+
+Timeline analysis keeps native events distinct from sampled transitions. An
+`impact_candidate` is explicitly an inference, not a confirmed wall collision.
+Sampling gaps and delivery gaps remain visible. See the run sample schema in
+OpenAPI and the harness guide for source mappings, timing and retention limits.

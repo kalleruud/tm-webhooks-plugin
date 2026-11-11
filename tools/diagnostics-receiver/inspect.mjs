@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 import { readFile, readdir } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
+import { analyzeRecording } from './timeline.mjs'
 
 const [command = 'list', directory = './diagnostics-data', first, second] =
   process.argv.slice(2)
@@ -61,6 +62,8 @@ if (command === 'list') {
   }
 } else if (command === 'show') {
   console.log(JSON.stringify(await load(first), null, 2))
+} else if (command === 'timeline') {
+  console.log(JSON.stringify(analyzeRecording(await load(first)), null, 2))
 } else if (command === 'diff') {
   const a = await load(first),
     b = await load(second)
@@ -69,7 +72,7 @@ if (command === 'list') {
     new Map(
       dump.records.map(record => [
         record.path ||
-          `${record.kind}/${record.objectId ?? record.id ?? ''}/${(record.kind === 'api-member' ? record.member?.name : record.member) ?? record.name ?? ''}/${record.index ?? record.playerIndex ?? ''}/${record.type ?? ''}/${record.signature ?? ''}`,
+          `${record.kind}/${record.objectId ?? record.id ?? ''}/${(record.kind === 'api-member' ? record.member?.name : record.member) ?? record.name ?? ''}/${record.index ?? record.playerIndex ?? ''}/${record.type ?? ''}/${record.signature ?? ''}/${record.sampleSequence ?? record.recordSequence ?? ''}`,
         record,
       ])
     )
@@ -83,5 +86,5 @@ if (command === 'list') {
   }
 } else
   throw new Error(
-    'Usage: inspect.mjs list|show|diff <directory> [capture UUID] [capture UUID]'
+    'Usage: inspect.mjs list|show|timeline|diff <directory> [capture UUID] [capture UUID]'
   )
