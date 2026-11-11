@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: TM Webhooks
-  version: 1.0.0
+  version: 1.1.0
   description: Webhook contract emitted by the Trackmania Turbo and Trackmania Next plugins.
 servers:
   - url: https://webhook-receiver.example.org/api
@@ -104,15 +104,16 @@ paths:
   /diagnostics/v1/chunks:
     post:
       operationId: receiveDiagnosticsChunk
-      summary: Receive one diagnostics dump chunk
+      summary: Receive a diagnostics stream packet or legacy chunk
       description: >-
         Separate standalone diagnostics receiver, not the race webhook service.
-        Requires the dedicated diagnostics token. Maximum request size 1 MiB,
-        maximum stored capture 32 MiB, maximum 1024 chunks. Records occupy indices
-        0 through total-2; the manifest occupies total-1. All chunks must agree on
-        game and total. Replaying an identical chunk is idempotent. Partial captures
-        remain incomplete until every chunk is present. Acknowledgements follow
-        file flush and rename; backups and power-loss durability depend on storage.
+        Requires the dedicated diagnostics token. Schema 1.1.0 streams individual
+        records (maximum 32 KiB, 32768 packets) without a total; the final manifest
+        index defines the total. Schema 1.0.0 accepts legacy chunks (maximum 1 MiB,
+        1024 chunks) with a declared total. Captures are capped at 32 MiB including
+        metadata reserve. Out-of-order packets and identical duplicates are
+        accepted; gaps or a lost manifest remain incomplete. Acknowledgements
+        follow writes; streaming senders do not wait for them or retry failures.
       servers:
         - url: http://127.0.0.1:8787
           description: Default local diagnostics receiver.
@@ -123,7 +124,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DiagnosticsChunk'
+              $ref: '#/components/schemas/DiagnosticsPacket'
       responses:
         '200':
           description: Identical chunk already stored.
@@ -148,7 +149,7 @@ paths:
         '415':
           description: Content type must be application/json.
         '503':
-          description: Temporary storage failure; retry the same chunk.
+          description: Temporary storage failure. Best-effort senders drop the packet.
         '507':
           description: Receiver storage quota exhausted; free space or let retention expire.
 components:
@@ -167,6 +168,56 @@ components:
       schema:
         type: string
   schemas:
+    DiagnosticsPacket:
+      oneOf:
+        - $ref: '#/components/schemas/DiagnosticsChunk'
+        - $ref: '#/components/schemas/DiagnosticsStreamPacket'
+    DiagnosticsStreamPacket:
+      type: object
+      required: [schemaVersion, captureId, game, index, kind, data]
+      not:
+        properties:
+          total: {}
+        required: [total]
+      properties:
+        schemaVersion:
+          type: string
+          const: 1.1.0
+        captureId:
+          type: string
+          format: uuid
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'
+        game:
+          type: string
+          enum: [turbo, next]
+        index:
+          type: integer
+          minimum: 0
+          maximum: 32767
+          description: Increasing attempted-record index; the final manifest's index defines the last index.
+        kind:
+          type: string
+          enum: [record, manifest]
+        data:
+          type: object
+          additionalProperties: true
+      allOf:
+        - if:
+            properties:
+              kind:
+                const: record
+          then:
+            properties:
+              index:
+                maximum: 32766
+        - if:
+            properties:
+              kind:
+                const: manifest
+          then:
+            properties:
+              data:
+                $ref: '#/components/schemas/DiagnosticsManifest'
     DiagnosticsChunk:
       type: object
       required: [schemaVersion, captureId, game, index, total, kind, data]
@@ -232,6 +283,15 @@ components:
           type: string
           enum: [metadata-only, native-values]
           description: Metadata-only captures omit generated native getters and helper value summaries.
+        attemptedRecords:
+          type: integer
+          minimum: 0
+        locallyDroppedRecords:
+          type: integer
+          minimum: 0
+        delivery:
+          type: string
+          description: Streaming is best-effort, without acknowledgement waits or retries.
         inventoryHash:
           type: string
           description: SHA-256 of the normalized documented API inventory.
@@ -263,7 +323,8 @@ components:
         complete:
           type: boolean
         missing:
-          type: array
+          type: [array, 'null']
+          description: Null until the streaming manifest supplies the final index.
           items:
             type: integer
             minimum: 0

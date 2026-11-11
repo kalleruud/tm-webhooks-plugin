@@ -185,6 +185,43 @@ test('real Bun HTTP server accepts authenticated uploads and inspect CLI reconst
     )
     assert.equal(response.status, 201)
   }
+  const streamId = 'c211b7cd-f6a1-4f60-9000-2debd9484a01'
+  for (const body of [
+    {
+      schemaVersion: '1.1.0',
+      captureId: streamId,
+      game: 'next',
+      index: 0,
+      kind: 'record',
+      data: { kind: 'field', value: 9 },
+    },
+    {
+      schemaVersion: '1.1.0',
+      captureId: streamId,
+      game: 'next',
+      index: 1,
+      kind: 'manifest',
+      data: manifest.data,
+    },
+  ]) {
+    const response = await fetch(
+      `http://127.0.0.1:${server.port}/diagnostics/v1/chunks`,
+      {
+        method: 'POST',
+        headers: {
+          authorization: 'Bearer test-only-token',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }
+    )
+    assert.equal(response.status, 201)
+  }
+  assert.equal(
+    JSON.parse(await readFile(join(directory, streamId, 'complete.json')))
+      .total,
+    2
+  )
   const child = Bun.spawn(
     ['bun', 'tools/diagnostics-receiver/inspect.mjs', 'show', directory, id],
     { stdout: 'pipe', stderr: 'pipe' }
@@ -193,4 +230,149 @@ test('real Bun HTTP server accepts authenticated uploads and inspect CLI reconst
   assert.equal(await child.exited, 0)
   assert.deepEqual(dump.missing, [])
   assert.equal(dump.records[0].fields.speed, 42)
+})
+
+const streamRecord = {
+  schemaVersion: '1.1.0',
+  captureId: id,
+  game: 'turbo',
+  index: 0,
+  kind: 'record',
+  data: { kind: 'field', objectId: 0, member: 'Speed', value: 42 },
+}
+const streamManifest = {
+  ...streamRecord,
+  index: 2,
+  kind: 'manifest',
+  data: manifest.data,
+}
+test('best-effort stream accepts records immediately, handles final manifest first, and exposes gaps', async t => {
+  const { send, directory } = await fixture(t)
+  const response = await send(streamRecord)
+  assert.equal(response.status, 201)
+  assert.deepEqual(await response.json(), {
+    captureId: id,
+    index: 0,
+    complete: false,
+    missing: null,
+  })
+  const ending = await send(streamManifest)
+  assert.deepEqual((await ending.json()).missing, [1])
+  assert.equal((await send(streamRecord)).status, 200)
+  await assert.rejects(readFile(join(directory, id, 'complete.json')), {
+    code: 'ENOENT',
+  })
+  const filled = await send({ ...streamRecord, index: 1 })
+  assert.ok((await filled.json()).complete)
+  const complete = JSON.parse(
+    await readFile(join(directory, id, 'complete.json'))
+  )
+  assert.equal(complete.total, 3)
+  assert.equal((await send({ ...streamRecord, index: 3 })).status, 409)
+  assert.equal((await send({ ...streamManifest, index: 1 })).status, 409)
+  assert.equal(
+    (await send({ ...streamRecord, data: { changed: true } })).status,
+    409
+  )
+  assert.equal((await send(record)).status, 409)
+})
+test('a lost stream manifest stays incomplete after restart; CLI still exposes received records', async t => {
+  const { send, directory } = await fixture(t)
+  await send({ ...streamRecord, index: 1 })
+  const child = Bun.spawn(
+    ['bun', 'tools/diagnostics-receiver/inspect.mjs', 'show', directory, id],
+    { stdout: 'pipe', stderr: 'pipe' }
+  )
+  const dump = JSON.parse(await new Response(child.stdout).text())
+  assert.equal(await child.exited, 0)
+  assert.equal(dump.complete, false)
+  assert.equal(dump.total, null)
+  assert.deepEqual(dump.missing, [0])
+  assert.equal(dump.records[0].value, 42)
+  const receiver = createReceiver({ directory, token: 'test-only-token' })
+  const response = await receiver.fetch(
+    new Request('http://receiver/diagnostics/v1/chunks', {
+      method: 'POST',
+      headers: {
+        authorization: 'Bearer test-only-token',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(streamManifest),
+    })
+  )
+  assert.deepEqual((await response.json()).missing, [0])
+})
+test('stream protocol rejects excessive size, illegal indexes, game/protocol conflicts and storage exhaustion', async t => {
+  const { send } = await fixture(t)
+  for (const bad of [
+    { ...streamRecord, total: 3 },
+    { ...streamRecord, index: 32767 },
+    { ...streamRecord, index: -1 },
+    { ...streamRecord, data: [] },
+    { ...streamManifest, index: 32768 },
+  ])
+    assert.equal((await send(bad)).status, 400)
+  assert.equal(
+    (await send({ ...streamRecord, data: { text: 'x'.repeat(32768) } })).status,
+    413
+  )
+  await send(streamRecord)
+  assert.equal(
+    (await send({ ...streamRecord, game: 'next', index: 1 })).status,
+    409
+  )
+  const second = await fixture(t, { maxDiskBytes: 100 })
+  assert.equal((await second.send(streamRecord)).status, 507)
+  assert.deepEqual(await readdir(second.directory), [])
+})
+
+test('CLI diff preserves separate API-member identities within one type', async t => {
+  const { send, directory } = await fixture(t)
+  const secondId = 'c211b7cd-f6a1-4f60-9000-2debd9484a02'
+  for (const captureId of [id, secondId]) {
+    const members = [
+      { name: 'First', type: captureId === id ? 'int' : 'bool' },
+      { name: 'Last', type: 'float' },
+    ]
+    for (let index = 0; index < members.length; index++) {
+      assert.equal(
+        (
+          await send({
+            ...streamRecord,
+            captureId,
+            index,
+            data: {
+              kind: 'api-member',
+              type: 'CExample',
+              member: members[index],
+            },
+          })
+        ).status,
+        201
+      )
+    }
+    assert.equal((await send({ ...streamManifest, captureId })).status, 201)
+  }
+  const child = Bun.spawn(
+    [
+      'bun',
+      'tools/diagnostics-receiver/inspect.mjs',
+      'diff',
+      directory,
+      id,
+      secondId,
+    ],
+    { stdout: 'pipe', stderr: 'pipe' }
+  )
+  const output = (await new Response(child.stdout).text()).trim()
+  assert.equal(await child.exited, 0)
+  assert.notEqual(
+    output,
+    '',
+    'changing First must not be hidden by unchanged Last'
+  )
+  const changes = output.split('\n').map(line => JSON.parse(line))
+  assert.equal(changes.length, 1)
+  assert.equal(changes[0].before.member.name, 'First')
+  assert.equal(changes[0].after.member.type, 'bool')
 })

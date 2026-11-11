@@ -93,15 +93,12 @@ distribution requires the normal Openplanet review and signing process.
 ## Optional diagnostics harness
 
 Build `bash scripts/build-op.sh diagnostics` (Windows:
-`.\scripts\build-op.ps1 diagnostics`) for an on-demand game-state dump probe and
-separate diagnostics endpoint/token settings. Run its standalone receiver with
-`bun tools/diagnostics-receiver/server.mjs` and a dedicated `DIAGNOSTICS_TOKEN`.
-Default production packages exclude all diagnostics source and settings.
+`.\scripts\build-op.ps1 diagnostics`) for periodic best-effort diagnostics with
+its own endpoint/token. Run `bun tools/diagnostics-receiver/server.mjs` with a
+dedicated `DIAGNOSTICS_TOKEN`. Production packages exclude all diagnostics code.
 
-See [diagnostics setup, coverage, and validation](docs/diagnostics-harness.md).
-The probe reports coverage gaps and truncation explicitly; live Turbo/Next
-compile/load testing is required before using a refreshed API inventory.
-
-Diagnostics captures default to metadata-only while native getter freezes are
-being investigated. Enable native value reads explicitly only after a metadata
-capture succeeds; keep the last-operation breadcrumb enabled for troubleshooting.
+Use **Start periodic diagnostics** and configure the capture interval (default
+five seconds). Small records stream while collected, without acknowledgement
+waits, retries, or local dump spooling. Queues are bounded and failures can lose
+records. Native values remain opt-in while hang behavior is investigated;
+metadata-only is the default. See [setup and validation](docs/diagnostics-harness.md).

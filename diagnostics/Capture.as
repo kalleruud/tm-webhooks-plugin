@@ -11,10 +11,7 @@ class DiagnosticsNode
 class DiagnosticsCapture
 {
     array<DiagnosticsNode@> nodes;
-    array<string> chunks;
-    Json::Value batch = Json::Array();
-    Json::Value issues = Json::Array();
-    uint batchBytes;
+    uint objectIssues;
     uint bytes;
     uint read;
     uint excluded;
@@ -23,6 +20,11 @@ class DiagnosticsCapture
     uint truncated;
     uint objectsRead;
     uint definitionsRead;
+    uint packetIndex;
+    uint objectIndex;
+    uint locallyDropped;
+    string endpoint = Setting_DiagnosticsEndpoint;
+    string token = Setting_DiagnosticsToken;
     uint maxObjects = Math::Clamp(int(Setting_DiagnosticsObjects), 1, 10000);
     uint maxDepth = Math::Clamp(int(Setting_DiagnosticsDepth), 1, 32);
     uint maxArray = Math::Clamp(int(Setting_DiagnosticsArray), 1, 512);
@@ -41,6 +43,7 @@ class DiagnosticsCapture
     uint frameStarted = Time::Now;
     uint workSteps;
     bool readValues = Setting_DiagnosticsReadValues;
+    bool includeAPI = Setting_DiagnosticsIncludeAPI;
     bool tracing = Setting_DiagnosticsTrace;
 
     bool LimitReached()
@@ -69,7 +72,7 @@ class DiagnosticsCapture
         try {
             Json::Value breadcrumb = Json::Object();
             breadcrumb["captureId"] = id;
-            breadcrumb["collectorVersion"] = "1.0.2";
+            breadcrumb["collectorVersion"] = "1.1.0";
             breadcrumb["game"] = DiagnosticsGame();
             breadcrumb["phase"] = phase;
             breadcrumb["member"] = operation;
@@ -139,17 +142,37 @@ class DiagnosticsCapture
 
     void Field(Json::Value &inout fields, const string &in name, Json::Value@ value)
     {
-        fields[name] = value;
+        // Keep only a small coverage marker in the object summary. Values are
+        // serialized once and queued immediately, never accumulated into a dump.
+        fields[name] = true;
+        Json::Value record = Json::Object();
+        record["kind"] = "field";
+        record["objectId"] = objectIndex;
+        record["member"] = name;
+        record["value"] = value;
+        Emit(record);
         read++;
     }
 
-    void ArrayField(Json::Value &inout fields, const string &in name, Json::Value &in values, uint length)
+    void ArrayElement(const string &in name, uint index, uint length, Json::Value@ value)
+    {
+        Json::Value record = Json::Object();
+        record["kind"] = "array-element";
+        record["objectId"] = objectIndex;
+        record["member"] = name;
+        record["index"] = index;
+        record["length"] = length;
+        record["value"] = value;
+        Emit(record);
+    }
+
+    void ArrayField(Json::Value &inout fields, const string &in name, uint captured, uint length)
     {
         Json::Value value = Json::Object();
         value["length"] = length;
-        value["values"] = values;
-        value["status"] = length > values.Length ? "truncated" : "captured";
-        if (length > values.Length) truncated++;
+        value["capturedElements"] = captured;
+        value["status"] = length > captured ? "truncated" : "captured";
+        if (length > captured) truncated++;
         Field(fields, name, value);
     }
 
@@ -159,7 +182,10 @@ class DiagnosticsCapture
         issue["member"] = name;
         issue["status"] = status;
         issue["reason"] = detail;
-        issues.Add(issue);
+        objectIssues++;
+        issue["kind"] = "coverage-issue";
+        issue["objectId"] = objectIndex;
+        Emit(issue);
         if (status == "excluded") excluded++;
         else if (status == "failed") failed++;
         else unsupported++;
@@ -167,30 +193,29 @@ class DiagnosticsCapture
 
     void Emit(Json::Value &in record)
     {
+        // One small value/definition at a time. No Json::Write(batch), capture
+        // spool, or second parse/serialization pass on the game thread.
+        if (g_diagnosticsCancel) return;
+        if (packetIndex >= 32767) { stopped = true; reason = "packet budget"; return; }
         string serialized = Json::Write(record);
-        // Keep every wire envelope below the receiver's 1 MiB bound.
-        if (serialized.Length > 256 * 1024) {
-            record = Json::Object();
-            record["kind"] = "omitted-record";
-            record["path"] = path;
-            record["status"] = "truncated";
-            record["reason"] = "record exceeds 256 KiB";
-            serialized = Json::Write(record);
+        uint index = packetIndex++;
+        if (serialized.Length > 24 * 1024 || bytes + serialized.Length > 16 * 1024 * 1024) {
+            locallyDropped++;
             truncated++;
+            if (bytes + serialized.Length > 16 * 1024 * 1024) { stopped = true; reason = "stream budget"; }
+        } else {
+            bytes += serialized.Length;
+            if (!DiagnosticsEnqueue(id, index, "record", serialized, endpoint, token)) locallyDropped++;
         }
-        if (bytes + serialized.Length > 16 * 1024 * 1024) { stopped = true; reason = "byte budget"; return; }
-        if (batchBytes + serialized.Length > 384 * 1024) Flush();
-        batch.Add(record);
-        batchBytes += serialized.Length + 1;
-        bytes += serialized.Length + 1;
+        // Always hand back the frame after a serialization, even if Time::Now
+        // has not advanced. Individual native getters remain non-preemptible.
+        yield();
     }
 
-    void Flush()
+    void SendManifest()
     {
-        if (batch.Length == 0) return;
-        chunks.InsertLast(Json::Write(batch));
-        batch = Json::Array();
-        batchBytes = 0;
+        Json::Value manifest = Manifest();
+        DiagnosticsEnqueue(id, packetIndex, "manifest", Json::Write(manifest), endpoint, token);
     }
 
     void Run()
@@ -211,11 +236,12 @@ class DiagnosticsCapture
         if (readValues) Link(app.CurrentPlayground, 1);
         for (uint index = 0; index < nodes.Length && !LimitReached(); index++) {
             if (sceneBound && app.CurrentPlayground !is initialPlayground) { stopped = true; reason = "playground changed"; break; }
+            objectIndex = index;
             auto item = nodes[index];
             path = item.path;
-            issues = Json::Array();
+            objectIssues = 0;
             Json::Value fields = Json::Object();
-            Json::Value inventory = Json::Array();
+            uint runtimeMemberCount;
             Trace("reflection-type");
             auto type = Reflection::TypeOf(item.node);
             string runtimeType = type is null ? "unknown" : type.Name;
@@ -232,7 +258,10 @@ class DiagnosticsCapture
                     entry["id"] = members[i].ID;
                     string key = type.Name + "." + members[i].Name;
                     entry["status"] = fields.HasKey(key) ? "captured" : "not-captured";
-                    inventory.Add(entry);
+                    runtimeMemberCount++;
+                    entry["kind"] = "runtime-member";
+                    entry["objectId"] = index;
+                    Emit(entry);
                 }
                 if (!supported) Skipped(type.Name, "unsupported", "runtime class absent from generated API inventory");
                 @type = type.BaseType;
@@ -243,9 +272,9 @@ class DiagnosticsCapture
             record["path"] = path;
             record["type"] = runtimeType;
             record["observedAt"] = OccurredAtUtc();
-            record["fields"] = fields;
-            record["issues"] = issues;
-            record["runtimeMembers"] = inventory;
+            record["capturedMembers"] = fields.GetKeys().Length;
+            record["issuesCount"] = objectIssues;
+            record["runtimeMemberCount"] = runtimeMemberCount;
             Trace("serializing-object");
             Emit(record);
             objectsRead++;
@@ -255,23 +284,39 @@ class DiagnosticsCapture
         }
         nodes.RemoveRange(0, nodes.Length);
         sceneBound = false;
-        EmitDefinitions();
-        Flush();
+        if (includeAPI && !LimitReached()) EmitDefinitions();
     }
 
     void EmitDefinitions()
     {
         Trace("loading-api-definitions");
+        yield();
         IO::FileSource source("diagnostics/generated/" + DiagnosticsGame() + "-api.json");
         Json::Value definitions = Json::Parse(source.ReadToEnd());
+        yield();
         for (uint i = 0; i < definitions.Length && !Checkpoint(); i++) {
             Trace("api-definition", string(definitions[i]["name"]));
+            Json::Value definition = definitions[i];
             Json::Value record = Json::Object();
             record["kind"] = "api-definition";
-            record["path"] = "api/" + string(definitions[i]["name"]);
-            record["definition"] = definitions[i];
-            path = string(record["path"]);
+            record["name"] = definition["name"];
+            record["base"] = definition["base"];
+            record["url"] = definition["url"];
             Emit(record);
+            for (uint j = 0; j < definition["members"].Length && !Checkpoint(); j++) {
+                Json::Value field = Json::Object();
+                field["kind"] = "api-member";
+                field["type"] = definition["name"];
+                field["member"] = definition["members"][j];
+                Emit(field);
+            }
+            for (uint j = 0; j < definition["methods"].Length && !Checkpoint(); j++) {
+                Json::Value method = Json::Object();
+                method["kind"] = "api-method";
+                method["type"] = definition["name"];
+                method["signature"] = Text(string(definition["methods"][j]));
+                Emit(method);
+            }
             definitionsRead++;
         }
     }
@@ -281,13 +326,14 @@ class DiagnosticsCapture
         Json::Value result = Json::Object();
         result["startedAt"] = startedAt;
         result["endedAt"] = OccurredAtUtc();
-        result["status"] = captureFailed ? "failed" : (g_diagnosticsCancel ? "cancelled" : (stopped || truncated > 0 ? "truncated" : "complete"));
+        result["status"] = captureFailed ? "failed" : (g_diagnosticsCancel ? "cancelled" : (stopped || truncated > 0 || locallyDropped > 0 ? "truncated" : "complete"));
         result["reason"] = reason;
         result["pluginVersion"] = Meta::ExecutingPlugin().Version;
         result["runtimeVersion"] = Meta::OpenplanetVersion();
         result["runtimeCommit"] = Meta::OpenplanetVersionGitCommit();
-        result["collectorVersion"] = "1.0.2";
+        result["collectorVersion"] = "1.1.0";
         result["captureMode"] = readValues ? "native-values" : "metadata-only";
+        result["includeStaticAPI"] = includeAPI;
         result["game"] = AdapterGameName();
         result["inventoryHash"] = DiagnosticsInventoryHash();
         result["objects"] = objectsRead;
@@ -298,6 +344,9 @@ class DiagnosticsCapture
         result["failedFields"] = failed;
         result["truncations"] = truncated;
         result["payloadBytes"] = bytes;
+        result["attemptedRecords"] = packetIndex;
+        result["locallyDroppedRecords"] = locallyDropped;
+        result["delivery"] = "best-effort; no retries or acknowledgement waits";
         result["maxObjects"] = maxObjects;
         result["maxDepth"] = maxDepth;
         result["maxArray"] = maxArray;

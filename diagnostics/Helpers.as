@@ -15,10 +15,11 @@ void DiagnosticsHelpers(DiagnosticsCapture@ capture)
             record["checkpointCount"] = race.CPCount;
             record["lapCount"] = race.LapCount;
             auto app = cast<CTrackMania>(GetApp());
-            Json::Value players = Json::Array();
+            uint players;
             if (app !is null && app.CurrentPlayground !is null) {
                 auto playground = app.CurrentPlayground;
                 for (uint i = 0; i < playground.Players.Length && i < capture.maxArray; i++) {
+                    if (capture.Checkpoint()) break;
                     auto player = cast<CSmPlayer>(playground.Players[i]);
                     if (player is null || player.User is null) continue;
                     auto feed = race.GetPlayer_V4(player.User.Name);
@@ -34,10 +35,12 @@ void DiagnosticsHelpers(DiagnosticsCapture@ capture)
                     state["respawnsRequested"] = feed.NbRespawnsRequested;
                     state["isFinished"] = feed.IsFinished;
                     state["currentLap"] = feed.CurrentLap;
-                    players.Add(state);
+                    state["kind"] = "helper-player";
+                    capture.Emit(state);
+                    players++;
                 }
             }
-            record["players"] = players;
+            record["playerCount"] = players;
         } else record["raceStatus"] = "unavailable";
     } catch { record["raceStatus"] = "getter exception"; }
     try {

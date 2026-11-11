@@ -14,17 +14,35 @@ async function load(id) {
   const records = []
   const missing = []
   let manifest = null
-  for (let i = 0; i < meta.total; i++) {
+  const indices =
+    meta.total === null
+      ? (await readdir(dir))
+          .filter(name => /^\d+\.json$/.test(name))
+          .map(name => Number(name.split('.')[0]))
+          .sort((a, b) => a - b)
+      : Array.from({ length: meta.total }, (_, i) => i)
+  for (const i of indices) {
     try {
       const chunk = JSON.parse(await readFile(join(dir, `${i}.json`), 'utf8'))
       if (chunk.kind === 'records') records.push(...chunk.data)
+      else if (chunk.kind === 'record') records.push(chunk.data)
       else manifest = chunk.data
     } catch (error) {
       if (error.code === 'ENOENT') missing.push(i)
       else throw error
     }
   }
-  return { ...meta, manifest, missing, records }
+  if (meta.total === null) {
+    for (let i = 0; i <= (indices.at(-1) ?? -1); i++)
+      if (!indices.includes(i)) missing.push(i)
+  }
+  return {
+    ...meta,
+    manifest,
+    missing,
+    complete: meta.total !== null && missing.length === 0,
+    records,
+  }
 }
 if (command === 'list') {
   for (const id of await readdir(root)) {
@@ -34,7 +52,8 @@ if (command === 'list') {
       JSON.stringify({
         captureId: id,
         game: dump.game,
-        status: dump.manifest?.status || 'incomplete',
+        status: dump.complete ? dump.manifest?.status : 'incomplete',
+        probeStatus: dump.manifest?.status ?? null,
         missing: dump.missing,
         records: dump.records.length,
       })
@@ -49,7 +68,8 @@ if (command === 'list') {
   const byPath = dump =>
     new Map(
       dump.records.map(record => [
-        record.path || record.id || record.kind,
+        record.path ||
+          `${record.kind}/${record.objectId ?? record.id ?? ''}/${(record.kind === 'api-member' ? record.member?.name : record.member) ?? record.name ?? ''}/${record.index ?? record.playerIndex ?? ''}/${record.type ?? ''}/${record.signature ?? ''}`,
         record,
       ])
     )

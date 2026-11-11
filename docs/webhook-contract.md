@@ -371,7 +371,7 @@ Production archives omit diagnostics entirely. The diagnostics receiver requires
 a dedicated bearer token even when race webhooks are configured without auth.
 
 See [the diagnostics harness](diagnostics-harness.md) for the capture semantics,
-privacy exclusions, limits, chunk ordering/idempotency, local spool, retention,
+privacy exclusions, limits, stream ordering/idempotency, best-effort loss, retention,
 and receiver operations. `POST /diagnostics/v1/chunks` and its versioned envelope,
 manifest, and acknowledgement are specified alongside the race contract in
 [openapi.yaml](../openapi.yaml). A receiver-complete upload may contain a partial
@@ -381,3 +381,13 @@ Diagnostic manifests optionally include `captureMode`: `metadata-only` skips
 generated native getters and helper value summaries; `native-values` enables
 them explicitly. Metadata-only is the default while investigating native getter
 freezes. A completed metadata capture does not imply game-state value coverage.
+
+Collector 1.1.0 uses periodic best-effort streaming on the same diagnostics endpoint.
+Each `schemaVersion: 1.1.0` packet has `captureId`, `game`, `index`, `kind`
+(`record` or `manifest`) and object `data`, with no declared `total`. The final
+manifest's index determines completion. Missing records or manifests remain
+incomplete; acknowledgements have `missing: null` until the final index is known.
+The plugin never waits for acknowledgements, retries failures, or spools whole
+dumps. Each stream packet is limited to 32 KiB; the sender uses 64 queue slots
+and four concurrent requests with five-second expiry. Collection intervals are
+configurable and captures never overlap. Legacy schema 1.0.0 chunks remain accepted.

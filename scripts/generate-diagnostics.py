@@ -146,7 +146,7 @@ def generate(game, define, inventory):
             else:
                 counts['readable'] += 1
                 if arr:
-                    code = f'Json::Value values = Json::Array(); uint length = node.{field}.Length; for (uint i = 0; i < length && i < c.maxArray; i++) {{ if (c.Checkpoint()) break; c.Trace("array-element", "{key}[" + i + "]"); values.Add({value}); }} c.ArrayField(fields, "{key}", values, length)'
+                    code = f'uint length = node.{field}.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) {{ if (c.Checkpoint()) break; c.Trace("array-element", "{key}[" + i + "]"); c.ArrayElement("{key}", i, length, {value}); captured++; }} c.ArrayField(fields, "{key}", captured, length)'
                 else:
                     code = f'c.Field(fields, "{key}", {value})'
             lines += ['    if (c.Checkpoint()) return;', f'    c.BeginMember("{key}");', f'    try {{ {code}; }} catch {{ c.Skipped("{key}", "failed", "getter exception"); }}']

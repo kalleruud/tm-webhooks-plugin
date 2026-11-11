@@ -1084,7 +1084,7 @@ void DiagnosticsRead_CAudioListener(DiagnosticsCapture@ c, CAudioListener@ node,
     try { c.Field(fields, "CAudioListener.UnderwaterCoef", c.Number(double(node.UnderwaterCoef))); } catch { c.Skipped("CAudioListener.UnderwaterCoef", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioListener.AudioGroupHandlesInFocus");
-    try { Json::Value values = Json::Array(); uint length = node.AudioGroupHandlesInFocus.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioListener.AudioGroupHandlesInFocus[" + i + "]"); values.Add(Json::Value(node.AudioGroupHandlesInFocus[i])); } c.ArrayField(fields, "CAudioListener.AudioGroupHandlesInFocus", values, length); } catch { c.Skipped("CAudioListener.AudioGroupHandlesInFocus", "failed", "getter exception"); }
+    try { uint length = node.AudioGroupHandlesInFocus.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioListener.AudioGroupHandlesInFocus[" + i + "]"); c.ArrayElement("CAudioListener.AudioGroupHandlesInFocus", i, length, Json::Value(node.AudioGroupHandlesInFocus[i])); captured++; } c.ArrayField(fields, "CAudioListener.AudioGroupHandlesInFocus", captured, length); } catch { c.Skipped("CAudioListener.AudioGroupHandlesInFocus", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioListener.Location");
     try { c.Field(fields, "CAudioListener.Location", c.Text(tostring(node.Location))); } catch { c.Skipped("CAudioListener.Location", "failed", "getter exception"); }
@@ -1130,16 +1130,16 @@ void DiagnosticsRead_CAudioPort(DiagnosticsCapture@ c, CAudioPort@ node, Json::V
     try { c.Field(fields, "CAudioPort.SettingMaxSimultaneousSounds", Json::Value(node.SettingMaxSimultaneousSounds)); } catch { c.Skipped("CAudioPort.SettingMaxSimultaneousSounds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioPort.Zones");
-    try { Json::Value values = Json::Array(); uint length = node.Zones.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.Zones[" + i + "]"); values.Add(c.Link(node.Zones[i], depth + 1)); } c.ArrayField(fields, "CAudioPort.Zones", values, length); } catch { c.Skipped("CAudioPort.Zones", "failed", "getter exception"); }
+    try { uint length = node.Zones.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.Zones[" + i + "]"); c.ArrayElement("CAudioPort.Zones", i, length, c.Link(node.Zones[i], depth + 1)); captured++; } c.ArrayField(fields, "CAudioPort.Zones", captured, length); } catch { c.Skipped("CAudioPort.Zones", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioPort.Listeners");
-    try { Json::Value values = Json::Array(); uint length = node.Listeners.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.Listeners[" + i + "]"); values.Add(c.Link(node.Listeners[i], depth + 1)); } c.ArrayField(fields, "CAudioPort.Listeners", values, length); } catch { c.Skipped("CAudioPort.Listeners", "failed", "getter exception"); }
+    try { uint length = node.Listeners.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.Listeners[" + i + "]"); c.ArrayElement("CAudioPort.Listeners", i, length, c.Link(node.Listeners[i], depth + 1)); captured++; } c.ArrayField(fields, "CAudioPort.Listeners", captured, length); } catch { c.Skipped("CAudioPort.Listeners", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioPort.Sources");
-    try { Json::Value values = Json::Array(); uint length = node.Sources.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.Sources[" + i + "]"); values.Add(c.Link(node.Sources[i], depth + 1)); } c.ArrayField(fields, "CAudioPort.Sources", values, length); } catch { c.Skipped("CAudioPort.Sources", "failed", "getter exception"); }
+    try { uint length = node.Sources.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.Sources[" + i + "]"); c.ArrayElement("CAudioPort.Sources", i, length, c.Link(node.Sources[i], depth + 1)); captured++; } c.ArrayField(fields, "CAudioPort.Sources", captured, length); } catch { c.Skipped("CAudioPort.Sources", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioPort.BufferKeepers");
-    try { Json::Value values = Json::Array(); uint length = node.BufferKeepers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.BufferKeepers[" + i + "]"); values.Add(c.Link(node.BufferKeepers[i], depth + 1)); } c.ArrayField(fields, "CAudioPort.BufferKeepers", values, length); } catch { c.Skipped("CAudioPort.BufferKeepers", "failed", "getter exception"); }
+    try { uint length = node.BufferKeepers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.BufferKeepers[" + i + "]"); c.ArrayElement("CAudioPort.BufferKeepers", i, length, c.Link(node.BufferKeepers[i], depth + 1)); captured++; } c.ArrayField(fields, "CAudioPort.BufferKeepers", captured, length); } catch { c.Skipped("CAudioPort.BufferKeepers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioPort.Manager_AllocatedVoices");
     try { c.Field(fields, "CAudioPort.Manager_AllocatedVoices", Json::Value(node.Manager_AllocatedVoices)); } catch { c.Skipped("CAudioPort.Manager_AllocatedVoices", "failed", "getter exception"); }
@@ -1181,7 +1181,7 @@ void DiagnosticsRead_CAudioPort(DiagnosticsCapture@ c, CAudioPort@ node, Json::V
     try { c.Field(fields, "CAudioPort.IsCapturing", Json::Value(node.IsCapturing)); } catch { c.Skipped("CAudioPort.IsCapturing", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioPort.CapturedFileSnds");
-    try { Json::Value values = Json::Array(); uint length = node.CapturedFileSnds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.CapturedFileSnds[" + i + "]"); values.Add(c.Link(node.CapturedFileSnds[i], depth + 1)); } c.ArrayField(fields, "CAudioPort.CapturedFileSnds", values, length); } catch { c.Skipped("CAudioPort.CapturedFileSnds", "failed", "getter exception"); }
+    try { uint length = node.CapturedFileSnds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioPort.CapturedFileSnds[" + i + "]"); c.ArrayElement("CAudioPort.CapturedFileSnds", i, length, c.Link(node.CapturedFileSnds[i], depth + 1)); captured++; } c.ArrayField(fields, "CAudioPort.CapturedFileSnds", captured, length); } catch { c.Skipped("CAudioPort.CapturedFileSnds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioPort.ModifierXmlFile");
     try { c.Field(fields, "CAudioPort.ModifierXmlFile", c.Link(node.ModifierXmlFile, depth + 1)); } catch { c.Skipped("CAudioPort.ModifierXmlFile", "failed", "getter exception"); }
@@ -1234,7 +1234,7 @@ void DiagnosticsRead_CAudioScriptManager(DiagnosticsCapture@ c, CAudioScriptMana
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioScriptManager.Sounds");
-    try { Json::Value values = Json::Array(); uint length = node.Sounds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptManager.Sounds[" + i + "]"); values.Add(c.Link(node.Sounds[i], depth + 1)); } c.ArrayField(fields, "CAudioScriptManager.Sounds", values, length); } catch { c.Skipped("CAudioScriptManager.Sounds", "failed", "getter exception"); }
+    try { uint length = node.Sounds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptManager.Sounds[" + i + "]"); c.ArrayElement("CAudioScriptManager.Sounds", i, length, c.Link(node.Sounds[i], depth + 1)); captured++; } c.ArrayField(fields, "CAudioScriptManager.Sounds", captured, length); } catch { c.Skipped("CAudioScriptManager.Sounds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioScriptManager.ForceEnableMusic");
     try { c.Field(fields, "CAudioScriptManager.ForceEnableMusic", Json::Value(node.ForceEnableMusic)); } catch { c.Skipped("CAudioScriptManager.ForceEnableMusic", "failed", "getter exception"); }
@@ -1253,16 +1253,16 @@ void DiagnosticsRead_CAudioScriptMusic(DiagnosticsCapture@ c, CAudioScriptMusic@
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioScriptMusic.Tracks_Volume");
-    try { Json::Value values = Json::Array(); uint length = node.Tracks_Volume.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptMusic.Tracks_Volume[" + i + "]"); values.Add(c.Number(double(node.Tracks_Volume[i]))); } c.ArrayField(fields, "CAudioScriptMusic.Tracks_Volume", values, length); } catch { c.Skipped("CAudioScriptMusic.Tracks_Volume", "failed", "getter exception"); }
+    try { uint length = node.Tracks_Volume.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptMusic.Tracks_Volume[" + i + "]"); c.ArrayElement("CAudioScriptMusic.Tracks_Volume", i, length, c.Number(double(node.Tracks_Volume[i]))); captured++; } c.ArrayField(fields, "CAudioScriptMusic.Tracks_Volume", captured, length); } catch { c.Skipped("CAudioScriptMusic.Tracks_Volume", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioScriptMusic.Tracks_VolumedB");
-    try { Json::Value values = Json::Array(); uint length = node.Tracks_VolumedB.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptMusic.Tracks_VolumedB[" + i + "]"); values.Add(c.Number(double(node.Tracks_VolumedB[i]))); } c.ArrayField(fields, "CAudioScriptMusic.Tracks_VolumedB", values, length); } catch { c.Skipped("CAudioScriptMusic.Tracks_VolumedB", "failed", "getter exception"); }
+    try { uint length = node.Tracks_VolumedB.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptMusic.Tracks_VolumedB[" + i + "]"); c.ArrayElement("CAudioScriptMusic.Tracks_VolumedB", i, length, c.Number(double(node.Tracks_VolumedB[i]))); captured++; } c.ArrayField(fields, "CAudioScriptMusic.Tracks_VolumedB", captured, length); } catch { c.Skipped("CAudioScriptMusic.Tracks_VolumedB", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioScriptMusic.Tracks_Name");
-    try { Json::Value values = Json::Array(); uint length = node.Tracks_Name.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptMusic.Tracks_Name[" + i + "]"); values.Add(c.Text(string(node.Tracks_Name[i]))); } c.ArrayField(fields, "CAudioScriptMusic.Tracks_Name", values, length); } catch { c.Skipped("CAudioScriptMusic.Tracks_Name", "failed", "getter exception"); }
+    try { uint length = node.Tracks_Name.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptMusic.Tracks_Name[" + i + "]"); c.ArrayElement("CAudioScriptMusic.Tracks_Name", i, length, c.Text(string(node.Tracks_Name[i]))); captured++; } c.ArrayField(fields, "CAudioScriptMusic.Tracks_Name", captured, length); } catch { c.Skipped("CAudioScriptMusic.Tracks_Name", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioScriptMusic.Tracks_Length");
-    try { Json::Value values = Json::Array(); uint length = node.Tracks_Length.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptMusic.Tracks_Length[" + i + "]"); values.Add(c.Number(double(node.Tracks_Length[i]))); } c.ArrayField(fields, "CAudioScriptMusic.Tracks_Length", values, length); } catch { c.Skipped("CAudioScriptMusic.Tracks_Length", "failed", "getter exception"); }
+    try { uint length = node.Tracks_Length.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioScriptMusic.Tracks_Length[" + i + "]"); c.ArrayElement("CAudioScriptMusic.Tracks_Length", i, length, c.Number(double(node.Tracks_Length[i]))); captured++; } c.ArrayField(fields, "CAudioScriptMusic.Tracks_Length", captured, length); } catch { c.Skipped("CAudioScriptMusic.Tracks_Length", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioScriptMusic.Tracks_Count");
     try { c.Field(fields, "CAudioScriptMusic.Tracks_Count", Json::Value(node.Tracks_Count)); } catch { c.Skipped("CAudioScriptMusic.Tracks_Count", "failed", "getter exception"); }
@@ -1474,10 +1474,10 @@ void DiagnosticsRead_CAudioSourceMusic(DiagnosticsCapture@ c, CAudioSourceMusic@
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioSourceMusic.TracksVolume");
-    try { Json::Value values = Json::Array(); uint length = node.TracksVolume.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioSourceMusic.TracksVolume[" + i + "]"); values.Add(c.Number(double(node.TracksVolume[i]))); } c.ArrayField(fields, "CAudioSourceMusic.TracksVolume", values, length); } catch { c.Skipped("CAudioSourceMusic.TracksVolume", "failed", "getter exception"); }
+    try { uint length = node.TracksVolume.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioSourceMusic.TracksVolume[" + i + "]"); c.ArrayElement("CAudioSourceMusic.TracksVolume", i, length, c.Number(double(node.TracksVolume[i]))); captured++; } c.ArrayField(fields, "CAudioSourceMusic.TracksVolume", captured, length); } catch { c.Skipped("CAudioSourceMusic.TracksVolume", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioSourceMusic.TracksVolumedB");
-    try { Json::Value values = Json::Array(); uint length = node.TracksVolumedB.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioSourceMusic.TracksVolumedB[" + i + "]"); values.Add(c.Number(double(node.TracksVolumedB[i]))); } c.ArrayField(fields, "CAudioSourceMusic.TracksVolumedB", values, length); } catch { c.Skipped("CAudioSourceMusic.TracksVolumedB", "failed", "getter exception"); }
+    try { uint length = node.TracksVolumedB.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioSourceMusic.TracksVolumedB[" + i + "]"); c.ArrayElement("CAudioSourceMusic.TracksVolumedB", i, length, c.Number(double(node.TracksVolumedB[i]))); captured++; } c.ArrayField(fields, "CAudioSourceMusic.TracksVolumedB", captured, length); } catch { c.Skipped("CAudioSourceMusic.TracksVolumedB", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioSourceMusic.LPF_CutoffRatio");
     try { c.Field(fields, "CAudioSourceMusic.LPF_CutoffRatio", c.Number(double(node.LPF_CutoffRatio))); } catch { c.Skipped("CAudioSourceMusic.LPF_CutoffRatio", "failed", "getter exception"); }
@@ -1521,10 +1521,10 @@ void DiagnosticsRead_CAudioZone(DiagnosticsCapture@ c, CAudioZone@ node, Json::V
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioZone.Sources");
-    try { Json::Value values = Json::Array(); uint length = node.Sources.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioZone.Sources[" + i + "]"); values.Add(c.Link(node.Sources[i], depth + 1)); } c.ArrayField(fields, "CAudioZone.Sources", values, length); } catch { c.Skipped("CAudioZone.Sources", "failed", "getter exception"); }
+    try { uint length = node.Sources.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioZone.Sources[" + i + "]"); c.ArrayElement("CAudioZone.Sources", i, length, c.Link(node.Sources[i], depth + 1)); captured++; } c.ArrayField(fields, "CAudioZone.Sources", captured, length); } catch { c.Skipped("CAudioZone.Sources", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CAudioZone.Listeners");
-    try { Json::Value values = Json::Array(); uint length = node.Listeners.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioZone.Listeners[" + i + "]"); values.Add(c.Link(node.Listeners[i], depth + 1)); } c.ArrayField(fields, "CAudioZone.Listeners", values, length); } catch { c.Skipped("CAudioZone.Listeners", "failed", "getter exception"); }
+    try { uint length = node.Listeners.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CAudioZone.Listeners[" + i + "]"); c.ArrayElement("CAudioZone.Listeners", i, length, c.Link(node.Listeners[i], depth + 1)); captured++; } c.ArrayField(fields, "CAudioZone.Listeners", captured, length); } catch { c.Skipped("CAudioZone.Listeners", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CAudioZoneSource(DiagnosticsCapture@ c, CAudioZoneSource@ node, Json::Value &inout fields, uint depth)
 {
@@ -1771,7 +1771,7 @@ void DiagnosticsRead_CControlContainer(DiagnosticsCapture@ c, CControlContainer@
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CControlContainer.Childs");
-    try { Json::Value values = Json::Array(); uint length = node.Childs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlContainer.Childs[" + i + "]"); values.Add(c.Link(node.Childs[i], depth + 1)); } c.ArrayField(fields, "CControlContainer.Childs", values, length); } catch { c.Skipped("CControlContainer.Childs", "failed", "getter exception"); }
+    try { uint length = node.Childs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlContainer.Childs[" + i + "]"); c.ArrayElement("CControlContainer.Childs", i, length, c.Link(node.Childs[i], depth + 1)); captured++; } c.ArrayField(fields, "CControlContainer.Childs", captured, length); } catch { c.Skipped("CControlContainer.Childs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlContainer.IsClippingContainer");
     try { c.Field(fields, "CControlContainer.IsClippingContainer", Json::Value(node.IsClippingContainer)); } catch { c.Skipped("CControlContainer.IsClippingContainer", "failed", "getter exception"); }
@@ -1987,7 +1987,7 @@ void DiagnosticsRead_CControlFrame(DiagnosticsCapture@ c, CControlFrame@ node, J
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CControlFrame.ChildsRelativeLocations");
-    try { Json::Value values = Json::Array(); uint length = node.ChildsRelativeLocations.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlFrame.ChildsRelativeLocations[" + i + "]"); values.Add(c.Text(tostring(node.ChildsRelativeLocations[i]))); } c.ArrayField(fields, "CControlFrame.ChildsRelativeLocations", values, length); } catch { c.Skipped("CControlFrame.ChildsRelativeLocations", "failed", "getter exception"); }
+    try { uint length = node.ChildsRelativeLocations.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlFrame.ChildsRelativeLocations[" + i + "]"); c.ArrayElement("CControlFrame.ChildsRelativeLocations", i, length, c.Text(tostring(node.ChildsRelativeLocations[i]))); captured++; } c.ArrayField(fields, "CControlFrame.ChildsRelativeLocations", captured, length); } catch { c.Skipped("CControlFrame.ChildsRelativeLocations", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CControlFrameAnimated(DiagnosticsCapture@ c, CControlFrameAnimated@ node, Json::Value &inout fields, uint depth)
 {
@@ -2044,17 +2044,17 @@ void DiagnosticsRead_CControlGraph(DiagnosticsCapture@ c, CControlGraph@ node, J
     try { c.Field(fields, "CControlGraph.SampleKeys", Json::Value(node.SampleKeys)); } catch { c.Skipped("CControlGraph.SampleKeys", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlGraph.Curves");
-    try { Json::Value values = Json::Array(); uint length = node.Curves.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlGraph.Curves[" + i + "]"); values.Add(c.Link(node.Curves[i], depth + 1)); } c.ArrayField(fields, "CControlGraph.Curves", values, length); } catch { c.Skipped("CControlGraph.Curves", "failed", "getter exception"); }
+    try { uint length = node.Curves.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlGraph.Curves[" + i + "]"); c.ArrayElement("CControlGraph.Curves", i, length, c.Link(node.Curves[i], depth + 1)); captured++; } c.ArrayField(fields, "CControlGraph.Curves", captured, length); } catch { c.Skipped("CControlGraph.Curves", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CControlGrid(DiagnosticsCapture@ c, CControlGrid@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CControlGrid.ChildsSquares");
-    try { Json::Value values = Json::Array(); uint length = node.ChildsSquares.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlGrid.ChildsSquares[" + i + "]"); values.Add(c.Text(tostring(node.ChildsSquares[i]))); } c.ArrayField(fields, "CControlGrid.ChildsSquares", values, length); } catch { c.Skipped("CControlGrid.ChildsSquares", "failed", "getter exception"); }
+    try { uint length = node.ChildsSquares.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlGrid.ChildsSquares[" + i + "]"); c.ArrayElement("CControlGrid.ChildsSquares", i, length, c.Text(tostring(node.ChildsSquares[i]))); captured++; } c.ArrayField(fields, "CControlGrid.ChildsSquares", captured, length); } catch { c.Skipped("CControlGrid.ChildsSquares", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlGrid.ChildsSquaresParam");
-    try { Json::Value values = Json::Array(); uint length = node.ChildsSquaresParam.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlGrid.ChildsSquaresParam[" + i + "]"); values.Add(c.Text(node.ChildsSquaresParam[i])); } c.ArrayField(fields, "CControlGrid.ChildsSquaresParam", values, length); } catch { c.Skipped("CControlGrid.ChildsSquaresParam", "failed", "getter exception"); }
+    try { uint length = node.ChildsSquaresParam.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlGrid.ChildsSquaresParam[" + i + "]"); c.ArrayElement("CControlGrid.ChildsSquaresParam", i, length, c.Text(node.ChildsSquaresParam[i])); captured++; } c.ArrayField(fields, "CControlGrid.ChildsSquaresParam", captured, length); } catch { c.Skipped("CControlGrid.ChildsSquaresParam", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlGrid.MainLayout");
     try { c.Field(fields, "CControlGrid.MainLayout", c.Link(node.MainLayout, depth + 1)); } catch { c.Skipped("CControlGrid.MainLayout", "failed", "getter exception"); }
@@ -2069,7 +2069,7 @@ void DiagnosticsRead_CControlGrid(DiagnosticsCapture@ c, CControlGrid@ node, Jso
     try { c.Field(fields, "CControlGrid.ForceRowsUniformHeight", c.Number(double(node.ForceRowsUniformHeight))); } catch { c.Skipped("CControlGrid.ForceRowsUniformHeight", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlGrid.ForceColumnsWidths");
-    try { Json::Value values = Json::Array(); uint length = node.ForceColumnsWidths.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlGrid.ForceColumnsWidths[" + i + "]"); values.Add(c.Number(double(node.ForceColumnsWidths[i]))); } c.ArrayField(fields, "CControlGrid.ForceColumnsWidths", values, length); } catch { c.Skipped("CControlGrid.ForceColumnsWidths", "failed", "getter exception"); }
+    try { uint length = node.ForceColumnsWidths.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlGrid.ForceColumnsWidths[" + i + "]"); c.ArrayElement("CControlGrid.ForceColumnsWidths", i, length, c.Number(double(node.ForceColumnsWidths[i]))); captured++; } c.ArrayField(fields, "CControlGrid.ForceColumnsWidths", captured, length); } catch { c.Skipped("CControlGrid.ForceColumnsWidths", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlGrid.HorizontalSkewOffset");
     try { c.Field(fields, "CControlGrid.HorizontalSkewOffset", c.Number(double(node.HorizontalSkewOffset))); } catch { c.Skipped("CControlGrid.HorizontalSkewOffset", "failed", "getter exception"); }
@@ -2165,10 +2165,10 @@ void DiagnosticsRead_CControlListCard(DiagnosticsCapture@ c, CControlListCard@ n
     try { c.Field(fields, "CControlListCard.PageCount", Json::Value(node.PageCount)); } catch { c.Skipped("CControlListCard.PageCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlListCard.CardsModels");
-    try { Json::Value values = Json::Array(); uint length = node.CardsModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlListCard.CardsModels[" + i + "]"); values.Add(c.Link(node.CardsModels[i], depth + 1)); } c.ArrayField(fields, "CControlListCard.CardsModels", values, length); } catch { c.Skipped("CControlListCard.CardsModels", "failed", "getter exception"); }
+    try { uint length = node.CardsModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlListCard.CardsModels[" + i + "]"); c.ArrayElement("CControlListCard.CardsModels", i, length, c.Link(node.CardsModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CControlListCard.CardsModels", captured, length); } catch { c.Skipped("CControlListCard.CardsModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlListCard.ListCards");
-    try { Json::Value values = Json::Array(); uint length = node.ListCards.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlListCard.ListCards[" + i + "]"); values.Add(c.Link(node.ListCards[i], depth + 1)); } c.ArrayField(fields, "CControlListCard.ListCards", values, length); } catch { c.Skipped("CControlListCard.ListCards", "failed", "getter exception"); }
+    try { uint length = node.ListCards.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlListCard.ListCards[" + i + "]"); c.ArrayElement("CControlListCard.ListCards", i, length, c.Link(node.ListCards[i], depth + 1)); captured++; } c.ArrayField(fields, "CControlListCard.ListCards", captured, length); } catch { c.Skipped("CControlListCard.ListCards", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CControlListItem(DiagnosticsCapture@ c, CControlListItem@ node, Json::Value &inout fields, uint depth)
 {
@@ -2649,7 +2649,7 @@ void DiagnosticsRead_CControlStyleSheet(DiagnosticsCapture@ c, CControlStyleShee
     try { c.Field(fields, "CControlStyleSheet.FallbackFont", c.Link(node.FallbackFont, depth + 1)); } catch { c.Skipped("CControlStyleSheet.FallbackFont", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlStyleSheet.Overrides");
-    try { Json::Value values = Json::Array(); uint length = node.Overrides.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlStyleSheet.Overrides[" + i + "]"); values.Add(c.Link(node.Overrides[i], depth + 1)); } c.ArrayField(fields, "CControlStyleSheet.Overrides", values, length); } catch { c.Skipped("CControlStyleSheet.Overrides", "failed", "getter exception"); }
+    try { uint length = node.Overrides.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlStyleSheet.Overrides[" + i + "]"); c.ArrayElement("CControlStyleSheet.Overrides", i, length, c.Link(node.Overrides[i], depth + 1)); captured++; } c.ArrayField(fields, "CControlStyleSheet.Overrides", captured, length); } catch { c.Skipped("CControlStyleSheet.Overrides", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlStyleSheet.PagerIconStyle");
     try { c.Field(fields, "CControlStyleSheet.PagerIconStyle", c.Link(node.PagerIconStyle, depth + 1)); } catch { c.Skipped("CControlStyleSheet.PagerIconStyle", "failed", "getter exception"); }
@@ -2661,10 +2661,10 @@ void DiagnosticsRead_CControlStyleSheet(DiagnosticsCapture@ c, CControlStyleShee
     try { c.Field(fields, "CControlStyleSheet.PagerTextBackgroundStyle", c.Link(node.PagerTextBackgroundStyle, depth + 1)); } catch { c.Skipped("CControlStyleSheet.PagerTextBackgroundStyle", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlStyleSheet.Colors");
-    try { Json::Value values = Json::Array(); uint length = node.Colors.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlStyleSheet.Colors[" + i + "]"); values.Add(c.Text(tostring(node.Colors[i]))); } c.ArrayField(fields, "CControlStyleSheet.Colors", values, length); } catch { c.Skipped("CControlStyleSheet.Colors", "failed", "getter exception"); }
+    try { uint length = node.Colors.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlStyleSheet.Colors[" + i + "]"); c.ArrayElement("CControlStyleSheet.Colors", i, length, c.Text(tostring(node.Colors[i]))); captured++; } c.ArrayField(fields, "CControlStyleSheet.Colors", captured, length); } catch { c.Skipped("CControlStyleSheet.Colors", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CControlStyleSheet.ColorsAlpha");
-    try { Json::Value values = Json::Array(); uint length = node.ColorsAlpha.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlStyleSheet.ColorsAlpha[" + i + "]"); values.Add(c.Number(double(node.ColorsAlpha[i]))); } c.ArrayField(fields, "CControlStyleSheet.ColorsAlpha", values, length); } catch { c.Skipped("CControlStyleSheet.ColorsAlpha", "failed", "getter exception"); }
+    try { uint length = node.ColorsAlpha.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CControlStyleSheet.ColorsAlpha[" + i + "]"); c.ArrayElement("CControlStyleSheet.ColorsAlpha", i, length, c.Number(double(node.ColorsAlpha[i]))); captured++; } c.ArrayField(fields, "CControlStyleSheet.ColorsAlpha", captured, length); } catch { c.Skipped("CControlStyleSheet.ColorsAlpha", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CControlText(DiagnosticsCapture@ c, CControlText@ node, Json::Value &inout fields, uint depth)
 {
@@ -2905,21 +2905,21 @@ void DiagnosticsRead_CFuncKeys(DiagnosticsCapture@ c, CFuncKeys@ node, Json::Val
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CFuncKeys.Xs");
-    try { Json::Value values = Json::Array(); uint length = node.Xs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CFuncKeys.Xs[" + i + "]"); values.Add(c.Number(double(node.Xs[i]))); } c.ArrayField(fields, "CFuncKeys.Xs", values, length); } catch { c.Skipped("CFuncKeys.Xs", "failed", "getter exception"); }
+    try { uint length = node.Xs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CFuncKeys.Xs[" + i + "]"); c.ArrayElement("CFuncKeys.Xs", i, length, c.Number(double(node.Xs[i]))); captured++; } c.ArrayField(fields, "CFuncKeys.Xs", captured, length); } catch { c.Skipped("CFuncKeys.Xs", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CFuncKeysNatural(DiagnosticsCapture@ c, CFuncKeysNatural@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CFuncKeysNatural.Naturals");
-    try { Json::Value values = Json::Array(); uint length = node.Naturals.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CFuncKeysNatural.Naturals[" + i + "]"); values.Add(Json::Value(node.Naturals[i])); } c.ArrayField(fields, "CFuncKeysNatural.Naturals", values, length); } catch { c.Skipped("CFuncKeysNatural.Naturals", "failed", "getter exception"); }
+    try { uint length = node.Naturals.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CFuncKeysNatural.Naturals[" + i + "]"); c.ArrayElement("CFuncKeysNatural.Naturals", i, length, Json::Value(node.Naturals[i])); captured++; } c.ArrayField(fields, "CFuncKeysNatural.Naturals", captured, length); } catch { c.Skipped("CFuncKeysNatural.Naturals", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CFuncKeysTrans(DiagnosticsCapture@ c, CFuncKeysTrans@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CFuncKeysTrans.Trans");
-    try { Json::Value values = Json::Array(); uint length = node.Trans.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CFuncKeysTrans.Trans[" + i + "]"); values.Add(c.Text(tostring(node.Trans[i]))); } c.ArrayField(fields, "CFuncKeysTrans.Trans", values, length); } catch { c.Skipped("CFuncKeysTrans.Trans", "failed", "getter exception"); }
+    try { uint length = node.Trans.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CFuncKeysTrans.Trans[" + i + "]"); c.ArrayElement("CFuncKeysTrans.Trans", i, length, c.Text(tostring(node.Trans[i]))); captured++; } c.ArrayField(fields, "CFuncKeysTrans.Trans", captured, length); } catch { c.Skipped("CFuncKeysTrans.Trans", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CFuncLight(DiagnosticsCapture@ c, CFuncLight@ node, Json::Value &inout fields, uint depth)
 {
@@ -3071,7 +3071,7 @@ void DiagnosticsRead_CFuncShaders(DiagnosticsCapture@ c, CFuncShaders@ node, Jso
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CFuncShaders.FuncShaders");
-    try { Json::Value values = Json::Array(); uint length = node.FuncShaders.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CFuncShaders.FuncShaders[" + i + "]"); values.Add(c.Link(node.FuncShaders[i], depth + 1)); } c.ArrayField(fields, "CFuncShaders.FuncShaders", values, length); } catch { c.Skipped("CFuncShaders.FuncShaders", "failed", "getter exception"); }
+    try { uint length = node.FuncShaders.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CFuncShaders.FuncShaders[" + i + "]"); c.ArrayElement("CFuncShaders.FuncShaders", i, length, c.Link(node.FuncShaders[i], depth + 1)); captured++; } c.ArrayField(fields, "CFuncShaders.FuncShaders", captured, length); } catch { c.Skipped("CFuncShaders.FuncShaders", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CFuncTree(DiagnosticsCapture@ c, CFuncTree@ node, Json::Value &inout fields, uint depth)
 {
@@ -3242,10 +3242,10 @@ void DiagnosticsRead_CGameActionModel(DiagnosticsCapture@ c, CGameActionModel@ n
     try { c.Skipped("CGameActionModel.Icon_Focused_Cancel", "unsupported", "DataRef"); } catch { c.Skipped("CGameActionModel.Icon_Focused_Cancel", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameActionModel.Projectiles");
-    try { Json::Value values = Json::Array(); uint length = node.Projectiles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameActionModel.Projectiles[" + i + "]"); values.Add(c.Link(node.Projectiles[i], depth + 1)); } c.ArrayField(fields, "CGameActionModel.Projectiles", values, length); } catch { c.Skipped("CGameActionModel.Projectiles", "failed", "getter exception"); }
+    try { uint length = node.Projectiles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameActionModel.Projectiles[" + i + "]"); c.ArrayElement("CGameActionModel.Projectiles", i, length, c.Link(node.Projectiles[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameActionModel.Projectiles", captured, length); } catch { c.Skipped("CGameActionModel.Projectiles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameActionModel.Beams");
-    try { Json::Value values = Json::Array(); uint length = node.Beams.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameActionModel.Beams[" + i + "]"); values.Add(c.Link(node.Beams[i], depth + 1)); } c.ArrayField(fields, "CGameActionModel.Beams", values, length); } catch { c.Skipped("CGameActionModel.Beams", "failed", "getter exception"); }
+    try { uint length = node.Beams.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameActionModel.Beams[" + i + "]"); c.ArrayElement("CGameActionModel.Beams", i, length, c.Link(node.Beams[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameActionModel.Beams", captured, length); } catch { c.Skipped("CGameActionModel.Beams", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameActionModel.CrossHair");
     try { c.Skipped("CGameActionModel.CrossHair", "unsupported", "DataRef"); } catch { c.Skipped("CGameActionModel.CrossHair", "failed", "getter exception"); }
@@ -3257,13 +3257,13 @@ void DiagnosticsRead_CGameActionModel(DiagnosticsCapture@ c, CGameActionModel@ n
     try { c.Field(fields, "CGameActionModel.IsAnimPartial", Json::Value(node.IsAnimPartial)); } catch { c.Skipped("CGameActionModel.IsAnimPartial", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameActionModel.Items");
-    try { Json::Value values = Json::Array(); uint length = node.Items.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameActionModel.Items[" + i + "]"); values.Add(c.Link(node.Items[i], depth + 1)); } c.ArrayField(fields, "CGameActionModel.Items", values, length); } catch { c.Skipped("CGameActionModel.Items", "failed", "getter exception"); }
+    try { uint length = node.Items.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameActionModel.Items[" + i + "]"); c.ArrayElement("CGameActionModel.Items", i, length, c.Link(node.Items[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameActionModel.Items", captured, length); } catch { c.Skipped("CGameActionModel.Items", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameActionModel.ExternalAction");
     try { c.Field(fields, "CGameActionModel.ExternalAction", Json::Value(int(node.ExternalAction))); } catch { c.Skipped("CGameActionModel.ExternalAction", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameActionModel.BulletModels_Nadeo");
-    try { Json::Value values = Json::Array(); uint length = node.BulletModels_Nadeo.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameActionModel.BulletModels_Nadeo[" + i + "]"); values.Add(c.Link(node.BulletModels_Nadeo[i], depth + 1)); } c.ArrayField(fields, "CGameActionModel.BulletModels_Nadeo", values, length); } catch { c.Skipped("CGameActionModel.BulletModels_Nadeo", "failed", "getter exception"); }
+    try { uint length = node.BulletModels_Nadeo.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameActionModel.BulletModels_Nadeo[" + i + "]"); c.ArrayElement("CGameActionModel.BulletModels_Nadeo", i, length, c.Link(node.BulletModels_Nadeo[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameActionModel.BulletModels_Nadeo", captured, length); } catch { c.Skipped("CGameActionModel.BulletModels_Nadeo", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameActionModel.CompatBullet_Nadeo");
     try { c.Field(fields, "CGameActionModel.CompatBullet_Nadeo", c.Link(node.CompatBullet_Nadeo, depth + 1)); } catch { c.Skipped("CGameActionModel.CompatBullet_Nadeo", "failed", "getter exception"); }
@@ -3384,7 +3384,7 @@ void DiagnosticsRead_CGameApp(DiagnosticsCapture@ c, CGameApp@ node, Json::Value
     try { c.Field(fields, "CGameApp.SystemOverlay", c.Link(node.SystemOverlay, depth + 1)); } catch { c.Skipped("CGameApp.SystemOverlay", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameApp.ActiveMenus");
-    try { Json::Value values = Json::Array(); uint length = node.ActiveMenus.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameApp.ActiveMenus[" + i + "]"); values.Add(c.Link(node.ActiveMenus[i], depth + 1)); } c.ArrayField(fields, "CGameApp.ActiveMenus", values, length); } catch { c.Skipped("CGameApp.ActiveMenus", "failed", "getter exception"); }
+    try { uint length = node.ActiveMenus.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameApp.ActiveMenus[" + i + "]"); c.ArrayElement("CGameApp.ActiveMenus", i, length, c.Link(node.ActiveMenus[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameApp.ActiveMenus", captured, length); } catch { c.Skipped("CGameApp.ActiveMenus", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameApp.OSUTCDate");
     try { c.Field(fields, "CGameApp.OSUTCDate", c.Text(node.OSUTCDate)); } catch { c.Skipped("CGameApp.OSUTCDate", "failed", "getter exception"); }
@@ -3437,7 +3437,7 @@ void DiagnosticsRead_CGameAudioSettingsWrapper(DiagnosticsCapture@ c, CGameAudio
     try { c.Field(fields, "CGameAudioSettingsWrapper.DirtyCounter", Json::Value(node.DirtyCounter)); } catch { c.Skipped("CGameAudioSettingsWrapper.DirtyCounter", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameAudioSettingsWrapper.Devices");
-    try { Json::Value values = Json::Array(); uint length = node.Devices.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameAudioSettingsWrapper.Devices[" + i + "]"); values.Add(c.Text(node.Devices[i])); } c.ArrayField(fields, "CGameAudioSettingsWrapper.Devices", values, length); } catch { c.Skipped("CGameAudioSettingsWrapper.Devices", "failed", "getter exception"); }
+    try { uint length = node.Devices.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameAudioSettingsWrapper.Devices[" + i + "]"); c.ArrayElement("CGameAudioSettingsWrapper.Devices", i, length, c.Text(node.Devices[i])); captured++; } c.ArrayField(fields, "CGameAudioSettingsWrapper.Devices", captured, length); } catch { c.Skipped("CGameAudioSettingsWrapper.Devices", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameAudioSettingsWrapper.Device_Current");
     try { c.Field(fields, "CGameAudioSettingsWrapper.Device_Current", c.Text(node.Device_Current)); } catch { c.Skipped("CGameAudioSettingsWrapper.Device_Current", "failed", "getter exception"); }
@@ -3516,14 +3516,14 @@ void DiagnosticsRead_CGameCharacterModel(DiagnosticsCapture@ c, CGameCharacterMo
     try { c.Field(fields, "CGameCharacterModel.LockMaxDist", c.Number(double(node.LockMaxDist))); } catch { c.Skipped("CGameCharacterModel.LockMaxDist", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCharacterModel.SpawnableObjects");
-    try { Json::Value values = Json::Array(); uint length = node.SpawnableObjects.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCharacterModel.SpawnableObjects[" + i + "]"); values.Add(c.Link(node.SpawnableObjects[i], depth + 1)); } c.ArrayField(fields, "CGameCharacterModel.SpawnableObjects", values, length); } catch { c.Skipped("CGameCharacterModel.SpawnableObjects", "failed", "getter exception"); }
+    try { uint length = node.SpawnableObjects.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCharacterModel.SpawnableObjects[" + i + "]"); c.ArrayElement("CGameCharacterModel.SpawnableObjects", i, length, c.Link(node.SpawnableObjects[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCharacterModel.SpawnableObjects", captured, length); } catch { c.Skipped("CGameCharacterModel.SpawnableObjects", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameClientTrackingScript(DiagnosticsCapture@ c, CGameClientTrackingScript@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameClientTrackingScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameClientTrackingScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameClientTrackingScript.TaskResults", values, length); } catch { c.Skipped("CGameClientTrackingScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameClientTrackingScript.TaskResults[" + i + "]"); c.ArrayElement("CGameClientTrackingScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameClientTrackingScript.TaskResults", captured, length); } catch { c.Skipped("CGameClientTrackingScript.TaskResults", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameConnectedClient(DiagnosticsCapture@ c, CGameConnectedClient@ node, Json::Value &inout fields, uint depth)
 {
@@ -3942,7 +3942,7 @@ void DiagnosticsRead_CGameControlCardCtnChallengeInfo(DiagnosticsCapture@ c, CGa
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameControlCardCtnChallengeInfo.Groups");
-    try { Json::Value values = Json::Array(); uint length = node.Groups.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameControlCardCtnChallengeInfo.Groups[" + i + "]"); values.Add(c.Link(node.Groups[i], depth + 1)); } c.ArrayField(fields, "CGameControlCardCtnChallengeInfo.Groups", values, length); } catch { c.Skipped("CGameControlCardCtnChallengeInfo.Groups", "failed", "getter exception"); }
+    try { uint length = node.Groups.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameControlCardCtnChallengeInfo.Groups[" + i + "]"); c.ArrayElement("CGameControlCardCtnChallengeInfo.Groups", i, length, c.Link(node.Groups[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameControlCardCtnChallengeInfo.Groups", captured, length); } catch { c.Skipped("CGameControlCardCtnChallengeInfo.Groups", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameControlCardCtnChallengeInfo.LeagueNameMaxCharsCount");
     try { c.Field(fields, "CGameControlCardCtnChallengeInfo.LeagueNameMaxCharsCount", Json::Value(node.LeagueNameMaxCharsCount)); } catch { c.Skipped("CGameControlCardCtnChallengeInfo.LeagueNameMaxCharsCount", "failed", "getter exception"); }
@@ -4284,7 +4284,7 @@ void DiagnosticsRead_CGameControlCardManager(DiagnosticsCapture@ c, CGameControl
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameControlCardManager.DataTypes");
-    try { Json::Value values = Json::Array(); uint length = node.DataTypes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameControlCardManager.DataTypes[" + i + "]"); values.Add(c.Link(node.DataTypes[i], depth + 1)); } c.ArrayField(fields, "CGameControlCardManager.DataTypes", values, length); } catch { c.Skipped("CGameControlCardManager.DataTypes", "failed", "getter exception"); }
+    try { uint length = node.DataTypes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameControlCardManager.DataTypes[" + i + "]"); c.ArrayElement("CGameControlCardManager.DataTypes", i, length, c.Link(node.DataTypes[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameControlCardManager.DataTypes", captured, length); } catch { c.Skipped("CGameControlCardManager.DataTypes", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameControlCardMessage(DiagnosticsCapture@ c, CGameControlCardMessage@ node, Json::Value &inout fields, uint depth)
 {
@@ -4436,10 +4436,10 @@ void DiagnosticsRead_CGameControlGridCard(DiagnosticsCapture@ c, CGameControlGri
     try { c.Field(fields, "CGameControlGridCard.DefaultCardName", c.Text(node.DefaultCardName)); } catch { c.Skipped("CGameControlGridCard.DefaultCardName", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameControlGridCard.NodsToDisplay");
-    try { Json::Value values = Json::Array(); uint length = node.NodsToDisplay.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameControlGridCard.NodsToDisplay[" + i + "]"); values.Add(c.Link(node.NodsToDisplay[i], depth + 1)); } c.ArrayField(fields, "CGameControlGridCard.NodsToDisplay", values, length); } catch { c.Skipped("CGameControlGridCard.NodsToDisplay", "failed", "getter exception"); }
+    try { uint length = node.NodsToDisplay.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameControlGridCard.NodsToDisplay[" + i + "]"); c.ArrayElement("CGameControlGridCard.NodsToDisplay", i, length, c.Link(node.NodsToDisplay[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameControlGridCard.NodsToDisplay", captured, length); } catch { c.Skipped("CGameControlGridCard.NodsToDisplay", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameControlGridCard.NodCards");
-    try { Json::Value values = Json::Array(); uint length = node.NodCards.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameControlGridCard.NodCards[" + i + "]"); values.Add(c.Link(node.NodCards[i], depth + 1)); } c.ArrayField(fields, "CGameControlGridCard.NodCards", values, length); } catch { c.Skipped("CGameControlGridCard.NodCards", "failed", "getter exception"); }
+    try { uint length = node.NodCards.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameControlGridCard.NodCards[" + i + "]"); c.ArrayElement("CGameControlGridCard.NodCards", i, length, c.Link(node.NodCards[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameControlGridCard.NodCards", captured, length); } catch { c.Skipped("CGameControlGridCard.NodCards", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCoverFlowDesc(DiagnosticsCapture@ c, CGameCoverFlowDesc@ node, Json::Value &inout fields, uint depth)
 {
@@ -4470,7 +4470,7 @@ void DiagnosticsRead_CGameCoverFlowDesc(DiagnosticsCapture@ c, CGameCoverFlowDes
     try { c.Field(fields, "CGameCoverFlowDesc.TransitionRotateAngleDegNext", c.Number(double(node.TransitionRotateAngleDegNext))); } catch { c.Skipped("CGameCoverFlowDesc.TransitionRotateAngleDegNext", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCoverFlowDesc.CameraLocs");
-    try { Json::Value values = Json::Array(); uint length = node.CameraLocs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCoverFlowDesc.CameraLocs[" + i + "]"); values.Add(c.Link(node.CameraLocs[i], depth + 1)); } c.ArrayField(fields, "CGameCoverFlowDesc.CameraLocs", values, length); } catch { c.Skipped("CGameCoverFlowDesc.CameraLocs", "failed", "getter exception"); }
+    try { uint length = node.CameraLocs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCoverFlowDesc.CameraLocs[" + i + "]"); c.ArrayElement("CGameCoverFlowDesc.CameraLocs", i, length, c.Link(node.CameraLocs[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCoverFlowDesc.CameraLocs", captured, length); } catch { c.Skipped("CGameCoverFlowDesc.CameraLocs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCoverFlowDesc.BoxesGroup_RelLoc");
     try { c.Field(fields, "CGameCoverFlowDesc.BoxesGroup_RelLoc", c.Text(tostring(node.BoxesGroup_RelLoc))); } catch { c.Skipped("CGameCoverFlowDesc.BoxesGroup_RelLoc", "failed", "getter exception"); }
@@ -4856,13 +4856,13 @@ void DiagnosticsRead_CGameCtnApp(DiagnosticsCapture@ c, CGameCtnApp@ node, Json:
     try { c.Field(fields, "CGameCtnApp.GlobalCatalog", c.Link(node.GlobalCatalog, depth + 1)); } catch { c.Skipped("CGameCtnApp.GlobalCatalog", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnApp.AdditionalSkinsFids");
-    try { Json::Value values = Json::Array(); uint length = node.AdditionalSkinsFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.AdditionalSkinsFids[" + i + "]"); values.Add(c.Link(node.AdditionalSkinsFids[i], depth + 1)); } c.ArrayField(fields, "CGameCtnApp.AdditionalSkinsFids", values, length); } catch { c.Skipped("CGameCtnApp.AdditionalSkinsFids", "failed", "getter exception"); }
+    try { uint length = node.AdditionalSkinsFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.AdditionalSkinsFids[" + i + "]"); c.ArrayElement("CGameCtnApp.AdditionalSkinsFids", i, length, c.Link(node.AdditionalSkinsFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnApp.AdditionalSkinsFids", captured, length); } catch { c.Skipped("CGameCtnApp.AdditionalSkinsFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnApp.ChallengeInfos");
-    try { Json::Value values = Json::Array(); uint length = node.ChallengeInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.ChallengeInfos[" + i + "]"); values.Add(c.Link(node.ChallengeInfos[i], depth + 1)); } c.ArrayField(fields, "CGameCtnApp.ChallengeInfos", values, length); } catch { c.Skipped("CGameCtnApp.ChallengeInfos", "failed", "getter exception"); }
+    try { uint length = node.ChallengeInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.ChallengeInfos[" + i + "]"); c.ArrayElement("CGameCtnApp.ChallengeInfos", i, length, c.Link(node.ChallengeInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnApp.ChallengeInfos", captured, length); } catch { c.Skipped("CGameCtnApp.ChallengeInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnApp.ReplayRecordInfos");
-    try { Json::Value values = Json::Array(); uint length = node.ReplayRecordInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.ReplayRecordInfos[" + i + "]"); values.Add(c.Link(node.ReplayRecordInfos[i], depth + 1)); } c.ArrayField(fields, "CGameCtnApp.ReplayRecordInfos", values, length); } catch { c.Skipped("CGameCtnApp.ReplayRecordInfos", "failed", "getter exception"); }
+    try { uint length = node.ReplayRecordInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.ReplayRecordInfos[" + i + "]"); c.ArrayElement("CGameCtnApp.ReplayRecordInfos", i, length, c.Link(node.ReplayRecordInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnApp.ReplayRecordInfos", captured, length); } catch { c.Skipped("CGameCtnApp.ReplayRecordInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnApp.LocalPlayerInfo");
     try { c.Field(fields, "CGameCtnApp.LocalPlayerInfo", c.Link(node.LocalPlayerInfo, depth + 1)); } catch { c.Skipped("CGameCtnApp.LocalPlayerInfo", "failed", "getter exception"); }
@@ -4877,10 +4877,10 @@ void DiagnosticsRead_CGameCtnApp(DiagnosticsCapture@ c, CGameCtnApp@ node, Json:
     try { c.Skipped("CGameCtnApp.PlayerProfiles", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnApp.PlayerProfiles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnApp.BaseOfficialCampaigns");
-    try { Json::Value values = Json::Array(); uint length = node.BaseOfficialCampaigns.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.BaseOfficialCampaigns[" + i + "]"); values.Add(c.Link(node.BaseOfficialCampaigns[i], depth + 1)); } c.ArrayField(fields, "CGameCtnApp.BaseOfficialCampaigns", values, length); } catch { c.Skipped("CGameCtnApp.BaseOfficialCampaigns", "failed", "getter exception"); }
+    try { uint length = node.BaseOfficialCampaigns.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.BaseOfficialCampaigns[" + i + "]"); c.ArrayElement("CGameCtnApp.BaseOfficialCampaigns", i, length, c.Link(node.BaseOfficialCampaigns[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnApp.BaseOfficialCampaigns", captured, length); } catch { c.Skipped("CGameCtnApp.BaseOfficialCampaigns", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnApp.OfficialCampaigns");
-    try { Json::Value values = Json::Array(); uint length = node.OfficialCampaigns.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.OfficialCampaigns[" + i + "]"); values.Add(c.Link(node.OfficialCampaigns[i], depth + 1)); } c.ArrayField(fields, "CGameCtnApp.OfficialCampaigns", values, length); } catch { c.Skipped("CGameCtnApp.OfficialCampaigns", "failed", "getter exception"); }
+    try { uint length = node.OfficialCampaigns.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnApp.OfficialCampaigns[" + i + "]"); c.ArrayElement("CGameCtnApp.OfficialCampaigns", i, length, c.Link(node.OfficialCampaigns[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnApp.OfficialCampaigns", captured, length); } catch { c.Skipped("CGameCtnApp.OfficialCampaigns", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnApp.CurrentCampaign");
     try { c.Field(fields, "CGameCtnApp.CurrentCampaign", c.Link(node.CurrentCampaign, depth + 1)); } catch { c.Skipped("CGameCtnApp.CurrentCampaign", "failed", "getter exception"); }
@@ -4998,10 +4998,10 @@ void DiagnosticsRead_CGameCtnArticleNodeDirectory(DiagnosticsCapture@ c, CGameCt
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnArticleNodeDirectory.ChildNodes");
-    try { Json::Value values = Json::Array(); uint length = node.ChildNodes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnArticleNodeDirectory.ChildNodes[" + i + "]"); values.Add(c.Link(node.ChildNodes[i], depth + 1)); } c.ArrayField(fields, "CGameCtnArticleNodeDirectory.ChildNodes", values, length); } catch { c.Skipped("CGameCtnArticleNodeDirectory.ChildNodes", "failed", "getter exception"); }
+    try { uint length = node.ChildNodes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnArticleNodeDirectory.ChildNodes[" + i + "]"); c.ArrayElement("CGameCtnArticleNodeDirectory.ChildNodes", i, length, c.Link(node.ChildNodes[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnArticleNodeDirectory.ChildNodes", captured, length); } catch { c.Skipped("CGameCtnArticleNodeDirectory.ChildNodes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnArticleNodeDirectory.Children");
-    try { Json::Value values = Json::Array(); uint length = node.Children.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnArticleNodeDirectory.Children[" + i + "]"); values.Add(c.Link(node.Children[i], depth + 1)); } c.ArrayField(fields, "CGameCtnArticleNodeDirectory.Children", values, length); } catch { c.Skipped("CGameCtnArticleNodeDirectory.Children", "failed", "getter exception"); }
+    try { uint length = node.Children.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnArticleNodeDirectory.Children[" + i + "]"); c.ArrayElement("CGameCtnArticleNodeDirectory.Children", i, length, c.Link(node.Children[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnArticleNodeDirectory.Children", captured, length); } catch { c.Skipped("CGameCtnArticleNodeDirectory.Children", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnArticleNodeDirectory.HasChildDirectory");
     try { c.Skipped("CGameCtnArticleNodeDirectory.HasChildDirectory", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnArticleNodeDirectory.HasChildDirectory", "failed", "getter exception"); }
@@ -5072,7 +5072,7 @@ void DiagnosticsRead_CGameCtnBlock(DiagnosticsCapture@ c, CGameCtnBlock@ node, J
     try { c.Field(fields, "CGameCtnBlock.MapElemLmQuality", Json::Value(int(node.MapElemLmQuality))); } catch { c.Skipped("CGameCtnBlock.MapElemLmQuality", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlock.BlockUnitsE");
-    try { Json::Value values = Json::Array(); uint length = node.BlockUnitsE.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlock.BlockUnitsE[" + i + "]"); values.Add(c.Link(node.BlockUnitsE[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlock.BlockUnitsE", values, length); } catch { c.Skipped("CGameCtnBlock.BlockUnitsE", "failed", "getter exception"); }
+    try { uint length = node.BlockUnitsE.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlock.BlockUnitsE[" + i + "]"); c.ArrayElement("CGameCtnBlock.BlockUnitsE", i, length, c.Link(node.BlockUnitsE[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlock.BlockUnitsE", captured, length); } catch { c.Skipped("CGameCtnBlock.BlockUnitsE", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlock.Skin");
     try { c.Field(fields, "CGameCtnBlock.Skin", c.Link(node.Skin, depth + 1)); } catch { c.Skipped("CGameCtnBlock.Skin", "failed", "getter exception"); }
@@ -5102,7 +5102,7 @@ void DiagnosticsRead_CGameCtnBlock(DiagnosticsCapture@ c, CGameCtnBlock@ node, J
     try { c.Field(fields, "CGameCtnBlock.Direction", Json::Value(int(node.Direction))); } catch { c.Skipped("CGameCtnBlock.Direction", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlock.BlockUnits");
-    try { Json::Value values = Json::Array(); uint length = node.BlockUnits.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlock.BlockUnits[" + i + "]"); values.Add(c.Link(node.BlockUnits[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlock.BlockUnits", values, length); } catch { c.Skipped("CGameCtnBlock.BlockUnits", "failed", "getter exception"); }
+    try { uint length = node.BlockUnits.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlock.BlockUnits[" + i + "]"); c.ArrayElement("CGameCtnBlock.BlockUnits", i, length, c.Link(node.BlockUnits[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlock.BlockUnits", captured, length); } catch { c.Skipped("CGameCtnBlock.BlockUnits", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlock.BlockModel");
     try { c.Field(fields, "CGameCtnBlock.BlockModel", c.Link(node.BlockModel, depth + 1)); } catch { c.Skipped("CGameCtnBlock.BlockModel", "failed", "getter exception"); }
@@ -5118,10 +5118,10 @@ void DiagnosticsRead_CGameCtnBlockInfo(DiagnosticsCapture@ c, CGameCtnBlockInfo@
     try { c.Field(fields, "CGameCtnBlockInfo.VariantBaseAir", c.Link(node.VariantBaseAir, depth + 1)); } catch { c.Skipped("CGameCtnBlockInfo.VariantBaseAir", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfo.AdditionalVariantsGround");
-    try { Json::Value values = Json::Array(); uint length = node.AdditionalVariantsGround.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfo.AdditionalVariantsGround[" + i + "]"); values.Add(c.Link(node.AdditionalVariantsGround[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfo.AdditionalVariantsGround", values, length); } catch { c.Skipped("CGameCtnBlockInfo.AdditionalVariantsGround", "failed", "getter exception"); }
+    try { uint length = node.AdditionalVariantsGround.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfo.AdditionalVariantsGround[" + i + "]"); c.ArrayElement("CGameCtnBlockInfo.AdditionalVariantsGround", i, length, c.Link(node.AdditionalVariantsGround[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfo.AdditionalVariantsGround", captured, length); } catch { c.Skipped("CGameCtnBlockInfo.AdditionalVariantsGround", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfo.AdditionalVariantsAir");
-    try { Json::Value values = Json::Array(); uint length = node.AdditionalVariantsAir.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfo.AdditionalVariantsAir[" + i + "]"); values.Add(c.Link(node.AdditionalVariantsAir[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfo.AdditionalVariantsAir", values, length); } catch { c.Skipped("CGameCtnBlockInfo.AdditionalVariantsAir", "failed", "getter exception"); }
+    try { uint length = node.AdditionalVariantsAir.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfo.AdditionalVariantsAir[" + i + "]"); c.ArrayElement("CGameCtnBlockInfo.AdditionalVariantsAir", i, length, c.Link(node.AdditionalVariantsAir[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfo.AdditionalVariantsAir", captured, length); } catch { c.Skipped("CGameCtnBlockInfo.AdditionalVariantsAir", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfo.IsPillar");
     try { c.Field(fields, "CGameCtnBlockInfo.IsPillar", Json::Value(node.IsPillar)); } catch { c.Skipped("CGameCtnBlockInfo.IsPillar", "failed", "getter exception"); }
@@ -5340,7 +5340,7 @@ void DiagnosticsRead_CGameCtnBlockInfoVariant(DiagnosticsCapture@ c, CGameCtnBlo
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.BlockUnitInfos");
-    try { Json::Value values = Json::Array(); uint length = node.BlockUnitInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.BlockUnitInfos[" + i + "]"); values.Add(c.Link(node.BlockUnitInfos[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.BlockUnitInfos", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.BlockUnitInfos", "failed", "getter exception"); }
+    try { uint length = node.BlockUnitInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.BlockUnitInfos[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.BlockUnitInfos", i, length, c.Link(node.BlockUnitInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.BlockUnitInfos", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.BlockUnitInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.BlockInfoIdForLog");
     try { c.Field(fields, "CGameCtnBlockInfoVariant.BlockInfoIdForLog", Json::Value(node.BlockInfoIdForLog.Value)); } catch { c.Skipped("CGameCtnBlockInfoVariant.BlockInfoIdForLog", "failed", "getter exception"); }
@@ -5394,7 +5394,7 @@ void DiagnosticsRead_CGameCtnBlockInfoVariant(DiagnosticsCapture@ c, CGameCtnBlo
     try { c.Field(fields, "CGameCtnBlockInfoVariant.FlockModel", c.Link(node.FlockModel, depth + 1)); } catch { c.Skipped("CGameCtnBlockInfoVariant.FlockModel", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.EntitySpawners");
-    try { Json::Value values = Json::Array(); uint length = node.EntitySpawners.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.EntitySpawners[" + i + "]"); values.Add(c.Link(node.EntitySpawners[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.EntitySpawners", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.EntitySpawners", "failed", "getter exception"); }
+    try { uint length = node.EntitySpawners.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.EntitySpawners[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.EntitySpawners", i, length, c.Link(node.EntitySpawners[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.EntitySpawners", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.EntitySpawners", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.FlockEmitterRadius");
     try { c.Field(fields, "CGameCtnBlockInfoVariant.FlockEmitterRadius", c.Number(double(node.FlockEmitterRadius))); } catch { c.Skipped("CGameCtnBlockInfoVariant.FlockEmitterRadius", "failed", "getter exception"); }
@@ -5508,79 +5508,79 @@ void DiagnosticsRead_CGameCtnBlockInfoVariant(DiagnosticsCapture@ c, CGameCtnBlo
     try { c.Field(fields, "CGameCtnBlockInfoVariant.OffsetBoundingBoxMax", c.Text(tostring(node.OffsetBoundingBoxMax))); } catch { c.Skipped("CGameCtnBlockInfoVariant.OffsetBoundingBoxMax", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils00");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils00.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils00[" + i + "]"); values.Add(c.Link(node.Mobils00[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils00", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils00", "failed", "getter exception"); }
+    try { uint length = node.Mobils00.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils00[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils00", i, length, c.Link(node.Mobils00[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils00", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils00", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils01");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils01.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils01[" + i + "]"); values.Add(c.Link(node.Mobils01[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils01", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils01", "failed", "getter exception"); }
+    try { uint length = node.Mobils01.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils01[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils01", i, length, c.Link(node.Mobils01[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils01", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils01", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils02");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils02.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils02[" + i + "]"); values.Add(c.Link(node.Mobils02[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils02", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils02", "failed", "getter exception"); }
+    try { uint length = node.Mobils02.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils02[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils02", i, length, c.Link(node.Mobils02[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils02", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils02", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils03");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils03.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils03[" + i + "]"); values.Add(c.Link(node.Mobils03[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils03", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils03", "failed", "getter exception"); }
+    try { uint length = node.Mobils03.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils03[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils03", i, length, c.Link(node.Mobils03[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils03", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils03", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils04");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils04.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils04[" + i + "]"); values.Add(c.Link(node.Mobils04[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils04", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils04", "failed", "getter exception"); }
+    try { uint length = node.Mobils04.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils04[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils04", i, length, c.Link(node.Mobils04[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils04", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils04", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils05");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils05.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils05[" + i + "]"); values.Add(c.Link(node.Mobils05[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils05", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils05", "failed", "getter exception"); }
+    try { uint length = node.Mobils05.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils05[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils05", i, length, c.Link(node.Mobils05[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils05", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils05", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils06");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils06.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils06[" + i + "]"); values.Add(c.Link(node.Mobils06[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils06", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils06", "failed", "getter exception"); }
+    try { uint length = node.Mobils06.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils06[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils06", i, length, c.Link(node.Mobils06[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils06", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils06", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils07");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils07.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils07[" + i + "]"); values.Add(c.Link(node.Mobils07[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils07", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils07", "failed", "getter exception"); }
+    try { uint length = node.Mobils07.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils07[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils07", i, length, c.Link(node.Mobils07[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils07", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils07", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils08");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils08.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils08[" + i + "]"); values.Add(c.Link(node.Mobils08[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils08", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils08", "failed", "getter exception"); }
+    try { uint length = node.Mobils08.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils08[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils08", i, length, c.Link(node.Mobils08[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils08", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils08", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils09");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils09.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils09[" + i + "]"); values.Add(c.Link(node.Mobils09[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils09", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils09", "failed", "getter exception"); }
+    try { uint length = node.Mobils09.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils09[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils09", i, length, c.Link(node.Mobils09[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils09", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils09", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils10");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils10.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils10[" + i + "]"); values.Add(c.Link(node.Mobils10[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils10", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils10", "failed", "getter exception"); }
+    try { uint length = node.Mobils10.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils10[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils10", i, length, c.Link(node.Mobils10[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils10", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils10", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils11");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils11.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils11[" + i + "]"); values.Add(c.Link(node.Mobils11[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils11", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils11", "failed", "getter exception"); }
+    try { uint length = node.Mobils11.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils11[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils11", i, length, c.Link(node.Mobils11[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils11", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils11", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils12");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils12.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils12[" + i + "]"); values.Add(c.Link(node.Mobils12[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils12", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils12", "failed", "getter exception"); }
+    try { uint length = node.Mobils12.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils12[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils12", i, length, c.Link(node.Mobils12[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils12", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils12", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils13");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils13.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils13[" + i + "]"); values.Add(c.Link(node.Mobils13[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils13", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils13", "failed", "getter exception"); }
+    try { uint length = node.Mobils13.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils13[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils13", i, length, c.Link(node.Mobils13[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils13", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils13", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils14");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils14.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils14[" + i + "]"); values.Add(c.Link(node.Mobils14[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils14", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils14", "failed", "getter exception"); }
+    try { uint length = node.Mobils14.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils14[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils14", i, length, c.Link(node.Mobils14[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils14", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils14", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.Mobils15");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils15.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils15[" + i + "]"); values.Add(c.Link(node.Mobils15[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils15", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils15", "failed", "getter exception"); }
+    try { uint length = node.Mobils15.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.Mobils15[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.Mobils15", i, length, c.Link(node.Mobils15[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.Mobils15", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.Mobils15", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.VariantBaseType");
     try { c.Field(fields, "CGameCtnBlockInfoVariant.VariantBaseType", Json::Value(int(node.VariantBaseType))); } catch { c.Skipped("CGameCtnBlockInfoVariant.VariantBaseType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.ReplacedPillarBlockInfo_List");
-    try { Json::Value values = Json::Array(); uint length = node.ReplacedPillarBlockInfo_List.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.ReplacedPillarBlockInfo_List[" + i + "]"); values.Add(c.Link(node.ReplacedPillarBlockInfo_List[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.ReplacedPillarBlockInfo_List", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.ReplacedPillarBlockInfo_List", "failed", "getter exception"); }
+    try { uint length = node.ReplacedPillarBlockInfo_List.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.ReplacedPillarBlockInfo_List[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.ReplacedPillarBlockInfo_List", i, length, c.Link(node.ReplacedPillarBlockInfo_List[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.ReplacedPillarBlockInfo_List", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.ReplacedPillarBlockInfo_List", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.ReplacedPillarOffset2D_List");
-    try { Json::Value values = Json::Array(); uint length = node.ReplacedPillarOffset2D_List.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.ReplacedPillarOffset2D_List[" + i + "]"); values.Add(c.Text(tostring(node.ReplacedPillarOffset2D_List[i]))); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.ReplacedPillarOffset2D_List", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.ReplacedPillarOffset2D_List", "failed", "getter exception"); }
+    try { uint length = node.ReplacedPillarOffset2D_List.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.ReplacedPillarOffset2D_List[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.ReplacedPillarOffset2D_List", i, length, c.Text(tostring(node.ReplacedPillarOffset2D_List[i]))); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.ReplacedPillarOffset2D_List", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.ReplacedPillarOffset2D_List", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.ReplacedPillarMultiDir_List");
-    try { Json::Value values = Json::Array(); uint length = node.ReplacedPillarMultiDir_List.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.ReplacedPillarMultiDir_List[" + i + "]"); values.Add(Json::Value(int(node.ReplacedPillarMultiDir_List[i]))); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.ReplacedPillarMultiDir_List", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.ReplacedPillarMultiDir_List", "failed", "getter exception"); }
+    try { uint length = node.ReplacedPillarMultiDir_List.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.ReplacedPillarMultiDir_List[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.ReplacedPillarMultiDir_List", i, length, Json::Value(int(node.ReplacedPillarMultiDir_List[i]))); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.ReplacedPillarMultiDir_List", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.ReplacedPillarMultiDir_List", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.ReplacedPillarIsOnFlyingBase_List");
-    try { Json::Value values = Json::Array(); uint length = node.ReplacedPillarIsOnFlyingBase_List.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.ReplacedPillarIsOnFlyingBase_List[" + i + "]"); values.Add(Json::Value(node.ReplacedPillarIsOnFlyingBase_List[i])); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.ReplacedPillarIsOnFlyingBase_List", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.ReplacedPillarIsOnFlyingBase_List", "failed", "getter exception"); }
+    try { uint length = node.ReplacedPillarIsOnFlyingBase_List.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.ReplacedPillarIsOnFlyingBase_List[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.ReplacedPillarIsOnFlyingBase_List", i, length, Json::Value(node.ReplacedPillarIsOnFlyingBase_List[i])); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.ReplacedPillarIsOnFlyingBase_List", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.ReplacedPillarIsOnFlyingBase_List", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.IsNewPillarPlacedBelow_List");
-    try { Json::Value values = Json::Array(); uint length = node.IsNewPillarPlacedBelow_List.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.IsNewPillarPlacedBelow_List[" + i + "]"); values.Add(Json::Value(node.IsNewPillarPlacedBelow_List[i])); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.IsNewPillarPlacedBelow_List", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.IsNewPillarPlacedBelow_List", "failed", "getter exception"); }
+    try { uint length = node.IsNewPillarPlacedBelow_List.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.IsNewPillarPlacedBelow_List[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.IsNewPillarPlacedBelow_List", i, length, Json::Value(node.IsNewPillarPlacedBelow_List[i])); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.IsNewPillarPlacedBelow_List", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.IsNewPillarPlacedBelow_List", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.PlacedPillarBlockInfo_List");
-    try { Json::Value values = Json::Array(); uint length = node.PlacedPillarBlockInfo_List.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.PlacedPillarBlockInfo_List[" + i + "]"); values.Add(c.Link(node.PlacedPillarBlockInfo_List[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.PlacedPillarBlockInfo_List", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.PlacedPillarBlockInfo_List", "failed", "getter exception"); }
+    try { uint length = node.PlacedPillarBlockInfo_List.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.PlacedPillarBlockInfo_List[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.PlacedPillarBlockInfo_List", i, length, c.Link(node.PlacedPillarBlockInfo_List[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.PlacedPillarBlockInfo_List", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.PlacedPillarBlockInfo_List", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.PlacedPillarOffset_List");
-    try { Json::Value values = Json::Array(); uint length = node.PlacedPillarOffset_List.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.PlacedPillarOffset_List[" + i + "]"); values.Add(c.Text(tostring(node.PlacedPillarOffset_List[i]))); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.PlacedPillarOffset_List", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.PlacedPillarOffset_List", "failed", "getter exception"); }
+    try { uint length = node.PlacedPillarOffset_List.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.PlacedPillarOffset_List[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.PlacedPillarOffset_List", i, length, c.Text(tostring(node.PlacedPillarOffset_List[i]))); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.PlacedPillarOffset_List", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.PlacedPillarOffset_List", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.PlacedPillarDir_List");
-    try { Json::Value values = Json::Array(); uint length = node.PlacedPillarDir_List.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.PlacedPillarDir_List[" + i + "]"); values.Add(Json::Value(int(node.PlacedPillarDir_List[i]))); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.PlacedPillarDir_List", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.PlacedPillarDir_List", "failed", "getter exception"); }
+    try { uint length = node.PlacedPillarDir_List.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.PlacedPillarDir_List[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.PlacedPillarDir_List", i, length, Json::Value(int(node.PlacedPillarDir_List[i]))); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.PlacedPillarDir_List", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.PlacedPillarDir_List", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.CompoundModel");
     try { c.Field(fields, "CGameCtnBlockInfoVariant.CompoundModel", c.Link(node.CompoundModel, depth + 1)); } catch { c.Skipped("CGameCtnBlockInfoVariant.CompoundModel", "failed", "getter exception"); }
@@ -5589,7 +5589,7 @@ void DiagnosticsRead_CGameCtnBlockInfoVariant(DiagnosticsCapture@ c, CGameCtnBlo
     try { c.Field(fields, "CGameCtnBlockInfoVariant.CompoundLoc", c.Text(tostring(node.CompoundLoc))); } catch { c.Skipped("CGameCtnBlockInfoVariant.CompoundLoc", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariant.BlockUnitModels");
-    try { Json::Value values = Json::Array(); uint length = node.BlockUnitModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.BlockUnitModels[" + i + "]"); values.Add(c.Link(node.BlockUnitModels[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariant.BlockUnitModels", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.BlockUnitModels", "failed", "getter exception"); }
+    try { uint length = node.BlockUnitModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariant.BlockUnitModels[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariant.BlockUnitModels", i, length, c.Link(node.BlockUnitModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariant.BlockUnitModels", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariant.BlockUnitModels", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnBlockInfoVariantAir(DiagnosticsCapture@ c, CGameCtnBlockInfoVariantAir@ node, Json::Value &inout fields, uint depth)
 {
@@ -5603,7 +5603,7 @@ void DiagnosticsRead_CGameCtnBlockInfoVariantGround(DiagnosticsCapture@ c, CGame
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariantGround.AutoTerrains");
-    try { Json::Value values = Json::Array(); uint length = node.AutoTerrains.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariantGround.AutoTerrains[" + i + "]"); values.Add(c.Link(node.AutoTerrains[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockInfoVariantGround.AutoTerrains", values, length); } catch { c.Skipped("CGameCtnBlockInfoVariantGround.AutoTerrains", "failed", "getter exception"); }
+    try { uint length = node.AutoTerrains.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockInfoVariantGround.AutoTerrains[" + i + "]"); c.ArrayElement("CGameCtnBlockInfoVariantGround.AutoTerrains", i, length, c.Link(node.AutoTerrains[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockInfoVariantGround.AutoTerrains", captured, length); } catch { c.Skipped("CGameCtnBlockInfoVariantGround.AutoTerrains", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockInfoVariantGround.AutoTerrainWithFrontiers");
     try { c.Field(fields, "CGameCtnBlockInfoVariantGround.AutoTerrainWithFrontiers", Json::Value(node.AutoTerrainWithFrontiers)); } catch { c.Skipped("CGameCtnBlockInfoVariantGround.AutoTerrainWithFrontiers", "failed", "getter exception"); }
@@ -5675,37 +5675,37 @@ void DiagnosticsRead_CGameCtnBlockUnitInfo(DiagnosticsCapture@ c, CGameCtnBlockU
     try { c.Field(fields, "CGameCtnBlockUnitInfo.ClipCount_Bottom", Json::Value(node.ClipCount_Bottom)); } catch { c.Skipped("CGameCtnBlockUnitInfo.ClipCount_Bottom", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.AllClips");
-    try { Json::Value values = Json::Array(); uint length = node.AllClips.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.AllClips[" + i + "]"); values.Add(c.Link(node.AllClips[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.AllClips", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.AllClips", "failed", "getter exception"); }
+    try { uint length = node.AllClips.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.AllClips[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.AllClips", i, length, c.Link(node.AllClips[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.AllClips", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.AllClips", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.Clips_North");
-    try { Json::Value values = Json::Array(); uint length = node.Clips_North.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_North[" + i + "]"); values.Add(c.Link(node.Clips_North[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_North", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_North", "failed", "getter exception"); }
+    try { uint length = node.Clips_North.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_North[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.Clips_North", i, length, c.Link(node.Clips_North[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_North", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_North", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.Clips_East");
-    try { Json::Value values = Json::Array(); uint length = node.Clips_East.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_East[" + i + "]"); values.Add(c.Link(node.Clips_East[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_East", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_East", "failed", "getter exception"); }
+    try { uint length = node.Clips_East.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_East[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.Clips_East", i, length, c.Link(node.Clips_East[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_East", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_East", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.Clips_South");
-    try { Json::Value values = Json::Array(); uint length = node.Clips_South.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_South[" + i + "]"); values.Add(c.Link(node.Clips_South[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_South", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_South", "failed", "getter exception"); }
+    try { uint length = node.Clips_South.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_South[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.Clips_South", i, length, c.Link(node.Clips_South[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_South", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_South", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.Clips_West");
-    try { Json::Value values = Json::Array(); uint length = node.Clips_West.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_West[" + i + "]"); values.Add(c.Link(node.Clips_West[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_West", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_West", "failed", "getter exception"); }
+    try { uint length = node.Clips_West.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_West[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.Clips_West", i, length, c.Link(node.Clips_West[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_West", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_West", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.Clips_Top");
-    try { Json::Value values = Json::Array(); uint length = node.Clips_Top.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_Top[" + i + "]"); values.Add(c.Link(node.Clips_Top[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_Top", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_Top", "failed", "getter exception"); }
+    try { uint length = node.Clips_Top.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_Top[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.Clips_Top", i, length, c.Link(node.Clips_Top[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_Top", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_Top", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.Clips_Bottom");
-    try { Json::Value values = Json::Array(); uint length = node.Clips_Bottom.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_Bottom[" + i + "]"); values.Add(c.Link(node.Clips_Bottom[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_Bottom", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_Bottom", "failed", "getter exception"); }
+    try { uint length = node.Clips_Bottom.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips_Bottom[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.Clips_Bottom", i, length, c.Link(node.Clips_Bottom[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips_Bottom", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips_Bottom", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.TopClipDirs");
-    try { Json::Value values = Json::Array(); uint length = node.TopClipDirs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.TopClipDirs[" + i + "]"); values.Add(Json::Value(int(node.TopClipDirs[i]))); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.TopClipDirs", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.TopClipDirs", "failed", "getter exception"); }
+    try { uint length = node.TopClipDirs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.TopClipDirs[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.TopClipDirs", i, length, Json::Value(int(node.TopClipDirs[i]))); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.TopClipDirs", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.TopClipDirs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.BottomClipDirs");
-    try { Json::Value values = Json::Array(); uint length = node.BottomClipDirs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.BottomClipDirs[" + i + "]"); values.Add(Json::Value(int(node.BottomClipDirs[i]))); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.BottomClipDirs", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.BottomClipDirs", "failed", "getter exception"); }
+    try { uint length = node.BottomClipDirs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.BottomClipDirs[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.BottomClipDirs", i, length, Json::Value(int(node.BottomClipDirs[i]))); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.BottomClipDirs", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.BottomClipDirs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.ClipBakedMobilIndexesForPreview");
-    try { Json::Value values = Json::Array(); uint length = node.ClipBakedMobilIndexesForPreview.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.ClipBakedMobilIndexesForPreview[" + i + "]"); values.Add(Json::Value(node.ClipBakedMobilIndexesForPreview[i])); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.ClipBakedMobilIndexesForPreview", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.ClipBakedMobilIndexesForPreview", "failed", "getter exception"); }
+    try { uint length = node.ClipBakedMobilIndexesForPreview.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.ClipBakedMobilIndexesForPreview[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.ClipBakedMobilIndexesForPreview", i, length, Json::Value(node.ClipBakedMobilIndexesForPreview[i])); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.ClipBakedMobilIndexesForPreview", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.ClipBakedMobilIndexesForPreview", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.Pylons");
-    try { Json::Value values = Json::Array(); uint length = node.Pylons.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Pylons[" + i + "]"); values.Add(c.Link(node.Pylons[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Pylons", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Pylons", "failed", "getter exception"); }
+    try { uint length = node.Pylons.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Pylons[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.Pylons", i, length, c.Link(node.Pylons[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Pylons", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Pylons", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.AcceptPylons");
     try { c.Field(fields, "CGameCtnBlockUnitInfo.AcceptPylons", Json::Value(node.AcceptPylons)); } catch { c.Skipped("CGameCtnBlockUnitInfo.AcceptPylons", "failed", "getter exception"); }
@@ -5735,7 +5735,7 @@ void DiagnosticsRead_CGameCtnBlockUnitInfo(DiagnosticsCapture@ c, CGameCtnBlockU
     try { c.Field(fields, "CGameCtnBlockUnitInfo.RelativeOffset", c.Text(tostring(node.RelativeOffset))); } catch { c.Skipped("CGameCtnBlockUnitInfo.RelativeOffset", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnBlockUnitInfo.Clips");
-    try { Json::Value values = Json::Array(); uint length = node.Clips.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips[" + i + "]"); values.Add(c.Link(node.Clips[i], depth + 1)); } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips", values, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips", "failed", "getter exception"); }
+    try { uint length = node.Clips.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnBlockUnitInfo.Clips[" + i + "]"); c.ArrayElement("CGameCtnBlockUnitInfo.Clips", i, length, c.Link(node.Clips[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnBlockUnitInfo.Clips", captured, length); } catch { c.Skipped("CGameCtnBlockUnitInfo.Clips", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnCampaign(DiagnosticsCapture@ c, CGameCtnCampaign@ node, Json::Value &inout fields, uint depth)
 {
@@ -5769,7 +5769,7 @@ void DiagnosticsRead_CGameCtnCampaign(DiagnosticsCapture@ c, CGameCtnCampaign@ n
     try { c.Field(fields, "CGameCtnCampaign.UnlockedByCampaign", c.Text(string(node.UnlockedByCampaign))); } catch { c.Skipped("CGameCtnCampaign.UnlockedByCampaign", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCampaign.MapGroups");
-    try { Json::Value values = Json::Array(); uint length = node.MapGroups.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCampaign.MapGroups[" + i + "]"); values.Add(c.Link(node.MapGroups[i], depth + 1)); } c.ArrayField(fields, "CGameCtnCampaign.MapGroups", values, length); } catch { c.Skipped("CGameCtnCampaign.MapGroups", "failed", "getter exception"); }
+    try { uint length = node.MapGroups.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCampaign.MapGroups[" + i + "]"); c.ArrayElement("CGameCtnCampaign.MapGroups", i, length, c.Link(node.MapGroups[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnCampaign.MapGroups", captured, length); } catch { c.Skipped("CGameCtnCampaign.MapGroups", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCampaign.ModeScriptName");
     try { c.Field(fields, "CGameCtnCampaign.ModeScriptName", c.Text(string(node.ModeScriptName))); } catch { c.Skipped("CGameCtnCampaign.ModeScriptName", "failed", "getter exception"); }
@@ -5785,7 +5785,7 @@ void DiagnosticsRead_CGameCtnCatalog(DiagnosticsCapture@ c, CGameCtnCatalog@ nod
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCatalog.Chapters");
-    try { Json::Value values = Json::Array(); uint length = node.Chapters.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCatalog.Chapters[" + i + "]"); values.Add(c.Link(node.Chapters[i], depth + 1)); } c.ArrayField(fields, "CGameCtnCatalog.Chapters", values, length); } catch { c.Skipped("CGameCtnCatalog.Chapters", "failed", "getter exception"); }
+    try { uint length = node.Chapters.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCatalog.Chapters[" + i + "]"); c.ArrayElement("CGameCtnCatalog.Chapters", i, length, c.Link(node.Chapters[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnCatalog.Chapters", captured, length); } catch { c.Skipped("CGameCtnCatalog.Chapters", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnChallenge(DiagnosticsCapture@ c, CGameCtnChallenge@ node, Json::Value &inout fields, uint depth)
 {
@@ -5924,10 +5924,10 @@ void DiagnosticsRead_CGameCtnChallenge(DiagnosticsCapture@ c, CGameCtnChallenge@
     try { c.Field(fields, "CGameCtnChallenge.Collection", c.Link(node.Collection, depth + 1)); } catch { c.Skipped("CGameCtnChallenge.Collection", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChallenge.Blocks");
-    try { Json::Value values = Json::Array(); uint length = node.Blocks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallenge.Blocks[" + i + "]"); values.Add(c.Link(node.Blocks[i], depth + 1)); } c.ArrayField(fields, "CGameCtnChallenge.Blocks", values, length); } catch { c.Skipped("CGameCtnChallenge.Blocks", "failed", "getter exception"); }
+    try { uint length = node.Blocks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallenge.Blocks[" + i + "]"); c.ArrayElement("CGameCtnChallenge.Blocks", i, length, c.Link(node.Blocks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnChallenge.Blocks", captured, length); } catch { c.Skipped("CGameCtnChallenge.Blocks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChallenge.BakedBlocks");
-    try { Json::Value values = Json::Array(); uint length = node.BakedBlocks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallenge.BakedBlocks[" + i + "]"); values.Add(c.Link(node.BakedBlocks[i], depth + 1)); } c.ArrayField(fields, "CGameCtnChallenge.BakedBlocks", values, length); } catch { c.Skipped("CGameCtnChallenge.BakedBlocks", "failed", "getter exception"); }
+    try { uint length = node.BakedBlocks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallenge.BakedBlocks[" + i + "]"); c.ArrayElement("CGameCtnChallenge.BakedBlocks", i, length, c.Link(node.BakedBlocks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnChallenge.BakedBlocks", captured, length); } catch { c.Skipped("CGameCtnChallenge.BakedBlocks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChallenge.BotPathTypes");
     try { c.Skipped("CGameCtnChallenge.BotPathTypes", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnChallenge.BotPathTypes", "failed", "getter exception"); }
@@ -5954,7 +5954,7 @@ void DiagnosticsRead_CGameCtnChallenge(DiagnosticsCapture@ c, CGameCtnChallenge@
     try { c.Field(fields, "CGameCtnChallenge.MapCoordOrigin", c.Text(tostring(node.MapCoordOrigin))); } catch { c.Skipped("CGameCtnChallenge.MapCoordOrigin", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChallenge.CarMarksBuffer");
-    try { Json::Value values = Json::Array(); uint length = node.CarMarksBuffer.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallenge.CarMarksBuffer[" + i + "]"); values.Add(c.Link(node.CarMarksBuffer[i], depth + 1)); } c.ArrayField(fields, "CGameCtnChallenge.CarMarksBuffer", values, length); } catch { c.Skipped("CGameCtnChallenge.CarMarksBuffer", "failed", "getter exception"); }
+    try { uint length = node.CarMarksBuffer.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallenge.CarMarksBuffer[" + i + "]"); c.ArrayElement("CGameCtnChallenge.CarMarksBuffer", i, length, c.Link(node.CarMarksBuffer[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnChallenge.CarMarksBuffer", captured, length); } catch { c.Skipped("CGameCtnChallenge.CarMarksBuffer", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChallenge.TmpBlockOffsetMoulinetteY");
     try { c.Field(fields, "CGameCtnChallenge.TmpBlockOffsetMoulinetteY", Json::Value(node.TmpBlockOffsetMoulinetteY)); } catch { c.Skipped("CGameCtnChallenge.TmpBlockOffsetMoulinetteY", "failed", "getter exception"); }
@@ -5966,7 +5966,7 @@ void DiagnosticsRead_CGameCtnChallenge(DiagnosticsCapture@ c, CGameCtnChallenge@
     try { c.Field(fields, "CGameCtnChallenge.Thumbnail_KBytes", Json::Value(node.Thumbnail_KBytes)); } catch { c.Skipped("CGameCtnChallenge.Thumbnail_KBytes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChallenge.AnchoredObjects");
-    try { Json::Value values = Json::Array(); uint length = node.AnchoredObjects.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallenge.AnchoredObjects[" + i + "]"); values.Add(c.Link(node.AnchoredObjects[i], depth + 1)); } c.ArrayField(fields, "CGameCtnChallenge.AnchoredObjects", values, length); } catch { c.Skipped("CGameCtnChallenge.AnchoredObjects", "failed", "getter exception"); }
+    try { uint length = node.AnchoredObjects.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallenge.AnchoredObjects[" + i + "]"); c.ArrayElement("CGameCtnChallenge.AnchoredObjects", i, length, c.Link(node.AnchoredObjects[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnChallenge.AnchoredObjects", captured, length); } catch { c.Skipped("CGameCtnChallenge.AnchoredObjects", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChallenge.AnimLibrary");
     try { c.Field(fields, "CGameCtnChallenge.AnimLibrary", c.Link(node.AnimLibrary, depth + 1)); } catch { c.Skipped("CGameCtnChallenge.AnimLibrary", "failed", "getter exception"); }
@@ -6015,7 +6015,7 @@ void DiagnosticsRead_CGameCtnChallengeGroup(DiagnosticsCapture@ c, CGameCtnChall
     try { c.Field(fields, "CGameCtnChallengeGroup.Name", c.Text(string(node.Name))); } catch { c.Skipped("CGameCtnChallengeGroup.Name", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChallengeGroup.MapInfos");
-    try { Json::Value values = Json::Array(); uint length = node.MapInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallengeGroup.MapInfos[" + i + "]"); values.Add(c.Link(node.MapInfos[i], depth + 1)); } c.ArrayField(fields, "CGameCtnChallengeGroup.MapInfos", values, length); } catch { c.Skipped("CGameCtnChallengeGroup.MapInfos", "failed", "getter exception"); }
+    try { uint length = node.MapInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChallengeGroup.MapInfos[" + i + "]"); c.ArrayElement("CGameCtnChallengeGroup.MapInfos", i, length, c.Link(node.MapInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnChallengeGroup.MapInfos", captured, length); } catch { c.Skipped("CGameCtnChallengeGroup.MapInfos", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnChallengeInfo(DiagnosticsCapture@ c, CGameCtnChallengeInfo@ node, Json::Value &inout fields, uint depth)
 {
@@ -6156,7 +6156,7 @@ void DiagnosticsRead_CGameCtnChapter(DiagnosticsCapture@ c, CGameCtnChapter@ nod
     try { c.Field(fields, "CGameCtnChapter.LongDesc", c.Text(string(node.LongDesc))); } catch { c.Skipped("CGameCtnChapter.LongDesc", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChapter.Articles");
-    try { Json::Value values = Json::Array(); uint length = node.Articles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChapter.Articles[" + i + "]"); values.Add(c.Link(node.Articles[i], depth + 1)); } c.ArrayField(fields, "CGameCtnChapter.Articles", values, length); } catch { c.Skipped("CGameCtnChapter.Articles", "failed", "getter exception"); }
+    try { uint length = node.Articles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnChapter.Articles[" + i + "]"); c.ArrayElement("CGameCtnChapter.Articles", i, length, c.Link(node.Articles[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnChapter.Articles", captured, length); } catch { c.Skipped("CGameCtnChapter.Articles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnChapter.Icon");
     try { c.Field(fields, "CGameCtnChapter.Icon", c.Link(node.Icon, depth + 1)); } catch { c.Skipped("CGameCtnChapter.Icon", "failed", "getter exception"); }
@@ -6175,7 +6175,7 @@ void DiagnosticsRead_CGameCtnCollection(DiagnosticsCapture@ c, CGameCtnCollectio
     try { c.Field(fields, "CGameCtnCollection.CollectionId_Text", c.Text(string(node.CollectionId_Text))); } catch { c.Skipped("CGameCtnCollection.CollectionId_Text", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.CompleteZoneList");
-    try { Json::Value values = Json::Array(); uint length = node.CompleteZoneList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.CompleteZoneList[" + i + "]"); values.Add(c.Link(node.CompleteZoneList[i], depth + 1)); } c.ArrayField(fields, "CGameCtnCollection.CompleteZoneList", values, length); } catch { c.Skipped("CGameCtnCollection.CompleteZoneList", "failed", "getter exception"); }
+    try { uint length = node.CompleteZoneList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.CompleteZoneList[" + i + "]"); c.ArrayElement("CGameCtnCollection.CompleteZoneList", i, length, c.Link(node.CompleteZoneList[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnCollection.CompleteZoneList", captured, length); } catch { c.Skipped("CGameCtnCollection.CompleteZoneList", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.DisplayName");
     try { c.Field(fields, "CGameCtnCollection.DisplayName", c.Text(string(node.DisplayName))); } catch { c.Skipped("CGameCtnCollection.DisplayName", "failed", "getter exception"); }
@@ -6373,13 +6373,13 @@ void DiagnosticsRead_CGameCtnCollection(DiagnosticsCapture@ c, CGameCtnCollectio
     try { c.Field(fields, "CGameCtnCollection.AdditionalDepsForUGC", c.Link(node.AdditionalDepsForUGC, depth + 1)); } catch { c.Skipped("CGameCtnCollection.AdditionalDepsForUGC", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.BaseZoneStrings");
-    try { Json::Value values = Json::Array(); uint length = node.BaseZoneStrings.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.BaseZoneStrings[" + i + "]"); values.Add(c.Text(string(node.BaseZoneStrings[i]))); } c.ArrayField(fields, "CGameCtnCollection.BaseZoneStrings", values, length); } catch { c.Skipped("CGameCtnCollection.BaseZoneStrings", "failed", "getter exception"); }
+    try { uint length = node.BaseZoneStrings.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.BaseZoneStrings[" + i + "]"); c.ArrayElement("CGameCtnCollection.BaseZoneStrings", i, length, c.Text(string(node.BaseZoneStrings[i]))); captured++; } c.ArrayField(fields, "CGameCtnCollection.BaseZoneStrings", captured, length); } catch { c.Skipped("CGameCtnCollection.BaseZoneStrings", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.ReplacementZoneStrings");
-    try { Json::Value values = Json::Array(); uint length = node.ReplacementZoneStrings.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.ReplacementZoneStrings[" + i + "]"); values.Add(c.Text(string(node.ReplacementZoneStrings[i]))); } c.ArrayField(fields, "CGameCtnCollection.ReplacementZoneStrings", values, length); } catch { c.Skipped("CGameCtnCollection.ReplacementZoneStrings", "failed", "getter exception"); }
+    try { uint length = node.ReplacementZoneStrings.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.ReplacementZoneStrings[" + i + "]"); c.ArrayElement("CGameCtnCollection.ReplacementZoneStrings", i, length, c.Text(string(node.ReplacementZoneStrings[i]))); captured++; } c.ArrayField(fields, "CGameCtnCollection.ReplacementZoneStrings", captured, length); } catch { c.Skipped("CGameCtnCollection.ReplacementZoneStrings", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.ReplacementTerrainModifiers");
-    try { Json::Value values = Json::Array(); uint length = node.ReplacementTerrainModifiers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.ReplacementTerrainModifiers[" + i + "]"); values.Add(c.Link(node.ReplacementTerrainModifiers[i], depth + 1)); } c.ArrayField(fields, "CGameCtnCollection.ReplacementTerrainModifiers", values, length); } catch { c.Skipped("CGameCtnCollection.ReplacementTerrainModifiers", "failed", "getter exception"); }
+    try { uint length = node.ReplacementTerrainModifiers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.ReplacementTerrainModifiers[" + i + "]"); c.ArrayElement("CGameCtnCollection.ReplacementTerrainModifiers", i, length, c.Link(node.ReplacementTerrainModifiers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnCollection.ReplacementTerrainModifiers", captured, length); } catch { c.Skipped("CGameCtnCollection.ReplacementTerrainModifiers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.ColorBlindnessModifier");
     try { c.Field(fields, "CGameCtnCollection.ColorBlindnessModifier", c.Link(node.ColorBlindnessModifier, depth + 1)); } catch { c.Skipped("CGameCtnCollection.ColorBlindnessModifier", "failed", "getter exception"); }
@@ -6391,10 +6391,10 @@ void DiagnosticsRead_CGameCtnCollection(DiagnosticsCapture@ c, CGameCtnCollectio
     try { c.Field(fields, "CGameCtnCollection.GlobalMaterialModifier", c.Link(node.GlobalMaterialModifier, depth + 1)); } catch { c.Skipped("CGameCtnCollection.GlobalMaterialModifier", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.ParticleEmitterModelsFids");
-    try { Json::Value values = Json::Array(); uint length = node.ParticleEmitterModelsFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.ParticleEmitterModelsFids[" + i + "]"); values.Add(c.Link(node.ParticleEmitterModelsFids[i], depth + 1)); } c.ArrayField(fields, "CGameCtnCollection.ParticleEmitterModelsFids", values, length); } catch { c.Skipped("CGameCtnCollection.ParticleEmitterModelsFids", "failed", "getter exception"); }
+    try { uint length = node.ParticleEmitterModelsFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.ParticleEmitterModelsFids[" + i + "]"); c.ArrayElement("CGameCtnCollection.ParticleEmitterModelsFids", i, length, c.Link(node.ParticleEmitterModelsFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnCollection.ParticleEmitterModelsFids", captured, length); } catch { c.Skipped("CGameCtnCollection.ParticleEmitterModelsFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.DecalsTypesId");
-    try { Json::Value values = Json::Array(); uint length = node.DecalsTypesId.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.DecalsTypesId[" + i + "]"); values.Add(Json::Value(node.DecalsTypesId[i].Value)); } c.ArrayField(fields, "CGameCtnCollection.DecalsTypesId", values, length); } catch { c.Skipped("CGameCtnCollection.DecalsTypesId", "failed", "getter exception"); }
+    try { uint length = node.DecalsTypesId.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.DecalsTypesId[" + i + "]"); c.ArrayElement("CGameCtnCollection.DecalsTypesId", i, length, Json::Value(node.DecalsTypesId[i].Value)); captured++; } c.ArrayField(fields, "CGameCtnCollection.DecalsTypesId", captured, length); } catch { c.Skipped("CGameCtnCollection.DecalsTypesId", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.MarksModel");
     try { c.Field(fields, "CGameCtnCollection.MarksModel", c.Link(node.MarksModel, depth + 1)); } catch { c.Skipped("CGameCtnCollection.MarksModel", "failed", "getter exception"); }
@@ -6418,7 +6418,7 @@ void DiagnosticsRead_CGameCtnCollection(DiagnosticsCapture@ c, CGameCtnCollectio
     try { c.Field(fields, "CGameCtnCollection.OffZone_FogMatter", c.Link(node.OffZone_FogMatter, depth + 1)); } catch { c.Skipped("CGameCtnCollection.OffZone_FogMatter", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.ZoneList");
-    try { Json::Value values = Json::Array(); uint length = node.ZoneList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.ZoneList[" + i + "]"); values.Add(c.Link(node.ZoneList[i], depth + 1)); } c.ArrayField(fields, "CGameCtnCollection.ZoneList", values, length); } catch { c.Skipped("CGameCtnCollection.ZoneList", "failed", "getter exception"); }
+    try { uint length = node.ZoneList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollection.ZoneList[" + i + "]"); c.ArrayElement("CGameCtnCollection.ZoneList", i, length, c.Link(node.ZoneList[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnCollection.ZoneList", captured, length); } catch { c.Skipped("CGameCtnCollection.ZoneList", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollection.VehicleStyles");
     try { c.Field(fields, "CGameCtnCollection.VehicleStyles", c.Link(node.VehicleStyles, depth + 1)); } catch { c.Skipped("CGameCtnCollection.VehicleStyles", "failed", "getter exception"); }
@@ -6582,10 +6582,10 @@ void DiagnosticsRead_CGameCtnCollectorList(DiagnosticsCapture@ c, CGameCtnCollec
     try { c.Field(fields, "CGameCtnCollectorList.Bob", Json::Value(node.Bob)); } catch { c.Skipped("CGameCtnCollectorList.Bob", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollectorList.BlockStockIds");
-    try { Json::Value values = Json::Array(); uint length = node.BlockStockIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollectorList.BlockStockIds[" + i + "]"); values.Add(Json::Value(node.BlockStockIds[i].Value)); } c.ArrayField(fields, "CGameCtnCollectorList.BlockStockIds", values, length); } catch { c.Skipped("CGameCtnCollectorList.BlockStockIds", "failed", "getter exception"); }
+    try { uint length = node.BlockStockIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollectorList.BlockStockIds[" + i + "]"); c.ArrayElement("CGameCtnCollectorList.BlockStockIds", i, length, Json::Value(node.BlockStockIds[i].Value)); captured++; } c.ArrayField(fields, "CGameCtnCollectorList.BlockStockIds", captured, length); } catch { c.Skipped("CGameCtnCollectorList.BlockStockIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnCollectorList.BlockStockNbAvailables");
-    try { Json::Value values = Json::Array(); uint length = node.BlockStockNbAvailables.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollectorList.BlockStockNbAvailables[" + i + "]"); values.Add(Json::Value(node.BlockStockNbAvailables[i])); } c.ArrayField(fields, "CGameCtnCollectorList.BlockStockNbAvailables", values, length); } catch { c.Skipped("CGameCtnCollectorList.BlockStockNbAvailables", "failed", "getter exception"); }
+    try { uint length = node.BlockStockNbAvailables.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnCollectorList.BlockStockNbAvailables[" + i + "]"); c.ArrayElement("CGameCtnCollectorList.BlockStockNbAvailables", i, length, Json::Value(node.BlockStockNbAvailables[i])); captured++; } c.ArrayField(fields, "CGameCtnCollectorList.BlockStockNbAvailables", captured, length); } catch { c.Skipped("CGameCtnCollectorList.BlockStockNbAvailables", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnDecoration(DiagnosticsCapture@ c, CGameCtnDecoration@ node, Json::Value &inout fields, uint depth)
 {
@@ -6638,10 +6638,10 @@ void DiagnosticsRead_CGameCtnDecorationAudio(DiagnosticsCapture@ c, CGameCtnDeco
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnDecorationAudio.Sounds");
-    try { Json::Value values = Json::Array(); uint length = node.Sounds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationAudio.Sounds[" + i + "]"); values.Add(c.Link(node.Sounds[i], depth + 1)); } c.ArrayField(fields, "CGameCtnDecorationAudio.Sounds", values, length); } catch { c.Skipped("CGameCtnDecorationAudio.Sounds", "failed", "getter exception"); }
+    try { uint length = node.Sounds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationAudio.Sounds[" + i + "]"); c.ArrayElement("CGameCtnDecorationAudio.Sounds", i, length, c.Link(node.Sounds[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnDecorationAudio.Sounds", captured, length); } catch { c.Skipped("CGameCtnDecorationAudio.Sounds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnDecorationAudio.Musics");
-    try { Json::Value values = Json::Array(); uint length = node.Musics.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationAudio.Musics[" + i + "]"); values.Add(c.Link(node.Musics[i], depth + 1)); } c.ArrayField(fields, "CGameCtnDecorationAudio.Musics", values, length); } catch { c.Skipped("CGameCtnDecorationAudio.Musics", "failed", "getter exception"); }
+    try { uint length = node.Musics.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationAudio.Musics[" + i + "]"); c.ArrayElement("CGameCtnDecorationAudio.Musics", i, length, c.Link(node.Musics[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnDecorationAudio.Musics", captured, length); } catch { c.Skipped("CGameCtnDecorationAudio.Musics", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnDecorationAudio.CameraWooshVolumedB");
     try { c.Field(fields, "CGameCtnDecorationAudio.CameraWooshVolumedB", c.Number(double(node.CameraWooshVolumedB))); } catch { c.Skipped("CGameCtnDecorationAudio.CameraWooshVolumedB", "failed", "getter exception"); }
@@ -6734,7 +6734,7 @@ void DiagnosticsRead_CGameCtnDecorationAudio(DiagnosticsCapture@ c, CGameCtnDeco
     try { c.Field(fields, "CGameCtnDecorationAudio.ReverbMaxBlockDist", c.Number(double(node.ReverbMaxBlockDist))); } catch { c.Skipped("CGameCtnDecorationAudio.ReverbMaxBlockDist", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnDecorationAudio.ReverbMaterialGains");
-    try { Json::Value values = Json::Array(); uint length = node.ReverbMaterialGains.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationAudio.ReverbMaterialGains[" + i + "]"); values.Add(c.Number(double(node.ReverbMaterialGains[i]))); } c.ArrayField(fields, "CGameCtnDecorationAudio.ReverbMaterialGains", values, length); } catch { c.Skipped("CGameCtnDecorationAudio.ReverbMaterialGains", "failed", "getter exception"); }
+    try { uint length = node.ReverbMaterialGains.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationAudio.ReverbMaterialGains[" + i + "]"); c.ArrayElement("CGameCtnDecorationAudio.ReverbMaterialGains", i, length, c.Number(double(node.ReverbMaterialGains[i]))); captured++; } c.ArrayField(fields, "CGameCtnDecorationAudio.ReverbMaterialGains", captured, length); } catch { c.Skipped("CGameCtnDecorationAudio.ReverbMaterialGains", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnDecorationAudio.ModifierXmlFile");
     try { c.Field(fields, "CGameCtnDecorationAudio.ModifierXmlFile", c.Link(node.ModifierXmlFile, depth + 1)); } catch { c.Skipped("CGameCtnDecorationAudio.ModifierXmlFile", "failed", "getter exception"); }
@@ -6747,10 +6747,10 @@ void DiagnosticsRead_CGameCtnDecorationMaterialModifiers(DiagnosticsCapture@ c, 
     try { c.Field(fields, "CGameCtnDecorationMaterialModifiers.LowHeightMaterialModifier", c.Link(node.LowHeightMaterialModifier, depth + 1)); } catch { c.Skipped("CGameCtnDecorationMaterialModifiers.LowHeightMaterialModifier", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnDecorationMaterialModifiers.Rules_MinHeights");
-    try { Json::Value values = Json::Array(); uint length = node.Rules_MinHeights.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationMaterialModifiers.Rules_MinHeights[" + i + "]"); values.Add(c.Number(double(node.Rules_MinHeights[i]))); } c.ArrayField(fields, "CGameCtnDecorationMaterialModifiers.Rules_MinHeights", values, length); } catch { c.Skipped("CGameCtnDecorationMaterialModifiers.Rules_MinHeights", "failed", "getter exception"); }
+    try { uint length = node.Rules_MinHeights.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationMaterialModifiers.Rules_MinHeights[" + i + "]"); c.ArrayElement("CGameCtnDecorationMaterialModifiers.Rules_MinHeights", i, length, c.Number(double(node.Rules_MinHeights[i]))); captured++; } c.ArrayField(fields, "CGameCtnDecorationMaterialModifiers.Rules_MinHeights", captured, length); } catch { c.Skipped("CGameCtnDecorationMaterialModifiers.Rules_MinHeights", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnDecorationMaterialModifiers.Rules_MaterialModifiers");
-    try { Json::Value values = Json::Array(); uint length = node.Rules_MaterialModifiers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationMaterialModifiers.Rules_MaterialModifiers[" + i + "]"); values.Add(c.Link(node.Rules_MaterialModifiers[i], depth + 1)); } c.ArrayField(fields, "CGameCtnDecorationMaterialModifiers.Rules_MaterialModifiers", values, length); } catch { c.Skipped("CGameCtnDecorationMaterialModifiers.Rules_MaterialModifiers", "failed", "getter exception"); }
+    try { uint length = node.Rules_MaterialModifiers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnDecorationMaterialModifiers.Rules_MaterialModifiers[" + i + "]"); c.ArrayElement("CGameCtnDecorationMaterialModifiers.Rules_MaterialModifiers", i, length, c.Link(node.Rules_MaterialModifiers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnDecorationMaterialModifiers.Rules_MaterialModifiers", captured, length); } catch { c.Skipped("CGameCtnDecorationMaterialModifiers.Rules_MaterialModifiers", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnDecorationMood(DiagnosticsCapture@ c, CGameCtnDecorationMood@ node, Json::Value &inout fields, uint depth)
 {
@@ -7120,10 +7120,10 @@ void DiagnosticsRead_CGameCtnEditorCommon(DiagnosticsCapture@ c, CGameCtnEditorC
     try { c.Field(fields, "CGameCtnEditorCommon.DebugShootIconName", c.Text(node.DebugShootIconName)); } catch { c.Skipped("CGameCtnEditorCommon.DebugShootIconName", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnEditorCommon.ForcedPluginsNames");
-    try { Json::Value values = Json::Array(); uint length = node.ForcedPluginsNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnEditorCommon.ForcedPluginsNames[" + i + "]"); values.Add(c.Text(string(node.ForcedPluginsNames[i]))); } c.ArrayField(fields, "CGameCtnEditorCommon.ForcedPluginsNames", values, length); } catch { c.Skipped("CGameCtnEditorCommon.ForcedPluginsNames", "failed", "getter exception"); }
+    try { uint length = node.ForcedPluginsNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnEditorCommon.ForcedPluginsNames[" + i + "]"); c.ArrayElement("CGameCtnEditorCommon.ForcedPluginsNames", i, length, c.Text(string(node.ForcedPluginsNames[i]))); captured++; } c.ArrayField(fields, "CGameCtnEditorCommon.ForcedPluginsNames", captured, length); } catch { c.Skipped("CGameCtnEditorCommon.ForcedPluginsNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnEditorCommon.ForcedPluginsSettings");
-    try { Json::Value values = Json::Array(); uint length = node.ForcedPluginsSettings.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnEditorCommon.ForcedPluginsSettings[" + i + "]"); values.Add(c.Text(node.ForcedPluginsSettings[i])); } c.ArrayField(fields, "CGameCtnEditorCommon.ForcedPluginsSettings", values, length); } catch { c.Skipped("CGameCtnEditorCommon.ForcedPluginsSettings", "failed", "getter exception"); }
+    try { uint length = node.ForcedPluginsSettings.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnEditorCommon.ForcedPluginsSettings[" + i + "]"); c.ArrayElement("CGameCtnEditorCommon.ForcedPluginsSettings", i, length, c.Text(node.ForcedPluginsSettings[i])); captured++; } c.ArrayField(fields, "CGameCtnEditorCommon.ForcedPluginsSettings", captured, length); } catch { c.Skipped("CGameCtnEditorCommon.ForcedPluginsSettings", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnEditorCommon.MoodIsDynamicTime");
     try { c.Field(fields, "CGameCtnEditorCommon.MoodIsDynamicTime", Json::Value(node.MoodIsDynamicTime)); } catch { c.Skipped("CGameCtnEditorCommon.MoodIsDynamicTime", "failed", "getter exception"); }
@@ -7535,7 +7535,7 @@ void DiagnosticsRead_CGameCtnMediaBlockCameraPath(DiagnosticsCapture@ c, CGameCt
     try { c.Skipped("CGameCtnMediaBlockCameraPath.Path", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnMediaBlockCameraPath.Path", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMediaBlockCameraPath.Lengths");
-    try { Json::Value values = Json::Array(); uint length = node.Lengths.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaBlockCameraPath.Lengths[" + i + "]"); values.Add(c.Number(double(node.Lengths[i]))); } c.ArrayField(fields, "CGameCtnMediaBlockCameraPath.Lengths", values, length); } catch { c.Skipped("CGameCtnMediaBlockCameraPath.Lengths", "failed", "getter exception"); }
+    try { uint length = node.Lengths.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaBlockCameraPath.Lengths[" + i + "]"); c.ArrayElement("CGameCtnMediaBlockCameraPath.Lengths", i, length, c.Number(double(node.Lengths[i]))); captured++; } c.ArrayField(fields, "CGameCtnMediaBlockCameraPath.Lengths", captured, length); } catch { c.Skipped("CGameCtnMediaBlockCameraPath.Lengths", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMediaBlockCameraPath.CurveLength");
     try { c.Field(fields, "CGameCtnMediaBlockCameraPath.CurveLength", c.Number(double(node.CurveLength))); } catch { c.Skipped("CGameCtnMediaBlockCameraPath.CurveLength", "failed", "getter exception"); }
@@ -7735,7 +7735,7 @@ void DiagnosticsRead_CGameCtnMediaClip(DiagnosticsCapture@ c, CGameCtnMediaClip@
     try { c.Field(fields, "CGameCtnMediaClip.Name", c.Text(string(node.Name))); } catch { c.Skipped("CGameCtnMediaClip.Name", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMediaClip.Tracks");
-    try { Json::Value values = Json::Array(); uint length = node.Tracks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaClip.Tracks[" + i + "]"); values.Add(c.Link(node.Tracks[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMediaClip.Tracks", values, length); } catch { c.Skipped("CGameCtnMediaClip.Tracks", "failed", "getter exception"); }
+    try { uint length = node.Tracks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaClip.Tracks[" + i + "]"); c.ArrayElement("CGameCtnMediaClip.Tracks", i, length, c.Link(node.Tracks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMediaClip.Tracks", captured, length); } catch { c.Skipped("CGameCtnMediaClip.Tracks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMediaClip.LocalPlayerClipEntIndex");
     try { c.Field(fields, "CGameCtnMediaClip.LocalPlayerClipEntIndex", Json::Value(node.LocalPlayerClipEntIndex)); } catch { c.Skipped("CGameCtnMediaClip.LocalPlayerClipEntIndex", "failed", "getter exception"); }
@@ -7760,7 +7760,7 @@ void DiagnosticsRead_CGameCtnMediaClipGroup(DiagnosticsCapture@ c, CGameCtnMedia
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMediaClipGroup.Clips");
-    try { Json::Value values = Json::Array(); uint length = node.Clips.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaClipGroup.Clips[" + i + "]"); values.Add(c.Link(node.Clips[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMediaClipGroup.Clips", values, length); } catch { c.Skipped("CGameCtnMediaClipGroup.Clips", "failed", "getter exception"); }
+    try { uint length = node.Clips.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaClipGroup.Clips[" + i + "]"); c.ArrayElement("CGameCtnMediaClipGroup.Clips", i, length, c.Link(node.Clips[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMediaClipGroup.Clips", captured, length); } catch { c.Skipped("CGameCtnMediaClipGroup.Clips", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnMediaClipPlayer(DiagnosticsCapture@ c, CGameCtnMediaClipPlayer@ node, Json::Value &inout fields, uint depth)
 {
@@ -7773,7 +7773,7 @@ void DiagnosticsRead_CGameCtnMediaClipPlayer(DiagnosticsCapture@ c, CGameCtnMedi
     try { c.Field(fields, "CGameCtnMediaClipPlayer.Scene2d", c.Link(node.Scene2d, depth + 1)); } catch { c.Skipped("CGameCtnMediaClipPlayer.Scene2d", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMediaClipPlayer.EdMediaTracks");
-    try { Json::Value values = Json::Array(); uint length = node.EdMediaTracks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaClipPlayer.EdMediaTracks[" + i + "]"); values.Add(c.Link(node.EdMediaTracks[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMediaClipPlayer.EdMediaTracks", values, length); } catch { c.Skipped("CGameCtnMediaClipPlayer.EdMediaTracks", "failed", "getter exception"); }
+    try { uint length = node.EdMediaTracks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaClipPlayer.EdMediaTracks[" + i + "]"); c.ArrayElement("CGameCtnMediaClipPlayer.EdMediaTracks", i, length, c.Link(node.EdMediaTracks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMediaClipPlayer.EdMediaTracks", captured, length); } catch { c.Skipped("CGameCtnMediaClipPlayer.EdMediaTracks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMediaClipPlayer.LocalPlayerEntityUId");
     try { c.Field(fields, "CGameCtnMediaClipPlayer.LocalPlayerEntityUId", Json::Value(node.LocalPlayerEntityUId)); } catch { c.Skipped("CGameCtnMediaClipPlayer.LocalPlayerEntityUId", "failed", "getter exception"); }
@@ -7860,7 +7860,7 @@ void DiagnosticsRead_CGameCtnMediaTrack(DiagnosticsCapture@ c, CGameCtnMediaTrac
     try { c.Field(fields, "CGameCtnMediaTrack.IsCycling", Json::Value(node.IsCycling)); } catch { c.Skipped("CGameCtnMediaTrack.IsCycling", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMediaTrack.Blocks");
-    try { Json::Value values = Json::Array(); uint length = node.Blocks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaTrack.Blocks[" + i + "]"); values.Add(c.Link(node.Blocks[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMediaTrack.Blocks", values, length); } catch { c.Skipped("CGameCtnMediaTrack.Blocks", "failed", "getter exception"); }
+    try { uint length = node.Blocks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMediaTrack.Blocks[" + i + "]"); c.ArrayElement("CGameCtnMediaTrack.Blocks", i, length, c.Link(node.Blocks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMediaTrack.Blocks", captured, length); } catch { c.Skipped("CGameCtnMediaTrack.Blocks", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnMenus(DiagnosticsCapture@ c, CGameCtnMenus@ node, Json::Value &inout fields, uint depth)
 {
@@ -7909,10 +7909,10 @@ void DiagnosticsRead_CGameCtnMenus(DiagnosticsCapture@ c, CGameCtnMenus@ node, J
     try { c.Field(fields, "CGameCtnMenus.SelectedChallengeInfo", c.Link(node.SelectedChallengeInfo, depth + 1)); } catch { c.Skipped("CGameCtnMenus.SelectedChallengeInfo", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.EnvironmentChapters");
-    try { Json::Value values = Json::Array(); uint length = node.EnvironmentChapters.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.EnvironmentChapters[" + i + "]"); values.Add(c.Link(node.EnvironmentChapters[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.EnvironmentChapters", values, length); } catch { c.Skipped("CGameCtnMenus.EnvironmentChapters", "failed", "getter exception"); }
+    try { uint length = node.EnvironmentChapters.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.EnvironmentChapters[" + i + "]"); c.ArrayElement("CGameCtnMenus.EnvironmentChapters", i, length, c.Link(node.EnvironmentChapters[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.EnvironmentChapters", captured, length); } catch { c.Skipped("CGameCtnMenus.EnvironmentChapters", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogList_Nods");
-    try { Json::Value values = Json::Array(); uint length = node.DialogList_Nods.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogList_Nods[" + i + "]"); values.Add(c.Link(node.DialogList_Nods[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.DialogList_Nods", values, length); } catch { c.Skipped("CGameCtnMenus.DialogList_Nods", "failed", "getter exception"); }
+    try { uint length = node.DialogList_Nods.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogList_Nods[" + i + "]"); c.ArrayElement("CGameCtnMenus.DialogList_Nods", i, length, c.Link(node.DialogList_Nods[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.DialogList_Nods", captured, length); } catch { c.Skipped("CGameCtnMenus.DialogList_Nods", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogChooseSkin_Name");
     try { c.Field(fields, "CGameCtnMenus.DialogChooseSkin_Name", c.Text(string(node.DialogChooseSkin_Name))); } catch { c.Skipped("CGameCtnMenus.DialogChooseSkin_Name", "failed", "getter exception"); }
@@ -7933,7 +7933,7 @@ void DiagnosticsRead_CGameCtnMenus(DiagnosticsCapture@ c, CGameCtnMenus@ node, J
     try { c.Field(fields, "CGameCtnMenus.DialogChooseSkin_Article", c.Link(node.DialogChooseSkin_Article, depth + 1)); } catch { c.Skipped("CGameCtnMenus.DialogChooseSkin_Article", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogChooseSkin_SkinsItem");
-    try { Json::Value values = Json::Array(); uint length = node.DialogChooseSkin_SkinsItem.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogChooseSkin_SkinsItem[" + i + "]"); values.Add(c.Link(node.DialogChooseSkin_SkinsItem[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.DialogChooseSkin_SkinsItem", values, length); } catch { c.Skipped("CGameCtnMenus.DialogChooseSkin_SkinsItem", "failed", "getter exception"); }
+    try { uint length = node.DialogChooseSkin_SkinsItem.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogChooseSkin_SkinsItem[" + i + "]"); c.ArrayElement("CGameCtnMenus.DialogChooseSkin_SkinsItem", i, length, c.Link(node.DialogChooseSkin_SkinsItem[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.DialogChooseSkin_SkinsItem", captured, length); } catch { c.Skipped("CGameCtnMenus.DialogChooseSkin_SkinsItem", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.TempLogin");
     try { c.Skipped("CGameCtnMenus.TempLogin", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnMenus.TempLogin", "failed", "getter exception"); }
@@ -8233,13 +8233,13 @@ void DiagnosticsRead_CGameCtnMenus(DiagnosticsCapture@ c, CGameCtnMenus@ node, J
     try { c.Skipped("CGameCtnMenus.DialogAccountChina_LegalAccepted", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnMenus.DialogAccountChina_LegalAccepted", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.DialogPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogPlayers[" + i + "]"); values.Add(c.Link(node.DialogPlayers[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.DialogPlayers", values, length); } catch { c.Skipped("CGameCtnMenus.DialogPlayers", "failed", "getter exception"); }
+    try { uint length = node.DialogPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogPlayers[" + i + "]"); c.ArrayElement("CGameCtnMenus.DialogPlayers", i, length, c.Link(node.DialogPlayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.DialogPlayers", captured, length); } catch { c.Skipped("CGameCtnMenus.DialogPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.ConfirmFiles");
-    try { Json::Value values = Json::Array(); uint length = node.ConfirmFiles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.ConfirmFiles[" + i + "]"); values.Add(c.Link(node.ConfirmFiles[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.ConfirmFiles", values, length); } catch { c.Skipped("CGameCtnMenus.ConfirmFiles", "failed", "getter exception"); }
+    try { uint length = node.ConfirmFiles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.ConfirmFiles[" + i + "]"); c.ArrayElement("CGameCtnMenus.ConfirmFiles", i, length, c.Link(node.ConfirmFiles[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.ConfirmFiles", captured, length); } catch { c.Skipped("CGameCtnMenus.ConfirmFiles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.ReplayInfos");
-    try { Json::Value values = Json::Array(); uint length = node.ReplayInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.ReplayInfos[" + i + "]"); values.Add(c.Link(node.ReplayInfos[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.ReplayInfos", values, length); } catch { c.Skipped("CGameCtnMenus.ReplayInfos", "failed", "getter exception"); }
+    try { uint length = node.ReplayInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.ReplayInfos[" + i + "]"); c.ArrayElement("CGameCtnMenus.ReplayInfos", i, length, c.Link(node.ReplayInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.ReplayInfos", captured, length); } catch { c.Skipped("CGameCtnMenus.ReplayInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.MenuMultiPlayerNetworkLan_ServersCount");
     try { c.Field(fields, "CGameCtnMenus.MenuMultiPlayerNetworkLan_ServersCount", Json::Value(node.MenuMultiPlayerNetworkLan_ServersCount)); } catch { c.Skipped("CGameCtnMenus.MenuMultiPlayerNetworkLan_ServersCount", "failed", "getter exception"); }
@@ -8323,10 +8323,10 @@ void DiagnosticsRead_CGameCtnMenus(DiagnosticsCapture@ c, CGameCtnMenus@ node, J
     try { c.Field(fields, "CGameCtnMenus.MenuReplay_ReplaysCount", Json::Value(node.MenuReplay_ReplaysCount)); } catch { c.Skipped("CGameCtnMenus.MenuReplay_ReplaysCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.ReplayList");
-    try { Json::Value values = Json::Array(); uint length = node.ReplayList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.ReplayList[" + i + "]"); values.Add(c.Link(node.ReplayList[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.ReplayList", values, length); } catch { c.Skipped("CGameCtnMenus.ReplayList", "failed", "getter exception"); }
+    try { uint length = node.ReplayList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.ReplayList[" + i + "]"); c.ArrayElement("CGameCtnMenus.ReplayList", i, length, c.Link(node.ReplayList[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.ReplayList", captured, length); } catch { c.Skipped("CGameCtnMenus.ReplayList", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.ReplayDirsList");
-    try { Json::Value values = Json::Array(); uint length = node.ReplayDirsList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.ReplayDirsList[" + i + "]"); values.Add(c.Link(node.ReplayDirsList[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.ReplayDirsList", values, length); } catch { c.Skipped("CGameCtnMenus.ReplayDirsList", "failed", "getter exception"); }
+    try { uint length = node.ReplayDirsList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.ReplayDirsList[" + i + "]"); c.ArrayElement("CGameCtnMenus.ReplayDirsList", i, length, c.Link(node.ReplayDirsList[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.ReplayDirsList", captured, length); } catch { c.Skipped("CGameCtnMenus.ReplayDirsList", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogViewReplay_ReplayTime");
     try { c.Field(fields, "CGameCtnMenus.DialogViewReplay_ReplayTime", Json::Value(node.DialogViewReplay_ReplayTime)); } catch { c.Skipped("CGameCtnMenus.DialogViewReplay_ReplayTime", "failed", "getter exception"); }
@@ -8341,16 +8341,16 @@ void DiagnosticsRead_CGameCtnMenus(DiagnosticsCapture@ c, CGameCtnMenus@ node, J
     try { c.Field(fields, "CGameCtnMenus.DialogViewReplay_ReplayScriptShortName", c.Text(string(node.DialogViewReplay_ReplayScriptShortName))); } catch { c.Skipped("CGameCtnMenus.DialogViewReplay_ReplayScriptShortName", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.InputsList_Actions");
-    try { Json::Value values = Json::Array(); uint length = node.InputsList_Actions.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.InputsList_Actions[" + i + "]"); values.Add(c.Link(node.InputsList_Actions[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.InputsList_Actions", values, length); } catch { c.Skipped("CGameCtnMenus.InputsList_Actions", "failed", "getter exception"); }
+    try { uint length = node.InputsList_Actions.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.InputsList_Actions[" + i + "]"); c.ArrayElement("CGameCtnMenus.InputsList_Actions", i, length, c.Link(node.InputsList_Actions[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.InputsList_Actions", captured, length); } catch { c.Skipped("CGameCtnMenus.InputsList_Actions", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogChooseProfile_PrivateSession");
     try { c.Skipped("CGameCtnMenus.DialogChooseProfile_PrivateSession", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnMenus.DialogChooseProfile_PrivateSession", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogChangeTeam_Players1");
-    try { Json::Value values = Json::Array(); uint length = node.DialogChangeTeam_Players1.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogChangeTeam_Players1[" + i + "]"); values.Add(c.Link(node.DialogChangeTeam_Players1[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.DialogChangeTeam_Players1", values, length); } catch { c.Skipped("CGameCtnMenus.DialogChangeTeam_Players1", "failed", "getter exception"); }
+    try { uint length = node.DialogChangeTeam_Players1.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogChangeTeam_Players1[" + i + "]"); c.ArrayElement("CGameCtnMenus.DialogChangeTeam_Players1", i, length, c.Link(node.DialogChangeTeam_Players1[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.DialogChangeTeam_Players1", captured, length); } catch { c.Skipped("CGameCtnMenus.DialogChangeTeam_Players1", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogChangeTeam_Players2");
-    try { Json::Value values = Json::Array(); uint length = node.DialogChangeTeam_Players2.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogChangeTeam_Players2[" + i + "]"); values.Add(c.Link(node.DialogChangeTeam_Players2[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.DialogChangeTeam_Players2", values, length); } catch { c.Skipped("CGameCtnMenus.DialogChangeTeam_Players2", "failed", "getter exception"); }
+    try { uint length = node.DialogChangeTeam_Players2.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DialogChangeTeam_Players2[" + i + "]"); c.ArrayElement("CGameCtnMenus.DialogChangeTeam_Players2", i, length, c.Link(node.DialogChangeTeam_Players2[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.DialogChangeTeam_Players2", captured, length); } catch { c.Skipped("CGameCtnMenus.DialogChangeTeam_Players2", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogPlayerProfile_VehicleOverlayScene");
     try { c.Skipped("CGameCtnMenus.DialogPlayerProfile_VehicleOverlayScene", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnMenus.DialogPlayerProfile_VehicleOverlayScene", "failed", "getter exception"); }
@@ -8365,7 +8365,7 @@ void DiagnosticsRead_CGameCtnMenus(DiagnosticsCapture@ c, CGameCtnMenus@ node, J
     try { c.Field(fields, "CGameCtnMenus.NeverAskAgain", Json::Value(node.NeverAskAgain)); } catch { c.Skipped("CGameCtnMenus.NeverAskAgain", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DataInfos");
-    try { Json::Value values = Json::Array(); uint length = node.DataInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DataInfos[" + i + "]"); values.Add(c.Link(node.DataInfos[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenus.DataInfos", values, length); } catch { c.Skipped("CGameCtnMenus.DataInfos", "failed", "getter exception"); }
+    try { uint length = node.DataInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenus.DataInfos[" + i + "]"); c.ArrayElement("CGameCtnMenus.DataInfos", i, length, c.Link(node.DataInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenus.DataInfos", captured, length); } catch { c.Skipped("CGameCtnMenus.DataInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenus.DialogConnect_RememberOnlinePassword");
     try { c.Skipped("CGameCtnMenus.DialogConnect_RememberOnlinePassword", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameCtnMenus.DialogConnect_RememberOnlinePassword", "failed", "getter exception"); }
@@ -8522,7 +8522,7 @@ void DiagnosticsRead_CGameCtnMenusManiaPlanet(DiagnosticsCapture@ c, CGameCtnMen
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenusManiaPlanet.ChallengeInfosCampaign");
-    try { Json::Value values = Json::Array(); uint length = node.ChallengeInfosCampaign.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenusManiaPlanet.ChallengeInfosCampaign[" + i + "]"); values.Add(c.Link(node.ChallengeInfosCampaign[i], depth + 1)); } c.ArrayField(fields, "CGameCtnMenusManiaPlanet.ChallengeInfosCampaign", values, length); } catch { c.Skipped("CGameCtnMenusManiaPlanet.ChallengeInfosCampaign", "failed", "getter exception"); }
+    try { uint length = node.ChallengeInfosCampaign.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnMenusManiaPlanet.ChallengeInfosCampaign[" + i + "]"); c.ArrayElement("CGameCtnMenusManiaPlanet.ChallengeInfosCampaign", i, length, c.Link(node.ChallengeInfosCampaign[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnMenusManiaPlanet.ChallengeInfosCampaign", captured, length); } catch { c.Skipped("CGameCtnMenusManiaPlanet.ChallengeInfosCampaign", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnMenusManiaPlanet.CurrentCampaign");
     try { c.Field(fields, "CGameCtnMenusManiaPlanet.CurrentCampaign", c.Link(node.CurrentCampaign, depth + 1)); } catch { c.Skipped("CGameCtnMenusManiaPlanet.CurrentCampaign", "failed", "getter exception"); }
@@ -8601,13 +8601,13 @@ void DiagnosticsRead_CGameCtnNetServerInfo(DiagnosticsCapture@ c, CGameCtnNetSer
     try { c.Field(fields, "CGameCtnNetServerInfo.LadderServerLimitMin", c.Number(double(node.LadderServerLimitMin))); } catch { c.Skipped("CGameCtnNetServerInfo.LadderServerLimitMin", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnNetServerInfo.PlayerNames");
-    try { Json::Value values = Json::Array(); uint length = node.PlayerNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnNetServerInfo.PlayerNames[" + i + "]"); values.Add(c.Text(string(node.PlayerNames[i]))); } c.ArrayField(fields, "CGameCtnNetServerInfo.PlayerNames", values, length); } catch { c.Skipped("CGameCtnNetServerInfo.PlayerNames", "failed", "getter exception"); }
+    try { uint length = node.PlayerNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnNetServerInfo.PlayerNames[" + i + "]"); c.ArrayElement("CGameCtnNetServerInfo.PlayerNames", i, length, c.Text(string(node.PlayerNames[i]))); captured++; } c.ArrayField(fields, "CGameCtnNetServerInfo.PlayerNames", captured, length); } catch { c.Skipped("CGameCtnNetServerInfo.PlayerNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnNetServerInfo.ChallengeNames");
-    try { Json::Value values = Json::Array(); uint length = node.ChallengeNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnNetServerInfo.ChallengeNames[" + i + "]"); values.Add(c.Text(string(node.ChallengeNames[i]))); } c.ArrayField(fields, "CGameCtnNetServerInfo.ChallengeNames", values, length); } catch { c.Skipped("CGameCtnNetServerInfo.ChallengeNames", "failed", "getter exception"); }
+    try { uint length = node.ChallengeNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnNetServerInfo.ChallengeNames[" + i + "]"); c.ArrayElement("CGameCtnNetServerInfo.ChallengeNames", i, length, c.Text(string(node.ChallengeNames[i]))); captured++; } c.ArrayField(fields, "CGameCtnNetServerInfo.ChallengeNames", captured, length); } catch { c.Skipped("CGameCtnNetServerInfo.ChallengeNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnNetServerInfo.ChallengeIds");
-    try { Json::Value values = Json::Array(); uint length = node.ChallengeIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnNetServerInfo.ChallengeIds[" + i + "]"); values.Add(c.Text(string(node.ChallengeIds[i]))); } c.ArrayField(fields, "CGameCtnNetServerInfo.ChallengeIds", values, length); } catch { c.Skipped("CGameCtnNetServerInfo.ChallengeIds", "failed", "getter exception"); }
+    try { uint length = node.ChallengeIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnNetServerInfo.ChallengeIds[" + i + "]"); c.ArrayElement("CGameCtnNetServerInfo.ChallengeIds", i, length, c.Text(string(node.ChallengeIds[i]))); captured++; } c.ArrayField(fields, "CGameCtnNetServerInfo.ChallengeIds", captured, length); } catch { c.Skipped("CGameCtnNetServerInfo.ChallengeIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnNetServerInfo.NbChallenges");
     try { c.Field(fields, "CGameCtnNetServerInfo.NbChallenges", Json::Value(node.NbChallenges)); } catch { c.Skipped("CGameCtnNetServerInfo.NbChallenges", "failed", "getter exception"); }
@@ -8795,7 +8795,7 @@ void DiagnosticsRead_CGameCtnPainterSetting(DiagnosticsCapture@ c, CGameCtnPaint
     try { c.Field(fields, "CGameCtnPainterSetting.ImageSubObjectAllIcon", c.Link(node.ImageSubObjectAllIcon, depth + 1)); } catch { c.Skipped("CGameCtnPainterSetting.ImageSubObjectAllIcon", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnPainterSetting.ScenesFids");
-    try { Json::Value values = Json::Array(); uint length = node.ScenesFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnPainterSetting.ScenesFids[" + i + "]"); values.Add(c.Link(node.ScenesFids[i], depth + 1)); } c.ArrayField(fields, "CGameCtnPainterSetting.ScenesFids", values, length); } catch { c.Skipped("CGameCtnPainterSetting.ScenesFids", "failed", "getter exception"); }
+    try { uint length = node.ScenesFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnPainterSetting.ScenesFids[" + i + "]"); c.ArrayElement("CGameCtnPainterSetting.ScenesFids", i, length, c.Link(node.ScenesFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnPainterSetting.ScenesFids", captured, length); } catch { c.Skipped("CGameCtnPainterSetting.ScenesFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnPainterSetting.MouseZDeltaRot");
     try { c.Field(fields, "CGameCtnPainterSetting.MouseZDeltaRot", c.Number(double(node.MouseZDeltaRot))); } catch { c.Skipped("CGameCtnPainterSetting.MouseZDeltaRot", "failed", "getter exception"); }
@@ -8851,7 +8851,7 @@ void DiagnosticsRead_CGameCtnReplayRecord(DiagnosticsCapture@ c, CGameCtnReplayR
     try { c.Field(fields, "CGameCtnReplayRecord.Clip", c.Link(node.Clip, depth + 1)); } catch { c.Skipped("CGameCtnReplayRecord.Clip", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnReplayRecord.Ghosts");
-    try { Json::Value values = Json::Array(); uint length = node.Ghosts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnReplayRecord.Ghosts[" + i + "]"); values.Add(c.Link(node.Ghosts[i], depth + 1)); } c.ArrayField(fields, "CGameCtnReplayRecord.Ghosts", values, length); } catch { c.Skipped("CGameCtnReplayRecord.Ghosts", "failed", "getter exception"); }
+    try { uint length = node.Ghosts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnReplayRecord.Ghosts[" + i + "]"); c.ArrayElement("CGameCtnReplayRecord.Ghosts", i, length, c.Link(node.Ghosts[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnReplayRecord.Ghosts", captured, length); } catch { c.Skipped("CGameCtnReplayRecord.Ghosts", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnReplayRecord.Challenge");
     try { c.Field(fields, "CGameCtnReplayRecord.Challenge", c.Link(node.Challenge, depth + 1)); } catch { c.Skipped("CGameCtnReplayRecord.Challenge", "failed", "getter exception"); }
@@ -8963,7 +8963,7 @@ void DiagnosticsRead_CGameCtnZoneFrontier(DiagnosticsCapture@ c, CGameCtnZoneFro
     try { c.Field(fields, "CGameCtnZoneFrontier.FrontierStraightMiddle_AcceptPylons", Json::Value(node.FrontierStraightMiddle_AcceptPylons)); } catch { c.Skipped("CGameCtnZoneFrontier.FrontierStraightMiddle_AcceptPylons", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnZoneFrontier.CompatibleZones");
-    try { Json::Value values = Json::Array(); uint length = node.CompatibleZones.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnZoneFrontier.CompatibleZones[" + i + "]"); values.Add(c.Link(node.CompatibleZones[i], depth + 1)); } c.ArrayField(fields, "CGameCtnZoneFrontier.CompatibleZones", values, length); } catch { c.Skipped("CGameCtnZoneFrontier.CompatibleZones", "failed", "getter exception"); }
+    try { uint length = node.CompatibleZones.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnZoneFrontier.CompatibleZones[" + i + "]"); c.ArrayElement("CGameCtnZoneFrontier.CompatibleZones", i, length, c.Link(node.CompatibleZones[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnZoneFrontier.CompatibleZones", captured, length); } catch { c.Skipped("CGameCtnZoneFrontier.CompatibleZones", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameCtnZoneFusionInfo(DiagnosticsCapture@ c, CGameCtnZoneFusionInfo@ node, Json::Value &inout fields, uint depth)
 {
@@ -8992,16 +8992,16 @@ void DiagnosticsRead_CGameCtnZoneGenealogy(DiagnosticsCapture@ c, CGameCtnZoneGe
     try { c.Field(fields, "CGameCtnZoneGenealogy.Dir", Json::Value(int(node.Dir))); } catch { c.Skipped("CGameCtnZoneGenealogy.Dir", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnZoneGenealogy.ZoneIds");
-    try { Json::Value values = Json::Array(); uint length = node.ZoneIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnZoneGenealogy.ZoneIds[" + i + "]"); values.Add(Json::Value(node.ZoneIds[i].Value)); } c.ArrayField(fields, "CGameCtnZoneGenealogy.ZoneIds", values, length); } catch { c.Skipped("CGameCtnZoneGenealogy.ZoneIds", "failed", "getter exception"); }
+    try { uint length = node.ZoneIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnZoneGenealogy.ZoneIds[" + i + "]"); c.ArrayElement("CGameCtnZoneGenealogy.ZoneIds", i, length, Json::Value(node.ZoneIds[i].Value)); captured++; } c.ArrayField(fields, "CGameCtnZoneGenealogy.ZoneIds", captured, length); } catch { c.Skipped("CGameCtnZoneGenealogy.ZoneIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnZoneGenealogy.CurrentZone");
     try { c.Field(fields, "CGameCtnZoneGenealogy.CurrentZone", c.Link(node.CurrentZone, depth + 1)); } catch { c.Skipped("CGameCtnZoneGenealogy.CurrentZone", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnZoneGenealogy.Zones");
-    try { Json::Value values = Json::Array(); uint length = node.Zones.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnZoneGenealogy.Zones[" + i + "]"); values.Add(c.Link(node.Zones[i], depth + 1)); } c.ArrayField(fields, "CGameCtnZoneGenealogy.Zones", values, length); } catch { c.Skipped("CGameCtnZoneGenealogy.Zones", "failed", "getter exception"); }
+    try { uint length = node.Zones.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnZoneGenealogy.Zones[" + i + "]"); c.ArrayElement("CGameCtnZoneGenealogy.Zones", i, length, c.Link(node.Zones[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameCtnZoneGenealogy.Zones", captured, length); } catch { c.Skipped("CGameCtnZoneGenealogy.Zones", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnZoneGenealogy.ZoneHeights");
-    try { Json::Value values = Json::Array(); uint length = node.ZoneHeights.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnZoneGenealogy.ZoneHeights[" + i + "]"); values.Add(Json::Value(node.ZoneHeights[i])); } c.ArrayField(fields, "CGameCtnZoneGenealogy.ZoneHeights", values, length); } catch { c.Skipped("CGameCtnZoneGenealogy.ZoneHeights", "failed", "getter exception"); }
+    try { uint length = node.ZoneHeights.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameCtnZoneGenealogy.ZoneHeights[" + i + "]"); c.ArrayElement("CGameCtnZoneGenealogy.ZoneHeights", i, length, Json::Value(node.ZoneHeights[i])); captured++; } c.ArrayField(fields, "CGameCtnZoneGenealogy.ZoneHeights", captured, length); } catch { c.Skipped("CGameCtnZoneGenealogy.ZoneHeights", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameCtnZoneGenealogy.BaseHeight");
     try { c.Field(fields, "CGameCtnZoneGenealogy.BaseHeight", Json::Value(node.BaseHeight)); } catch { c.Skipped("CGameCtnZoneGenealogy.BaseHeight", "failed", "getter exception"); }
@@ -9170,13 +9170,13 @@ void DiagnosticsRead_CGameDataFileManagerScript(DiagnosticsCapture@ c, CGameData
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDataFileManagerScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDataFileManagerScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameDataFileManagerScript.TaskResults", values, length); } catch { c.Skipped("CGameDataFileManagerScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDataFileManagerScript.TaskResults[" + i + "]"); c.ArrayElement("CGameDataFileManagerScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameDataFileManagerScript.TaskResults", captured, length); } catch { c.Skipped("CGameDataFileManagerScript.TaskResults", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDataFileManagerScript.Campaigns");
-    try { Json::Value values = Json::Array(); uint length = node.Campaigns.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDataFileManagerScript.Campaigns[" + i + "]"); values.Add(c.Link(node.Campaigns[i], depth + 1)); } c.ArrayField(fields, "CGameDataFileManagerScript.Campaigns", values, length); } catch { c.Skipped("CGameDataFileManagerScript.Campaigns", "failed", "getter exception"); }
+    try { uint length = node.Campaigns.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDataFileManagerScript.Campaigns[" + i + "]"); c.ArrayElement("CGameDataFileManagerScript.Campaigns", i, length, c.Link(node.Campaigns[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameDataFileManagerScript.Campaigns", captured, length); } catch { c.Skipped("CGameDataFileManagerScript.Campaigns", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDataFileManagerScript.Ghosts");
-    try { Json::Value values = Json::Array(); uint length = node.Ghosts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDataFileManagerScript.Ghosts[" + i + "]"); values.Add(c.Link(node.Ghosts[i], depth + 1)); } c.ArrayField(fields, "CGameDataFileManagerScript.Ghosts", values, length); } catch { c.Skipped("CGameDataFileManagerScript.Ghosts", "failed", "getter exception"); }
+    try { uint length = node.Ghosts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDataFileManagerScript.Ghosts[" + i + "]"); c.ArrayElement("CGameDataFileManagerScript.Ghosts", i, length, c.Link(node.Ghosts[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameDataFileManagerScript.Ghosts", captured, length); } catch { c.Skipped("CGameDataFileManagerScript.Ghosts", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDataFileManagerScript.AvailableSaveSpace");
     try { c.Field(fields, "CGameDataFileManagerScript.AvailableSaveSpace", Json::Value(node.AvailableSaveSpace)); } catch { c.Skipped("CGameDataFileManagerScript.AvailableSaveSpace", "failed", "getter exception"); }
@@ -9234,7 +9234,7 @@ void DiagnosticsRead_CGameDialogs(DiagnosticsCapture@ c, CGameDialogs@ node, Jso
     try { c.Skipped("CGameDialogs.DialogSaveAs_PathToDisplay", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameDialogs.DialogSaveAs_PathToDisplay", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDialogs.DialogSaveAs_Files");
-    try { Json::Value values = Json::Array(); uint length = node.DialogSaveAs_Files.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDialogs.DialogSaveAs_Files[" + i + "]"); values.Add(c.Link(node.DialogSaveAs_Files[i], depth + 1)); } c.ArrayField(fields, "CGameDialogs.DialogSaveAs_Files", values, length); } catch { c.Skipped("CGameDialogs.DialogSaveAs_Files", "failed", "getter exception"); }
+    try { uint length = node.DialogSaveAs_Files.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDialogs.DialogSaveAs_Files[" + i + "]"); c.ArrayElement("CGameDialogs.DialogSaveAs_Files", i, length, c.Link(node.DialogSaveAs_Files[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameDialogs.DialogSaveAs_Files", captured, length); } catch { c.Skipped("CGameDialogs.DialogSaveAs_Files", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameDisplaySettingsWrapper(DiagnosticsCapture@ c, CGameDisplaySettingsWrapper@ node, Json::Value &inout fields, uint depth)
 {
@@ -9244,10 +9244,10 @@ void DiagnosticsRead_CGameDisplaySettingsWrapper(DiagnosticsCapture@ c, CGameDis
     try { c.Field(fields, "CGameDisplaySettingsWrapper.DirtyCounter", Json::Value(node.DirtyCounter)); } catch { c.Skipped("CGameDisplaySettingsWrapper.DirtyCounter", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDisplaySettingsWrapper.Devices");
-    try { Json::Value values = Json::Array(); uint length = node.Devices.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDisplaySettingsWrapper.Devices[" + i + "]"); values.Add(c.Text(string(node.Devices[i]))); } c.ArrayField(fields, "CGameDisplaySettingsWrapper.Devices", values, length); } catch { c.Skipped("CGameDisplaySettingsWrapper.Devices", "failed", "getter exception"); }
+    try { uint length = node.Devices.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDisplaySettingsWrapper.Devices[" + i + "]"); c.ArrayElement("CGameDisplaySettingsWrapper.Devices", i, length, c.Text(string(node.Devices[i]))); captured++; } c.ArrayField(fields, "CGameDisplaySettingsWrapper.Devices", captured, length); } catch { c.Skipped("CGameDisplaySettingsWrapper.Devices", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDisplaySettingsWrapper.DevicesNames");
-    try { Json::Value values = Json::Array(); uint length = node.DevicesNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDisplaySettingsWrapper.DevicesNames[" + i + "]"); values.Add(c.Text(string(node.DevicesNames[i]))); } c.ArrayField(fields, "CGameDisplaySettingsWrapper.DevicesNames", values, length); } catch { c.Skipped("CGameDisplaySettingsWrapper.DevicesNames", "failed", "getter exception"); }
+    try { uint length = node.DevicesNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDisplaySettingsWrapper.DevicesNames[" + i + "]"); c.ArrayElement("CGameDisplaySettingsWrapper.DevicesNames", i, length, c.Text(string(node.DevicesNames[i]))); captured++; } c.ArrayField(fields, "CGameDisplaySettingsWrapper.DevicesNames", captured, length); } catch { c.Skipped("CGameDisplaySettingsWrapper.DevicesNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDisplaySettingsWrapper.Device_NextStart");
     try { c.Field(fields, "CGameDisplaySettingsWrapper.Device_NextStart", c.Text(string(node.Device_NextStart))); } catch { c.Skipped("CGameDisplaySettingsWrapper.Device_NextStart", "failed", "getter exception"); }
@@ -9304,7 +9304,7 @@ void DiagnosticsRead_CGameDisplaySettingsWrapper(DiagnosticsCapture@ c, CGameDis
     try { c.Field(fields, "CGameDisplaySettingsWrapper.FullscreenSize", c.Text(tostring(node.FullscreenSize))); } catch { c.Skipped("CGameDisplaySettingsWrapper.FullscreenSize", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDisplaySettingsWrapper.FullscreenSizes");
-    try { Json::Value values = Json::Array(); uint length = node.FullscreenSizes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDisplaySettingsWrapper.FullscreenSizes[" + i + "]"); values.Add(c.Text(tostring(node.FullscreenSizes[i]))); } c.ArrayField(fields, "CGameDisplaySettingsWrapper.FullscreenSizes", values, length); } catch { c.Skipped("CGameDisplaySettingsWrapper.FullscreenSizes", "failed", "getter exception"); }
+    try { uint length = node.FullscreenSizes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameDisplaySettingsWrapper.FullscreenSizes[" + i + "]"); c.ArrayElement("CGameDisplaySettingsWrapper.FullscreenSizes", i, length, c.Text(tostring(node.FullscreenSizes[i]))); captured++; } c.ArrayField(fields, "CGameDisplaySettingsWrapper.FullscreenSizes", captured, length); } catch { c.Skipped("CGameDisplaySettingsWrapper.FullscreenSizes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameDisplaySettingsWrapper.ConsoleResolution");
     try { c.Field(fields, "CGameDisplaySettingsWrapper.ConsoleResolution", Json::Value(int(node.ConsoleResolution))); } catch { c.Skipped("CGameDisplaySettingsWrapper.ConsoleResolution", "failed", "getter exception"); }
@@ -9987,7 +9987,7 @@ void DiagnosticsRead_CGameEditorBullet(DiagnosticsCapture@ c, CGameEditorBullet@
     try { c.Field(fields, "CGameEditorBullet.SoundParamVolume", c.Number(double(node.SoundParamVolume))); } catch { c.Skipped("CGameEditorBullet.SoundParamVolume", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorBullet.BulletModels");
-    try { Json::Value values = Json::Array(); uint length = node.BulletModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorBullet.BulletModels[" + i + "]"); values.Add(c.Link(node.BulletModels[i], depth + 1)); } c.ArrayField(fields, "CGameEditorBullet.BulletModels", values, length); } catch { c.Skipped("CGameEditorBullet.BulletModels", "failed", "getter exception"); }
+    try { uint length = node.BulletModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorBullet.BulletModels[" + i + "]"); c.ArrayElement("CGameEditorBullet.BulletModels", i, length, c.Link(node.BulletModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorBullet.BulletModels", captured, length); } catch { c.Skipped("CGameEditorBullet.BulletModels", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameEditorCustomBullet(DiagnosticsCapture@ c, CGameEditorCustomBullet@ node, Json::Value &inout fields, uint depth)
 {
@@ -10010,13 +10010,13 @@ void DiagnosticsRead_CGameEditorEditor(DiagnosticsCapture@ c, CGameEditorEditor@
     try { c.Field(fields, "CGameEditorEditor.Bindings_RequestInput_Done", Json::Value(node.Bindings_RequestInput_Done)); } catch { c.Skipped("CGameEditorEditor.Bindings_RequestInput_Done", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorEditor.BindingContexts");
-    try { Json::Value values = Json::Array(); uint length = node.BindingContexts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorEditor.BindingContexts[" + i + "]"); values.Add(c.Text(string(node.BindingContexts[i]))); } c.ArrayField(fields, "CGameEditorEditor.BindingContexts", values, length); } catch { c.Skipped("CGameEditorEditor.BindingContexts", "failed", "getter exception"); }
+    try { uint length = node.BindingContexts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorEditor.BindingContexts[" + i + "]"); c.ArrayElement("CGameEditorEditor.BindingContexts", i, length, c.Text(string(node.BindingContexts[i]))); captured++; } c.ArrayField(fields, "CGameEditorEditor.BindingContexts", captured, length); } catch { c.Skipped("CGameEditorEditor.BindingContexts", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorEditor.RequestedContextBindings");
-    try { Json::Value values = Json::Array(); uint length = node.RequestedContextBindings.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorEditor.RequestedContextBindings[" + i + "]"); values.Add(c.Text(string(node.RequestedContextBindings[i]))); } c.ArrayField(fields, "CGameEditorEditor.RequestedContextBindings", values, length); } catch { c.Skipped("CGameEditorEditor.RequestedContextBindings", "failed", "getter exception"); }
+    try { uint length = node.RequestedContextBindings.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorEditor.RequestedContextBindings[" + i + "]"); c.ArrayElement("CGameEditorEditor.RequestedContextBindings", i, length, c.Text(string(node.RequestedContextBindings[i]))); captured++; } c.ArrayField(fields, "CGameEditorEditor.RequestedContextBindings", captured, length); } catch { c.Skipped("CGameEditorEditor.RequestedContextBindings", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorEditor.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorEditor.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CGameEditorEditor.PendingEvents", values, length); } catch { c.Skipped("CGameEditorEditor.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorEditor.PendingEvents[" + i + "]"); c.ArrayElement("CGameEditorEditor.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorEditor.PendingEvents", captured, length); } catch { c.Skipped("CGameEditorEditor.PendingEvents", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameEditorEvent(DiagnosticsCapture@ c, CGameEditorEvent@ node, Json::Value &inout fields, uint depth)
 {
@@ -10039,7 +10039,7 @@ void DiagnosticsRead_CGameEditorGenericInventory(DiagnosticsCapture@ c, CGameEdi
     try { c.Field(fields, "CGameEditorGenericInventory.CurrentSelectedNode", c.Link(node.CurrentSelectedNode, depth + 1)); } catch { c.Skipped("CGameEditorGenericInventory.CurrentSelectedNode", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorGenericInventory.RootNodes");
-    try { Json::Value values = Json::Array(); uint length = node.RootNodes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorGenericInventory.RootNodes[" + i + "]"); values.Add(c.Link(node.RootNodes[i], depth + 1)); } c.ArrayField(fields, "CGameEditorGenericInventory.RootNodes", values, length); } catch { c.Skipped("CGameEditorGenericInventory.RootNodes", "failed", "getter exception"); }
+    try { uint length = node.RootNodes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorGenericInventory.RootNodes[" + i + "]"); c.ArrayElement("CGameEditorGenericInventory.RootNodes", i, length, c.Link(node.RootNodes[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorGenericInventory.RootNodes", captured, length); } catch { c.Skipped("CGameEditorGenericInventory.RootNodes", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameEditorItem(DiagnosticsCapture@ c, CGameEditorItem@ node, Json::Value &inout fields, uint depth)
 {
@@ -10146,10 +10146,10 @@ void DiagnosticsRead_CGameEditorMainPlugin(DiagnosticsCapture@ c, CGameEditorMai
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMainPlugin.Plugins");
-    try { Json::Value values = Json::Array(); uint length = node.Plugins.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMainPlugin.Plugins[" + i + "]"); values.Add(c.Link(node.Plugins[i], depth + 1)); } c.ArrayField(fields, "CGameEditorMainPlugin.Plugins", values, length); } catch { c.Skipped("CGameEditorMainPlugin.Plugins", "failed", "getter exception"); }
+    try { uint length = node.Plugins.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMainPlugin.Plugins[" + i + "]"); c.ArrayElement("CGameEditorMainPlugin.Plugins", i, length, c.Link(node.Plugins[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorMainPlugin.Plugins", captured, length); } catch { c.Skipped("CGameEditorMainPlugin.Plugins", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMainPlugin.Modules");
-    try { Json::Value values = Json::Array(); uint length = node.Modules.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMainPlugin.Modules[" + i + "]"); values.Add(c.Link(node.Modules[i], depth + 1)); } c.ArrayField(fields, "CGameEditorMainPlugin.Modules", values, length); } catch { c.Skipped("CGameEditorMainPlugin.Modules", "failed", "getter exception"); }
+    try { uint length = node.Modules.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMainPlugin.Modules[" + i + "]"); c.ArrayElement("CGameEditorMainPlugin.Modules", i, length, c.Link(node.Modules[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorMainPlugin.Modules", captured, length); } catch { c.Skipped("CGameEditorMainPlugin.Modules", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameEditorManialink(DiagnosticsCapture@ c, CGameEditorManialink@ node, Json::Value &inout fields, uint depth)
 {
@@ -10421,7 +10421,7 @@ void DiagnosticsRead_CGameEditorMapMacroBlockInstance(DiagnosticsCapture@ c, CGa
     try { c.Field(fields, "CGameEditorMapMacroBlockInstance.UserData", Json::Value(node.UserData)); } catch { c.Skipped("CGameEditorMapMacroBlockInstance.UserData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMapMacroBlockInstance.UnitCoords");
-    try { Json::Value values = Json::Array(); uint length = node.UnitCoords.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMapMacroBlockInstance.UnitCoords[" + i + "]"); values.Add(c.Text(tostring(node.UnitCoords[i]))); } c.ArrayField(fields, "CGameEditorMapMacroBlockInstance.UnitCoords", values, length); } catch { c.Skipped("CGameEditorMapMacroBlockInstance.UnitCoords", "failed", "getter exception"); }
+    try { uint length = node.UnitCoords.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMapMacroBlockInstance.UnitCoords[" + i + "]"); c.ArrayElement("CGameEditorMapMacroBlockInstance.UnitCoords", i, length, c.Text(tostring(node.UnitCoords[i]))); captured++; } c.ArrayField(fields, "CGameEditorMapMacroBlockInstance.UnitCoords", captured, length); } catch { c.Skipped("CGameEditorMapMacroBlockInstance.UnitCoords", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMapMacroBlockInstance.Color");
     try { c.Field(fields, "CGameEditorMapMacroBlockInstance.Color", Json::Value(int(node.Color))); } catch { c.Skipped("CGameEditorMapMacroBlockInstance.Color", "failed", "getter exception"); }
@@ -10453,7 +10453,7 @@ void DiagnosticsRead_CGameEditorMapScriptClipList(DiagnosticsCapture@ c, CGameEd
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMapScriptClipList.Clips");
-    try { Json::Value values = Json::Array(); uint length = node.Clips.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMapScriptClipList.Clips[" + i + "]"); values.Add(c.Link(node.Clips[i], depth + 1)); } c.ArrayField(fields, "CGameEditorMapScriptClipList.Clips", values, length); } catch { c.Skipped("CGameEditorMapScriptClipList.Clips", "failed", "getter exception"); }
+    try { uint length = node.Clips.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMapScriptClipList.Clips[" + i + "]"); c.ArrayElement("CGameEditorMapScriptClipList.Clips", i, length, c.Link(node.Clips[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorMapScriptClipList.Clips", captured, length); } catch { c.Skipped("CGameEditorMapScriptClipList.Clips", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMapScriptClipList.Size");
     try { c.Field(fields, "CGameEditorMapScriptClipList.Size", c.Text(tostring(node.Size))); } catch { c.Skipped("CGameEditorMapScriptClipList.Size", "failed", "getter exception"); }
@@ -10498,7 +10498,7 @@ void DiagnosticsRead_CGameEditorMediaTrackerPluginAPI(DiagnosticsCapture@ c, CGa
     try { c.Field(fields, "CGameEditorMediaTrackerPluginAPI.ClipGroup", c.Link(node.ClipGroup, depth + 1)); } catch { c.Skipped("CGameEditorMediaTrackerPluginAPI.ClipGroup", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMediaTrackerPluginAPI.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMediaTrackerPluginAPI.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CGameEditorMediaTrackerPluginAPI.PendingEvents", values, length); } catch { c.Skipped("CGameEditorMediaTrackerPluginAPI.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMediaTrackerPluginAPI.PendingEvents[" + i + "]"); c.ArrayElement("CGameEditorMediaTrackerPluginAPI.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorMediaTrackerPluginAPI.PendingEvents", captured, length); } catch { c.Skipped("CGameEditorMediaTrackerPluginAPI.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMediaTrackerPluginAPI.PopUpMessage");
     try { c.Skipped("CGameEditorMediaTrackerPluginAPI.PopUpMessage", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameEditorMediaTrackerPluginAPI.PopUpMessage", "failed", "getter exception"); }
@@ -10658,34 +10658,34 @@ void DiagnosticsRead_CGameEditorMesh(DiagnosticsCapture@ c, CGameEditorMesh@ nod
     try { c.Field(fields, "CGameEditorMesh.MaterialsUpdateId", Json::Value(node.MaterialsUpdateId)); } catch { c.Skipped("CGameEditorMesh.MaterialsUpdateId", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.AllBitmaps");
-    try { Json::Value values = Json::Array(); uint length = node.AllBitmaps.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.AllBitmaps[" + i + "]"); values.Add(c.Link(node.AllBitmaps[i], depth + 1)); } c.ArrayField(fields, "CGameEditorMesh.AllBitmaps", values, length); } catch { c.Skipped("CGameEditorMesh.AllBitmaps", "failed", "getter exception"); }
+    try { uint length = node.AllBitmaps.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.AllBitmaps[" + i + "]"); c.ArrayElement("CGameEditorMesh.AllBitmaps", i, length, c.Link(node.AllBitmaps[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorMesh.AllBitmaps", captured, length); } catch { c.Skipped("CGameEditorMesh.AllBitmaps", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialIds");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialIds[" + i + "]"); values.Add(Json::Value(node.MaterialIds[i].Value)); } c.ArrayField(fields, "CGameEditorMesh.MaterialIds", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialIds", "failed", "getter exception"); }
+    try { uint length = node.MaterialIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialIds[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialIds", i, length, Json::Value(node.MaterialIds[i].Value)); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialIds", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialPhysicsIds");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialPhysicsIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialPhysicsIds[" + i + "]"); values.Add(Json::Value(node.MaterialPhysicsIds[i].Value)); } c.ArrayField(fields, "CGameEditorMesh.MaterialPhysicsIds", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialPhysicsIds", "failed", "getter exception"); }
+    try { uint length = node.MaterialPhysicsIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialPhysicsIds[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialPhysicsIds", i, length, Json::Value(node.MaterialPhysicsIds[i].Value)); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialPhysicsIds", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialPhysicsIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialDynaIds");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialDynaIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialDynaIds[" + i + "]"); values.Add(Json::Value(node.MaterialDynaIds[i].Value)); } c.ArrayField(fields, "CGameEditorMesh.MaterialDynaIds", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialDynaIds", "failed", "getter exception"); }
+    try { uint length = node.MaterialDynaIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialDynaIds[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialDynaIds", i, length, Json::Value(node.MaterialDynaIds[i].Value)); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialDynaIds", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialDynaIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialNames");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialNames[" + i + "]"); values.Add(c.Text(string(node.MaterialNames[i]))); } c.ArrayField(fields, "CGameEditorMesh.MaterialNames", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialNames", "failed", "getter exception"); }
+    try { uint length = node.MaterialNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialNames[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialNames", i, length, c.Text(string(node.MaterialNames[i]))); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialNames", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialPhysicsNames");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialPhysicsNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialPhysicsNames[" + i + "]"); values.Add(c.Text(string(node.MaterialPhysicsNames[i]))); } c.ArrayField(fields, "CGameEditorMesh.MaterialPhysicsNames", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialPhysicsNames", "failed", "getter exception"); }
+    try { uint length = node.MaterialPhysicsNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialPhysicsNames[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialPhysicsNames", i, length, c.Text(string(node.MaterialPhysicsNames[i]))); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialPhysicsNames", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialPhysicsNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialPhysics_GameplayRemap");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialPhysics_GameplayRemap.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialPhysics_GameplayRemap[" + i + "]"); values.Add(Json::Value(node.MaterialPhysics_GameplayRemap[i])); } c.ArrayField(fields, "CGameEditorMesh.MaterialPhysics_GameplayRemap", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialPhysics_GameplayRemap", "failed", "getter exception"); }
+    try { uint length = node.MaterialPhysics_GameplayRemap.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialPhysics_GameplayRemap[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialPhysics_GameplayRemap", i, length, Json::Value(node.MaterialPhysics_GameplayRemap[i])); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialPhysics_GameplayRemap", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialPhysics_GameplayRemap", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialDynaNames");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialDynaNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialDynaNames[" + i + "]"); values.Add(c.Text(string(node.MaterialDynaNames[i]))); } c.ArrayField(fields, "CGameEditorMesh.MaterialDynaNames", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialDynaNames", "failed", "getter exception"); }
+    try { uint length = node.MaterialDynaNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialDynaNames[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialDynaNames", i, length, c.Text(string(node.MaterialDynaNames[i]))); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialDynaNames", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialDynaNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialLastUsedColors");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialLastUsedColors.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialLastUsedColors[" + i + "]"); values.Add(c.Text(tostring(node.MaterialLastUsedColors[i]))); } c.ArrayField(fields, "CGameEditorMesh.MaterialLastUsedColors", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialLastUsedColors", "failed", "getter exception"); }
+    try { uint length = node.MaterialLastUsedColors.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialLastUsedColors[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialLastUsedColors", i, length, c.Text(tostring(node.MaterialLastUsedColors[i]))); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialLastUsedColors", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialLastUsedColors", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MaterialBaseColors");
-    try { Json::Value values = Json::Array(); uint length = node.MaterialBaseColors.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialBaseColors[" + i + "]"); values.Add(c.Text(tostring(node.MaterialBaseColors[i]))); } c.ArrayField(fields, "CGameEditorMesh.MaterialBaseColors", values, length); } catch { c.Skipped("CGameEditorMesh.MaterialBaseColors", "failed", "getter exception"); }
+    try { uint length = node.MaterialBaseColors.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.MaterialBaseColors[" + i + "]"); c.ArrayElement("CGameEditorMesh.MaterialBaseColors", i, length, c.Text(tostring(node.MaterialBaseColors[i]))); captured++; } c.ArrayField(fields, "CGameEditorMesh.MaterialBaseColors", captured, length); } catch { c.Skipped("CGameEditorMesh.MaterialBaseColors", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.CurrentColorForSpecialMaterials");
     try { c.Field(fields, "CGameEditorMesh.CurrentColorForSpecialMaterials", c.Text(tostring(node.CurrentColorForSpecialMaterials))); } catch { c.Skipped("CGameEditorMesh.CurrentColorForSpecialMaterials", "failed", "getter exception"); }
@@ -10724,7 +10724,7 @@ void DiagnosticsRead_CGameEditorMesh(DiagnosticsCapture@ c, CGameEditorMesh@ nod
     try { c.Field(fields, "CGameEditorMesh.VoxelSpaceIsInteractive", Json::Value(node.VoxelSpaceIsInteractive)); } catch { c.Skipped("CGameEditorMesh.VoxelSpaceIsInteractive", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.PrefabNames");
-    try { Json::Value values = Json::Array(); uint length = node.PrefabNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.PrefabNames[" + i + "]"); values.Add(c.Text(string(node.PrefabNames[i]))); } c.ArrayField(fields, "CGameEditorMesh.PrefabNames", values, length); } catch { c.Skipped("CGameEditorMesh.PrefabNames", "failed", "getter exception"); }
+    try { uint length = node.PrefabNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.PrefabNames[" + i + "]"); c.ArrayElement("CGameEditorMesh.PrefabNames", i, length, c.Text(string(node.PrefabNames[i]))); captured++; } c.ArrayField(fields, "CGameEditorMesh.PrefabNames", captured, length); } catch { c.Skipped("CGameEditorMesh.PrefabNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.PrefabNamesUpdateId");
     try { c.Field(fields, "CGameEditorMesh.PrefabNamesUpdateId", Json::Value(node.PrefabNamesUpdateId)); } catch { c.Skipped("CGameEditorMesh.PrefabNamesUpdateId", "failed", "getter exception"); }
@@ -10736,7 +10736,7 @@ void DiagnosticsRead_CGameEditorMesh(DiagnosticsCapture@ c, CGameEditorMesh@ nod
     try { c.Field(fields, "CGameEditorMesh.Prefab_TotalNb", Json::Value(node.Prefab_TotalNb)); } catch { c.Skipped("CGameEditorMesh.Prefab_TotalNb", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CGameEditorMesh.PendingEvents", values, length); } catch { c.Skipped("CGameEditorMesh.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorMesh.PendingEvents[" + i + "]"); c.ArrayElement("CGameEditorMesh.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorMesh.PendingEvents", captured, length); } catch { c.Skipped("CGameEditorMesh.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorMesh.MustClearLastSaveBuffer");
     try { c.Field(fields, "CGameEditorMesh.MustClearLastSaveBuffer", Json::Value(node.MustClearLastSaveBuffer)); } catch { c.Skipped("CGameEditorMesh.MustClearLastSaveBuffer", "failed", "getter exception"); }
@@ -10761,10 +10761,10 @@ void DiagnosticsRead_CGameEditorModel(DiagnosticsCapture@ c, CGameEditorModel@ n
     try { c.Field(fields, "CGameEditorModel.MainPluginTextSet", c.Link(node.MainPluginTextSet, depth + 1)); } catch { c.Skipped("CGameEditorModel.MainPluginTextSet", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorModel.SubPluginIds");
-    try { Json::Value values = Json::Array(); uint length = node.SubPluginIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorModel.SubPluginIds[" + i + "]"); values.Add(c.Text(node.SubPluginIds[i])); } c.ArrayField(fields, "CGameEditorModel.SubPluginIds", values, length); } catch { c.Skipped("CGameEditorModel.SubPluginIds", "failed", "getter exception"); }
+    try { uint length = node.SubPluginIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorModel.SubPluginIds[" + i + "]"); c.ArrayElement("CGameEditorModel.SubPluginIds", i, length, c.Text(node.SubPluginIds[i])); captured++; } c.ArrayField(fields, "CGameEditorModel.SubPluginIds", captured, length); } catch { c.Skipped("CGameEditorModel.SubPluginIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorModel.SubPluginTextSets");
-    try { Json::Value values = Json::Array(); uint length = node.SubPluginTextSets.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorModel.SubPluginTextSets[" + i + "]"); values.Add(c.Link(node.SubPluginTextSets[i], depth + 1)); } c.ArrayField(fields, "CGameEditorModel.SubPluginTextSets", values, length); } catch { c.Skipped("CGameEditorModel.SubPluginTextSets", "failed", "getter exception"); }
+    try { uint length = node.SubPluginTextSets.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorModel.SubPluginTextSets[" + i + "]"); c.ArrayElement("CGameEditorModel.SubPluginTextSets", i, length, c.Link(node.SubPluginTextSets[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorModel.SubPluginTextSets", captured, length); } catch { c.Skipped("CGameEditorModel.SubPluginTextSets", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameEditorModule(DiagnosticsCapture@ c, CGameEditorModule@ node, Json::Value &inout fields, uint depth)
 {
@@ -10852,7 +10852,7 @@ void DiagnosticsRead_CGameEditorModule(DiagnosticsCapture@ c, CGameEditorModule@
     try { c.Field(fields, "CGameEditorModule.EditPageName", c.Text(node.EditPageName)); } catch { c.Skipped("CGameEditorModule.EditPageName", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorModule.EditedPageButtonsValues");
-    try { Json::Value values = Json::Array(); uint length = node.EditedPageButtonsValues.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorModule.EditedPageButtonsValues[" + i + "]"); values.Add(c.Text(node.EditedPageButtonsValues[i])); } c.ArrayField(fields, "CGameEditorModule.EditedPageButtonsValues", values, length); } catch { c.Skipped("CGameEditorModule.EditedPageButtonsValues", "failed", "getter exception"); }
+    try { uint length = node.EditedPageButtonsValues.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorModule.EditedPageButtonsValues[" + i + "]"); c.ArrayElement("CGameEditorModule.EditedPageButtonsValues", i, length, c.Text(node.EditedPageButtonsValues[i])); captured++; } c.ArrayField(fields, "CGameEditorModule.EditedPageButtonsValues", captured, length); } catch { c.Skipped("CGameEditorModule.EditedPageButtonsValues", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorModule.EditedModuleType");
     try { c.Field(fields, "CGameEditorModule.EditedModuleType", Json::Value(int(node.EditedModuleType))); } catch { c.Skipped("CGameEditorModule.EditedModuleType", "failed", "getter exception"); }
@@ -10876,7 +10876,7 @@ void DiagnosticsRead_CGameEditorModule(DiagnosticsCapture@ c, CGameEditorModule@
     try { c.Skipped("CGameEditorModule.FileBrowser_FilePath", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameEditorModule.FileBrowser_FilePath", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorModule.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorModule.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CGameEditorModule.PendingEvents", values, length); } catch { c.Skipped("CGameEditorModule.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorModule.PendingEvents[" + i + "]"); c.ArrayElement("CGameEditorModule.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorModule.PendingEvents", captured, length); } catch { c.Skipped("CGameEditorModule.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorModule.IsPreviewMode");
     try { c.Field(fields, "CGameEditorModule.IsPreviewMode", Json::Value(node.IsPreviewMode)); } catch { c.Skipped("CGameEditorModule.IsPreviewMode", "failed", "getter exception"); }
@@ -11028,7 +11028,7 @@ void DiagnosticsRead_CGameEditorPluginMap(DiagnosticsCapture@ c, CGameEditorPlug
     try { c.Field(fields, "CGameEditorPluginMap.IsColorBlindModeActive", Json::Value(node.IsColorBlindModeActive)); } catch { c.Skipped("CGameEditorPluginMap.IsColorBlindModeActive", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.MapElemColorPalettes");
-    try { Json::Value values = Json::Array(); uint length = node.MapElemColorPalettes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.MapElemColorPalettes[" + i + "]"); values.Add(Json::Value(int(node.MapElemColorPalettes[i]))); } c.ArrayField(fields, "CGameEditorPluginMap.MapElemColorPalettes", values, length); } catch { c.Skipped("CGameEditorPluginMap.MapElemColorPalettes", "failed", "getter exception"); }
+    try { uint length = node.MapElemColorPalettes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.MapElemColorPalettes[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.MapElemColorPalettes", i, length, Json::Value(int(node.MapElemColorPalettes[i]))); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.MapElemColorPalettes", captured, length); } catch { c.Skipped("CGameEditorPluginMap.MapElemColorPalettes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.ForceMacroblockColor");
     try { c.Field(fields, "CGameEditorPluginMap.ForceMacroblockColor", Json::Value(node.ForceMacroblockColor)); } catch { c.Skipped("CGameEditorPluginMap.ForceMacroblockColor", "failed", "getter exception"); }
@@ -11112,13 +11112,13 @@ void DiagnosticsRead_CGameEditorPluginMap(DiagnosticsCapture@ c, CGameEditorPlug
     try { c.Field(fields, "CGameEditorPluginMap.EnableMixMapping", Json::Value(node.EnableMixMapping)); } catch { c.Skipped("CGameEditorPluginMap.EnableMixMapping", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.CopyPaste_GetLightmapQualityInSelection_Results");
-    try { Json::Value values = Json::Array(); uint length = node.CopyPaste_GetLightmapQualityInSelection_Results.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.CopyPaste_GetLightmapQualityInSelection_Results[" + i + "]"); values.Add(Json::Value(int(node.CopyPaste_GetLightmapQualityInSelection_Results[i]))); } c.ArrayField(fields, "CGameEditorPluginMap.CopyPaste_GetLightmapQualityInSelection_Results", values, length); } catch { c.Skipped("CGameEditorPluginMap.CopyPaste_GetLightmapQualityInSelection_Results", "failed", "getter exception"); }
+    try { uint length = node.CopyPaste_GetLightmapQualityInSelection_Results.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.CopyPaste_GetLightmapQualityInSelection_Results[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.CopyPaste_GetLightmapQualityInSelection_Results", i, length, Json::Value(int(node.CopyPaste_GetLightmapQualityInSelection_Results[i]))); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.CopyPaste_GetLightmapQualityInSelection_Results", captured, length); } catch { c.Skipped("CGameEditorPluginMap.CopyPaste_GetLightmapQualityInSelection_Results", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.MacroblockInstanceItemsResults");
-    try { Json::Value values = Json::Array(); uint length = node.MacroblockInstanceItemsResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.MacroblockInstanceItemsResults[" + i + "]"); values.Add(c.Link(node.MacroblockInstanceItemsResults[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.MacroblockInstanceItemsResults", values, length); } catch { c.Skipped("CGameEditorPluginMap.MacroblockInstanceItemsResults", "failed", "getter exception"); }
+    try { uint length = node.MacroblockInstanceItemsResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.MacroblockInstanceItemsResults[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.MacroblockInstanceItemsResults", i, length, c.Link(node.MacroblockInstanceItemsResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.MacroblockInstanceItemsResults", captured, length); } catch { c.Skipped("CGameEditorPluginMap.MacroblockInstanceItemsResults", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.GetItemsCountRequest");
-    try { Json::Value values = Json::Array(); uint length = node.GetItemsCountRequest.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.GetItemsCountRequest[" + i + "]"); values.Add(c.Text(string(node.GetItemsCountRequest[i]))); } c.ArrayField(fields, "CGameEditorPluginMap.GetItemsCountRequest", values, length); } catch { c.Skipped("CGameEditorPluginMap.GetItemsCountRequest", "failed", "getter exception"); }
+    try { uint length = node.GetItemsCountRequest.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.GetItemsCountRequest[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.GetItemsCountRequest", i, length, c.Text(string(node.GetItemsCountRequest[i]))); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.GetItemsCountRequest", captured, length); } catch { c.Skipped("CGameEditorPluginMap.GetItemsCountRequest", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.Camera");
     try { c.Field(fields, "CGameEditorPluginMap.Camera", c.Link(node.Camera, depth + 1)); } catch { c.Skipped("CGameEditorPluginMap.Camera", "failed", "getter exception"); }
@@ -11130,31 +11130,31 @@ void DiagnosticsRead_CGameEditorPluginMap(DiagnosticsCapture@ c, CGameEditorPlug
     try { c.Skipped("CGameEditorPluginMap.Items", "unsupported", "MwNodPool<CGameCtnEditorScriptAnchoredObject@>"); } catch { c.Skipped("CGameEditorPluginMap.Items", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.MediatrackIngameClips");
-    try { Json::Value values = Json::Array(); uint length = node.MediatrackIngameClips.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.MediatrackIngameClips[" + i + "]"); values.Add(c.Text(string(node.MediatrackIngameClips[i]))); } c.ArrayField(fields, "CGameEditorPluginMap.MediatrackIngameClips", values, length); } catch { c.Skipped("CGameEditorPluginMap.MediatrackIngameClips", "failed", "getter exception"); }
+    try { uint length = node.MediatrackIngameClips.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.MediatrackIngameClips[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.MediatrackIngameClips", i, length, c.Text(string(node.MediatrackIngameClips[i]))); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.MediatrackIngameClips", captured, length); } catch { c.Skipped("CGameEditorPluginMap.MediatrackIngameClips", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.MediatrackIngameEditedClipIndex");
     try { c.Field(fields, "CGameEditorPluginMap.MediatrackIngameEditedClipIndex", Json::Value(node.MediatrackIngameEditedClipIndex)); } catch { c.Skipped("CGameEditorPluginMap.MediatrackIngameEditedClipIndex", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.Blocks");
-    try { Json::Value values = Json::Array(); uint length = node.Blocks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.Blocks[" + i + "]"); values.Add(c.Link(node.Blocks[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.Blocks", values, length); } catch { c.Skipped("CGameEditorPluginMap.Blocks", "failed", "getter exception"); }
+    try { uint length = node.Blocks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.Blocks[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.Blocks", i, length, c.Link(node.Blocks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.Blocks", captured, length); } catch { c.Skipped("CGameEditorPluginMap.Blocks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.BlockModels");
-    try { Json::Value values = Json::Array(); uint length = node.BlockModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.BlockModels[" + i + "]"); values.Add(c.Link(node.BlockModels[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.BlockModels", values, length); } catch { c.Skipped("CGameEditorPluginMap.BlockModels", "failed", "getter exception"); }
+    try { uint length = node.BlockModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.BlockModels[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.BlockModels", i, length, c.Link(node.BlockModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.BlockModels", captured, length); } catch { c.Skipped("CGameEditorPluginMap.BlockModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.TerrainBlockModels");
-    try { Json::Value values = Json::Array(); uint length = node.TerrainBlockModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.TerrainBlockModels[" + i + "]"); values.Add(c.Link(node.TerrainBlockModels[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.TerrainBlockModels", values, length); } catch { c.Skipped("CGameEditorPluginMap.TerrainBlockModels", "failed", "getter exception"); }
+    try { uint length = node.TerrainBlockModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.TerrainBlockModels[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.TerrainBlockModels", i, length, c.Link(node.TerrainBlockModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.TerrainBlockModels", captured, length); } catch { c.Skipped("CGameEditorPluginMap.TerrainBlockModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.MacroblockModels");
-    try { Json::Value values = Json::Array(); uint length = node.MacroblockModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.MacroblockModels[" + i + "]"); values.Add(c.Link(node.MacroblockModels[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.MacroblockModels", values, length); } catch { c.Skipped("CGameEditorPluginMap.MacroblockModels", "failed", "getter exception"); }
+    try { uint length = node.MacroblockModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.MacroblockModels[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.MacroblockModels", i, length, c.Link(node.MacroblockModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.MacroblockModels", captured, length); } catch { c.Skipped("CGameEditorPluginMap.MacroblockModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.ClassicBlocks");
-    try { Json::Value values = Json::Array(); uint length = node.ClassicBlocks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.ClassicBlocks[" + i + "]"); values.Add(c.Link(node.ClassicBlocks[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.ClassicBlocks", values, length); } catch { c.Skipped("CGameEditorPluginMap.ClassicBlocks", "failed", "getter exception"); }
+    try { uint length = node.ClassicBlocks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.ClassicBlocks[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.ClassicBlocks", i, length, c.Link(node.ClassicBlocks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.ClassicBlocks", captured, length); } catch { c.Skipped("CGameEditorPluginMap.ClassicBlocks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.TerrainBlocks");
-    try { Json::Value values = Json::Array(); uint length = node.TerrainBlocks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.TerrainBlocks[" + i + "]"); values.Add(c.Link(node.TerrainBlocks[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.TerrainBlocks", values, length); } catch { c.Skipped("CGameEditorPluginMap.TerrainBlocks", "failed", "getter exception"); }
+    try { uint length = node.TerrainBlocks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.TerrainBlocks[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.TerrainBlocks", i, length, c.Link(node.TerrainBlocks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.TerrainBlocks", captured, length); } catch { c.Skipped("CGameEditorPluginMap.TerrainBlocks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.GhostBlocks");
-    try { Json::Value values = Json::Array(); uint length = node.GhostBlocks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.GhostBlocks[" + i + "]"); values.Add(c.Link(node.GhostBlocks[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.GhostBlocks", values, length); } catch { c.Skipped("CGameEditorPluginMap.GhostBlocks", "failed", "getter exception"); }
+    try { uint length = node.GhostBlocks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.GhostBlocks[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.GhostBlocks", i, length, c.Link(node.GhostBlocks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.GhostBlocks", captured, length); } catch { c.Skipped("CGameEditorPluginMap.GhostBlocks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.FixedClipLists");
     try { c.Skipped("CGameEditorPluginMap.FixedClipLists", "unsupported", "MwNodPool<CGameEditorMapScriptClipList@>"); } catch { c.Skipped("CGameEditorPluginMap.FixedClipLists", "failed", "getter exception"); }
@@ -11169,13 +11169,13 @@ void DiagnosticsRead_CGameEditorPluginMap(DiagnosticsCapture@ c, CGameEditorPlug
     try { c.Skipped("CGameEditorPluginMap.MacroblockInstances", "unsupported", "MwNodPool<CGameEditorMapMacroBlockInstance@>"); } catch { c.Skipped("CGameEditorPluginMap.MacroblockInstances", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.ConnectResults");
-    try { Json::Value values = Json::Array(); uint length = node.ConnectResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.ConnectResults[" + i + "]"); values.Add(c.Link(node.ConnectResults[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMap.ConnectResults", values, length); } catch { c.Skipped("CGameEditorPluginMap.ConnectResults", "failed", "getter exception"); }
+    try { uint length = node.ConnectResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.ConnectResults[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.ConnectResults", i, length, c.Link(node.ConnectResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.ConnectResults", captured, length); } catch { c.Skipped("CGameEditorPluginMap.ConnectResults", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.AnchorData");
     try { c.Skipped("CGameEditorPluginMap.AnchorData", "unsupported", "MwNodPool<CGameCtnEditorScriptSpecialProperty@>"); } catch { c.Skipped("CGameEditorPluginMap.AnchorData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.CustomSelectionCoords");
-    try { Json::Value values = Json::Array(); uint length = node.CustomSelectionCoords.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.CustomSelectionCoords[" + i + "]"); values.Add(c.Text(tostring(node.CustomSelectionCoords[i]))); } c.ArrayField(fields, "CGameEditorPluginMap.CustomSelectionCoords", values, length); } catch { c.Skipped("CGameEditorPluginMap.CustomSelectionCoords", "failed", "getter exception"); }
+    try { uint length = node.CustomSelectionCoords.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMap.CustomSelectionCoords[" + i + "]"); c.ArrayElement("CGameEditorPluginMap.CustomSelectionCoords", i, length, c.Text(tostring(node.CustomSelectionCoords[i]))); captured++; } c.ArrayField(fields, "CGameEditorPluginMap.CustomSelectionCoords", captured, length); } catch { c.Skipped("CGameEditorPluginMap.CustomSelectionCoords", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMap.CustomSelectionRGB");
     try { c.Field(fields, "CGameEditorPluginMap.CustomSelectionRGB", c.Text(tostring(node.CustomSelectionRGB))); } catch { c.Skipped("CGameEditorPluginMap.CustomSelectionRGB", "failed", "getter exception"); }
@@ -11394,7 +11394,7 @@ void DiagnosticsRead_CGameEditorPluginMapMapType(DiagnosticsCapture@ c, CGameEdi
     try { c.Field(fields, "CGameEditorPluginMapMapType.UIManager", c.Link(node.UIManager, depth + 1)); } catch { c.Skipped("CGameEditorPluginMapMapType.UIManager", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorPluginMapMapType.Users");
-    try { Json::Value values = Json::Array(); uint length = node.Users.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMapMapType.Users[" + i + "]"); values.Add(c.Link(node.Users[i], depth + 1)); } c.ArrayField(fields, "CGameEditorPluginMapMapType.Users", values, length); } catch { c.Skipped("CGameEditorPluginMapMapType.Users", "failed", "getter exception"); }
+    try { uint length = node.Users.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorPluginMapMapType.Users[" + i + "]"); c.ArrayElement("CGameEditorPluginMapMapType.Users", i, length, c.Link(node.Users[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorPluginMapMapType.Users", captured, length); } catch { c.Skipped("CGameEditorPluginMapMapType.Users", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameEditorPluginMapScriptEvent(DiagnosticsCapture@ c, CGameEditorPluginMapScriptEvent@ node, Json::Value &inout fields, uint depth)
 {
@@ -11444,13 +11444,13 @@ void DiagnosticsRead_CGameEditorSkinPluginAPI(DiagnosticsCapture@ c, CGameEditor
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.AllIcons");
-    try { Json::Value values = Json::Array(); uint length = node.AllIcons.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.AllIcons[" + i + "]"); values.Add(c.Link(node.AllIcons[i], depth + 1)); } c.ArrayField(fields, "CGameEditorSkinPluginAPI.AllIcons", values, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.AllIcons", "failed", "getter exception"); }
+    try { uint length = node.AllIcons.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.AllIcons[" + i + "]"); c.ArrayElement("CGameEditorSkinPluginAPI.AllIcons", i, length, c.Link(node.AllIcons[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorSkinPluginAPI.AllIcons", captured, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.AllIcons", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CGameEditorSkinPluginAPI.PendingEvents", values, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.PendingEvents[" + i + "]"); c.ArrayElement("CGameEditorSkinPluginAPI.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameEditorSkinPluginAPI.PendingEvents", captured, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.CustomColors");
-    try { Json::Value values = Json::Array(); uint length = node.CustomColors.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.CustomColors[" + i + "]"); values.Add(c.Text(tostring(node.CustomColors[i]))); } c.ArrayField(fields, "CGameEditorSkinPluginAPI.CustomColors", values, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.CustomColors", "failed", "getter exception"); }
+    try { uint length = node.CustomColors.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.CustomColors[" + i + "]"); c.ArrayElement("CGameEditorSkinPluginAPI.CustomColors", i, length, c.Text(tostring(node.CustomColors[i]))); captured++; } c.ArrayField(fields, "CGameEditorSkinPluginAPI.CustomColors", captured, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.CustomColors", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.PainterMode");
     try { c.Field(fields, "CGameEditorSkinPluginAPI.PainterMode", Json::Value(int(node.PainterMode))); } catch { c.Skipped("CGameEditorSkinPluginAPI.PainterMode", "failed", "getter exception"); }
@@ -11477,25 +11477,25 @@ void DiagnosticsRead_CGameEditorSkinPluginAPI(DiagnosticsCapture@ c, CGameEditor
     try { c.Field(fields, "CGameEditorSkinPluginAPI.IsTextSymmetry", Json::Value(node.IsTextSymmetry)); } catch { c.Skipped("CGameEditorSkinPluginAPI.IsTextSymmetry", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.SubObjectsSelected");
-    try { Json::Value values = Json::Array(); uint length = node.SubObjectsSelected.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.SubObjectsSelected[" + i + "]"); values.Add(Json::Value(node.SubObjectsSelected[i])); } c.ArrayField(fields, "CGameEditorSkinPluginAPI.SubObjectsSelected", values, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.SubObjectsSelected", "failed", "getter exception"); }
+    try { uint length = node.SubObjectsSelected.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.SubObjectsSelected[" + i + "]"); c.ArrayElement("CGameEditorSkinPluginAPI.SubObjectsSelected", i, length, Json::Value(node.SubObjectsSelected[i])); captured++; } c.ArrayField(fields, "CGameEditorSkinPluginAPI.SubObjectsSelected", captured, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.SubObjectsSelected", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.SubObjectsCount");
     try { c.Field(fields, "CGameEditorSkinPluginAPI.SubObjectsCount", Json::Value(node.SubObjectsCount)); } catch { c.Skipped("CGameEditorSkinPluginAPI.SubObjectsCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.LayersSelected");
-    try { Json::Value values = Json::Array(); uint length = node.LayersSelected.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.LayersSelected[" + i + "]"); values.Add(Json::Value(node.LayersSelected[i])); } c.ArrayField(fields, "CGameEditorSkinPluginAPI.LayersSelected", values, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.LayersSelected", "failed", "getter exception"); }
+    try { uint length = node.LayersSelected.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.LayersSelected[" + i + "]"); c.ArrayElement("CGameEditorSkinPluginAPI.LayersSelected", i, length, Json::Value(node.LayersSelected[i])); captured++; } c.ArrayField(fields, "CGameEditorSkinPluginAPI.LayersSelected", captured, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.LayersSelected", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.LayersCount");
     try { c.Field(fields, "CGameEditorSkinPluginAPI.LayersCount", Json::Value(node.LayersCount)); } catch { c.Skipped("CGameEditorSkinPluginAPI.LayersCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.StickersSelected");
-    try { Json::Value values = Json::Array(); uint length = node.StickersSelected.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.StickersSelected[" + i + "]"); values.Add(Json::Value(node.StickersSelected[i])); } c.ArrayField(fields, "CGameEditorSkinPluginAPI.StickersSelected", values, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.StickersSelected", "failed", "getter exception"); }
+    try { uint length = node.StickersSelected.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.StickersSelected[" + i + "]"); c.ArrayElement("CGameEditorSkinPluginAPI.StickersSelected", i, length, Json::Value(node.StickersSelected[i])); captured++; } c.ArrayField(fields, "CGameEditorSkinPluginAPI.StickersSelected", captured, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.StickersSelected", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.StickersCount");
     try { c.Field(fields, "CGameEditorSkinPluginAPI.StickersCount", Json::Value(node.StickersCount)); } catch { c.Skipped("CGameEditorSkinPluginAPI.StickersCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.BrushsSelected");
-    try { Json::Value values = Json::Array(); uint length = node.BrushsSelected.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.BrushsSelected[" + i + "]"); values.Add(Json::Value(node.BrushsSelected[i])); } c.ArrayField(fields, "CGameEditorSkinPluginAPI.BrushsSelected", values, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.BrushsSelected", "failed", "getter exception"); }
+    try { uint length = node.BrushsSelected.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.BrushsSelected[" + i + "]"); c.ArrayElement("CGameEditorSkinPluginAPI.BrushsSelected", i, length, Json::Value(node.BrushsSelected[i])); captured++; } c.ArrayField(fields, "CGameEditorSkinPluginAPI.BrushsSelected", captured, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.BrushsSelected", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.BrushsCount");
     try { c.Field(fields, "CGameEditorSkinPluginAPI.BrushsCount", Json::Value(node.BrushsCount)); } catch { c.Skipped("CGameEditorSkinPluginAPI.BrushsCount", "failed", "getter exception"); }
@@ -11534,7 +11534,7 @@ void DiagnosticsRead_CGameEditorSkinPluginAPI(DiagnosticsCapture@ c, CGameEditor
     try { c.Field(fields, "CGameEditorSkinPluginAPI.SubObjectHovered", Json::Value(node.SubObjectHovered)); } catch { c.Skipped("CGameEditorSkinPluginAPI.SubObjectHovered", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.CurrentLayerSubObjectsSelected");
-    try { Json::Value values = Json::Array(); uint length = node.CurrentLayerSubObjectsSelected.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.CurrentLayerSubObjectsSelected[" + i + "]"); values.Add(Json::Value(node.CurrentLayerSubObjectsSelected[i])); } c.ArrayField(fields, "CGameEditorSkinPluginAPI.CurrentLayerSubObjectsSelected", values, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.CurrentLayerSubObjectsSelected", "failed", "getter exception"); }
+    try { uint length = node.CurrentLayerSubObjectsSelected.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameEditorSkinPluginAPI.CurrentLayerSubObjectsSelected[" + i + "]"); c.ArrayElement("CGameEditorSkinPluginAPI.CurrentLayerSubObjectsSelected", i, length, Json::Value(node.CurrentLayerSubObjectsSelected[i])); captured++; } c.ArrayField(fields, "CGameEditorSkinPluginAPI.CurrentLayerSubObjectsSelected", captured, length); } catch { c.Skipped("CGameEditorSkinPluginAPI.CurrentLayerSubObjectsSelected", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameEditorSkinPluginAPI.CanUndo");
     try { c.Field(fields, "CGameEditorSkinPluginAPI.CanUndo", Json::Value(node.CanUndo)); } catch { c.Skipped("CGameEditorSkinPluginAPI.CanUndo", "failed", "getter exception"); }
@@ -11600,7 +11600,7 @@ void DiagnosticsRead_CGameGameModeInfoScript(DiagnosticsCapture@ c, CGameGameMod
     try { c.Field(fields, "CGameGameModeInfoScript.Version", c.Text(string(node.Version))); } catch { c.Skipped("CGameGameModeInfoScript.Version", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameGameModeInfoScript.CompatibleMapTypes");
-    try { Json::Value values = Json::Array(); uint length = node.CompatibleMapTypes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameGameModeInfoScript.CompatibleMapTypes[" + i + "]"); values.Add(c.Text(string(node.CompatibleMapTypes[i]))); } c.ArrayField(fields, "CGameGameModeInfoScript.CompatibleMapTypes", values, length); } catch { c.Skipped("CGameGameModeInfoScript.CompatibleMapTypes", "failed", "getter exception"); }
+    try { uint length = node.CompatibleMapTypes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameGameModeInfoScript.CompatibleMapTypes[" + i + "]"); c.ArrayElement("CGameGameModeInfoScript.CompatibleMapTypes", i, length, c.Text(string(node.CompatibleMapTypes[i]))); captured++; } c.ArrayField(fields, "CGameGameModeInfoScript.CompatibleMapTypes", captured, length); } catch { c.Skipped("CGameGameModeInfoScript.CompatibleMapTypes", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameGateModel(DiagnosticsCapture@ c, CGameGateModel@ node, Json::Value &inout fields, uint depth)
 {
@@ -11717,7 +11717,7 @@ void DiagnosticsRead_CGameItemModel(DiagnosticsCapture@ c, CGameItemModel@ node,
     try { c.Field(fields, "CGameItemModel.ItemTypeEmbedded", Json::Value(int(node.ItemTypeEmbedded))); } catch { c.Skipped("CGameItemModel.ItemTypeEmbedded", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemModel.Actions");
-    try { Json::Value values = Json::Array(); uint length = node.Actions.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemModel.Actions[" + i + "]"); values.Add(c.Link(node.Actions[i], depth + 1)); } c.ArrayField(fields, "CGameItemModel.Actions", values, length); } catch { c.Skipped("CGameItemModel.Actions", "failed", "getter exception"); }
+    try { uint length = node.Actions.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemModel.Actions[" + i + "]"); c.ArrayElement("CGameItemModel.Actions", i, length, c.Link(node.Actions[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameItemModel.Actions", captured, length); } catch { c.Skipped("CGameItemModel.Actions", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemModel.DefaultPlacementParam_Head");
     try { c.Field(fields, "CGameItemModel.DefaultPlacementParam_Head", c.Link(node.DefaultPlacementParam_Head, depth + 1)); } catch { c.Skipped("CGameItemModel.DefaultPlacementParam_Head", "failed", "getter exception"); }
@@ -11798,7 +11798,7 @@ void DiagnosticsRead_CGameItemModel(DiagnosticsCapture@ c, CGameItemModel@ node,
     try { c.Field(fields, "CGameItemModel.DefaultSkinFid", c.Link(node.DefaultSkinFid, depth + 1)); } catch { c.Skipped("CGameItemModel.DefaultSkinFid", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemModel.Cameras");
-    try { Json::Value values = Json::Array(); uint length = node.Cameras.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemModel.Cameras[" + i + "]"); values.Add(c.Link(node.Cameras[i], depth + 1)); } c.ArrayField(fields, "CGameItemModel.Cameras", values, length); } catch { c.Skipped("CGameItemModel.Cameras", "failed", "getter exception"); }
+    try { uint length = node.Cameras.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemModel.Cameras[" + i + "]"); c.ArrayElement("CGameItemModel.Cameras", i, length, c.Link(node.Cameras[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameItemModel.Cameras", captured, length); } catch { c.Skipped("CGameItemModel.Cameras", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemModel.DefaultCam");
     try { c.Field(fields, "CGameItemModel.DefaultCam", Json::Value(int(node.DefaultCam))); } catch { c.Skipped("CGameItemModel.DefaultCam", "failed", "getter exception"); }
@@ -11807,7 +11807,7 @@ void DiagnosticsRead_CGameItemModel(DiagnosticsCapture@ c, CGameItemModel@ node,
     try { c.Field(fields, "CGameItemModel.DefaultWeaponName", Json::Value(node.DefaultWeaponName.Value)); } catch { c.Skipped("CGameItemModel.DefaultWeaponName", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemModel.NadeoSkinsFids");
-    try { Json::Value values = Json::Array(); uint length = node.NadeoSkinsFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemModel.NadeoSkinsFids[" + i + "]"); values.Add(c.Link(node.NadeoSkinsFids[i], depth + 1)); } c.ArrayField(fields, "CGameItemModel.NadeoSkinsFids", values, length); } catch { c.Skipped("CGameItemModel.NadeoSkinsFids", "failed", "getter exception"); }
+    try { uint length = node.NadeoSkinsFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemModel.NadeoSkinsFids[" + i + "]"); c.ArrayElement("CGameItemModel.NadeoSkinsFids", i, length, c.Link(node.NadeoSkinsFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameItemModel.NadeoSkinsFids", captured, length); } catch { c.Skipped("CGameItemModel.NadeoSkinsFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemModel.WaypointType");
     try { c.Field(fields, "CGameItemModel.WaypointType", Json::Value(int(node.WaypointType))); } catch { c.Skipped("CGameItemModel.WaypointType", "failed", "getter exception"); }
@@ -11854,7 +11854,7 @@ void DiagnosticsRead_CGameItemPlacementParam(DiagnosticsCapture@ c, CGameItemPla
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemPlacementParam.PivotPositions");
-    try { Json::Value values = Json::Array(); uint length = node.PivotPositions.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemPlacementParam.PivotPositions[" + i + "]"); values.Add(c.Text(tostring(node.PivotPositions[i]))); } c.ArrayField(fields, "CGameItemPlacementParam.PivotPositions", values, length); } catch { c.Skipped("CGameItemPlacementParam.PivotPositions", "failed", "getter exception"); }
+    try { uint length = node.PivotPositions.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemPlacementParam.PivotPositions[" + i + "]"); c.ArrayElement("CGameItemPlacementParam.PivotPositions", i, length, c.Text(tostring(node.PivotPositions[i]))); captured++; } c.ArrayField(fields, "CGameItemPlacementParam.PivotPositions", captured, length); } catch { c.Skipped("CGameItemPlacementParam.PivotPositions", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemPlacementParam.SwitchPivotManually");
     try { c.Field(fields, "CGameItemPlacementParam.SwitchPivotManually", Json::Value(node.SwitchPivotManually)); } catch { c.Skipped("CGameItemPlacementParam.SwitchPivotManually", "failed", "getter exception"); }
@@ -11899,10 +11899,10 @@ void DiagnosticsRead_CGameItemPlacementParam(DiagnosticsCapture@ c, CGameItemPla
     try { c.Field(fields, "CGameItemPlacementParam.Cube_Size", c.Number(double(node.Cube_Size))); } catch { c.Skipped("CGameItemPlacementParam.Cube_Size", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemPlacementParam.m_PivotPositions");
-    try { Json::Value values = Json::Array(); uint length = node.m_PivotPositions.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemPlacementParam.m_PivotPositions[" + i + "]"); values.Add(c.Text(tostring(node.m_PivotPositions[i]))); } c.ArrayField(fields, "CGameItemPlacementParam.m_PivotPositions", values, length); } catch { c.Skipped("CGameItemPlacementParam.m_PivotPositions", "failed", "getter exception"); }
+    try { uint length = node.m_PivotPositions.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemPlacementParam.m_PivotPositions[" + i + "]"); c.ArrayElement("CGameItemPlacementParam.m_PivotPositions", i, length, c.Text(tostring(node.m_PivotPositions[i]))); captured++; } c.ArrayField(fields, "CGameItemPlacementParam.m_PivotPositions", captured, length); } catch { c.Skipped("CGameItemPlacementParam.m_PivotPositions", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemPlacementParam.PivotRotations");
-    try { Json::Value values = Json::Array(); uint length = node.PivotRotations.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemPlacementParam.PivotRotations[" + i + "]"); values.Add(c.Text(tostring(node.PivotRotations[i]))); } c.ArrayField(fields, "CGameItemPlacementParam.PivotRotations", values, length); } catch { c.Skipped("CGameItemPlacementParam.PivotRotations", "failed", "getter exception"); }
+    try { uint length = node.PivotRotations.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameItemPlacementParam.PivotRotations[" + i + "]"); c.ArrayElement("CGameItemPlacementParam.PivotRotations", i, length, c.Text(tostring(node.PivotRotations[i]))); captured++; } c.ArrayField(fields, "CGameItemPlacementParam.PivotRotations", captured, length); } catch { c.Skipped("CGameItemPlacementParam.PivotRotations", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameItemPlacementParam.m_MagnetLocs_Degrees");
     try { c.Skipped("CGameItemPlacementParam.m_MagnetLocs_Degrees", "unsupported", "MwFastBuffer<GmTransYawPitchRollDeg>"); } catch { c.Skipped("CGameItemPlacementParam.m_MagnetLocs_Degrees", "failed", "getter exception"); }
@@ -11943,7 +11943,7 @@ void DiagnosticsRead_CGameLeagueManager(DiagnosticsCapture@ c, CGameLeagueManage
     try { c.Field(fields, "CGameLeagueManager.CacheDuration", Json::Value(node.CacheDuration)); } catch { c.Skipped("CGameLeagueManager.CacheDuration", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameLeagueManager.Leagues");
-    try { Json::Value values = Json::Array(); uint length = node.Leagues.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameLeagueManager.Leagues[" + i + "]"); values.Add(c.Link(node.Leagues[i], depth + 1)); } c.ArrayField(fields, "CGameLeagueManager.Leagues", values, length); } catch { c.Skipped("CGameLeagueManager.Leagues", "failed", "getter exception"); }
+    try { uint length = node.Leagues.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameLeagueManager.Leagues[" + i + "]"); c.ArrayElement("CGameLeagueManager.Leagues", i, length, c.Link(node.Leagues[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameLeagueManager.Leagues", captured, length); } catch { c.Skipped("CGameLeagueManager.Leagues", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameManiaApp(DiagnosticsCapture@ c, CGameManiaApp@ node, Json::Value &inout fields, uint depth)
 {
@@ -11995,7 +11995,7 @@ void DiagnosticsRead_CGameManiaApp(DiagnosticsCapture@ c, CGameManiaApp@ node, J
     try { c.Field(fields, "CGameManiaApp.MouseY", c.Number(double(node.MouseY))); } catch { c.Skipped("CGameManiaApp.MouseY", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaApp.UILayers");
-    try { Json::Value values = Json::Array(); uint length = node.UILayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaApp.UILayers[" + i + "]"); values.Add(c.Link(node.UILayers[i], depth + 1)); } c.ArrayField(fields, "CGameManiaApp.UILayers", values, length); } catch { c.Skipped("CGameManiaApp.UILayers", "failed", "getter exception"); }
+    try { uint length = node.UILayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaApp.UILayers[" + i + "]"); c.ArrayElement("CGameManiaApp.UILayers", i, length, c.Link(node.UILayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaApp.UILayers", captured, length); } catch { c.Skipped("CGameManiaApp.UILayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaApp.Xml");
     try { c.Field(fields, "CGameManiaApp.Xml", c.Link(node.Xml, depth + 1)); } catch { c.Skipped("CGameManiaApp.Xml", "failed", "getter exception"); }
@@ -12108,7 +12108,7 @@ void DiagnosticsRead_CGameManiaAppPlaygroundScriptEvent(DiagnosticsCapture@ c, C
     try { c.Field(fields, "CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventType", c.Text(string(node.PlaygroundScriptEventType))); } catch { c.Skipped("CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventData");
-    try { Json::Value values = Json::Array(); uint length = node.PlaygroundScriptEventData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventData[" + i + "]"); values.Add(c.Text(string(node.PlaygroundScriptEventData[i]))); } c.ArrayField(fields, "CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventData", values, length); } catch { c.Skipped("CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventData", "failed", "getter exception"); }
+    try { uint length = node.PlaygroundScriptEventData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventData[" + i + "]"); c.ArrayElement("CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventData", i, length, c.Text(string(node.PlaygroundScriptEventData[i]))); captured++; } c.ArrayField(fields, "CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventData", captured, length); } catch { c.Skipped("CGameManiaAppPlaygroundScriptEvent.PlaygroundScriptEventData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppPlaygroundScriptEvent.Ghost");
     try { c.Field(fields, "CGameManiaAppPlaygroundScriptEvent.Ghost", c.Link(node.Ghost, depth + 1)); } catch { c.Skipped("CGameManiaAppPlaygroundScriptEvent.Ghost", "failed", "getter exception"); }
@@ -12175,13 +12175,13 @@ void DiagnosticsRead_CGameManiaAppScriptEvent(DiagnosticsCapture@ c, CGameManiaA
     try { c.Field(fields, "CGameManiaAppScriptEvent.CustomEventType", c.Text(string(node.CustomEventType))); } catch { c.Skipped("CGameManiaAppScriptEvent.CustomEventType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppScriptEvent.CustomEventData");
-    try { Json::Value values = Json::Array(); uint length = node.CustomEventData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppScriptEvent.CustomEventData[" + i + "]"); values.Add(c.Text(string(node.CustomEventData[i]))); } c.ArrayField(fields, "CGameManiaAppScriptEvent.CustomEventData", values, length); } catch { c.Skipped("CGameManiaAppScriptEvent.CustomEventData", "failed", "getter exception"); }
+    try { uint length = node.CustomEventData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppScriptEvent.CustomEventData[" + i + "]"); c.ArrayElement("CGameManiaAppScriptEvent.CustomEventData", i, length, c.Text(string(node.CustomEventData[i]))); captured++; } c.ArrayField(fields, "CGameManiaAppScriptEvent.CustomEventData", captured, length); } catch { c.Skipped("CGameManiaAppScriptEvent.CustomEventData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppScriptEvent.ExternalEventType");
     try { c.Field(fields, "CGameManiaAppScriptEvent.ExternalEventType", c.Text(string(node.ExternalEventType))); } catch { c.Skipped("CGameManiaAppScriptEvent.ExternalEventType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppScriptEvent.ExternalEventData");
-    try { Json::Value values = Json::Array(); uint length = node.ExternalEventData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppScriptEvent.ExternalEventData[" + i + "]"); values.Add(c.Text(string(node.ExternalEventData[i]))); } c.ArrayField(fields, "CGameManiaAppScriptEvent.ExternalEventData", values, length); } catch { c.Skipped("CGameManiaAppScriptEvent.ExternalEventData", "failed", "getter exception"); }
+    try { uint length = node.ExternalEventData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppScriptEvent.ExternalEventData[" + i + "]"); c.ArrayElement("CGameManiaAppScriptEvent.ExternalEventData", i, length, c.Text(string(node.ExternalEventData[i]))); captured++; } c.ArrayField(fields, "CGameManiaAppScriptEvent.ExternalEventData", captured, length); } catch { c.Skipped("CGameManiaAppScriptEvent.ExternalEventData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppScriptEvent.MenuNavAction");
     try { c.Field(fields, "CGameManiaAppScriptEvent.MenuNavAction", Json::Value(int(node.MenuNavAction))); } catch { c.Skipped("CGameManiaAppScriptEvent.MenuNavAction", "failed", "getter exception"); }
@@ -12203,7 +12203,7 @@ void DiagnosticsRead_CGameManiaAppStation(DiagnosticsCapture@ c, CGameManiaAppSt
     try { c.Field(fields, "CGameManiaAppStation.Station", c.Link(node.Station, depth + 1)); } catch { c.Skipped("CGameManiaAppStation.Station", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppStation.Maker_EditedTitles");
-    try { Json::Value values = Json::Array(); uint length = node.Maker_EditedTitles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppStation.Maker_EditedTitles[" + i + "]"); values.Add(c.Link(node.Maker_EditedTitles[i], depth + 1)); } c.ArrayField(fields, "CGameManiaAppStation.Maker_EditedTitles", values, length); } catch { c.Skipped("CGameManiaAppStation.Maker_EditedTitles", "failed", "getter exception"); }
+    try { uint length = node.Maker_EditedTitles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppStation.Maker_EditedTitles[" + i + "]"); c.ArrayElement("CGameManiaAppStation.Maker_EditedTitles", i, length, c.Link(node.Maker_EditedTitles[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaAppStation.Maker_EditedTitles", captured, length); } catch { c.Skipped("CGameManiaAppStation.Maker_EditedTitles", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameManiaAppTextSet(DiagnosticsCapture@ c, CGameManiaAppTextSet@ node, Json::Value &inout fields, uint depth)
 {
@@ -12213,10 +12213,10 @@ void DiagnosticsRead_CGameManiaAppTextSet(DiagnosticsCapture@ c, CGameManiaAppTe
     try { c.Field(fields, "CGameManiaAppTextSet.MainScript", c.Link(node.MainScript, depth + 1)); } catch { c.Skipped("CGameManiaAppTextSet.MainScript", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppTextSet.LayerManialinkNames");
-    try { Json::Value values = Json::Array(); uint length = node.LayerManialinkNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppTextSet.LayerManialinkNames[" + i + "]"); values.Add(c.Text(node.LayerManialinkNames[i])); } c.ArrayField(fields, "CGameManiaAppTextSet.LayerManialinkNames", values, length); } catch { c.Skipped("CGameManiaAppTextSet.LayerManialinkNames", "failed", "getter exception"); }
+    try { uint length = node.LayerManialinkNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppTextSet.LayerManialinkNames[" + i + "]"); c.ArrayElement("CGameManiaAppTextSet.LayerManialinkNames", i, length, c.Text(node.LayerManialinkNames[i])); captured++; } c.ArrayField(fields, "CGameManiaAppTextSet.LayerManialinkNames", captured, length); } catch { c.Skipped("CGameManiaAppTextSet.LayerManialinkNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppTextSet.LayerManialinks");
-    try { Json::Value values = Json::Array(); uint length = node.LayerManialinks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppTextSet.LayerManialinks[" + i + "]"); values.Add(c.Link(node.LayerManialinks[i], depth + 1)); } c.ArrayField(fields, "CGameManiaAppTextSet.LayerManialinks", values, length); } catch { c.Skipped("CGameManiaAppTextSet.LayerManialinks", "failed", "getter exception"); }
+    try { uint length = node.LayerManialinks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppTextSet.LayerManialinks[" + i + "]"); c.ArrayElement("CGameManiaAppTextSet.LayerManialinks", i, length, c.Link(node.LayerManialinks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaAppTextSet.LayerManialinks", captured, length); } catch { c.Skipped("CGameManiaAppTextSet.LayerManialinks", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameManiaAppTitle(DiagnosticsCapture@ c, CGameManiaAppTitle@ node, Json::Value &inout fields, uint depth)
 {
@@ -12250,7 +12250,7 @@ void DiagnosticsRead_CGameManiaAppTitle(DiagnosticsCapture@ c, CGameManiaAppTitl
     try { c.Field(fields, "CGameManiaAppTitle.ExternalRequest_Type", c.Text(string(node.ExternalRequest_Type))); } catch { c.Skipped("CGameManiaAppTitle.ExternalRequest_Type", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppTitle.ExternalRequest_Data");
-    try { Json::Value values = Json::Array(); uint length = node.ExternalRequest_Data.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppTitle.ExternalRequest_Data[" + i + "]"); values.Add(c.Text(string(node.ExternalRequest_Data[i]))); } c.ArrayField(fields, "CGameManiaAppTitle.ExternalRequest_Data", values, length); } catch { c.Skipped("CGameManiaAppTitle.ExternalRequest_Data", "failed", "getter exception"); }
+    try { uint length = node.ExternalRequest_Data.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaAppTitle.ExternalRequest_Data[" + i + "]"); c.ArrayElement("CGameManiaAppTitle.ExternalRequest_Data", i, length, c.Text(string(node.ExternalRequest_Data[i]))); captured++; } c.ArrayField(fields, "CGameManiaAppTitle.ExternalRequest_Data", captured, length); } catch { c.Skipped("CGameManiaAppTitle.ExternalRequest_Data", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaAppTitle.MatchSettingsManager");
     try { c.Field(fields, "CGameManiaAppTitle.MatchSettingsManager", c.Link(node.MatchSettingsManager, depth + 1)); } catch { c.Skipped("CGameManiaAppTitle.MatchSettingsManager", "failed", "getter exception"); }
@@ -12306,10 +12306,10 @@ void DiagnosticsRead_CGameManiaPlanet(DiagnosticsCapture@ c, CGameManiaPlanet@ n
     try { c.Field(fields, "CGameManiaPlanet.TitleMainDefaultBgFid", c.Link(node.TitleMainDefaultBgFid, depth + 1)); } catch { c.Skipped("CGameManiaPlanet.TitleMainDefaultBgFid", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanet.ManiaTitles");
-    try { Json::Value values = Json::Array(); uint length = node.ManiaTitles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanet.ManiaTitles[" + i + "]"); values.Add(c.Link(node.ManiaTitles[i], depth + 1)); } c.ArrayField(fields, "CGameManiaPlanet.ManiaTitles", values, length); } catch { c.Skipped("CGameManiaPlanet.ManiaTitles", "failed", "getter exception"); }
+    try { uint length = node.ManiaTitles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanet.ManiaTitles[" + i + "]"); c.ArrayElement("CGameManiaPlanet.ManiaTitles", i, length, c.Link(node.ManiaTitles[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaPlanet.ManiaTitles", captured, length); } catch { c.Skipped("CGameManiaPlanet.ManiaTitles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanet.Stations");
-    try { Json::Value values = Json::Array(); uint length = node.Stations.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanet.Stations[" + i + "]"); values.Add(c.Link(node.Stations[i], depth + 1)); } c.ArrayField(fields, "CGameManiaPlanet.Stations", values, length); } catch { c.Skipped("CGameManiaPlanet.Stations", "failed", "getter exception"); }
+    try { uint length = node.Stations.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanet.Stations[" + i + "]"); c.ArrayElement("CGameManiaPlanet.Stations", i, length, c.Link(node.Stations[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaPlanet.Stations", captured, length); } catch { c.Skipped("CGameManiaPlanet.Stations", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanet.LoadedManiaTitle");
     try { c.Field(fields, "CGameManiaPlanet.LoadedManiaTitle", c.Link(node.LoadedManiaTitle, depth + 1)); } catch { c.Skipped("CGameManiaPlanet.LoadedManiaTitle", "failed", "getter exception"); }
@@ -12399,16 +12399,16 @@ void DiagnosticsRead_CGameManiaPlanetScriptAPI(DiagnosticsCapture@ c, CGameMania
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.LoadedTitle", c.Link(node.LoadedTitle, depth + 1)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.LoadedTitle", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.TitlesAvailable");
-    try { Json::Value values = Json::Array(); uint length = node.TitlesAvailable.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.TitlesAvailable[" + i + "]"); values.Add(c.Link(node.TitlesAvailable[i], depth + 1)); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.TitlesAvailable", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.TitlesAvailable", "failed", "getter exception"); }
+    try { uint length = node.TitlesAvailable.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.TitlesAvailable[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.TitlesAvailable", i, length, c.Link(node.TitlesAvailable[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.TitlesAvailable", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.TitlesAvailable", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.TitlesBases");
-    try { Json::Value values = Json::Array(); uint length = node.TitlesBases.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.TitlesBases[" + i + "]"); values.Add(c.Link(node.TitlesBases[i], depth + 1)); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.TitlesBases", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.TitlesBases", "failed", "getter exception"); }
+    try { uint length = node.TitlesBases.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.TitlesBases[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.TitlesBases", i, length, c.Link(node.TitlesBases[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.TitlesBases", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.TitlesBases", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.TitleIdsInstalled");
-    try { Json::Value values = Json::Array(); uint length = node.TitleIdsInstalled.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.TitleIdsInstalled[" + i + "]"); values.Add(c.Text(node.TitleIdsInstalled[i])); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.TitleIdsInstalled", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.TitleIdsInstalled", "failed", "getter exception"); }
+    try { uint length = node.TitleIdsInstalled.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.TitleIdsInstalled[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.TitleIdsInstalled", i, length, c.Text(node.TitleIdsInstalled[i])); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.TitleIdsInstalled", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.TitleIdsInstalled", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.TitleIdsPayed");
-    try { Json::Value values = Json::Array(); uint length = node.TitleIdsPayed.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.TitleIdsPayed[" + i + "]"); values.Add(c.Text(node.TitleIdsPayed[i])); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.TitleIdsPayed", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.TitleIdsPayed", "failed", "getter exception"); }
+    try { uint length = node.TitleIdsPayed.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.TitleIdsPayed[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.TitleIdsPayed", i, length, c.Text(node.TitleIdsPayed[i])); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.TitleIdsPayed", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.TitleIdsPayed", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.EmptyStationsCount");
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.EmptyStationsCount", Json::Value(node.EmptyStationsCount)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.EmptyStationsCount", "failed", "getter exception"); }
@@ -12480,7 +12480,7 @@ void DiagnosticsRead_CGameManiaPlanetScriptAPI(DiagnosticsCapture@ c, CGameMania
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.CurrentServerJoinLink", c.Text(node.CurrentServerJoinLink)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.CurrentServerJoinLink", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.CurrentServerPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.CurrentServerPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.CurrentServerPlayers[" + i + "]"); values.Add(c.Link(node.CurrentServerPlayers[i], depth + 1)); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.CurrentServerPlayers", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.CurrentServerPlayers", "failed", "getter exception"); }
+    try { uint length = node.CurrentServerPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.CurrentServerPlayers[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.CurrentServerPlayers", i, length, c.Link(node.CurrentServerPlayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.CurrentServerPlayers", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.CurrentServerPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.CurrentAppId");
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.CurrentAppId", Json::Value(node.CurrentAppId)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.CurrentAppId", "failed", "getter exception"); }
@@ -12582,13 +12582,13 @@ void DiagnosticsRead_CGameManiaPlanetScriptAPI(DiagnosticsCapture@ c, CGameMania
     try { c.Skipped("CGameManiaPlanetScriptAPI.Authentication_Token", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameManiaPlanetScriptAPI.Authentication_Token", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.MasterServer_MSTaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.MasterServer_MSTaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.MasterServer_MSTaskResults[" + i + "]"); values.Add(c.Link(node.MasterServer_MSTaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.MasterServer_MSTaskResults", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.MasterServer_MSTaskResults", "failed", "getter exception"); }
+    try { uint length = node.MasterServer_MSTaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.MasterServer_MSTaskResults[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.MasterServer_MSTaskResults", i, length, c.Link(node.MasterServer_MSTaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.MasterServer_MSTaskResults", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.MasterServer_MSTaskResults", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.MasterServer_MainMSUser");
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.MasterServer_MainMSUser", c.Link(node.MasterServer_MainMSUser, depth + 1)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.MasterServer_MainMSUser", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.MasterServer_MSUsers");
-    try { Json::Value values = Json::Array(); uint length = node.MasterServer_MSUsers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.MasterServer_MSUsers[" + i + "]"); values.Add(c.Link(node.MasterServer_MSUsers[i], depth + 1)); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.MasterServer_MSUsers", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.MasterServer_MSUsers", "failed", "getter exception"); }
+    try { uint length = node.MasterServer_MSUsers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.MasterServer_MSUsers[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.MasterServer_MSUsers", i, length, c.Link(node.MasterServer_MSUsers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.MasterServer_MSUsers", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.MasterServer_MSUsers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.HMD_IsActive");
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.HMD_IsActive", Json::Value(node.HMD_IsActive)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.HMD_IsActive", "failed", "getter exception"); }
@@ -12666,22 +12666,22 @@ void DiagnosticsRead_CGameManiaPlanetScriptAPI(DiagnosticsCapture@ c, CGameMania
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.Config_GameScriptConfigJson", c.Text(node.Config_GameScriptConfigJson)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.Config_GameScriptConfigJson", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.InputBindings_ActionNames");
-    try { Json::Value values = Json::Array(); uint length = node.InputBindings_ActionNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.InputBindings_ActionNames[" + i + "]"); values.Add(c.Text(string(node.InputBindings_ActionNames[i]))); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.InputBindings_ActionNames", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.InputBindings_ActionNames", "failed", "getter exception"); }
+    try { uint length = node.InputBindings_ActionNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.InputBindings_ActionNames[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.InputBindings_ActionNames", i, length, c.Text(string(node.InputBindings_ActionNames[i]))); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.InputBindings_ActionNames", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.InputBindings_ActionNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.InputBindings_Bindings");
-    try { Json::Value values = Json::Array(); uint length = node.InputBindings_Bindings.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.InputBindings_Bindings[" + i + "]"); values.Add(c.Text(string(node.InputBindings_Bindings[i]))); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.InputBindings_Bindings", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.InputBindings_Bindings", "failed", "getter exception"); }
+    try { uint length = node.InputBindings_Bindings.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.InputBindings_Bindings[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.InputBindings_Bindings", i, length, c.Text(string(node.InputBindings_Bindings[i]))); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.InputBindings_Bindings", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.InputBindings_Bindings", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.InputBindings_BindingsRaw");
-    try { Json::Value values = Json::Array(); uint length = node.InputBindings_BindingsRaw.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.InputBindings_BindingsRaw[" + i + "]"); values.Add(c.Text(node.InputBindings_BindingsRaw[i])); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.InputBindings_BindingsRaw", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.InputBindings_BindingsRaw", "failed", "getter exception"); }
+    try { uint length = node.InputBindings_BindingsRaw.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.InputBindings_BindingsRaw[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.InputBindings_BindingsRaw", i, length, c.Text(node.InputBindings_BindingsRaw[i])); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.InputBindings_BindingsRaw", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.InputBindings_BindingsRaw", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.InputBindings_PlayerInputsCount");
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.InputBindings_PlayerInputsCount", Json::Value(node.InputBindings_PlayerInputsCount)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.InputBindings_PlayerInputsCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.Language_AvailableChoices");
-    try { Json::Value values = Json::Array(); uint length = node.Language_AvailableChoices.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.Language_AvailableChoices[" + i + "]"); values.Add(c.Text(node.Language_AvailableChoices[i])); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.Language_AvailableChoices", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.Language_AvailableChoices", "failed", "getter exception"); }
+    try { uint length = node.Language_AvailableChoices.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.Language_AvailableChoices[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.Language_AvailableChoices", i, length, c.Text(node.Language_AvailableChoices[i])); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.Language_AvailableChoices", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.Language_AvailableChoices", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.Language_AvailableChoices_Names");
-    try { Json::Value values = Json::Array(); uint length = node.Language_AvailableChoices_Names.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.Language_AvailableChoices_Names[" + i + "]"); values.Add(c.Text(string(node.Language_AvailableChoices_Names[i]))); } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.Language_AvailableChoices_Names", values, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.Language_AvailableChoices_Names", "failed", "getter exception"); }
+    try { uint length = node.Language_AvailableChoices_Names.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaPlanetScriptAPI.Language_AvailableChoices_Names[" + i + "]"); c.ArrayElement("CGameManiaPlanetScriptAPI.Language_AvailableChoices_Names", i, length, c.Text(string(node.Language_AvailableChoices_Names[i]))); captured++; } c.ArrayField(fields, "CGameManiaPlanetScriptAPI.Language_AvailableChoices_Names", captured, length); } catch { c.Skipped("CGameManiaPlanetScriptAPI.Language_AvailableChoices_Names", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaPlanetScriptAPI.Language_Current");
     try { c.Field(fields, "CGameManiaPlanetScriptAPI.Language_Current", c.Text(node.Language_Current)); } catch { c.Skipped("CGameManiaPlanetScriptAPI.Language_Current", "failed", "getter exception"); }
@@ -12832,10 +12832,10 @@ void DiagnosticsRead_CGameManiaTitle(DiagnosticsCapture@ c, CGameManiaTitle@ nod
     try { c.Field(fields, "CGameManiaTitle.UnlockAdvancedCollectors", Json::Value(node.UnlockAdvancedCollectors)); } catch { c.Skipped("CGameManiaTitle.UnlockAdvancedCollectors", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitle.CollectionFids");
-    try { Json::Value values = Json::Array(); uint length = node.CollectionFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitle.CollectionFids[" + i + "]"); values.Add(c.Link(node.CollectionFids[i], depth + 1)); } c.ArrayField(fields, "CGameManiaTitle.CollectionFids", values, length); } catch { c.Skipped("CGameManiaTitle.CollectionFids", "failed", "getter exception"); }
+    try { uint length = node.CollectionFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitle.CollectionFids[" + i + "]"); c.ArrayElement("CGameManiaTitle.CollectionFids", i, length, c.Link(node.CollectionFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaTitle.CollectionFids", captured, length); } catch { c.Skipped("CGameManiaTitle.CollectionFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitle.AdditionalResourceFids");
-    try { Json::Value values = Json::Array(); uint length = node.AdditionalResourceFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitle.AdditionalResourceFids[" + i + "]"); values.Add(c.Link(node.AdditionalResourceFids[i], depth + 1)); } c.ArrayField(fields, "CGameManiaTitle.AdditionalResourceFids", values, length); } catch { c.Skipped("CGameManiaTitle.AdditionalResourceFids", "failed", "getter exception"); }
+    try { uint length = node.AdditionalResourceFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitle.AdditionalResourceFids[" + i + "]"); c.ArrayElement("CGameManiaTitle.AdditionalResourceFids", i, length, c.Link(node.AdditionalResourceFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaTitle.AdditionalResourceFids", captured, length); } catch { c.Skipped("CGameManiaTitle.AdditionalResourceFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitle.VehicleIdentId");
     try { c.Field(fields, "CGameManiaTitle.VehicleIdentId", Json::Value(node.VehicleIdentId.Value)); } catch { c.Skipped("CGameManiaTitle.VehicleIdentId", "failed", "getter exception"); }
@@ -12847,10 +12847,10 @@ void DiagnosticsRead_CGameManiaTitle(DiagnosticsCapture@ c, CGameManiaTitle@ nod
     try { c.Field(fields, "CGameManiaTitle.VehicleIdentCollection", Json::Value(node.VehicleIdentCollection.Value)); } catch { c.Skipped("CGameManiaTitle.VehicleIdentCollection", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitle.MusicFids");
-    try { Json::Value values = Json::Array(); uint length = node.MusicFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitle.MusicFids[" + i + "]"); values.Add(c.Link(node.MusicFids[i], depth + 1)); } c.ArrayField(fields, "CGameManiaTitle.MusicFids", values, length); } catch { c.Skipped("CGameManiaTitle.MusicFids", "failed", "getter exception"); }
+    try { uint length = node.MusicFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitle.MusicFids[" + i + "]"); c.ArrayElement("CGameManiaTitle.MusicFids", i, length, c.Link(node.MusicFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaTitle.MusicFids", captured, length); } catch { c.Skipped("CGameManiaTitle.MusicFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitle.EditorSimpleChallengeFids");
-    try { Json::Value values = Json::Array(); uint length = node.EditorSimpleChallengeFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitle.EditorSimpleChallengeFids[" + i + "]"); values.Add(c.Link(node.EditorSimpleChallengeFids[i], depth + 1)); } c.ArrayField(fields, "CGameManiaTitle.EditorSimpleChallengeFids", values, length); } catch { c.Skipped("CGameManiaTitle.EditorSimpleChallengeFids", "failed", "getter exception"); }
+    try { uint length = node.EditorSimpleChallengeFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitle.EditorSimpleChallengeFids[" + i + "]"); c.ArrayElement("CGameManiaTitle.EditorSimpleChallengeFids", i, length, c.Link(node.EditorSimpleChallengeFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaTitle.EditorSimpleChallengeFids", captured, length); } catch { c.Skipped("CGameManiaTitle.EditorSimpleChallengeFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitle.ModFid");
     try { c.Field(fields, "CGameManiaTitle.ModFid", c.Link(node.ModFid, depth + 1)); } catch { c.Skipped("CGameManiaTitle.ModFid", "failed", "getter exception"); }
@@ -12935,16 +12935,16 @@ void DiagnosticsRead_CGameManiaTitleControlScriptAPI(DiagnosticsCapture@ c, CGam
     try { c.Field(fields, "CGameManiaTitleControlScriptAPI.CustomResultType", c.Text(string(node.CustomResultType))); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.CustomResultType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitleControlScriptAPI.CustomResultData");
-    try { Json::Value values = Json::Array(); uint length = node.CustomResultData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitleControlScriptAPI.CustomResultData[" + i + "]"); values.Add(c.Text(string(node.CustomResultData[i]))); } c.ArrayField(fields, "CGameManiaTitleControlScriptAPI.CustomResultData", values, length); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.CustomResultData", "failed", "getter exception"); }
+    try { uint length = node.CustomResultData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitleControlScriptAPI.CustomResultData[" + i + "]"); c.ArrayElement("CGameManiaTitleControlScriptAPI.CustomResultData", i, length, c.Text(string(node.CustomResultData[i]))); captured++; } c.ArrayField(fields, "CGameManiaTitleControlScriptAPI.CustomResultData", captured, length); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.CustomResultData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitleControlScriptAPI.CanPublishFiles");
     try { c.Field(fields, "CGameManiaTitleControlScriptAPI.CanPublishFiles", Json::Value(node.CanPublishFiles)); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.CanPublishFiles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitleControlScriptAPI.LocalServers");
-    try { Json::Value values = Json::Array(); uint length = node.LocalServers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitleControlScriptAPI.LocalServers[" + i + "]"); values.Add(c.Link(node.LocalServers[i], depth + 1)); } c.ArrayField(fields, "CGameManiaTitleControlScriptAPI.LocalServers", values, length); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.LocalServers", "failed", "getter exception"); }
+    try { uint length = node.LocalServers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitleControlScriptAPI.LocalServers[" + i + "]"); c.ArrayElement("CGameManiaTitleControlScriptAPI.LocalServers", i, length, c.Link(node.LocalServers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaTitleControlScriptAPI.LocalServers", captured, length); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.LocalServers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitleControlScriptAPI.LocalServers_CurrentTitle");
-    try { Json::Value values = Json::Array(); uint length = node.LocalServers_CurrentTitle.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitleControlScriptAPI.LocalServers_CurrentTitle[" + i + "]"); values.Add(c.Link(node.LocalServers_CurrentTitle[i], depth + 1)); } c.ArrayField(fields, "CGameManiaTitleControlScriptAPI.LocalServers_CurrentTitle", values, length); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.LocalServers_CurrentTitle", "failed", "getter exception"); }
+    try { uint length = node.LocalServers_CurrentTitle.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaTitleControlScriptAPI.LocalServers_CurrentTitle[" + i + "]"); c.ArrayElement("CGameManiaTitleControlScriptAPI.LocalServers_CurrentTitle", i, length, c.Link(node.LocalServers_CurrentTitle[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaTitleControlScriptAPI.LocalServers_CurrentTitle", captured, length); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.LocalServers_CurrentTitle", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaTitleControlScriptAPI.GetServerInfo_Result");
     try { c.Field(fields, "CGameManiaTitleControlScriptAPI.GetServerInfo_Result", c.Link(node.GetServerInfo_Result, depth + 1)); } catch { c.Skipped("CGameManiaTitleControlScriptAPI.GetServerInfo_Result", "failed", "getter exception"); }
@@ -13144,7 +13144,7 @@ void DiagnosticsRead_CGameManialinkControl(DiagnosticsCapture@ c, CGameManialink
     try { c.Field(fields, "CGameManialinkControl.ControlId", c.Text(node.ControlId)); } catch { c.Skipped("CGameManialinkControl.ControlId", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkControl.ControlClasses");
-    try { Json::Value values = Json::Array(); uint length = node.ControlClasses.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkControl.ControlClasses[" + i + "]"); values.Add(c.Text(node.ControlClasses[i])); } c.ArrayField(fields, "CGameManialinkControl.ControlClasses", values, length); } catch { c.Skipped("CGameManialinkControl.ControlClasses", "failed", "getter exception"); }
+    try { uint length = node.ControlClasses.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkControl.ControlClasses[" + i + "]"); c.ArrayElement("CGameManialinkControl.ControlClasses", i, length, c.Text(node.ControlClasses[i])); captured++; } c.ArrayField(fields, "CGameManialinkControl.ControlClasses", captured, length); } catch { c.Skipped("CGameManialinkControl.ControlClasses", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkControl.Size");
     try { c.Field(fields, "CGameManialinkControl.Size", c.Text(tostring(node.Size))); } catch { c.Skipped("CGameManialinkControl.Size", "failed", "getter exception"); }
@@ -13261,10 +13261,10 @@ void DiagnosticsRead_CGameManialinkFrame(DiagnosticsCapture@ c, CGameManialinkFr
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkFrame.Controls");
-    try { Json::Value values = Json::Array(); uint length = node.Controls.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkFrame.Controls[" + i + "]"); values.Add(c.Link(node.Controls[i], depth + 1)); } c.ArrayField(fields, "CGameManialinkFrame.Controls", values, length); } catch { c.Skipped("CGameManialinkFrame.Controls", "failed", "getter exception"); }
+    try { uint length = node.Controls.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkFrame.Controls[" + i + "]"); c.ArrayElement("CGameManialinkFrame.Controls", i, length, c.Link(node.Controls[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManialinkFrame.Controls", captured, length); } catch { c.Skipped("CGameManialinkFrame.Controls", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkFrame.ControlsCache");
-    try { Json::Value values = Json::Array(); uint length = node.ControlsCache.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkFrame.ControlsCache[" + i + "]"); values.Add(c.Link(node.ControlsCache[i], depth + 1)); } c.ArrayField(fields, "CGameManialinkFrame.ControlsCache", values, length); } catch { c.Skipped("CGameManialinkFrame.ControlsCache", "failed", "getter exception"); }
+    try { uint length = node.ControlsCache.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkFrame.ControlsCache[" + i + "]"); c.ArrayElement("CGameManialinkFrame.ControlsCache", i, length, c.Link(node.ControlsCache[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManialinkFrame.ControlsCache", captured, length); } catch { c.Skipped("CGameManialinkFrame.ControlsCache", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkFrame.ClipWindowActive");
     try { c.Field(fields, "CGameManialinkFrame.ClipWindowActive", Json::Value(node.ClipWindowActive)); } catch { c.Skipped("CGameManialinkFrame.ClipWindowActive", "failed", "getter exception"); }
@@ -13341,14 +13341,14 @@ void DiagnosticsRead_CGameManialinkGraph(DiagnosticsCapture@ c, CGameManialinkGr
     try { c.Field(fields, "CGameManialinkGraph.CoordsMax", c.Text(tostring(node.CoordsMax))); } catch { c.Skipped("CGameManialinkGraph.CoordsMax", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkGraph.Curves");
-    try { Json::Value values = Json::Array(); uint length = node.Curves.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkGraph.Curves[" + i + "]"); values.Add(c.Link(node.Curves[i], depth + 1)); } c.ArrayField(fields, "CGameManialinkGraph.Curves", values, length); } catch { c.Skipped("CGameManialinkGraph.Curves", "failed", "getter exception"); }
+    try { uint length = node.Curves.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkGraph.Curves[" + i + "]"); c.ArrayElement("CGameManialinkGraph.Curves", i, length, c.Link(node.Curves[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManialinkGraph.Curves", captured, length); } catch { c.Skipped("CGameManialinkGraph.Curves", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameManialinkGraphCurve(DiagnosticsCapture@ c, CGameManialinkGraphCurve@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkGraphCurve.Points");
-    try { Json::Value values = Json::Array(); uint length = node.Points.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkGraphCurve.Points[" + i + "]"); values.Add(c.Text(tostring(node.Points[i]))); } c.ArrayField(fields, "CGameManialinkGraphCurve.Points", values, length); } catch { c.Skipped("CGameManialinkGraphCurve.Points", "failed", "getter exception"); }
+    try { uint length = node.Points.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkGraphCurve.Points[" + i + "]"); c.ArrayElement("CGameManialinkGraphCurve.Points", i, length, c.Text(tostring(node.Points[i]))); captured++; } c.ArrayField(fields, "CGameManialinkGraphCurve.Points", captured, length); } catch { c.Skipped("CGameManialinkGraphCurve.Points", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkGraphCurve.Color");
     try { c.Field(fields, "CGameManialinkGraphCurve.Color", c.Text(tostring(node.Color))); } catch { c.Skipped("CGameManialinkGraphCurve.Color", "failed", "getter exception"); }
@@ -13479,7 +13479,7 @@ void DiagnosticsRead_CGameManialinkPage(DiagnosticsCapture@ c, CGameManialinkPag
     try { c.Field(fields, "CGameManialinkPage.MainFrame", c.Link(node.MainFrame, depth + 1)); } catch { c.Skipped("CGameManialinkPage.MainFrame", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkPage.ControlsCache");
-    try { Json::Value values = Json::Array(); uint length = node.ControlsCache.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkPage.ControlsCache[" + i + "]"); values.Add(c.Link(node.ControlsCache[i], depth + 1)); } c.ArrayField(fields, "CGameManialinkPage.ControlsCache", values, length); } catch { c.Skipped("CGameManialinkPage.ControlsCache", "failed", "getter exception"); }
+    try { uint length = node.ControlsCache.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkPage.ControlsCache[" + i + "]"); c.ArrayElement("CGameManialinkPage.ControlsCache", i, length, c.Link(node.ControlsCache[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManialinkPage.ControlsCache", captured, length); } catch { c.Skipped("CGameManialinkPage.ControlsCache", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkPage.FocusedControl");
     try { c.Field(fields, "CGameManialinkPage.FocusedControl", c.Link(node.FocusedControl, depth + 1)); } catch { c.Skipped("CGameManialinkPage.FocusedControl", "failed", "getter exception"); }
@@ -13488,7 +13488,7 @@ void DiagnosticsRead_CGameManialinkPage(DiagnosticsCapture@ c, CGameManialinkPag
     try { c.Field(fields, "CGameManialinkPage.LinksInhibited", Json::Value(node.LinksInhibited)); } catch { c.Skipped("CGameManialinkPage.LinksInhibited", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkPage.GetClassChildren_Result");
-    try { Json::Value values = Json::Array(); uint length = node.GetClassChildren_Result.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkPage.GetClassChildren_Result[" + i + "]"); values.Add(c.Link(node.GetClassChildren_Result[i], depth + 1)); } c.ArrayField(fields, "CGameManialinkPage.GetClassChildren_Result", values, length); } catch { c.Skipped("CGameManialinkPage.GetClassChildren_Result", "failed", "getter exception"); }
+    try { uint length = node.GetClassChildren_Result.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkPage.GetClassChildren_Result[" + i + "]"); c.ArrayElement("CGameManialinkPage.GetClassChildren_Result", i, length, c.Link(node.GetClassChildren_Result[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManialinkPage.GetClassChildren_Result", captured, length); } catch { c.Skipped("CGameManialinkPage.GetClassChildren_Result", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameManialinkPlayerList(DiagnosticsCapture@ c, CGameManialinkPlayerList@ node, Json::Value &inout fields, uint depth)
 {
@@ -13590,13 +13590,13 @@ void DiagnosticsRead_CGameManialinkScriptEvent(DiagnosticsCapture@ c, CGameMania
     try { c.Field(fields, "CGameManialinkScriptEvent.CustomEventType", c.Text(string(node.CustomEventType))); } catch { c.Skipped("CGameManialinkScriptEvent.CustomEventType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkScriptEvent.CustomEventData");
-    try { Json::Value values = Json::Array(); uint length = node.CustomEventData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkScriptEvent.CustomEventData[" + i + "]"); values.Add(c.Text(string(node.CustomEventData[i]))); } c.ArrayField(fields, "CGameManialinkScriptEvent.CustomEventData", values, length); } catch { c.Skipped("CGameManialinkScriptEvent.CustomEventData", "failed", "getter exception"); }
+    try { uint length = node.CustomEventData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkScriptEvent.CustomEventData[" + i + "]"); c.ArrayElement("CGameManialinkScriptEvent.CustomEventData", i, length, c.Text(string(node.CustomEventData[i]))); captured++; } c.ArrayField(fields, "CGameManialinkScriptEvent.CustomEventData", captured, length); } catch { c.Skipped("CGameManialinkScriptEvent.CustomEventData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkScriptEvent.PluginCustomEventType");
     try { c.Field(fields, "CGameManialinkScriptEvent.PluginCustomEventType", c.Text(string(node.PluginCustomEventType))); } catch { c.Skipped("CGameManialinkScriptEvent.PluginCustomEventType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkScriptEvent.PluginCustomEventData");
-    try { Json::Value values = Json::Array(); uint length = node.PluginCustomEventData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkScriptEvent.PluginCustomEventData[" + i + "]"); values.Add(c.Text(string(node.PluginCustomEventData[i]))); } c.ArrayField(fields, "CGameManialinkScriptEvent.PluginCustomEventData", values, length); } catch { c.Skipped("CGameManialinkScriptEvent.PluginCustomEventData", "failed", "getter exception"); }
+    try { uint length = node.PluginCustomEventData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkScriptEvent.PluginCustomEventData[" + i + "]"); c.ArrayElement("CGameManialinkScriptEvent.PluginCustomEventData", i, length, c.Text(string(node.PluginCustomEventData[i]))); captured++; } c.ArrayField(fields, "CGameManialinkScriptEvent.PluginCustomEventData", captured, length); } catch { c.Skipped("CGameManialinkScriptEvent.PluginCustomEventData", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameManialinkScriptHandler(DiagnosticsCapture@ c, CGameManialinkScriptHandler@ node, Json::Value &inout fields, uint depth)
 {
@@ -13642,7 +13642,7 @@ void DiagnosticsRead_CGameManialinkScriptHandler(DiagnosticsCapture@ c, CGameMan
     try { c.Field(fields, "CGameManialinkScriptHandler.SystemSkuIdentifier", Json::Value(int(node.SystemSkuIdentifier))); } catch { c.Skipped("CGameManialinkScriptHandler.SystemSkuIdentifier", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkScriptHandler.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkScriptHandler.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CGameManialinkScriptHandler.PendingEvents", values, length); } catch { c.Skipped("CGameManialinkScriptHandler.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManialinkScriptHandler.PendingEvents[" + i + "]"); c.ArrayElement("CGameManialinkScriptHandler.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManialinkScriptHandler.PendingEvents", captured, length); } catch { c.Skipped("CGameManialinkScriptHandler.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManialinkScriptHandler.Dbg_WarnOnDroppedEvents");
     try { c.Field(fields, "CGameManialinkScriptHandler.Dbg_WarnOnDroppedEvents", Json::Value(node.Dbg_WarnOnDroppedEvents)); } catch { c.Skipped("CGameManialinkScriptHandler.Dbg_WarnOnDroppedEvents", "failed", "getter exception"); }
@@ -13826,16 +13826,16 @@ void DiagnosticsRead_CGameManiaplanetPlugin(DiagnosticsCapture@ c, CGameManiapla
     try { c.Skipped("CGameManiaplanetPlugin.PendingEvents", "unsupported", "MwNodPool<CGameManiaAppScriptEvent@>"); } catch { c.Skipped("CGameManiaplanetPlugin.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaplanetPlugin.TitlesAvailable");
-    try { Json::Value values = Json::Array(); uint length = node.TitlesAvailable.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.TitlesAvailable[" + i + "]"); values.Add(c.Link(node.TitlesAvailable[i], depth + 1)); } c.ArrayField(fields, "CGameManiaplanetPlugin.TitlesAvailable", values, length); } catch { c.Skipped("CGameManiaplanetPlugin.TitlesAvailable", "failed", "getter exception"); }
+    try { uint length = node.TitlesAvailable.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.TitlesAvailable[" + i + "]"); c.ArrayElement("CGameManiaplanetPlugin.TitlesAvailable", i, length, c.Link(node.TitlesAvailable[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaplanetPlugin.TitlesAvailable", captured, length); } catch { c.Skipped("CGameManiaplanetPlugin.TitlesAvailable", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaplanetPlugin.TitlesBases");
-    try { Json::Value values = Json::Array(); uint length = node.TitlesBases.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.TitlesBases[" + i + "]"); values.Add(c.Link(node.TitlesBases[i], depth + 1)); } c.ArrayField(fields, "CGameManiaplanetPlugin.TitlesBases", values, length); } catch { c.Skipped("CGameManiaplanetPlugin.TitlesBases", "failed", "getter exception"); }
+    try { uint length = node.TitlesBases.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.TitlesBases[" + i + "]"); c.ArrayElement("CGameManiaplanetPlugin.TitlesBases", i, length, c.Link(node.TitlesBases[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaplanetPlugin.TitlesBases", captured, length); } catch { c.Skipped("CGameManiaplanetPlugin.TitlesBases", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaplanetPlugin.TitleIdsInstalled");
-    try { Json::Value values = Json::Array(); uint length = node.TitleIdsInstalled.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.TitleIdsInstalled[" + i + "]"); values.Add(c.Text(node.TitleIdsInstalled[i])); } c.ArrayField(fields, "CGameManiaplanetPlugin.TitleIdsInstalled", values, length); } catch { c.Skipped("CGameManiaplanetPlugin.TitleIdsInstalled", "failed", "getter exception"); }
+    try { uint length = node.TitleIdsInstalled.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.TitleIdsInstalled[" + i + "]"); c.ArrayElement("CGameManiaplanetPlugin.TitleIdsInstalled", i, length, c.Text(node.TitleIdsInstalled[i])); captured++; } c.ArrayField(fields, "CGameManiaplanetPlugin.TitleIdsInstalled", captured, length); } catch { c.Skipped("CGameManiaplanetPlugin.TitleIdsInstalled", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaplanetPlugin.TitleIdsPayed");
-    try { Json::Value values = Json::Array(); uint length = node.TitleIdsPayed.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.TitleIdsPayed[" + i + "]"); values.Add(c.Text(node.TitleIdsPayed[i])); } c.ArrayField(fields, "CGameManiaplanetPlugin.TitleIdsPayed", values, length); } catch { c.Skipped("CGameManiaplanetPlugin.TitleIdsPayed", "failed", "getter exception"); }
+    try { uint length = node.TitleIdsPayed.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.TitleIdsPayed[" + i + "]"); c.ArrayElement("CGameManiaplanetPlugin.TitleIdsPayed", i, length, c.Text(node.TitleIdsPayed[i])); captured++; } c.ArrayField(fields, "CGameManiaplanetPlugin.TitleIdsPayed", captured, length); } catch { c.Skipped("CGameManiaplanetPlugin.TitleIdsPayed", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaplanetPlugin.CurrentAppId");
     try { c.Field(fields, "CGameManiaplanetPlugin.CurrentAppId", Json::Value(node.CurrentAppId)); } catch { c.Skipped("CGameManiaplanetPlugin.CurrentAppId", "failed", "getter exception"); }
@@ -13853,7 +13853,7 @@ void DiagnosticsRead_CGameManiaplanetPlugin(DiagnosticsCapture@ c, CGameManiapla
     try { c.Field(fields, "CGameManiaplanetPlugin.CurrentServerJoinLink", c.Text(node.CurrentServerJoinLink)); } catch { c.Skipped("CGameManiaplanetPlugin.CurrentServerJoinLink", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaplanetPlugin.CurrentServerPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.CurrentServerPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.CurrentServerPlayers[" + i + "]"); values.Add(c.Link(node.CurrentServerPlayers[i], depth + 1)); } c.ArrayField(fields, "CGameManiaplanetPlugin.CurrentServerPlayers", values, length); } catch { c.Skipped("CGameManiaplanetPlugin.CurrentServerPlayers", "failed", "getter exception"); }
+    try { uint length = node.CurrentServerPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPlugin.CurrentServerPlayers[" + i + "]"); c.ArrayElement("CGameManiaplanetPlugin.CurrentServerPlayers", i, length, c.Link(node.CurrentServerPlayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameManiaplanetPlugin.CurrentServerPlayers", captured, length); } catch { c.Skipped("CGameManiaplanetPlugin.CurrentServerPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaplanetPlugin.CurrentMap");
     try { c.Field(fields, "CGameManiaplanetPlugin.CurrentMap", c.Link(node.CurrentMap, depth + 1)); } catch { c.Skipped("CGameManiaplanetPlugin.CurrentMap", "failed", "getter exception"); }
@@ -13996,7 +13996,7 @@ void DiagnosticsRead_CGameManiaplanetPluginInterfaceEvent(DiagnosticsCapture@ c,
     try { c.Field(fields, "CGameManiaplanetPluginInterfaceEvent.EventType", c.Text(string(node.EventType))); } catch { c.Skipped("CGameManiaplanetPluginInterfaceEvent.EventType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameManiaplanetPluginInterfaceEvent.EventData");
-    try { Json::Value values = Json::Array(); uint length = node.EventData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPluginInterfaceEvent.EventData[" + i + "]"); values.Add(c.Text(string(node.EventData[i]))); } c.ArrayField(fields, "CGameManiaplanetPluginInterfaceEvent.EventData", values, length); } catch { c.Skipped("CGameManiaplanetPluginInterfaceEvent.EventData", "failed", "getter exception"); }
+    try { uint length = node.EventData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameManiaplanetPluginInterfaceEvent.EventData[" + i + "]"); c.ArrayElement("CGameManiaplanetPluginInterfaceEvent.EventData", i, length, c.Text(string(node.EventData[i]))); captured++; } c.ArrayField(fields, "CGameManiaplanetPluginInterfaceEvent.EventData", captured, length); } catch { c.Skipped("CGameManiaplanetPluginInterfaceEvent.EventData", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameMasterServer(DiagnosticsCapture@ c, CGameMasterServer@ node, Json::Value &inout fields, uint depth)
 {
@@ -14021,16 +14021,16 @@ void DiagnosticsRead_CGameMasterServer(DiagnosticsCapture@ c, CGameMasterServer@
     try { c.Skipped("CGameMasterServer.OutboxMessagesCount", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameMasterServer.OutboxMessagesCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMasterServer.Pools");
-    try { Json::Value values = Json::Array(); uint length = node.Pools.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServer.Pools[" + i + "]"); values.Add(c.Link(node.Pools[i], depth + 1)); } c.ArrayField(fields, "CGameMasterServer.Pools", values, length); } catch { c.Skipped("CGameMasterServer.Pools", "failed", "getter exception"); }
+    try { uint length = node.Pools.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServer.Pools[" + i + "]"); c.ArrayElement("CGameMasterServer.Pools", i, length, c.Link(node.Pools[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMasterServer.Pools", captured, length); } catch { c.Skipped("CGameMasterServer.Pools", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMasterServer.RemoteDataInfos");
-    try { Json::Value values = Json::Array(); uint length = node.RemoteDataInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServer.RemoteDataInfos[" + i + "]"); values.Add(c.Link(node.RemoteDataInfos[i], depth + 1)); } c.ArrayField(fields, "CGameMasterServer.RemoteDataInfos", values, length); } catch { c.Skipped("CGameMasterServer.RemoteDataInfos", "failed", "getter exception"); }
+    try { uint length = node.RemoteDataInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServer.RemoteDataInfos[" + i + "]"); c.ArrayElement("CGameMasterServer.RemoteDataInfos", i, length, c.Link(node.RemoteDataInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMasterServer.RemoteDataInfos", captured, length); } catch { c.Skipped("CGameMasterServer.RemoteDataInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMasterServer.Downloads");
-    try { Json::Value values = Json::Array(); uint length = node.Downloads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServer.Downloads[" + i + "]"); values.Add(c.Link(node.Downloads[i], depth + 1)); } c.ArrayField(fields, "CGameMasterServer.Downloads", values, length); } catch { c.Skipped("CGameMasterServer.Downloads", "failed", "getter exception"); }
+    try { uint length = node.Downloads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServer.Downloads[" + i + "]"); c.ArrayElement("CGameMasterServer.Downloads", i, length, c.Link(node.Downloads[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMasterServer.Downloads", captured, length); } catch { c.Skipped("CGameMasterServer.Downloads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMasterServer.CurrentDownloads");
-    try { Json::Value values = Json::Array(); uint length = node.CurrentDownloads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServer.CurrentDownloads[" + i + "]"); values.Add(c.Link(node.CurrentDownloads[i], depth + 1)); } c.ArrayField(fields, "CGameMasterServer.CurrentDownloads", values, length); } catch { c.Skipped("CGameMasterServer.CurrentDownloads", "failed", "getter exception"); }
+    try { uint length = node.CurrentDownloads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServer.CurrentDownloads[" + i + "]"); c.ArrayElement("CGameMasterServer.CurrentDownloads", i, length, c.Link(node.CurrentDownloads[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMasterServer.CurrentDownloads", captured, length); } catch { c.Skipped("CGameMasterServer.CurrentDownloads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMasterServer.LeaguesManager");
     try { c.Field(fields, "CGameMasterServer.LeaguesManager", c.Link(node.LeaguesManager, depth + 1)); } catch { c.Skipped("CGameMasterServer.LeaguesManager", "failed", "getter exception"); }
@@ -14059,14 +14059,14 @@ void DiagnosticsRead_CGameMasterServerRichPresenceManagerScript(DiagnosticsCaptu
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMasterServerRichPresenceManagerScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServerRichPresenceManagerScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameMasterServerRichPresenceManagerScript.TaskResults", values, length); } catch { c.Skipped("CGameMasterServerRichPresenceManagerScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServerRichPresenceManagerScript.TaskResults[" + i + "]"); c.ArrayElement("CGameMasterServerRichPresenceManagerScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMasterServerRichPresenceManagerScript.TaskResults", captured, length); } catch { c.Skipped("CGameMasterServerRichPresenceManagerScript.TaskResults", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript(DiagnosticsCapture@ c, CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript.OnlinePresences");
-    try { Json::Value values = Json::Array(); uint length = node.OnlinePresences.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript.OnlinePresences[" + i + "]"); values.Add(c.Link(node.OnlinePresences[i], depth + 1)); } c.ArrayField(fields, "CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript.OnlinePresences", values, length); } catch { c.Skipped("CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript.OnlinePresences", "failed", "getter exception"); }
+    try { uint length = node.OnlinePresences.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript.OnlinePresences[" + i + "]"); c.ArrayElement("CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript.OnlinePresences", i, length, c.Link(node.OnlinePresences[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript.OnlinePresences", captured, length); } catch { c.Skipped("CGameMasterServerRichPresenceTaskResult_GetOnlinePresenceForPlayersScript.OnlinePresences", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameMasterServerRichPresenceTaskResult_NextPresence(DiagnosticsCapture@ c, CGameMasterServerRichPresenceTaskResult_NextPresence@ node, Json::Value &inout fields, uint depth)
 {
@@ -14097,13 +14097,13 @@ void DiagnosticsRead_CGameMatchSettingsManagerScript(DiagnosticsCapture@ c, CGam
     try { c.Field(fields, "CGameMatchSettingsManagerScript.MatchSettings_EditScriptSettings_Ongoing", Json::Value(node.MatchSettings_EditScriptSettings_Ongoing)); } catch { c.Skipped("CGameMatchSettingsManagerScript.MatchSettings_EditScriptSettings_Ongoing", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMatchSettingsManagerScript.MatchSettings");
-    try { Json::Value values = Json::Array(); uint length = node.MatchSettings.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMatchSettingsManagerScript.MatchSettings[" + i + "]"); values.Add(c.Link(node.MatchSettings[i], depth + 1)); } c.ArrayField(fields, "CGameMatchSettingsManagerScript.MatchSettings", values, length); } catch { c.Skipped("CGameMatchSettingsManagerScript.MatchSettings", "failed", "getter exception"); }
+    try { uint length = node.MatchSettings.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMatchSettingsManagerScript.MatchSettings[" + i + "]"); c.ArrayElement("CGameMatchSettingsManagerScript.MatchSettings", i, length, c.Link(node.MatchSettings[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMatchSettingsManagerScript.MatchSettings", captured, length); } catch { c.Skipped("CGameMatchSettingsManagerScript.MatchSettings", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMatchSettingsManagerScript.MatchSettings_File");
-    try { Json::Value values = Json::Array(); uint length = node.MatchSettings_File.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMatchSettingsManagerScript.MatchSettings_File[" + i + "]"); values.Add(c.Link(node.MatchSettings_File[i], depth + 1)); } c.ArrayField(fields, "CGameMatchSettingsManagerScript.MatchSettings_File", values, length); } catch { c.Skipped("CGameMatchSettingsManagerScript.MatchSettings_File", "failed", "getter exception"); }
+    try { uint length = node.MatchSettings_File.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMatchSettingsManagerScript.MatchSettings_File[" + i + "]"); c.ArrayElement("CGameMatchSettingsManagerScript.MatchSettings_File", i, length, c.Link(node.MatchSettings_File[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMatchSettingsManagerScript.MatchSettings_File", captured, length); } catch { c.Skipped("CGameMatchSettingsManagerScript.MatchSettings_File", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMatchSettingsManagerScript.MatchSettings_Temp");
-    try { Json::Value values = Json::Array(); uint length = node.MatchSettings_Temp.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMatchSettingsManagerScript.MatchSettings_Temp[" + i + "]"); values.Add(c.Link(node.MatchSettings_Temp[i], depth + 1)); } c.ArrayField(fields, "CGameMatchSettingsManagerScript.MatchSettings_Temp", values, length); } catch { c.Skipped("CGameMatchSettingsManagerScript.MatchSettings_Temp", "failed", "getter exception"); }
+    try { uint length = node.MatchSettings_Temp.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMatchSettingsManagerScript.MatchSettings_Temp[" + i + "]"); c.ArrayElement("CGameMatchSettingsManagerScript.MatchSettings_Temp", i, length, c.Link(node.MatchSettings_Temp[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMatchSettingsManagerScript.MatchSettings_Temp", captured, length); } catch { c.Skipped("CGameMatchSettingsManagerScript.MatchSettings_Temp", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameMatchSettingsPlaylistItemScript(DiagnosticsCapture@ c, CGameMatchSettingsPlaylistItemScript@ node, Json::Value &inout fields, uint depth)
 {
@@ -14129,14 +14129,14 @@ void DiagnosticsRead_CGameMatchSettingsScript(DiagnosticsCapture@ c, CGameMatchS
     try { c.Field(fields, "CGameMatchSettingsScript.ScriptModeName", c.Text(string(node.ScriptModeName))); } catch { c.Skipped("CGameMatchSettingsScript.ScriptModeName", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMatchSettingsScript.Playlist");
-    try { Json::Value values = Json::Array(); uint length = node.Playlist.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMatchSettingsScript.Playlist[" + i + "]"); values.Add(c.Link(node.Playlist[i], depth + 1)); } c.ArrayField(fields, "CGameMatchSettingsScript.Playlist", values, length); } catch { c.Skipped("CGameMatchSettingsScript.Playlist", "failed", "getter exception"); }
+    try { uint length = node.Playlist.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMatchSettingsScript.Playlist[" + i + "]"); c.ArrayElement("CGameMatchSettingsScript.Playlist", i, length, c.Link(node.Playlist[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMatchSettingsScript.Playlist", captured, length); } catch { c.Skipped("CGameMatchSettingsScript.Playlist", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameMenu(DiagnosticsCapture@ c, CGameMenu@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMenu.Frames");
-    try { Json::Value values = Json::Array(); uint length = node.Frames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenu.Frames[" + i + "]"); values.Add(c.Link(node.Frames[i], depth + 1)); } c.ArrayField(fields, "CGameMenu.Frames", values, length); } catch { c.Skipped("CGameMenu.Frames", "failed", "getter exception"); }
+    try { uint length = node.Frames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenu.Frames[" + i + "]"); c.ArrayElement("CGameMenu.Frames", i, length, c.Link(node.Frames[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMenu.Frames", captured, length); } catch { c.Skipped("CGameMenu.Frames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMenu.MainFrame");
     try { c.Field(fields, "CGameMenu.MainFrame", c.Link(node.MainFrame, depth + 1)); } catch { c.Skipped("CGameMenu.MainFrame", "failed", "getter exception"); }
@@ -14185,16 +14185,16 @@ void DiagnosticsRead_CGameMenuColorEffect(DiagnosticsCapture@ c, CGameMenuColorE
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMenuColorEffect.ColorsBeam");
-    try { Json::Value values = Json::Array(); uint length = node.ColorsBeam.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenuColorEffect.ColorsBeam[" + i + "]"); values.Add(c.Link(node.ColorsBeam[i], depth + 1)); } c.ArrayField(fields, "CGameMenuColorEffect.ColorsBeam", values, length); } catch { c.Skipped("CGameMenuColorEffect.ColorsBeam", "failed", "getter exception"); }
+    try { uint length = node.ColorsBeam.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenuColorEffect.ColorsBeam[" + i + "]"); c.ArrayElement("CGameMenuColorEffect.ColorsBeam", i, length, c.Link(node.ColorsBeam[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMenuColorEffect.ColorsBeam", captured, length); } catch { c.Skipped("CGameMenuColorEffect.ColorsBeam", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMenuColorEffect.ColorPeriods");
-    try { Json::Value values = Json::Array(); uint length = node.ColorPeriods.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenuColorEffect.ColorPeriods[" + i + "]"); values.Add(c.Number(double(node.ColorPeriods[i]))); } c.ArrayField(fields, "CGameMenuColorEffect.ColorPeriods", values, length); } catch { c.Skipped("CGameMenuColorEffect.ColorPeriods", "failed", "getter exception"); }
+    try { uint length = node.ColorPeriods.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenuColorEffect.ColorPeriods[" + i + "]"); c.ArrayElement("CGameMenuColorEffect.ColorPeriods", i, length, c.Number(double(node.ColorPeriods[i]))); captured++; } c.ArrayField(fields, "CGameMenuColorEffect.ColorPeriods", captured, length); } catch { c.Skipped("CGameMenuColorEffect.ColorPeriods", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMenuColorEffect.BeamWidths");
-    try { Json::Value values = Json::Array(); uint length = node.BeamWidths.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenuColorEffect.BeamWidths[" + i + "]"); values.Add(c.Number(double(node.BeamWidths[i]))); } c.ArrayField(fields, "CGameMenuColorEffect.BeamWidths", values, length); } catch { c.Skipped("CGameMenuColorEffect.BeamWidths", "failed", "getter exception"); }
+    try { uint length = node.BeamWidths.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenuColorEffect.BeamWidths[" + i + "]"); c.ArrayElement("CGameMenuColorEffect.BeamWidths", i, length, c.Number(double(node.BeamWidths[i]))); captured++; } c.ArrayField(fields, "CGameMenuColorEffect.BeamWidths", captured, length); } catch { c.Skipped("CGameMenuColorEffect.BeamWidths", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMenuColorEffect.InterWidths");
-    try { Json::Value values = Json::Array(); uint length = node.InterWidths.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenuColorEffect.InterWidths[" + i + "]"); values.Add(c.Number(double(node.InterWidths[i]))); } c.ArrayField(fields, "CGameMenuColorEffect.InterWidths", values, length); } catch { c.Skipped("CGameMenuColorEffect.InterWidths", "failed", "getter exception"); }
+    try { uint length = node.InterWidths.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMenuColorEffect.InterWidths[" + i + "]"); c.ArrayElement("CGameMenuColorEffect.InterWidths", i, length, c.Number(double(node.InterWidths[i]))); captured++; } c.ArrayField(fields, "CGameMenuColorEffect.InterWidths", captured, length); } catch { c.Skipped("CGameMenuColorEffect.InterWidths", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMenuColorEffect.Period");
     try { c.Field(fields, "CGameMenuColorEffect.Period", c.Number(double(node.Period))); } catch { c.Skipped("CGameMenuColorEffect.Period", "failed", "getter exception"); }
@@ -14297,7 +14297,7 @@ void DiagnosticsRead_CGameMgrAction(DiagnosticsCapture@ c, CGameMgrAction@ node,
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameMgrAction.Actions");
-    try { Json::Value values = Json::Array(); uint length = node.Actions.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMgrAction.Actions[" + i + "]"); values.Add(c.Link(node.Actions[i], depth + 1)); } c.ArrayField(fields, "CGameMgrAction.Actions", values, length); } catch { c.Skipped("CGameMgrAction.Actions", "failed", "getter exception"); }
+    try { uint length = node.Actions.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameMgrAction.Actions[" + i + "]"); c.ArrayElement("CGameMgrAction.Actions", i, length, c.Link(node.Actions[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameMgrAction.Actions", captured, length); } catch { c.Skipped("CGameMgrAction.Actions", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameModuleEditorBase(DiagnosticsCapture@ c, CGameModuleEditorBase@ node, Json::Value &inout fields, uint depth)
 {
@@ -14340,10 +14340,10 @@ void DiagnosticsRead_CGameModuleInventoryCategory(DiagnosticsCapture@ c, CGameMo
     try { c.Skipped("CGameModuleInventoryCategory.IconUrl", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameModuleInventoryCategory.IconUrl", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleInventoryCategory.SlotsItems");
-    try { Json::Value values = Json::Array(); uint length = node.SlotsItems.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleInventoryCategory.SlotsItems[" + i + "]"); values.Add(c.Link(node.SlotsItems[i], depth + 1)); } c.ArrayField(fields, "CGameModuleInventoryCategory.SlotsItems", values, length); } catch { c.Skipped("CGameModuleInventoryCategory.SlotsItems", "failed", "getter exception"); }
+    try { uint length = node.SlotsItems.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleInventoryCategory.SlotsItems[" + i + "]"); c.ArrayElement("CGameModuleInventoryCategory.SlotsItems", i, length, c.Link(node.SlotsItems[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModuleInventoryCategory.SlotsItems", captured, length); } catch { c.Skipped("CGameModuleInventoryCategory.SlotsItems", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleInventoryCategory.SlotsItemsQuantity");
-    try { Json::Value values = Json::Array(); uint length = node.SlotsItemsQuantity.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleInventoryCategory.SlotsItemsQuantity[" + i + "]"); values.Add(Json::Value(node.SlotsItemsQuantity[i])); } c.ArrayField(fields, "CGameModuleInventoryCategory.SlotsItemsQuantity", values, length); } catch { c.Skipped("CGameModuleInventoryCategory.SlotsItemsQuantity", "failed", "getter exception"); }
+    try { uint length = node.SlotsItemsQuantity.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleInventoryCategory.SlotsItemsQuantity[" + i + "]"); c.ArrayElement("CGameModuleInventoryCategory.SlotsItemsQuantity", i, length, Json::Value(node.SlotsItemsQuantity[i])); captured++; } c.ArrayField(fields, "CGameModuleInventoryCategory.SlotsItemsQuantity", captured, length); } catch { c.Skipped("CGameModuleInventoryCategory.SlotsItemsQuantity", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameModuleMenuBase(DiagnosticsCapture@ c, CGameModuleMenuBase@ node, Json::Value &inout fields, uint depth)
 {
@@ -14357,7 +14357,7 @@ void DiagnosticsRead_CGameModuleMenuBrowser(DiagnosticsCapture@ c, CGameModuleMe
     try { c.Field(fields, "CGameModuleMenuBrowser.HasFinished", Json::Value(node.HasFinished)); } catch { c.Skipped("CGameModuleMenuBrowser.HasFinished", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleMenuBrowser.Selection");
-    try { Json::Value values = Json::Array(); uint length = node.Selection.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleMenuBrowser.Selection[" + i + "]"); values.Add(c.Text(string(node.Selection[i]))); } c.ArrayField(fields, "CGameModuleMenuBrowser.Selection", values, length); } catch { c.Skipped("CGameModuleMenuBrowser.Selection", "failed", "getter exception"); }
+    try { uint length = node.Selection.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleMenuBrowser.Selection[" + i + "]"); c.ArrayElement("CGameModuleMenuBrowser.Selection", i, length, c.Text(string(node.Selection[i]))); captured++; } c.ArrayField(fields, "CGameModuleMenuBrowser.Selection", captured, length); } catch { c.Skipped("CGameModuleMenuBrowser.Selection", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameModuleMenuComponent(DiagnosticsCapture@ c, CGameModuleMenuComponent@ node, Json::Value &inout fields, uint depth)
 {
@@ -14378,7 +14378,7 @@ void DiagnosticsRead_CGameModuleMenuModel(DiagnosticsCapture@ c, CGameModuleMenu
     try { c.Field(fields, "CGameModuleMenuModel.ManiaAppScript", c.Link(node.ManiaAppScript, depth + 1)); } catch { c.Skipped("CGameModuleMenuModel.ManiaAppScript", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleMenuModel.Pages");
-    try { Json::Value values = Json::Array(); uint length = node.Pages.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleMenuModel.Pages[" + i + "]"); values.Add(c.Link(node.Pages[i], depth + 1)); } c.ArrayField(fields, "CGameModuleMenuModel.Pages", values, length); } catch { c.Skipped("CGameModuleMenuModel.Pages", "failed", "getter exception"); }
+    try { uint length = node.Pages.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleMenuModel.Pages[" + i + "]"); c.ArrayElement("CGameModuleMenuModel.Pages", i, length, c.Link(node.Pages[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModuleMenuModel.Pages", captured, length); } catch { c.Skipped("CGameModuleMenuModel.Pages", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleMenuModel.MenuScript");
     try { c.Field(fields, "CGameModuleMenuModel.MenuScript", c.Text(node.MenuScript)); } catch { c.Skipped("CGameModuleMenuModel.MenuScript", "failed", "getter exception"); }
@@ -14391,7 +14391,7 @@ void DiagnosticsRead_CGameModuleMenuPageModel(DiagnosticsCapture@ c, CGameModule
     try { c.Field(fields, "CGameModuleMenuPageModel.Manialink", c.Link(node.Manialink, depth + 1)); } catch { c.Skipped("CGameModuleMenuPageModel.Manialink", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleMenuPageModel.Components");
-    try { Json::Value values = Json::Array(); uint length = node.Components.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleMenuPageModel.Components[" + i + "]"); values.Add(c.Link(node.Components[i], depth + 1)); } c.ArrayField(fields, "CGameModuleMenuPageModel.Components", values, length); } catch { c.Skipped("CGameModuleMenuPageModel.Components", "failed", "getter exception"); }
+    try { uint length = node.Components.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleMenuPageModel.Components[" + i + "]"); c.ArrayElement("CGameModuleMenuPageModel.Components", i, length, c.Link(node.Components[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModuleMenuPageModel.Components", captured, length); } catch { c.Skipped("CGameModuleMenuPageModel.Components", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleMenuPageModel.ManialinkText");
     try { c.Field(fields, "CGameModuleMenuPageModel.ManialinkText", c.Text(node.ManialinkText)); } catch { c.Skipped("CGameModuleMenuPageModel.ManialinkText", "failed", "getter exception"); }
@@ -14453,16 +14453,16 @@ void DiagnosticsRead_CGameModulePlaygroundHudModel(DiagnosticsCapture@ c, CGameM
     try { c.Skipped("CGameModulePlaygroundHudModel.TeamState", "unsupported", "DataRef"); } catch { c.Skipped("CGameModulePlaygroundHudModel.TeamState", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundHudModel.SubModuleIds");
-    try { Json::Value values = Json::Array(); uint length = node.SubModuleIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundHudModel.SubModuleIds[" + i + "]"); values.Add(Json::Value(node.SubModuleIds[i].Value)); } c.ArrayField(fields, "CGameModulePlaygroundHudModel.SubModuleIds", values, length); } catch { c.Skipped("CGameModulePlaygroundHudModel.SubModuleIds", "failed", "getter exception"); }
+    try { uint length = node.SubModuleIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundHudModel.SubModuleIds[" + i + "]"); c.ArrayElement("CGameModulePlaygroundHudModel.SubModuleIds", i, length, Json::Value(node.SubModuleIds[i].Value)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundHudModel.SubModuleIds", captured, length); } catch { c.Skipped("CGameModulePlaygroundHudModel.SubModuleIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundHudModel.SubModule");
     try { c.Field(fields, "CGameModulePlaygroundHudModel.SubModule", c.Link(node.SubModule, depth + 1)); } catch { c.Skipped("CGameModulePlaygroundHudModel.SubModule", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundHudModel.ContextsIds");
-    try { Json::Value values = Json::Array(); uint length = node.ContextsIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundHudModel.ContextsIds[" + i + "]"); values.Add(Json::Value(node.ContextsIds[i].Value)); } c.ArrayField(fields, "CGameModulePlaygroundHudModel.ContextsIds", values, length); } catch { c.Skipped("CGameModulePlaygroundHudModel.ContextsIds", "failed", "getter exception"); }
+    try { uint length = node.ContextsIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundHudModel.ContextsIds[" + i + "]"); c.ArrayElement("CGameModulePlaygroundHudModel.ContextsIds", i, length, Json::Value(node.ContextsIds[i].Value)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundHudModel.ContextsIds", captured, length); } catch { c.Skipped("CGameModulePlaygroundHudModel.ContextsIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundHudModel.SubModules");
-    try { Json::Value values = Json::Array(); uint length = node.SubModules.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundHudModel.SubModules[" + i + "]"); values.Add(c.Link(node.SubModules[i], depth + 1)); } c.ArrayField(fields, "CGameModulePlaygroundHudModel.SubModules", values, length); } catch { c.Skipped("CGameModulePlaygroundHudModel.SubModules", "failed", "getter exception"); }
+    try { uint length = node.SubModules.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundHudModel.SubModules[" + i + "]"); c.ArrayElement("CGameModulePlaygroundHudModel.SubModules", i, length, c.Link(node.SubModules[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundHudModel.SubModules", captured, length); } catch { c.Skipped("CGameModulePlaygroundHudModel.SubModules", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundHudModel.EditorContextIndex");
     try { c.Field(fields, "CGameModulePlaygroundHudModel.EditorContextIndex", Json::Value(node.EditorContextIndex)); } catch { c.Skipped("CGameModulePlaygroundHudModel.EditorContextIndex", "failed", "getter exception"); }
@@ -14503,7 +14503,7 @@ void DiagnosticsRead_CGameModulePlaygroundInventoryModel(DiagnosticsCapture@ c, 
     try { c.Field(fields, "CGameModulePlaygroundInventoryModel.SlotCapacity", Json::Value(node.SlotCapacity)); } catch { c.Skipped("CGameModulePlaygroundInventoryModel.SlotCapacity", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundInventoryModel.Categories");
-    try { Json::Value values = Json::Array(); uint length = node.Categories.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundInventoryModel.Categories[" + i + "]"); values.Add(c.Link(node.Categories[i], depth + 1)); } c.ArrayField(fields, "CGameModulePlaygroundInventoryModel.Categories", values, length); } catch { c.Skipped("CGameModulePlaygroundInventoryModel.Categories", "failed", "getter exception"); }
+    try { uint length = node.Categories.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundInventoryModel.Categories[" + i + "]"); c.ArrayElement("CGameModulePlaygroundInventoryModel.Categories", i, length, c.Link(node.Categories[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundInventoryModel.Categories", captured, length); } catch { c.Skipped("CGameModulePlaygroundInventoryModel.Categories", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameModulePlaygroundModel(DiagnosticsCapture@ c, CGameModulePlaygroundModel@ node, Json::Value &inout fields, uint depth)
 {
@@ -14716,7 +14716,7 @@ void DiagnosticsRead_CGameModulePlaygroundPlayerStateGaugeModel(DiagnosticsCaptu
     try { c.Field(fields, "CGameModulePlaygroundPlayerStateGaugeModel.IconUpdateSetCustomImages", Json::Value(node.IconUpdateSetCustomImages)); } catch { c.Skipped("CGameModulePlaygroundPlayerStateGaugeModel.IconUpdateSetCustomImages", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsNames");
-    try { Json::Value values = Json::Array(); uint length = node.WeaponCustomIconsNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsNames[" + i + "]"); values.Add(c.Text(node.WeaponCustomIconsNames[i])); } c.ArrayField(fields, "CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsNames", values, length); } catch { c.Skipped("CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsNames", "failed", "getter exception"); }
+    try { uint length = node.WeaponCustomIconsNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsNames[" + i + "]"); c.ArrayElement("CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsNames", i, length, c.Text(node.WeaponCustomIconsNames[i])); captured++; } c.ArrayField(fields, "CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsNames", captured, length); } catch { c.Skipped("CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsUrls");
     try { c.Skipped("CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsUrls", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameModulePlaygroundPlayerStateGaugeModel.WeaponCustomIconsUrls", "failed", "getter exception"); }
@@ -14859,23 +14859,23 @@ void DiagnosticsRead_CGameModulePlaygroundPlayerStateModel(DiagnosticsCapture@ c
     try { c.Field(fields, "CGameModulePlaygroundPlayerStateModel.PreviewSpeed", c.Number(double(node.PreviewSpeed))); } catch { c.Skipped("CGameModulePlaygroundPlayerStateModel.PreviewSpeed", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundPlayerStateModel.ComponentsForDesign");
-    try { Json::Value values = Json::Array(); uint length = node.ComponentsForDesign.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundPlayerStateModel.ComponentsForDesign[" + i + "]"); values.Add(c.Link(node.ComponentsForDesign[i], depth + 1)); } c.ArrayField(fields, "CGameModulePlaygroundPlayerStateModel.ComponentsForDesign", values, length); } catch { c.Skipped("CGameModulePlaygroundPlayerStateModel.ComponentsForDesign", "failed", "getter exception"); }
+    try { uint length = node.ComponentsForDesign.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundPlayerStateModel.ComponentsForDesign[" + i + "]"); c.ArrayElement("CGameModulePlaygroundPlayerStateModel.ComponentsForDesign", i, length, c.Link(node.ComponentsForDesign[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundPlayerStateModel.ComponentsForDesign", captured, length); } catch { c.Skipped("CGameModulePlaygroundPlayerStateModel.ComponentsForDesign", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundPlayerStateModel.ComponentIds");
-    try { Json::Value values = Json::Array(); uint length = node.ComponentIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundPlayerStateModel.ComponentIds[" + i + "]"); values.Add(Json::Value(node.ComponentIds[i].Value)); } c.ArrayField(fields, "CGameModulePlaygroundPlayerStateModel.ComponentIds", values, length); } catch { c.Skipped("CGameModulePlaygroundPlayerStateModel.ComponentIds", "failed", "getter exception"); }
+    try { uint length = node.ComponentIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundPlayerStateModel.ComponentIds[" + i + "]"); c.ArrayElement("CGameModulePlaygroundPlayerStateModel.ComponentIds", i, length, Json::Value(node.ComponentIds[i].Value)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundPlayerStateModel.ComponentIds", captured, length); } catch { c.Skipped("CGameModulePlaygroundPlayerStateModel.ComponentIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundPlayerStateModel.Component");
     try { c.Field(fields, "CGameModulePlaygroundPlayerStateModel.Component", c.Link(node.Component, depth + 1)); } catch { c.Skipped("CGameModulePlaygroundPlayerStateModel.Component", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundPlayerStateModel.Components");
-    try { Json::Value values = Json::Array(); uint length = node.Components.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundPlayerStateModel.Components[" + i + "]"); values.Add(c.Link(node.Components[i], depth + 1)); } c.ArrayField(fields, "CGameModulePlaygroundPlayerStateModel.Components", values, length); } catch { c.Skipped("CGameModulePlaygroundPlayerStateModel.Components", "failed", "getter exception"); }
+    try { uint length = node.Components.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundPlayerStateModel.Components[" + i + "]"); c.ArrayElement("CGameModulePlaygroundPlayerStateModel.Components", i, length, c.Link(node.Components[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundPlayerStateModel.Components", captured, length); } catch { c.Skipped("CGameModulePlaygroundPlayerStateModel.Components", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameModulePlaygroundScoresTableModel(DiagnosticsCapture@ c, CGameModulePlaygroundScoresTableModel@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundScoresTableModel.Columns");
-    try { Json::Value values = Json::Array(); uint length = node.Columns.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundScoresTableModel.Columns[" + i + "]"); values.Add(c.Link(node.Columns[i], depth + 1)); } c.ArrayField(fields, "CGameModulePlaygroundScoresTableModel.Columns", values, length); } catch { c.Skipped("CGameModulePlaygroundScoresTableModel.Columns", "failed", "getter exception"); }
+    try { uint length = node.Columns.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundScoresTableModel.Columns[" + i + "]"); c.ArrayElement("CGameModulePlaygroundScoresTableModel.Columns", i, length, c.Link(node.Columns[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundScoresTableModel.Columns", captured, length); } catch { c.Skipped("CGameModulePlaygroundScoresTableModel.Columns", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundScoresTableModel.UseTeams");
     try { c.Field(fields, "CGameModulePlaygroundScoresTableModel.UseTeams", Json::Value(node.UseTeams)); } catch { c.Skipped("CGameModulePlaygroundScoresTableModel.UseTeams", "failed", "getter exception"); }
@@ -15216,10 +15216,10 @@ void DiagnosticsRead_CGameModulePlaygroundStoreModel(DiagnosticsCapture@ c, CGam
     try { c.Skipped("CGameModulePlaygroundStoreModel.PowerUpImageLvl5", "unsupported", "DataRef"); } catch { c.Skipped("CGameModulePlaygroundStoreModel.PowerUpImageLvl5", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundStoreModel.Actions");
-    try { Json::Value values = Json::Array(); uint length = node.Actions.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundStoreModel.Actions[" + i + "]"); values.Add(c.Link(node.Actions[i], depth + 1)); } c.ArrayField(fields, "CGameModulePlaygroundStoreModel.Actions", values, length); } catch { c.Skipped("CGameModulePlaygroundStoreModel.Actions", "failed", "getter exception"); }
+    try { uint length = node.Actions.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundStoreModel.Actions[" + i + "]"); c.ArrayElement("CGameModulePlaygroundStoreModel.Actions", i, length, c.Link(node.Actions[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundStoreModel.Actions", captured, length); } catch { c.Skipped("CGameModulePlaygroundStoreModel.Actions", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModulePlaygroundStoreModel.Items");
-    try { Json::Value values = Json::Array(); uint length = node.Items.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundStoreModel.Items[" + i + "]"); values.Add(c.Link(node.Items[i], depth + 1)); } c.ArrayField(fields, "CGameModulePlaygroundStoreModel.Items", values, length); } catch { c.Skipped("CGameModulePlaygroundStoreModel.Items", "failed", "getter exception"); }
+    try { uint length = node.Items.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModulePlaygroundStoreModel.Items[" + i + "]"); c.ArrayElement("CGameModulePlaygroundStoreModel.Items", i, length, c.Link(node.Items[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModulePlaygroundStoreModel.Items", captured, length); } catch { c.Skipped("CGameModulePlaygroundStoreModel.Items", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameModulePlaygroundTeamStateModel(DiagnosticsCapture@ c, CGameModulePlaygroundTeamStateModel@ node, Json::Value &inout fields, uint depth)
 {
@@ -15459,7 +15459,7 @@ void DiagnosticsRead_CGameModuleScriptStoreCategory(DiagnosticsCapture@ c, CGame
     try { c.Field(fields, "CGameModuleScriptStoreCategory.Name", c.Text(node.Name)); } catch { c.Skipped("CGameModuleScriptStoreCategory.Name", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleScriptStoreCategory.Items");
-    try { Json::Value values = Json::Array(); uint length = node.Items.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleScriptStoreCategory.Items[" + i + "]"); values.Add(c.Link(node.Items[i], depth + 1)); } c.ArrayField(fields, "CGameModuleScriptStoreCategory.Items", values, length); } catch { c.Skipped("CGameModuleScriptStoreCategory.Items", "failed", "getter exception"); }
+    try { uint length = node.Items.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleScriptStoreCategory.Items[" + i + "]"); c.ArrayElement("CGameModuleScriptStoreCategory.Items", i, length, c.Link(node.Items[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameModuleScriptStoreCategory.Items", captured, length); } catch { c.Skipped("CGameModuleScriptStoreCategory.Items", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameModuleScriptStoreItem(DiagnosticsCapture@ c, CGameModuleScriptStoreItem@ node, Json::Value &inout fields, uint depth)
 {
@@ -15475,7 +15475,7 @@ void DiagnosticsRead_CGameModuleScriptStoreItem(DiagnosticsCapture@ c, CGameModu
     try { c.Field(fields, "CGameModuleScriptStoreItem.CurrentLevel", Json::Value(node.CurrentLevel)); } catch { c.Skipped("CGameModuleScriptStoreItem.CurrentLevel", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameModuleScriptStoreItem.Prices");
-    try { Json::Value values = Json::Array(); uint length = node.Prices.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleScriptStoreItem.Prices[" + i + "]"); values.Add(Json::Value(node.Prices[i])); } c.ArrayField(fields, "CGameModuleScriptStoreItem.Prices", values, length); } catch { c.Skipped("CGameModuleScriptStoreItem.Prices", "failed", "getter exception"); }
+    try { uint length = node.Prices.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameModuleScriptStoreItem.Prices[" + i + "]"); c.ArrayElement("CGameModuleScriptStoreItem.Prices", i, length, Json::Value(node.Prices[i])); captured++; } c.ArrayField(fields, "CGameModuleScriptStoreItem.Prices", captured, length); } catch { c.Skipped("CGameModuleScriptStoreItem.Prices", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameNetFileTransfer(DiagnosticsCapture@ c, CGameNetFileTransfer@ node, Json::Value &inout fields, uint depth)
 {
@@ -15624,7 +15624,7 @@ void DiagnosticsRead_CGameNetwork(DiagnosticsCapture@ c, CGameNetwork@ node, Jso
     try { c.Field(fields, "CGameNetwork.FileTransfer", c.Link(node.FileTransfer, depth + 1)); } catch { c.Skipped("CGameNetwork.FileTransfer", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameNetwork.PackDescs");
-    try { Json::Value values = Json::Array(); uint length = node.PackDescs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.PackDescs[" + i + "]"); values.Add(c.Link(node.PackDescs[i], depth + 1)); } c.ArrayField(fields, "CGameNetwork.PackDescs", values, length); } catch { c.Skipped("CGameNetwork.PackDescs", "failed", "getter exception"); }
+    try { uint length = node.PackDescs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.PackDescs[" + i + "]"); c.ArrayElement("CGameNetwork.PackDescs", i, length, c.Link(node.PackDescs[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameNetwork.PackDescs", captured, length); } catch { c.Skipped("CGameNetwork.PackDescs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameNetwork.LocationPacksContent");
     try { c.Field(fields, "CGameNetwork.LocationPacksContent", c.Link(node.LocationPacksContent, depth + 1)); } catch { c.Skipped("CGameNetwork.LocationPacksContent", "failed", "getter exception"); }
@@ -15645,13 +15645,13 @@ void DiagnosticsRead_CGameNetwork(DiagnosticsCapture@ c, CGameNetwork@ node, Jso
     try { c.Field(fields, "CGameNetwork.Client", c.Link(node.Client, depth + 1)); } catch { c.Skipped("CGameNetwork.Client", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameNetwork.OnlineServers");
-    try { Json::Value values = Json::Array(); uint length = node.OnlineServers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.OnlineServers[" + i + "]"); values.Add(c.Link(node.OnlineServers[i], depth + 1)); } c.ArrayField(fields, "CGameNetwork.OnlineServers", values, length); } catch { c.Skipped("CGameNetwork.OnlineServers", "failed", "getter exception"); }
+    try { uint length = node.OnlineServers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.OnlineServers[" + i + "]"); c.ArrayElement("CGameNetwork.OnlineServers", i, length, c.Link(node.OnlineServers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameNetwork.OnlineServers", captured, length); } catch { c.Skipped("CGameNetwork.OnlineServers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameNetwork.OnlinePlayers");
-    try { Json::Value values = Json::Array(); uint length = node.OnlinePlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.OnlinePlayers[" + i + "]"); values.Add(c.Link(node.OnlinePlayers[i], depth + 1)); } c.ArrayField(fields, "CGameNetwork.OnlinePlayers", values, length); } catch { c.Skipped("CGameNetwork.OnlinePlayers", "failed", "getter exception"); }
+    try { uint length = node.OnlinePlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.OnlinePlayers[" + i + "]"); c.ArrayElement("CGameNetwork.OnlinePlayers", i, length, c.Link(node.OnlinePlayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameNetwork.OnlinePlayers", captured, length); } catch { c.Skipped("CGameNetwork.OnlinePlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameNetwork.PlayerInfos");
-    try { Json::Value values = Json::Array(); uint length = node.PlayerInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.PlayerInfos[" + i + "]"); values.Add(c.Link(node.PlayerInfos[i], depth + 1)); } c.ArrayField(fields, "CGameNetwork.PlayerInfos", values, length); } catch { c.Skipped("CGameNetwork.PlayerInfos", "failed", "getter exception"); }
+    try { uint length = node.PlayerInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.PlayerInfos[" + i + "]"); c.ArrayElement("CGameNetwork.PlayerInfos", i, length, c.Link(node.PlayerInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameNetwork.PlayerInfos", captured, length); } catch { c.Skipped("CGameNetwork.PlayerInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameNetwork.UIConfigMgr_Rules");
     try { c.Field(fields, "CGameNetwork.UIConfigMgr_Rules", c.Link(node.UIConfigMgr_Rules, depth + 1)); } catch { c.Skipped("CGameNetwork.UIConfigMgr_Rules", "failed", "getter exception"); }
@@ -15678,7 +15678,7 @@ void DiagnosticsRead_CGameNetwork(DiagnosticsCapture@ c, CGameNetwork@ node, Jso
     try { c.Field(fields, "CGameNetwork.VoteNbNo", Json::Value(node.VoteNbNo)); } catch { c.Skipped("CGameNetwork.VoteNbNo", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameNetwork.ManialinkDataCache");
-    try { Json::Value values = Json::Array(); uint length = node.ManialinkDataCache.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.ManialinkDataCache[" + i + "]"); values.Add(c.Link(node.ManialinkDataCache[i], depth + 1)); } c.ArrayField(fields, "CGameNetwork.ManialinkDataCache", values, length); } catch { c.Skipped("CGameNetwork.ManialinkDataCache", "failed", "getter exception"); }
+    try { uint length = node.ManialinkDataCache.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameNetwork.ManialinkDataCache[" + i + "]"); c.ArrayElement("CGameNetwork.ManialinkDataCache", i, length, c.Link(node.ManialinkDataCache[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameNetwork.ManialinkDataCache", captured, length); } catch { c.Skipped("CGameNetwork.ManialinkDataCache", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameNetwork.RecvNetRate");
     try { c.Field(fields, "CGameNetwork.RecvNetRate", Json::Value(node.RecvNetRate)); } catch { c.Skipped("CGameNetwork.RecvNetRate", "failed", "getter exception"); }
@@ -15826,10 +15826,10 @@ void DiagnosticsRead_CGameObjectPhyModel(DiagnosticsCapture@ c, CGameObjectPhyMo
     try { c.Skipped("CGameObjectPhyModel.ActionModel", "unsupported", "DataRef"); } catch { c.Skipped("CGameObjectPhyModel.ActionModel", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameObjectPhyModel.Actions");
-    try { Json::Value values = Json::Array(); uint length = node.Actions.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameObjectPhyModel.Actions[" + i + "]"); values.Add(c.Link(node.Actions[i], depth + 1)); } c.ArrayField(fields, "CGameObjectPhyModel.Actions", values, length); } catch { c.Skipped("CGameObjectPhyModel.Actions", "failed", "getter exception"); }
+    try { uint length = node.Actions.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameObjectPhyModel.Actions[" + i + "]"); c.ArrayElement("CGameObjectPhyModel.Actions", i, length, c.Link(node.Actions[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameObjectPhyModel.Actions", captured, length); } catch { c.Skipped("CGameObjectPhyModel.Actions", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameObjectPhyModel.Triggers");
-    try { Json::Value values = Json::Array(); uint length = node.Triggers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameObjectPhyModel.Triggers[" + i + "]"); values.Add(c.Link(node.Triggers[i], depth + 1)); } c.ArrayField(fields, "CGameObjectPhyModel.Triggers", values, length); } catch { c.Skipped("CGameObjectPhyModel.Triggers", "failed", "getter exception"); }
+    try { uint length = node.Triggers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameObjectPhyModel.Triggers[" + i + "]"); c.ArrayElement("CGameObjectPhyModel.Triggers", i, length, c.Link(node.Triggers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameObjectPhyModel.Triggers", captured, length); } catch { c.Skipped("CGameObjectPhyModel.Triggers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameObjectPhyModel.Program");
     try { c.Field(fields, "CGameObjectPhyModel.Program", Json::Value(int(node.Program))); } catch { c.Skipped("CGameObjectPhyModel.Program", "failed", "getter exception"); }
@@ -16019,7 +16019,7 @@ void DiagnosticsRead_CGamePackCreator_PackScript(DiagnosticsCapture@ c, CGamePac
     try { c.Field(fields, "CGamePackCreator_PackScript.IsTitlePack", Json::Value(node.IsTitlePack)); } catch { c.Skipped("CGamePackCreator_PackScript.IsTitlePack", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePackCreator_PackScript.Recipients");
-    try { Json::Value values = Json::Array(); uint length = node.Recipients.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePackCreator_PackScript.Recipients[" + i + "]"); values.Add(c.Link(node.Recipients[i], depth + 1)); } c.ArrayField(fields, "CGamePackCreator_PackScript.Recipients", values, length); } catch { c.Skipped("CGamePackCreator_PackScript.Recipients", "failed", "getter exception"); }
+    try { uint length = node.Recipients.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePackCreator_PackScript.Recipients[" + i + "]"); c.ArrayElement("CGamePackCreator_PackScript.Recipients", i, length, c.Link(node.Recipients[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePackCreator_PackScript.Recipients", captured, length); } catch { c.Skipped("CGamePackCreator_PackScript.Recipients", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGamePackCreator_RecipientScript(DiagnosticsCapture@ c, CGamePackCreator_RecipientScript@ node, Json::Value &inout fields, uint depth)
 {
@@ -16200,19 +16200,19 @@ void DiagnosticsRead_CGamePlayerInfo(DiagnosticsCapture@ c, CGamePlayerInfo@ nod
     try { c.Field(fields, "CGamePlayerInfo.IsFakeUser", Json::Value(node.IsFakeUser)); } catch { c.Skipped("CGamePlayerInfo.IsFakeUser", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerInfo.Tags_Favored_Indices");
-    try { Json::Value values = Json::Array(); uint length = node.Tags_Favored_Indices.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Favored_Indices[" + i + "]"); values.Add(Json::Value(node.Tags_Favored_Indices[i])); } c.ArrayField(fields, "CGamePlayerInfo.Tags_Favored_Indices", values, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Favored_Indices", "failed", "getter exception"); }
+    try { uint length = node.Tags_Favored_Indices.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Favored_Indices[" + i + "]"); c.ArrayElement("CGamePlayerInfo.Tags_Favored_Indices", i, length, Json::Value(node.Tags_Favored_Indices[i])); captured++; } c.ArrayField(fields, "CGamePlayerInfo.Tags_Favored_Indices", captured, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Favored_Indices", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerInfo.Tags_Id");
-    try { Json::Value values = Json::Array(); uint length = node.Tags_Id.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Id[" + i + "]"); values.Add(c.Text(node.Tags_Id[i])); } c.ArrayField(fields, "CGamePlayerInfo.Tags_Id", values, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Id", "failed", "getter exception"); }
+    try { uint length = node.Tags_Id.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Id[" + i + "]"); c.ArrayElement("CGamePlayerInfo.Tags_Id", i, length, c.Text(node.Tags_Id[i])); captured++; } c.ArrayField(fields, "CGamePlayerInfo.Tags_Id", captured, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Id", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerInfo.Tags_Type");
-    try { Json::Value values = Json::Array(); uint length = node.Tags_Type.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Type[" + i + "]"); values.Add(Json::Value(int(node.Tags_Type[i]))); } c.ArrayField(fields, "CGamePlayerInfo.Tags_Type", values, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Type", "failed", "getter exception"); }
+    try { uint length = node.Tags_Type.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Type[" + i + "]"); c.ArrayElement("CGamePlayerInfo.Tags_Type", i, length, Json::Value(int(node.Tags_Type[i]))); captured++; } c.ArrayField(fields, "CGamePlayerInfo.Tags_Type", captured, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Type", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerInfo.Tags_Comments");
-    try { Json::Value values = Json::Array(); uint length = node.Tags_Comments.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Comments[" + i + "]"); values.Add(c.Text(string(node.Tags_Comments[i]))); } c.ArrayField(fields, "CGamePlayerInfo.Tags_Comments", values, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Comments", "failed", "getter exception"); }
+    try { uint length = node.Tags_Comments.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Comments[" + i + "]"); c.ArrayElement("CGamePlayerInfo.Tags_Comments", i, length, c.Text(string(node.Tags_Comments[i]))); captured++; } c.ArrayField(fields, "CGamePlayerInfo.Tags_Comments", captured, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Comments", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerInfo.Tags_Deliverer");
-    try { Json::Value values = Json::Array(); uint length = node.Tags_Deliverer.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Deliverer[" + i + "]"); values.Add(c.Text(string(node.Tags_Deliverer[i]))); } c.ArrayField(fields, "CGamePlayerInfo.Tags_Deliverer", values, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Deliverer", "failed", "getter exception"); }
+    try { uint length = node.Tags_Deliverer.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.Tags_Deliverer[" + i + "]"); c.ArrayElement("CGamePlayerInfo.Tags_Deliverer", i, length, c.Text(string(node.Tags_Deliverer[i]))); captured++; } c.ArrayField(fields, "CGamePlayerInfo.Tags_Deliverer", captured, length); } catch { c.Skipped("CGamePlayerInfo.Tags_Deliverer", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerInfo.ClubTag");
     try { c.Field(fields, "CGamePlayerInfo.ClubTag", c.Text(string(node.ClubTag))); } catch { c.Skipped("CGamePlayerInfo.ClubTag", "failed", "getter exception"); }
@@ -16263,7 +16263,7 @@ void DiagnosticsRead_CGamePlayerInfo(DiagnosticsCapture@ c, CGamePlayerInfo@ nod
     try { c.Field(fields, "CGamePlayerInfo.IsConnectedToMasterServer", Json::Value(node.IsConnectedToMasterServer)); } catch { c.Skipped("CGamePlayerInfo.IsConnectedToMasterServer", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerInfo.AlliesConnected");
-    try { Json::Value values = Json::Array(); uint length = node.AlliesConnected.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.AlliesConnected[" + i + "]"); values.Add(c.Text(node.AlliesConnected[i])); } c.ArrayField(fields, "CGamePlayerInfo.AlliesConnected", values, length); } catch { c.Skipped("CGamePlayerInfo.AlliesConnected", "failed", "getter exception"); }
+    try { uint length = node.AlliesConnected.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerInfo.AlliesConnected[" + i + "]"); c.ArrayElement("CGamePlayerInfo.AlliesConnected", i, length, c.Text(node.AlliesConnected[i])); captured++; } c.ArrayField(fields, "CGamePlayerInfo.AlliesConnected", captured, length); } catch { c.Skipped("CGamePlayerInfo.AlliesConnected", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerInfo.ZoneBitmap");
     try { c.Field(fields, "CGamePlayerInfo.ZoneBitmap", c.Link(node.ZoneBitmap, depth + 1)); } catch { c.Skipped("CGamePlayerInfo.ZoneBitmap", "failed", "getter exception"); }
@@ -16336,7 +16336,7 @@ void DiagnosticsRead_CGamePlayerProfile(DiagnosticsCapture@ c, CGamePlayerProfil
     try { c.Field(fields, "CGamePlayerProfile.TotalPlayTime", Json::Value(node.TotalPlayTime)); } catch { c.Skipped("CGamePlayerProfile.TotalPlayTime", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfile.Chunks");
-    try { Json::Value values = Json::Array(); uint length = node.Chunks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfile.Chunks[" + i + "]"); values.Add(c.Link(node.Chunks[i], depth + 1)); } c.ArrayField(fields, "CGamePlayerProfile.Chunks", values, length); } catch { c.Skipped("CGamePlayerProfile.Chunks", "failed", "getter exception"); }
+    try { uint length = node.Chunks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfile.Chunks[" + i + "]"); c.ArrayElement("CGamePlayerProfile.Chunks", i, length, c.Link(node.Chunks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlayerProfile.Chunks", captured, length); } catch { c.Skipped("CGamePlayerProfile.Chunks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfile.AccountSettings");
     try { c.Skipped("CGamePlayerProfile.AccountSettings", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGamePlayerProfile.AccountSettings", "failed", "getter exception"); }
@@ -16360,10 +16360,10 @@ void DiagnosticsRead_CGamePlayerProfile(DiagnosticsCapture@ c, CGamePlayerProfil
     try { c.Field(fields, "CGamePlayerProfile.ManiaPlanetStations", c.Link(node.ManiaPlanetStations, depth + 1)); } catch { c.Skipped("CGamePlayerProfile.ManiaPlanetStations", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfile.InputBindingsConfigs");
-    try { Json::Value values = Json::Array(); uint length = node.InputBindingsConfigs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfile.InputBindingsConfigs[" + i + "]"); values.Add(c.Link(node.InputBindingsConfigs[i], depth + 1)); } c.ArrayField(fields, "CGamePlayerProfile.InputBindingsConfigs", values, length); } catch { c.Skipped("CGamePlayerProfile.InputBindingsConfigs", "failed", "getter exception"); }
+    try { uint length = node.InputBindingsConfigs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfile.InputBindingsConfigs[" + i + "]"); c.ArrayElement("CGamePlayerProfile.InputBindingsConfigs", i, length, c.Link(node.InputBindingsConfigs[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlayerProfile.InputBindingsConfigs", captured, length); } catch { c.Skipped("CGamePlayerProfile.InputBindingsConfigs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfile.PackagesInfosChunks");
-    try { Json::Value values = Json::Array(); uint length = node.PackagesInfosChunks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfile.PackagesInfosChunks[" + i + "]"); values.Add(c.Link(node.PackagesInfosChunks[i], depth + 1)); } c.ArrayField(fields, "CGamePlayerProfile.PackagesInfosChunks", values, length); } catch { c.Skipped("CGamePlayerProfile.PackagesInfosChunks", "failed", "getter exception"); }
+    try { uint length = node.PackagesInfosChunks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfile.PackagesInfosChunks[" + i + "]"); c.ArrayElement("CGamePlayerProfile.PackagesInfosChunks", i, length, c.Link(node.PackagesInfosChunks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlayerProfile.PackagesInfosChunks", captured, length); } catch { c.Skipped("CGamePlayerProfile.PackagesInfosChunks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfile.ScriptPersistentTraits_NoTitle");
     try { c.Field(fields, "CGamePlayerProfile.ScriptPersistentTraits_NoTitle", c.Link(node.ScriptPersistentTraits_NoTitle, depth + 1)); } catch { c.Skipped("CGamePlayerProfile.ScriptPersistentTraits_NoTitle", "failed", "getter exception"); }
@@ -16464,7 +16464,7 @@ void DiagnosticsRead_CGamePlayerProfileChunk_AccountSettings(DiagnosticsCapture@
     try { c.Field(fields, "CGamePlayerProfileChunk_AccountSettings.League", c.Link(node.League, depth + 1)); } catch { c.Skipped("CGamePlayerProfileChunk_AccountSettings.League", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfileChunk_AccountSettings.LeagueSteps");
-    try { Json::Value values = Json::Array(); uint length = node.LeagueSteps.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfileChunk_AccountSettings.LeagueSteps[" + i + "]"); values.Add(c.Text(string(node.LeagueSteps[i]))); } c.ArrayField(fields, "CGamePlayerProfileChunk_AccountSettings.LeagueSteps", values, length); } catch { c.Skipped("CGamePlayerProfileChunk_AccountSettings.LeagueSteps", "failed", "getter exception"); }
+    try { uint length = node.LeagueSteps.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfileChunk_AccountSettings.LeagueSteps[" + i + "]"); c.ArrayElement("CGamePlayerProfileChunk_AccountSettings.LeagueSteps", i, length, c.Text(string(node.LeagueSteps[i]))); captured++; } c.ArrayField(fields, "CGamePlayerProfileChunk_AccountSettings.LeagueSteps", captured, length); } catch { c.Skipped("CGamePlayerProfileChunk_AccountSettings.LeagueSteps", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfileChunk_AccountSettings.AvatarName");
     try { c.Field(fields, "CGamePlayerProfileChunk_AccountSettings.AvatarName", c.Text(string(node.AvatarName))); } catch { c.Skipped("CGamePlayerProfileChunk_AccountSettings.AvatarName", "failed", "getter exception"); }
@@ -16813,7 +16813,7 @@ void DiagnosticsRead_CGamePlayerProfileChunk_GameStats(DiagnosticsCapture@ c, CG
     try { c.Field(fields, "CGamePlayerProfileChunk_GameStats.MostNetted", c.Text(string(node.MostNetted))); } catch { c.Skipped("CGamePlayerProfileChunk_GameStats.MostNetted", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfileChunk_GameStats.ChallengesStatsChunks");
-    try { Json::Value values = Json::Array(); uint length = node.ChallengesStatsChunks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfileChunk_GameStats.ChallengesStatsChunks[" + i + "]"); values.Add(c.Link(node.ChallengesStatsChunks[i], depth + 1)); } c.ArrayField(fields, "CGamePlayerProfileChunk_GameStats.ChallengesStatsChunks", values, length); } catch { c.Skipped("CGamePlayerProfileChunk_GameStats.ChallengesStatsChunks", "failed", "getter exception"); }
+    try { uint length = node.ChallengesStatsChunks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfileChunk_GameStats.ChallengesStatsChunks[" + i + "]"); c.ArrayElement("CGamePlayerProfileChunk_GameStats.ChallengesStatsChunks", i, length, c.Link(node.ChallengesStatsChunks[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlayerProfileChunk_GameStats.ChallengesStatsChunks", captured, length); } catch { c.Skipped("CGamePlayerProfileChunk_GameStats.ChallengesStatsChunks", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGamePlayerProfileChunk_GlobalInterfaceSettings(DiagnosticsCapture@ c, CGamePlayerProfileChunk_GlobalInterfaceSettings@ node, Json::Value &inout fields, uint depth)
 {
@@ -16921,7 +16921,7 @@ void DiagnosticsRead_CGamePlayerProfileChunk_TrackManiaSettings(DiagnosticsCaptu
     try { c.Skipped("CGamePlayerProfileChunk_TrackManiaSettings.NadeoGhostsUnlockMessage", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGamePlayerProfileChunk_TrackManiaSettings.NadeoGhostsUnlockMessage", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayerProfileChunk_TrackManiaSettings.IsDisplayRaceHelp");
-    try { Json::Value values = Json::Array(); uint length = node.IsDisplayRaceHelp.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfileChunk_TrackManiaSettings.IsDisplayRaceHelp[" + i + "]"); values.Add(Json::Value(node.IsDisplayRaceHelp[i])); } c.ArrayField(fields, "CGamePlayerProfileChunk_TrackManiaSettings.IsDisplayRaceHelp", values, length); } catch { c.Skipped("CGamePlayerProfileChunk_TrackManiaSettings.IsDisplayRaceHelp", "failed", "getter exception"); }
+    try { uint length = node.IsDisplayRaceHelp.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayerProfileChunk_TrackManiaSettings.IsDisplayRaceHelp[" + i + "]"); c.ArrayElement("CGamePlayerProfileChunk_TrackManiaSettings.IsDisplayRaceHelp", i, length, Json::Value(node.IsDisplayRaceHelp[i])); captured++; } c.ArrayField(fields, "CGamePlayerProfileChunk_TrackManiaSettings.IsDisplayRaceHelp", captured, length); } catch { c.Skipped("CGamePlayerProfileChunk_TrackManiaSettings.IsDisplayRaceHelp", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGamePlayerProfileChunk_VehiclesSettings(DiagnosticsCapture@ c, CGamePlayerProfileChunk_VehiclesSettings@ node, Json::Value &inout fields, uint depth)
 {
@@ -16941,13 +16941,13 @@ void DiagnosticsRead_CGamePlayground(DiagnosticsCapture@ c, CGamePlayground@ nod
     try { c.Field(fields, "CGamePlayground.Interface", c.Link(node.Interface, depth + 1)); } catch { c.Skipped("CGamePlayground.Interface", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayground.Players");
-    try { Json::Value values = Json::Array(); uint length = node.Players.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayground.Players[" + i + "]"); values.Add(c.Link(node.Players[i], depth + 1)); } c.ArrayField(fields, "CGamePlayground.Players", values, length); } catch { c.Skipped("CGamePlayground.Players", "failed", "getter exception"); }
+    try { uint length = node.Players.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayground.Players[" + i + "]"); c.ArrayElement("CGamePlayground.Players", i, length, c.Link(node.Players[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlayground.Players", captured, length); } catch { c.Skipped("CGamePlayground.Players", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayground.GameTerminals");
-    try { Json::Value values = Json::Array(); uint length = node.GameTerminals.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayground.GameTerminals[" + i + "]"); values.Add(c.Link(node.GameTerminals[i], depth + 1)); } c.ArrayField(fields, "CGamePlayground.GameTerminals", values, length); } catch { c.Skipped("CGamePlayground.GameTerminals", "failed", "getter exception"); }
+    try { uint length = node.GameTerminals.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayground.GameTerminals[" + i + "]"); c.ArrayElement("CGamePlayground.GameTerminals", i, length, c.Link(node.GameTerminals[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlayground.GameTerminals", captured, length); } catch { c.Skipped("CGamePlayground.GameTerminals", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayground.UIConfigs");
-    try { Json::Value values = Json::Array(); uint length = node.UIConfigs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayground.UIConfigs[" + i + "]"); values.Add(c.Link(node.UIConfigs[i], depth + 1)); } c.ArrayField(fields, "CGamePlayground.UIConfigs", values, length); } catch { c.Skipped("CGamePlayground.UIConfigs", "failed", "getter exception"); }
+    try { uint length = node.UIConfigs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlayground.UIConfigs[" + i + "]"); c.ArrayElement("CGamePlayground.UIConfigs", i, length, c.Link(node.UIConfigs[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlayground.UIConfigs", captured, length); } catch { c.Skipped("CGamePlayground.UIConfigs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlayground.ReplayRecord");
     try { c.Field(fields, "CGamePlayground.ReplayRecord", c.Link(node.ReplayRecord, depth + 1)); } catch { c.Skipped("CGamePlayground.ReplayRecord", "failed", "getter exception"); }
@@ -17015,16 +17015,16 @@ void DiagnosticsRead_CGamePlaygroundClientScriptAPI(DiagnosticsCapture@ c, CGame
     try { c.Field(fields, "CGamePlaygroundClientScriptAPI.IsInGameMenuDisplayed", Json::Value(node.IsInGameMenuDisplayed)); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.IsInGameMenuDisplayed", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundClientScriptAPI.Teams");
-    try { Json::Value values = Json::Array(); uint length = node.Teams.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundClientScriptAPI.Teams[" + i + "]"); values.Add(c.Link(node.Teams[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundClientScriptAPI.Teams", values, length); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.Teams", "failed", "getter exception"); }
+    try { uint length = node.Teams.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundClientScriptAPI.Teams[" + i + "]"); c.ArrayElement("CGamePlaygroundClientScriptAPI.Teams", i, length, c.Link(node.Teams[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundClientScriptAPI.Teams", captured, length); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.Teams", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundClientScriptAPI.MapList_IsInProgress");
     try { c.Field(fields, "CGamePlaygroundClientScriptAPI.MapList_IsInProgress", Json::Value(node.MapList_IsInProgress)); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.MapList_IsInProgress", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundClientScriptAPI.MapList_Names");
-    try { Json::Value values = Json::Array(); uint length = node.MapList_Names.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundClientScriptAPI.MapList_Names[" + i + "]"); values.Add(c.Text(string(node.MapList_Names[i]))); } c.ArrayField(fields, "CGamePlaygroundClientScriptAPI.MapList_Names", values, length); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.MapList_Names", "failed", "getter exception"); }
+    try { uint length = node.MapList_Names.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundClientScriptAPI.MapList_Names[" + i + "]"); c.ArrayElement("CGamePlaygroundClientScriptAPI.MapList_Names", i, length, c.Text(string(node.MapList_Names[i]))); captured++; } c.ArrayField(fields, "CGamePlaygroundClientScriptAPI.MapList_Names", captured, length); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.MapList_Names", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundClientScriptAPI.MapList_MapUids");
-    try { Json::Value values = Json::Array(); uint length = node.MapList_MapUids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundClientScriptAPI.MapList_MapUids[" + i + "]"); values.Add(c.Text(node.MapList_MapUids[i])); } c.ArrayField(fields, "CGamePlaygroundClientScriptAPI.MapList_MapUids", values, length); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.MapList_MapUids", "failed", "getter exception"); }
+    try { uint length = node.MapList_MapUids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundClientScriptAPI.MapList_MapUids[" + i + "]"); c.ArrayElement("CGamePlaygroundClientScriptAPI.MapList_MapUids", i, length, c.Text(node.MapList_MapUids[i])); captured++; } c.ArrayField(fields, "CGamePlaygroundClientScriptAPI.MapList_MapUids", captured, length); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.MapList_MapUids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundClientScriptAPI.Request_IsInProgress");
     try { c.Field(fields, "CGamePlaygroundClientScriptAPI.Request_IsInProgress", Json::Value(node.Request_IsInProgress)); } catch { c.Skipped("CGamePlaygroundClientScriptAPI.Request_IsInProgress", "failed", "getter exception"); }
@@ -17305,7 +17305,7 @@ void DiagnosticsRead_CGamePlaygroundModuleServerHud(DiagnosticsCapture@ c, CGame
     try { c.Field(fields, "CGamePlaygroundModuleServerHud.TeamState", c.Link(node.TeamState, depth + 1)); } catch { c.Skipped("CGamePlaygroundModuleServerHud.TeamState", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundModuleServerHud.Modules");
-    try { Json::Value values = Json::Array(); uint length = node.Modules.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundModuleServerHud.Modules[" + i + "]"); values.Add(c.Link(node.Modules[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundModuleServerHud.Modules", values, length); } catch { c.Skipped("CGamePlaygroundModuleServerHud.Modules", "failed", "getter exception"); }
+    try { uint length = node.Modules.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundModuleServerHud.Modules[" + i + "]"); c.ArrayElement("CGamePlaygroundModuleServerHud.Modules", i, length, c.Link(node.Modules[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundModuleServerHud.Modules", captured, length); } catch { c.Skipped("CGamePlaygroundModuleServerHud.Modules", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGamePlaygroundModuleServerInventory(DiagnosticsCapture@ c, CGamePlaygroundModuleServerInventory@ node, Json::Value &inout fields, uint depth)
 {
@@ -17340,16 +17340,16 @@ void DiagnosticsRead_CGamePlaygroundResources(DiagnosticsCapture@ c, CGamePlaygr
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundResources.m_AllGameItemModels");
-    try { Json::Value values = Json::Array(); uint length = node.m_AllGameItemModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundResources.m_AllGameItemModels[" + i + "]"); values.Add(c.Link(node.m_AllGameItemModels[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundResources.m_AllGameItemModels", values, length); } catch { c.Skipped("CGamePlaygroundResources.m_AllGameItemModels", "failed", "getter exception"); }
+    try { uint length = node.m_AllGameItemModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundResources.m_AllGameItemModels[" + i + "]"); c.ArrayElement("CGamePlaygroundResources.m_AllGameItemModels", i, length, c.Link(node.m_AllGameItemModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundResources.m_AllGameItemModels", captured, length); } catch { c.Skipped("CGamePlaygroundResources.m_AllGameItemModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundResources.EntModelSkins");
-    try { Json::Value values = Json::Array(); uint length = node.EntModelSkins.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundResources.EntModelSkins[" + i + "]"); values.Add(c.Link(node.EntModelSkins[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundResources.EntModelSkins", values, length); } catch { c.Skipped("CGamePlaygroundResources.EntModelSkins", "failed", "getter exception"); }
+    try { uint length = node.EntModelSkins.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundResources.EntModelSkins[" + i + "]"); c.ArrayElement("CGamePlaygroundResources.EntModelSkins", i, length, c.Link(node.EntModelSkins[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundResources.EntModelSkins", captured, length); } catch { c.Skipped("CGamePlaygroundResources.EntModelSkins", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundResources.ObjectLib");
-    try { Json::Value values = Json::Array(); uint length = node.ObjectLib.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundResources.ObjectLib[" + i + "]"); values.Add(c.Link(node.ObjectLib[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundResources.ObjectLib", values, length); } catch { c.Skipped("CGamePlaygroundResources.ObjectLib", "failed", "getter exception"); }
+    try { uint length = node.ObjectLib.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundResources.ObjectLib[" + i + "]"); c.ArrayElement("CGamePlaygroundResources.ObjectLib", i, length, c.Link(node.ObjectLib[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundResources.ObjectLib", captured, length); } catch { c.Skipped("CGamePlaygroundResources.ObjectLib", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundResources.CharLib");
-    try { Json::Value values = Json::Array(); uint length = node.CharLib.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundResources.CharLib[" + i + "]"); values.Add(c.Link(node.CharLib[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundResources.CharLib", values, length); } catch { c.Skipped("CGamePlaygroundResources.CharLib", "failed", "getter exception"); }
+    try { uint length = node.CharLib.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundResources.CharLib[" + i + "]"); c.ArrayElement("CGamePlaygroundResources.CharLib", i, length, c.Link(node.CharLib[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundResources.CharLib", captured, length); } catch { c.Skipped("CGamePlaygroundResources.CharLib", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundResources.CinematicLib");
     try { c.Field(fields, "CGamePlaygroundResources.CinematicLib", c.Link(node.CinematicLib, depth + 1)); } catch { c.Skipped("CGamePlaygroundResources.CinematicLib", "failed", "getter exception"); }
@@ -17387,7 +17387,7 @@ void DiagnosticsRead_CGamePlaygroundScript(DiagnosticsCapture@ c, CGamePlaygroun
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundScript.TaskResults", values, length); } catch { c.Skipped("CGamePlaygroundScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.TaskResults[" + i + "]"); c.ArrayElement("CGamePlaygroundScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundScript.TaskResults", captured, length); } catch { c.Skipped("CGamePlaygroundScript.TaskResults", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.Script");
     try { c.Field(fields, "CGamePlaygroundScript.Script", c.Link(node.Script, depth + 1)); } catch { c.Skipped("CGamePlaygroundScript.Script", "failed", "getter exception"); }
@@ -17420,10 +17420,10 @@ void DiagnosticsRead_CGamePlaygroundScript(DiagnosticsCapture@ c, CGamePlaygroun
     try { c.Field(fields, "CGamePlaygroundScript.HasPodium", Json::Value(node.HasPodium)); } catch { c.Skipped("CGamePlaygroundScript.HasPodium", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.Users");
-    try { Json::Value values = Json::Array(); uint length = node.Users.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.Users[" + i + "]"); values.Add(c.Link(node.Users[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundScript.Users", values, length); } catch { c.Skipped("CGamePlaygroundScript.Users", "failed", "getter exception"); }
+    try { uint length = node.Users.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.Users[" + i + "]"); c.ArrayElement("CGamePlaygroundScript.Users", i, length, c.Link(node.Users[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundScript.Users", captured, length); } catch { c.Skipped("CGamePlaygroundScript.Users", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.Teams");
-    try { Json::Value values = Json::Array(); uint length = node.Teams.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.Teams[" + i + "]"); values.Add(c.Link(node.Teams[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundScript.Teams", values, length); } catch { c.Skipped("CGamePlaygroundScript.Teams", "failed", "getter exception"); }
+    try { uint length = node.Teams.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.Teams[" + i + "]"); c.ArrayElement("CGamePlaygroundScript.Teams", i, length, c.Link(node.Teams[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundScript.Teams", captured, length); } catch { c.Skipped("CGamePlaygroundScript.Teams", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.NeutralEmblemUrl");
     try { c.Skipped("CGamePlaygroundScript.NeutralEmblemUrl", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGamePlaygroundScript.NeutralEmblemUrl", "failed", "getter exception"); }
@@ -17453,7 +17453,7 @@ void DiagnosticsRead_CGamePlaygroundScript(DiagnosticsCapture@ c, CGamePlaygroun
     try { c.Field(fields, "CGamePlaygroundScript.MapLoaded", Json::Value(node.MapLoaded)); } catch { c.Skipped("CGamePlaygroundScript.MapLoaded", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.MapList");
-    try { Json::Value values = Json::Array(); uint length = node.MapList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.MapList[" + i + "]"); values.Add(c.Link(node.MapList[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundScript.MapList", values, length); } catch { c.Skipped("CGamePlaygroundScript.MapList", "failed", "getter exception"); }
+    try { uint length = node.MapList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.MapList[" + i + "]"); c.ArrayElement("CGamePlaygroundScript.MapList", i, length, c.Link(node.MapList[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundScript.MapList", captured, length); } catch { c.Skipped("CGamePlaygroundScript.MapList", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.NextMapIndex");
     try { c.Field(fields, "CGamePlaygroundScript.NextMapIndex", Json::Value(node.NextMapIndex)); } catch { c.Skipped("CGamePlaygroundScript.NextMapIndex", "failed", "getter exception"); }
@@ -17525,7 +17525,7 @@ void DiagnosticsRead_CGamePlaygroundScript(DiagnosticsCapture@ c, CGamePlaygroun
     try { c.Field(fields, "CGamePlaygroundScript.EnableGhostRecording", Json::Value(node.EnableGhostRecording)); } catch { c.Skipped("CGamePlaygroundScript.EnableGhostRecording", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.Ghosts");
-    try { Json::Value values = Json::Array(); uint length = node.Ghosts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.Ghosts[" + i + "]"); values.Add(c.Link(node.Ghosts[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundScript.Ghosts", values, length); } catch { c.Skipped("CGamePlaygroundScript.Ghosts", "failed", "getter exception"); }
+    try { uint length = node.Ghosts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundScript.Ghosts[" + i + "]"); c.ArrayElement("CGamePlaygroundScript.Ghosts", i, length, c.Link(node.Ghosts[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundScript.Ghosts", captured, length); } catch { c.Skipped("CGamePlaygroundScript.Ghosts", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundScript.UiUpdatePeriod");
     try { c.Field(fields, "CGamePlaygroundScript.UiUpdatePeriod", Json::Value(node.UiUpdatePeriod)); } catch { c.Skipped("CGamePlaygroundScript.UiUpdatePeriod", "failed", "getter exception"); }
@@ -17604,10 +17604,10 @@ void DiagnosticsRead_CGamePlaygroundUIConfig(DiagnosticsCapture@ c, CGamePlaygro
     try { c.Field(fields, "CGamePlaygroundUIConfig.OverrideMarkers", Json::Value(node.OverrideMarkers)); } catch { c.Skipped("CGamePlaygroundUIConfig.OverrideMarkers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfig.Markers");
-    try { Json::Value values = Json::Array(); uint length = node.Markers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfig.Markers[" + i + "]"); values.Add(c.Link(node.Markers[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundUIConfig.Markers", values, length); } catch { c.Skipped("CGamePlaygroundUIConfig.Markers", "failed", "getter exception"); }
+    try { uint length = node.Markers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfig.Markers[" + i + "]"); c.ArrayElement("CGamePlaygroundUIConfig.Markers", i, length, c.Link(node.Markers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundUIConfig.Markers", captured, length); } catch { c.Skipped("CGamePlaygroundUIConfig.Markers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfig.UILayers");
-    try { Json::Value values = Json::Array(); uint length = node.UILayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfig.UILayers[" + i + "]"); values.Add(c.Link(node.UILayers[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundUIConfig.UILayers", values, length); } catch { c.Skipped("CGamePlaygroundUIConfig.UILayers", "failed", "getter exception"); }
+    try { uint length = node.UILayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfig.UILayers[" + i + "]"); c.ArrayElement("CGamePlaygroundUIConfig.UILayers", i, length, c.Link(node.UILayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundUIConfig.UILayers", captured, length); } catch { c.Skipped("CGamePlaygroundUIConfig.UILayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfig.OverlayHideAll");
     try { c.Field(fields, "CGamePlaygroundUIConfig.OverlayHideAll", Json::Value(node.OverlayHideAll)); } catch { c.Skipped("CGamePlaygroundUIConfig.OverlayHideAll", "failed", "getter exception"); }
@@ -17884,7 +17884,7 @@ void DiagnosticsRead_CGamePlaygroundUIConfigEvent(DiagnosticsCapture@ c, CGamePl
     try { c.Field(fields, "CGamePlaygroundUIConfigEvent.Param1", c.Text(string(node.Param1))); } catch { c.Skipped("CGamePlaygroundUIConfigEvent.Param1", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfigEvent.Param2");
-    try { Json::Value values = Json::Array(); uint length = node.Param2.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfigEvent.Param2[" + i + "]"); values.Add(c.Text(string(node.Param2[i]))); } c.ArrayField(fields, "CGamePlaygroundUIConfigEvent.Param2", values, length); } catch { c.Skipped("CGamePlaygroundUIConfigEvent.Param2", "failed", "getter exception"); }
+    try { uint length = node.Param2.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfigEvent.Param2[" + i + "]"); c.ArrayElement("CGamePlaygroundUIConfigEvent.Param2", i, length, c.Text(string(node.Param2[i]))); captured++; } c.ArrayField(fields, "CGamePlaygroundUIConfigEvent.Param2", captured, length); } catch { c.Skipped("CGamePlaygroundUIConfigEvent.Param2", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfigEvent.CustomEventLayer");
     try { c.Field(fields, "CGamePlaygroundUIConfigEvent.CustomEventLayer", c.Link(node.CustomEventLayer, depth + 1)); } catch { c.Skipped("CGamePlaygroundUIConfigEvent.CustomEventLayer", "failed", "getter exception"); }
@@ -17893,7 +17893,7 @@ void DiagnosticsRead_CGamePlaygroundUIConfigEvent(DiagnosticsCapture@ c, CGamePl
     try { c.Field(fields, "CGamePlaygroundUIConfigEvent.CustomEventType", c.Text(string(node.CustomEventType))); } catch { c.Skipped("CGamePlaygroundUIConfigEvent.CustomEventType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfigEvent.CustomEventData");
-    try { Json::Value values = Json::Array(); uint length = node.CustomEventData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfigEvent.CustomEventData[" + i + "]"); values.Add(c.Text(string(node.CustomEventData[i]))); } c.ArrayField(fields, "CGamePlaygroundUIConfigEvent.CustomEventData", values, length); } catch { c.Skipped("CGamePlaygroundUIConfigEvent.CustomEventData", "failed", "getter exception"); }
+    try { uint length = node.CustomEventData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfigEvent.CustomEventData[" + i + "]"); c.ArrayElement("CGamePlaygroundUIConfigEvent.CustomEventData", i, length, c.Text(string(node.CustomEventData[i]))); captured++; } c.ArrayField(fields, "CGamePlaygroundUIConfigEvent.CustomEventData", captured, length); } catch { c.Skipped("CGamePlaygroundUIConfigEvent.CustomEventData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfigEvent.ItemUrl");
     try { c.Skipped("CGamePlaygroundUIConfigEvent.ItemUrl", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGamePlaygroundUIConfigEvent.ItemUrl", "failed", "getter exception"); }
@@ -17912,10 +17912,10 @@ void DiagnosticsRead_CGamePlaygroundUIConfigMgrScript(DiagnosticsCapture@ c, CGa
     try { c.Skipped("CGamePlaygroundUIConfigMgrScript.UI", "unsupported", "MwNodPool<CGamePlaygroundUIConfig@>"); } catch { c.Skipped("CGamePlaygroundUIConfigMgrScript.UI", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfigMgrScript.UILayers");
-    try { Json::Value values = Json::Array(); uint length = node.UILayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfigMgrScript.UILayers[" + i + "]"); values.Add(c.Link(node.UILayers[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundUIConfigMgrScript.UILayers", values, length); } catch { c.Skipped("CGamePlaygroundUIConfigMgrScript.UILayers", "failed", "getter exception"); }
+    try { uint length = node.UILayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfigMgrScript.UILayers[" + i + "]"); c.ArrayElement("CGamePlaygroundUIConfigMgrScript.UILayers", i, length, c.Link(node.UILayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundUIConfigMgrScript.UILayers", captured, length); } catch { c.Skipped("CGamePlaygroundUIConfigMgrScript.UILayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfigMgrScript.UIReplayLayers");
-    try { Json::Value values = Json::Array(); uint length = node.UIReplayLayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfigMgrScript.UIReplayLayers[" + i + "]"); values.Add(c.Link(node.UIReplayLayers[i], depth + 1)); } c.ArrayField(fields, "CGamePlaygroundUIConfigMgrScript.UIReplayLayers", values, length); } catch { c.Skipped("CGamePlaygroundUIConfigMgrScript.UIReplayLayers", "failed", "getter exception"); }
+    try { uint length = node.UIReplayLayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePlaygroundUIConfigMgrScript.UIReplayLayers[" + i + "]"); c.ArrayElement("CGamePlaygroundUIConfigMgrScript.UIReplayLayers", i, length, c.Link(node.UIReplayLayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePlaygroundUIConfigMgrScript.UIReplayLayers", captured, length); } catch { c.Skipped("CGamePlaygroundUIConfigMgrScript.UIReplayLayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePlaygroundUIConfigMgrScript.UISequenceMaxDuration");
     try { c.Field(fields, "CGamePlaygroundUIConfigMgrScript.UISequenceMaxDuration", Json::Value(node.UISequenceMaxDuration)); } catch { c.Skipped("CGamePlaygroundUIConfigMgrScript.UISequenceMaxDuration", "failed", "getter exception"); }
@@ -17943,7 +17943,7 @@ void DiagnosticsRead_CGamePluginInterfacesScript(DiagnosticsCapture@ c, CGamePlu
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGamePluginInterfacesScript.Interfaces");
-    try { Json::Value values = Json::Array(); uint length = node.Interfaces.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePluginInterfacesScript.Interfaces[" + i + "]"); values.Add(c.Link(node.Interfaces[i], depth + 1)); } c.ArrayField(fields, "CGamePluginInterfacesScript.Interfaces", values, length); } catch { c.Skipped("CGamePluginInterfacesScript.Interfaces", "failed", "getter exception"); }
+    try { uint length = node.Interfaces.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGamePluginInterfacesScript.Interfaces[" + i + "]"); c.ArrayElement("CGamePluginInterfacesScript.Interfaces", i, length, c.Link(node.Interfaces[i], depth + 1)); captured++; } c.ArrayField(fields, "CGamePluginInterfacesScript.Interfaces", captured, length); } catch { c.Skipped("CGamePluginInterfacesScript.Interfaces", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameRemoteBufferDataInfo(DiagnosticsCapture@ c, CGameRemoteBufferDataInfo@ node, Json::Value &inout fields, uint depth)
 {
@@ -18020,10 +18020,10 @@ void DiagnosticsRead_CGameResources(DiagnosticsCapture@ c, CGameResources@ node,
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameResources.Sounds");
-    try { Json::Value values = Json::Array(); uint length = node.Sounds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameResources.Sounds[" + i + "]"); values.Add(c.Link(node.Sounds[i], depth + 1)); } c.ArrayField(fields, "CGameResources.Sounds", values, length); } catch { c.Skipped("CGameResources.Sounds", "failed", "getter exception"); }
+    try { uint length = node.Sounds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameResources.Sounds[" + i + "]"); c.ArrayElement("CGameResources.Sounds", i, length, c.Link(node.Sounds[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameResources.Sounds", captured, length); } catch { c.Skipped("CGameResources.Sounds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameResources.AudioSources");
-    try { Json::Value values = Json::Array(); uint length = node.AudioSources.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameResources.AudioSources[" + i + "]"); values.Add(c.Link(node.AudioSources[i], depth + 1)); } c.ArrayField(fields, "CGameResources.AudioSources", values, length); } catch { c.Skipped("CGameResources.AudioSources", "failed", "getter exception"); }
+    try { uint length = node.AudioSources.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameResources.AudioSources[" + i + "]"); c.ArrayElement("CGameResources.AudioSources", i, length, c.Link(node.AudioSources[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameResources.AudioSources", captured, length); } catch { c.Skipped("CGameResources.AudioSources", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameResources.HymnsFolder");
     try { c.Skipped("CGameResources.HymnsFolder", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameResources.HymnsFolder", "failed", "getter exception"); }
@@ -18378,7 +18378,7 @@ void DiagnosticsRead_CGameScoreAndLeaderBoardManagerScript(DiagnosticsCapture@ c
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScoreAndLeaderBoardManagerScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScoreAndLeaderBoardManagerScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameScoreAndLeaderBoardManagerScript.TaskResults", values, length); } catch { c.Skipped("CGameScoreAndLeaderBoardManagerScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScoreAndLeaderBoardManagerScript.TaskResults[" + i + "]"); c.ArrayElement("CGameScoreAndLeaderBoardManagerScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScoreAndLeaderBoardManagerScript.TaskResults", captured, length); } catch { c.Skipped("CGameScoreAndLeaderBoardManagerScript.TaskResults", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptAction(DiagnosticsCapture@ c, CGameScriptAction@ node, Json::Value &inout fields, uint depth)
 {
@@ -18652,7 +18652,7 @@ void DiagnosticsRead_CGameScriptChatHistory(DiagnosticsCapture@ c, CGameScriptCh
     try { c.Field(fields, "CGameScriptChatHistory.Filter_IsValid", Json::Value(node.Filter_IsValid)); } catch { c.Skipped("CGameScriptChatHistory.Filter_IsValid", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatHistory.Entries");
-    try { Json::Value values = Json::Array(); uint length = node.Entries.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatHistory.Entries[" + i + "]"); values.Add(c.Link(node.Entries[i], depth + 1)); } c.ArrayField(fields, "CGameScriptChatHistory.Entries", values, length); } catch { c.Skipped("CGameScriptChatHistory.Entries", "failed", "getter exception"); }
+    try { uint length = node.Entries.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatHistory.Entries[" + i + "]"); c.ArrayElement("CGameScriptChatHistory.Entries", i, length, c.Link(node.Entries[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptChatHistory.Entries", captured, length); } catch { c.Skipped("CGameScriptChatHistory.Entries", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptChatHistoryEntry(DiagnosticsCapture@ c, CGameScriptChatHistoryEntry@ node, Json::Value &inout fields, uint depth)
 {
@@ -18700,7 +18700,7 @@ void DiagnosticsRead_CGameScriptChatManager(DiagnosticsCapture@ c, CGameScriptCh
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatManager.DebugContacts");
-    try { Json::Value values = Json::Array(); uint length = node.DebugContacts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.DebugContacts[" + i + "]"); values.Add(c.Link(node.DebugContacts[i], depth + 1)); } c.ArrayField(fields, "CGameScriptChatManager.DebugContacts", values, length); } catch { c.Skipped("CGameScriptChatManager.DebugContacts", "failed", "getter exception"); }
+    try { uint length = node.DebugContacts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.DebugContacts[" + i + "]"); c.ArrayElement("CGameScriptChatManager.DebugContacts", i, length, c.Link(node.DebugContacts[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptChatManager.DebugContacts", captured, length); } catch { c.Skipped("CGameScriptChatManager.DebugContacts", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatManager.CurrentConnectionStatus");
     try { c.Field(fields, "CGameScriptChatManager.CurrentConnectionStatus", Json::Value(int(node.CurrentConnectionStatus))); } catch { c.Skipped("CGameScriptChatManager.CurrentConnectionStatus", "failed", "getter exception"); }
@@ -18772,7 +18772,7 @@ void DiagnosticsRead_CGameScriptChatManager(DiagnosticsCapture@ c, CGameScriptCh
     try { c.Field(fields, "CGameScriptChatManager.Filter_PlayingOnline", Json::Value(node.Filter_PlayingOnline)); } catch { c.Skipped("CGameScriptChatManager.Filter_PlayingOnline", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatManager.Contacts");
-    try { Json::Value values = Json::Array(); uint length = node.Contacts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.Contacts[" + i + "]"); values.Add(c.Link(node.Contacts[i], depth + 1)); } c.ArrayField(fields, "CGameScriptChatManager.Contacts", values, length); } catch { c.Skipped("CGameScriptChatManager.Contacts", "failed", "getter exception"); }
+    try { uint length = node.Contacts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.Contacts[" + i + "]"); c.ArrayElement("CGameScriptChatManager.Contacts", i, length, c.Link(node.Contacts[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptChatManager.Contacts", captured, length); } catch { c.Skipped("CGameScriptChatManager.Contacts", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatManager.Buddies");
     try { c.Skipped("CGameScriptChatManager.Buddies", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameScriptChatManager.Buddies", "failed", "getter exception"); }
@@ -18817,10 +18817,10 @@ void DiagnosticsRead_CGameScriptChatManager(DiagnosticsCapture@ c, CGameScriptCh
     try { c.Skipped("CGameScriptChatManager.PendingEvents", "unsupported", "MwNodPool<CGameScriptChatEvent@>"); } catch { c.Skipped("CGameScriptChatManager.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatManager.Histories");
-    try { Json::Value values = Json::Array(); uint length = node.Histories.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.Histories[" + i + "]"); values.Add(c.Link(node.Histories[i], depth + 1)); } c.ArrayField(fields, "CGameScriptChatManager.Histories", values, length); } catch { c.Skipped("CGameScriptChatManager.Histories", "failed", "getter exception"); }
+    try { uint length = node.Histories.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.Histories[" + i + "]"); c.ArrayElement("CGameScriptChatManager.Histories", i, length, c.Link(node.Histories[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptChatManager.Histories", captured, length); } catch { c.Skipped("CGameScriptChatManager.Histories", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatManager.Channels");
-    try { Json::Value values = Json::Array(); uint length = node.Channels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.Channels[" + i + "]"); values.Add(c.Link(node.Channels[i], depth + 1)); } c.ArrayField(fields, "CGameScriptChatManager.Channels", values, length); } catch { c.Skipped("CGameScriptChatManager.Channels", "failed", "getter exception"); }
+    try { uint length = node.Channels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.Channels[" + i + "]"); c.ArrayElement("CGameScriptChatManager.Channels", i, length, c.Link(node.Channels[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptChatManager.Channels", captured, length); } catch { c.Skipped("CGameScriptChatManager.Channels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatManager.Squad");
     try { c.Field(fields, "CGameScriptChatManager.Squad", c.Link(node.Squad, depth + 1)); } catch { c.Skipped("CGameScriptChatManager.Squad", "failed", "getter exception"); }
@@ -18829,7 +18829,7 @@ void DiagnosticsRead_CGameScriptChatManager(DiagnosticsCapture@ c, CGameScriptCh
     try { c.Field(fields, "CGameScriptChatManager.Squad_PreferredServer", c.Text(string(node.Squad_PreferredServer))); } catch { c.Skipped("CGameScriptChatManager.Squad_PreferredServer", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatManager.Squad_Invitations");
-    try { Json::Value values = Json::Array(); uint length = node.Squad_Invitations.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.Squad_Invitations[" + i + "]"); values.Add(c.Link(node.Squad_Invitations[i], depth + 1)); } c.ArrayField(fields, "CGameScriptChatManager.Squad_Invitations", values, length); } catch { c.Skipped("CGameScriptChatManager.Squad_Invitations", "failed", "getter exception"); }
+    try { uint length = node.Squad_Invitations.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatManager.Squad_Invitations[" + i + "]"); c.ArrayElement("CGameScriptChatManager.Squad_Invitations", i, length, c.Link(node.Squad_Invitations[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptChatManager.Squad_Invitations", captured, length); } catch { c.Skipped("CGameScriptChatManager.Squad_Invitations", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptChatRoom(DiagnosticsCapture@ c, CGameScriptChatRoom@ node, Json::Value &inout fields, uint depth)
 {
@@ -18839,7 +18839,7 @@ void DiagnosticsRead_CGameScriptChatRoom(DiagnosticsCapture@ c, CGameScriptChatR
     try { c.Field(fields, "CGameScriptChatRoom.RoomId", c.Text(node.RoomId)); } catch { c.Skipped("CGameScriptChatRoom.RoomId", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptChatRoom.Members");
-    try { Json::Value values = Json::Array(); uint length = node.Members.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatRoom.Members[" + i + "]"); values.Add(c.Link(node.Members[i], depth + 1)); } c.ArrayField(fields, "CGameScriptChatRoom.Members", values, length); } catch { c.Skipped("CGameScriptChatRoom.Members", "failed", "getter exception"); }
+    try { uint length = node.Members.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptChatRoom.Members[" + i + "]"); c.ArrayElement("CGameScriptChatRoom.Members", i, length, c.Link(node.Members[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptChatRoom.Members", captured, length); } catch { c.Skipped("CGameScriptChatRoom.Members", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptChatSquadInvitation(DiagnosticsCapture@ c, CGameScriptChatSquadInvitation@ node, Json::Value &inout fields, uint depth)
 {
@@ -18957,7 +18957,7 @@ void DiagnosticsRead_CGameScriptHandlerPlaygroundInterface(DiagnosticsCapture@ c
     try { c.Field(fields, "CGameScriptHandlerPlaygroundInterface.Map", c.Link(node.Map, depth + 1)); } catch { c.Skipped("CGameScriptHandlerPlaygroundInterface.Map", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptHandlerPlaygroundInterface.Teams");
-    try { Json::Value values = Json::Array(); uint length = node.Teams.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptHandlerPlaygroundInterface.Teams[" + i + "]"); values.Add(c.Link(node.Teams[i], depth + 1)); } c.ArrayField(fields, "CGameScriptHandlerPlaygroundInterface.Teams", values, length); } catch { c.Skipped("CGameScriptHandlerPlaygroundInterface.Teams", "failed", "getter exception"); }
+    try { uint length = node.Teams.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptHandlerPlaygroundInterface.Teams[" + i + "]"); c.ArrayElement("CGameScriptHandlerPlaygroundInterface.Teams", i, length, c.Link(node.Teams[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptHandlerPlaygroundInterface.Teams", captured, length); } catch { c.Skipped("CGameScriptHandlerPlaygroundInterface.Teams", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptHandlerPlaygroundInterface.IsInGameMenuDisplayed");
     try { c.Field(fields, "CGameScriptHandlerPlaygroundInterface.IsInGameMenuDisplayed", Json::Value(node.IsInGameMenuDisplayed)); } catch { c.Skipped("CGameScriptHandlerPlaygroundInterface.IsInGameMenuDisplayed", "failed", "getter exception"); }
@@ -19003,7 +19003,7 @@ void DiagnosticsRead_CGameScriptHandlerPlaygroundModuleInventory(DiagnosticsCapt
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptHandlerPlaygroundModuleInventory.InventoryContent");
-    try { Json::Value values = Json::Array(); uint length = node.InventoryContent.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptHandlerPlaygroundModuleInventory.InventoryContent[" + i + "]"); values.Add(c.Link(node.InventoryContent[i], depth + 1)); } c.ArrayField(fields, "CGameScriptHandlerPlaygroundModuleInventory.InventoryContent", values, length); } catch { c.Skipped("CGameScriptHandlerPlaygroundModuleInventory.InventoryContent", "failed", "getter exception"); }
+    try { uint length = node.InventoryContent.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptHandlerPlaygroundModuleInventory.InventoryContent[" + i + "]"); c.ArrayElement("CGameScriptHandlerPlaygroundModuleInventory.InventoryContent", i, length, c.Link(node.InventoryContent[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptHandlerPlaygroundModuleInventory.InventoryContent", captured, length); } catch { c.Skipped("CGameScriptHandlerPlaygroundModuleInventory.InventoryContent", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptHandlerPlaygroundModuleStore(DiagnosticsCapture@ c, CGameScriptHandlerPlaygroundModuleStore@ node, Json::Value &inout fields, uint depth)
 {
@@ -19013,7 +19013,7 @@ void DiagnosticsRead_CGameScriptHandlerPlaygroundModuleStore(DiagnosticsCapture@
     try { c.Field(fields, "CGameScriptHandlerPlaygroundModuleStore.CurrentMoney", Json::Value(node.CurrentMoney)); } catch { c.Skipped("CGameScriptHandlerPlaygroundModuleStore.CurrentMoney", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptHandlerPlaygroundModuleStore.StoreContent");
-    try { Json::Value values = Json::Array(); uint length = node.StoreContent.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptHandlerPlaygroundModuleStore.StoreContent[" + i + "]"); values.Add(c.Link(node.StoreContent[i], depth + 1)); } c.ArrayField(fields, "CGameScriptHandlerPlaygroundModuleStore.StoreContent", values, length); } catch { c.Skipped("CGameScriptHandlerPlaygroundModuleStore.StoreContent", "failed", "getter exception"); }
+    try { uint length = node.StoreContent.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptHandlerPlaygroundModuleStore.StoreContent[" + i + "]"); c.ArrayElement("CGameScriptHandlerPlaygroundModuleStore.StoreContent", i, length, c.Link(node.StoreContent[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptHandlerPlaygroundModuleStore.StoreContent", captured, length); } catch { c.Skipped("CGameScriptHandlerPlaygroundModuleStore.StoreContent", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptHandlerPlaygroundModuleStore.BlockedItemsUrls");
     try { c.Skipped("CGameScriptHandlerPlaygroundModuleStore.BlockedItemsUrls", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameScriptHandlerPlaygroundModuleStore.BlockedItemsUrls", "failed", "getter exception"); }
@@ -19036,7 +19036,7 @@ void DiagnosticsRead_CGameScriptHandlerTitleModuleMenu(DiagnosticsCapture@ c, CG
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptHandlerTitleModuleMenu.Components");
-    try { Json::Value values = Json::Array(); uint length = node.Components.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptHandlerTitleModuleMenu.Components[" + i + "]"); values.Add(c.Link(node.Components[i], depth + 1)); } c.ArrayField(fields, "CGameScriptHandlerTitleModuleMenu.Components", values, length); } catch { c.Skipped("CGameScriptHandlerTitleModuleMenu.Components", "failed", "getter exception"); }
+    try { uint length = node.Components.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptHandlerTitleModuleMenu.Components[" + i + "]"); c.ArrayElement("CGameScriptHandlerTitleModuleMenu.Components", i, length, c.Link(node.Components[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptHandlerTitleModuleMenu.Components", captured, length); } catch { c.Skipped("CGameScriptHandlerTitleModuleMenu.Components", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptMapBotPath(DiagnosticsCapture@ c, CGameScriptMapBotPath@ node, Json::Value &inout fields, uint depth)
 {
@@ -19113,7 +19113,7 @@ void DiagnosticsRead_CGameScriptMapSector(DiagnosticsCapture@ c, CGameScriptMapS
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptMapSector.PlayersIds");
-    try { Json::Value values = Json::Array(); uint length = node.PlayersIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptMapSector.PlayersIds[" + i + "]"); values.Add(Json::Value(node.PlayersIds[i].Value)); } c.ArrayField(fields, "CGameScriptMapSector.PlayersIds", values, length); } catch { c.Skipped("CGameScriptMapSector.PlayersIds", "failed", "getter exception"); }
+    try { uint length = node.PlayersIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptMapSector.PlayersIds[" + i + "]"); c.ArrayElement("CGameScriptMapSector.PlayersIds", i, length, Json::Value(node.PlayersIds[i].Value)); captured++; } c.ArrayField(fields, "CGameScriptMapSector.PlayersIds", captured, length); } catch { c.Skipped("CGameScriptMapSector.PlayersIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptMapSector.Tag");
     try { c.Field(fields, "CGameScriptMapSector.Tag", c.Text(node.Tag)); } catch { c.Skipped("CGameScriptMapSector.Tag", "failed", "getter exception"); }
@@ -19147,14 +19147,14 @@ void DiagnosticsRead_CGameScriptMgrTurret(DiagnosticsCapture@ c, CGameScriptMgrT
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptMgrTurret.Turrets");
-    try { Json::Value values = Json::Array(); uint length = node.Turrets.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptMgrTurret.Turrets[" + i + "]"); values.Add(c.Link(node.Turrets[i], depth + 1)); } c.ArrayField(fields, "CGameScriptMgrTurret.Turrets", values, length); } catch { c.Skipped("CGameScriptMgrTurret.Turrets", "failed", "getter exception"); }
+    try { uint length = node.Turrets.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptMgrTurret.Turrets[" + i + "]"); c.ArrayElement("CGameScriptMgrTurret.Turrets", i, length, c.Link(node.Turrets[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptMgrTurret.Turrets", captured, length); } catch { c.Skipped("CGameScriptMgrTurret.Turrets", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptMgrVehicle(DiagnosticsCapture@ c, CGameScriptMgrVehicle@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptMgrVehicle.Vehicles");
-    try { Json::Value values = Json::Array(); uint length = node.Vehicles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptMgrVehicle.Vehicles[" + i + "]"); values.Add(c.Link(node.Vehicles[i], depth + 1)); } c.ArrayField(fields, "CGameScriptMgrVehicle.Vehicles", values, length); } catch { c.Skipped("CGameScriptMgrVehicle.Vehicles", "failed", "getter exception"); }
+    try { uint length = node.Vehicles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptMgrVehicle.Vehicles[" + i + "]"); c.ArrayElement("CGameScriptMgrVehicle.Vehicles", i, length, c.Link(node.Vehicles[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptMgrVehicle.Vehicles", captured, length); } catch { c.Skipped("CGameScriptMgrVehicle.Vehicles", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptNotificationsConsumer(DiagnosticsCapture@ c, CGameScriptNotificationsConsumer@ node, Json::Value &inout fields, uint depth)
 {
@@ -19164,10 +19164,10 @@ void DiagnosticsRead_CGameScriptNotificationsConsumer(DiagnosticsCapture@ c, CGa
     try { c.Skipped("CGameScriptNotificationsConsumer.Events", "unsupported", "MwNodPool<CGameScriptNotificationsConsumerEvent@>"); } catch { c.Skipped("CGameScriptNotificationsConsumer.Events", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptNotificationsConsumer.Notifications");
-    try { Json::Value values = Json::Array(); uint length = node.Notifications.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptNotificationsConsumer.Notifications[" + i + "]"); values.Add(c.Link(node.Notifications[i], depth + 1)); } c.ArrayField(fields, "CGameScriptNotificationsConsumer.Notifications", values, length); } catch { c.Skipped("CGameScriptNotificationsConsumer.Notifications", "failed", "getter exception"); }
+    try { uint length = node.Notifications.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptNotificationsConsumer.Notifications[" + i + "]"); c.ArrayElement("CGameScriptNotificationsConsumer.Notifications", i, length, c.Link(node.Notifications[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptNotificationsConsumer.Notifications", captured, length); } catch { c.Skipped("CGameScriptNotificationsConsumer.Notifications", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptNotificationsConsumer.FilteredNotifications");
-    try { Json::Value values = Json::Array(); uint length = node.FilteredNotifications.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptNotificationsConsumer.FilteredNotifications[" + i + "]"); values.Add(c.Link(node.FilteredNotifications[i], depth + 1)); } c.ArrayField(fields, "CGameScriptNotificationsConsumer.FilteredNotifications", values, length); } catch { c.Skipped("CGameScriptNotificationsConsumer.FilteredNotifications", "failed", "getter exception"); }
+    try { uint length = node.FilteredNotifications.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptNotificationsConsumer.FilteredNotifications[" + i + "]"); c.ArrayElement("CGameScriptNotificationsConsumer.FilteredNotifications", i, length, c.Link(node.FilteredNotifications[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptNotificationsConsumer.FilteredNotifications", captured, length); } catch { c.Skipped("CGameScriptNotificationsConsumer.FilteredNotifications", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptNotificationsConsumer.Filter_Priority");
     try { c.Field(fields, "CGameScriptNotificationsConsumer.Filter_Priority", Json::Value(int(node.Filter_Priority))); } catch { c.Skipped("CGameScriptNotificationsConsumer.Filter_Priority", "failed", "getter exception"); }
@@ -19209,7 +19209,7 @@ void DiagnosticsRead_CGameScriptNotificationsProducer(DiagnosticsCapture@ c, CGa
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameScriptNotificationsProducer.Events");
-    try { Json::Value values = Json::Array(); uint length = node.Events.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptNotificationsProducer.Events[" + i + "]"); values.Add(c.Link(node.Events[i], depth + 1)); } c.ArrayField(fields, "CGameScriptNotificationsProducer.Events", values, length); } catch { c.Skipped("CGameScriptNotificationsProducer.Events", "failed", "getter exception"); }
+    try { uint length = node.Events.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameScriptNotificationsProducer.Events[" + i + "]"); c.ArrayElement("CGameScriptNotificationsProducer.Events", i, length, c.Link(node.Events[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameScriptNotificationsProducer.Events", captured, length); } catch { c.Skipped("CGameScriptNotificationsProducer.Events", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameScriptNotificationsProducerEvent(DiagnosticsCapture@ c, CGameScriptNotificationsProducerEvent@ node, Json::Value &inout fields, uint depth)
 {
@@ -19332,25 +19332,25 @@ void DiagnosticsRead_CGameServerPlugin(DiagnosticsCapture@ c, CGameServerPlugin@
     try { c.Field(fields, "CGameServerPlugin.MapInfo", c.Link(node.MapInfo, depth + 1)); } catch { c.Skipped("CGameServerPlugin.MapInfo", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.Clients");
-    try { Json::Value values = Json::Array(); uint length = node.Clients.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Clients[" + i + "]"); values.Add(c.Link(node.Clients[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.Clients", values, length); } catch { c.Skipped("CGameServerPlugin.Clients", "failed", "getter exception"); }
+    try { uint length = node.Clients.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Clients[" + i + "]"); c.ArrayElement("CGameServerPlugin.Clients", i, length, c.Link(node.Clients[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.Clients", captured, length); } catch { c.Skipped("CGameServerPlugin.Clients", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.Spectators");
-    try { Json::Value values = Json::Array(); uint length = node.Spectators.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Spectators[" + i + "]"); values.Add(c.Link(node.Spectators[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.Spectators", values, length); } catch { c.Skipped("CGameServerPlugin.Spectators", "failed", "getter exception"); }
+    try { uint length = node.Spectators.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Spectators[" + i + "]"); c.ArrayElement("CGameServerPlugin.Spectators", i, length, c.Link(node.Spectators[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.Spectators", captured, length); } catch { c.Skipped("CGameServerPlugin.Spectators", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.Players");
-    try { Json::Value values = Json::Array(); uint length = node.Players.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Players[" + i + "]"); values.Add(c.Link(node.Players[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.Players", values, length); } catch { c.Skipped("CGameServerPlugin.Players", "failed", "getter exception"); }
+    try { uint length = node.Players.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Players[" + i + "]"); c.ArrayElement("CGameServerPlugin.Players", i, length, c.Link(node.Players[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.Players", captured, length); } catch { c.Skipped("CGameServerPlugin.Players", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.PlaygroundPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.PlaygroundPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.PlaygroundPlayers[" + i + "]"); values.Add(c.Link(node.PlaygroundPlayers[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.PlaygroundPlayers", values, length); } catch { c.Skipped("CGameServerPlugin.PlaygroundPlayers", "failed", "getter exception"); }
+    try { uint length = node.PlaygroundPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.PlaygroundPlayers[" + i + "]"); c.ArrayElement("CGameServerPlugin.PlaygroundPlayers", i, length, c.Link(node.PlaygroundPlayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.PlaygroundPlayers", captured, length); } catch { c.Skipped("CGameServerPlugin.PlaygroundPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.Scores");
-    try { Json::Value values = Json::Array(); uint length = node.Scores.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Scores[" + i + "]"); values.Add(c.Link(node.Scores[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.Scores", values, length); } catch { c.Skipped("CGameServerPlugin.Scores", "failed", "getter exception"); }
+    try { uint length = node.Scores.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Scores[" + i + "]"); c.ArrayElement("CGameServerPlugin.Scores", i, length, c.Link(node.Scores[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.Scores", captured, length); } catch { c.Skipped("CGameServerPlugin.Scores", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.Users");
-    try { Json::Value values = Json::Array(); uint length = node.Users.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Users[" + i + "]"); values.Add(c.Link(node.Users[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.Users", values, length); } catch { c.Skipped("CGameServerPlugin.Users", "failed", "getter exception"); }
+    try { uint length = node.Users.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Users[" + i + "]"); c.ArrayElement("CGameServerPlugin.Users", i, length, c.Link(node.Users[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.Users", captured, length); } catch { c.Skipped("CGameServerPlugin.Users", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.Teams");
-    try { Json::Value values = Json::Array(); uint length = node.Teams.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Teams[" + i + "]"); values.Add(c.Link(node.Teams[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.Teams", values, length); } catch { c.Skipped("CGameServerPlugin.Teams", "failed", "getter exception"); }
+    try { uint length = node.Teams.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Teams[" + i + "]"); c.ArrayElement("CGameServerPlugin.Teams", i, length, c.Link(node.Teams[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.Teams", captured, length); } catch { c.Skipped("CGameServerPlugin.Teams", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.NeutralEmblemUrl");
     try { c.Skipped("CGameServerPlugin.NeutralEmblemUrl", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameServerPlugin.NeutralEmblemUrl", "failed", "getter exception"); }
@@ -19362,16 +19362,16 @@ void DiagnosticsRead_CGameServerPlugin(DiagnosticsCapture@ c, CGameServerPlugin@
     try { c.Skipped("CGameServerPlugin.ForcedClubLinkUrl2", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameServerPlugin.ForcedClubLinkUrl2", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.ClansNbPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.ClansNbPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.ClansNbPlayers[" + i + "]"); values.Add(Json::Value(node.ClansNbPlayers[i])); } c.ArrayField(fields, "CGameServerPlugin.ClansNbPlayers", values, length); } catch { c.Skipped("CGameServerPlugin.ClansNbPlayers", "failed", "getter exception"); }
+    try { uint length = node.ClansNbPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.ClansNbPlayers[" + i + "]"); c.ArrayElement("CGameServerPlugin.ClansNbPlayers", i, length, Json::Value(node.ClansNbPlayers[i])); captured++; } c.ArrayField(fields, "CGameServerPlugin.ClansNbPlayers", captured, length); } catch { c.Skipped("CGameServerPlugin.ClansNbPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.ClanScores");
-    try { Json::Value values = Json::Array(); uint length = node.ClanScores.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.ClanScores[" + i + "]"); values.Add(Json::Value(node.ClanScores[i])); } c.ArrayField(fields, "CGameServerPlugin.ClanScores", values, length); } catch { c.Skipped("CGameServerPlugin.ClanScores", "failed", "getter exception"); }
+    try { uint length = node.ClanScores.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.ClanScores[" + i + "]"); c.ArrayElement("CGameServerPlugin.ClanScores", i, length, Json::Value(node.ClanScores[i])); captured++; } c.ArrayField(fields, "CGameServerPlugin.ClanScores", captured, length); } catch { c.Skipped("CGameServerPlugin.ClanScores", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.Now");
     try { c.Field(fields, "CGameServerPlugin.Now", Json::Value(node.Now)); } catch { c.Skipped("CGameServerPlugin.Now", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.PendingEvents", values, length); } catch { c.Skipped("CGameServerPlugin.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.PendingEvents[" + i + "]"); c.ArrayElement("CGameServerPlugin.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.PendingEvents", captured, length); } catch { c.Skipped("CGameServerPlugin.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.MapLoaded");
     try { c.Field(fields, "CGameServerPlugin.MapLoaded", Json::Value(node.MapLoaded)); } catch { c.Skipped("CGameServerPlugin.MapLoaded", "failed", "getter exception"); }
@@ -19380,7 +19380,7 @@ void DiagnosticsRead_CGameServerPlugin(DiagnosticsCapture@ c, CGameServerPlugin@
     try { c.Field(fields, "CGameServerPlugin.MapUnloadRequested", Json::Value(node.MapUnloadRequested)); } catch { c.Skipped("CGameServerPlugin.MapUnloadRequested", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.MapList");
-    try { Json::Value values = Json::Array(); uint length = node.MapList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.MapList[" + i + "]"); values.Add(c.Link(node.MapList[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.MapList", values, length); } catch { c.Skipped("CGameServerPlugin.MapList", "failed", "getter exception"); }
+    try { uint length = node.MapList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.MapList[" + i + "]"); c.ArrayElement("CGameServerPlugin.MapList", i, length, c.Link(node.MapList[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.MapList", captured, length); } catch { c.Skipped("CGameServerPlugin.MapList", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.CurMapIndex");
     try { c.Field(fields, "CGameServerPlugin.CurMapIndex", Json::Value(node.CurMapIndex)); } catch { c.Skipped("CGameServerPlugin.CurMapIndex", "failed", "getter exception"); }
@@ -19413,10 +19413,10 @@ void DiagnosticsRead_CGameServerPlugin(DiagnosticsCapture@ c, CGameServerPlugin@
     try { c.Field(fields, "CGameServerPlugin.System", c.Link(node.System, depth + 1)); } catch { c.Skipped("CGameServerPlugin.System", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.TaskResults", values, length); } catch { c.Skipped("CGameServerPlugin.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.TaskResults[" + i + "]"); c.ArrayElement("CGameServerPlugin.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.TaskResults", captured, length); } catch { c.Skipped("CGameServerPlugin.TaskResults", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPlugin.Ghosts");
-    try { Json::Value values = Json::Array(); uint length = node.Ghosts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Ghosts[" + i + "]"); values.Add(c.Link(node.Ghosts[i], depth + 1)); } c.ArrayField(fields, "CGameServerPlugin.Ghosts", values, length); } catch { c.Skipped("CGameServerPlugin.Ghosts", "failed", "getter exception"); }
+    try { uint length = node.Ghosts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPlugin.Ghosts[" + i + "]"); c.ArrayElement("CGameServerPlugin.Ghosts", i, length, c.Link(node.Ghosts[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPlugin.Ghosts", captured, length); } catch { c.Skipped("CGameServerPlugin.Ghosts", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameServerPluginEvent(DiagnosticsCapture@ c, CGameServerPluginEvent@ node, Json::Value &inout fields, uint depth)
 {
@@ -19444,13 +19444,13 @@ void DiagnosticsRead_CGameServerPluginEvent(DiagnosticsCapture@ c, CGameServerPl
     try { c.Field(fields, "CGameServerPluginEvent.ModeCallbackType", c.Text(string(node.ModeCallbackType))); } catch { c.Skipped("CGameServerPluginEvent.ModeCallbackType", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPluginEvent.ModeCallbackData");
-    try { Json::Value values = Json::Array(); uint length = node.ModeCallbackData.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPluginEvent.ModeCallbackData[" + i + "]"); values.Add(c.Text(string(node.ModeCallbackData[i]))); } c.ArrayField(fields, "CGameServerPluginEvent.ModeCallbackData", values, length); } catch { c.Skipped("CGameServerPluginEvent.ModeCallbackData", "failed", "getter exception"); }
+    try { uint length = node.ModeCallbackData.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPluginEvent.ModeCallbackData[" + i + "]"); c.ArrayElement("CGameServerPluginEvent.ModeCallbackData", i, length, c.Text(string(node.ModeCallbackData[i]))); captured++; } c.ArrayField(fields, "CGameServerPluginEvent.ModeCallbackData", captured, length); } catch { c.Skipped("CGameServerPluginEvent.ModeCallbackData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPluginEvent.EndMatchScores");
-    try { Json::Value values = Json::Array(); uint length = node.EndMatchScores.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPluginEvent.EndMatchScores[" + i + "]"); values.Add(c.Link(node.EndMatchScores[i], depth + 1)); } c.ArrayField(fields, "CGameServerPluginEvent.EndMatchScores", values, length); } catch { c.Skipped("CGameServerPluginEvent.EndMatchScores", "failed", "getter exception"); }
+    try { uint length = node.EndMatchScores.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPluginEvent.EndMatchScores[" + i + "]"); c.ArrayElement("CGameServerPluginEvent.EndMatchScores", i, length, c.Link(node.EndMatchScores[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameServerPluginEvent.EndMatchScores", captured, length); } catch { c.Skipped("CGameServerPluginEvent.EndMatchScores", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerPluginEvent.EndMatchRanks");
-    try { Json::Value values = Json::Array(); uint length = node.EndMatchRanks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPluginEvent.EndMatchRanks[" + i + "]"); values.Add(Json::Value(node.EndMatchRanks[i])); } c.ArrayField(fields, "CGameServerPluginEvent.EndMatchRanks", values, length); } catch { c.Skipped("CGameServerPluginEvent.EndMatchRanks", "failed", "getter exception"); }
+    try { uint length = node.EndMatchRanks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerPluginEvent.EndMatchRanks[" + i + "]"); c.ArrayElement("CGameServerPluginEvent.EndMatchRanks", i, length, Json::Value(node.EndMatchRanks[i])); captured++; } c.ArrayField(fields, "CGameServerPluginEvent.EndMatchRanks", captured, length); } catch { c.Skipped("CGameServerPluginEvent.EndMatchRanks", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameServerScriptXmlRpc(DiagnosticsCapture@ c, CGameServerScriptXmlRpc@ node, Json::Value &inout fields, uint depth)
 {
@@ -19476,7 +19476,7 @@ void DiagnosticsRead_CGameServerScriptXmlRpcEvent(DiagnosticsCapture@ c, CGameSe
     try { c.Field(fields, "CGameServerScriptXmlRpcEvent.ParamArray1", c.Text(string(node.ParamArray1))); } catch { c.Skipped("CGameServerScriptXmlRpcEvent.ParamArray1", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameServerScriptXmlRpcEvent.ParamArray2");
-    try { Json::Value values = Json::Array(); uint length = node.ParamArray2.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerScriptXmlRpcEvent.ParamArray2[" + i + "]"); values.Add(c.Text(string(node.ParamArray2[i]))); } c.ArrayField(fields, "CGameServerScriptXmlRpcEvent.ParamArray2", values, length); } catch { c.Skipped("CGameServerScriptXmlRpcEvent.ParamArray2", "failed", "getter exception"); }
+    try { uint length = node.ParamArray2.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameServerScriptXmlRpcEvent.ParamArray2[" + i + "]"); c.ArrayElement("CGameServerScriptXmlRpcEvent.ParamArray2", i, length, c.Text(string(node.ParamArray2[i]))); captured++; } c.ArrayField(fields, "CGameServerScriptXmlRpcEvent.ParamArray2", captured, length); } catch { c.Skipped("CGameServerScriptXmlRpcEvent.ParamArray2", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameShootIconSetting(DiagnosticsCapture@ c, CGameShootIconSetting@ node, Json::Value &inout fields, uint depth)
 {
@@ -19499,7 +19499,7 @@ void DiagnosticsRead_CGameSkinnedNod(DiagnosticsCapture@ c, CGameSkinnedNod@ nod
     try { c.Field(fields, "CGameSkinnedNod.GameSkin", c.Link(node.GameSkin, depth + 1)); } catch { c.Skipped("CGameSkinnedNod.GameSkin", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameSkinnedNod.RemapFids");
-    try { Json::Value values = Json::Array(); uint length = node.RemapFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameSkinnedNod.RemapFids[" + i + "]"); values.Add(c.Link(node.RemapFids[i], depth + 1)); } c.ArrayField(fields, "CGameSkinnedNod.RemapFids", values, length); } catch { c.Skipped("CGameSkinnedNod.RemapFids", "failed", "getter exception"); }
+    try { uint length = node.RemapFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameSkinnedNod.RemapFids[" + i + "]"); c.ArrayElement("CGameSkinnedNod.RemapFids", i, length, c.Link(node.RemapFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameSkinnedNod.RemapFids", captured, length); } catch { c.Skipped("CGameSkinnedNod.RemapFids", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameStation(DiagnosticsCapture@ c, CGameStation@ node, Json::Value &inout fields, uint depth)
 {
@@ -19573,7 +19573,7 @@ void DiagnosticsRead_CGameSwitcher(DiagnosticsCapture@ c, CGameSwitcher@ node, J
     try { c.Field(fields, "CGameSwitcher.FocusDialogCount", Json::Value(node.FocusDialogCount)); } catch { c.Skipped("CGameSwitcher.FocusDialogCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameSwitcher.ModuleStack");
-    try { Json::Value values = Json::Array(); uint length = node.ModuleStack.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameSwitcher.ModuleStack[" + i + "]"); values.Add(c.Link(node.ModuleStack[i], depth + 1)); } c.ArrayField(fields, "CGameSwitcher.ModuleStack", values, length); } catch { c.Skipped("CGameSwitcher.ModuleStack", "failed", "getter exception"); }
+    try { uint length = node.ModuleStack.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameSwitcher.ModuleStack[" + i + "]"); c.ArrayElement("CGameSwitcher.ModuleStack", i, length, c.Link(node.ModuleStack[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameSwitcher.ModuleStack", captured, length); } catch { c.Skipped("CGameSwitcher.ModuleStack", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameSwitcherModule(DiagnosticsCapture@ c, CGameSwitcherModule@ node, Json::Value &inout fields, uint depth)
 {
@@ -19773,10 +19773,10 @@ void DiagnosticsRead_CGameUserManagerScript(DiagnosticsCapture@ c, CGameUserMana
     try { c.Skipped("CGameUserManagerScript.MainUserProfile", "excluded", "sensitive-name policy"); } catch { c.Skipped("CGameUserManagerScript.MainUserProfile", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameUserManagerScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameUserManagerScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameUserManagerScript.TaskResults", values, length); } catch { c.Skipped("CGameUserManagerScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameUserManagerScript.TaskResults[" + i + "]"); c.ArrayElement("CGameUserManagerScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameUserManagerScript.TaskResults", captured, length); } catch { c.Skipped("CGameUserManagerScript.TaskResults", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameUserManagerScript.Users");
-    try { Json::Value values = Json::Array(); uint length = node.Users.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameUserManagerScript.Users[" + i + "]"); values.Add(c.Link(node.Users[i], depth + 1)); } c.ArrayField(fields, "CGameUserManagerScript.Users", values, length); } catch { c.Skipped("CGameUserManagerScript.Users", "failed", "getter exception"); }
+    try { uint length = node.Users.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameUserManagerScript.Users[" + i + "]"); c.ArrayElement("CGameUserManagerScript.Users", i, length, c.Link(node.Users[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameUserManagerScript.Users", captured, length); } catch { c.Skipped("CGameUserManagerScript.Users", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameUserManagerScript.MainUserPad");
     try { c.Field(fields, "CGameUserManagerScript.MainUserPad", c.Link(node.MainUserPad, depth + 1)); } catch { c.Skipped("CGameUserManagerScript.MainUserPad", "failed", "getter exception"); }
@@ -19843,7 +19843,7 @@ void DiagnosticsRead_CGameUserPrivilegesManagerScript(DiagnosticsCapture@ c, CGa
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameUserPrivilegesManagerScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameUserPrivilegesManagerScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameUserPrivilegesManagerScript.TaskResults", values, length); } catch { c.Skipped("CGameUserPrivilegesManagerScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameUserPrivilegesManagerScript.TaskResults[" + i + "]"); c.ArrayElement("CGameUserPrivilegesManagerScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameUserPrivilegesManagerScript.TaskResults", captured, length); } catch { c.Skipped("CGameUserPrivilegesManagerScript.TaskResults", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameUserProfile(DiagnosticsCapture@ c, CGameUserProfile@ node, Json::Value &inout fields, uint depth)
 {
@@ -20088,7 +20088,7 @@ void DiagnosticsRead_CGameUserProfileWrapper(DiagnosticsCapture@ c, CGameUserPro
     try { c.Field(fields, "CGameUserProfileWrapper.Inputs_MouseSensitivityLaser_Raw", c.Number(double(node.Inputs_MouseSensitivityLaser_Raw))); } catch { c.Skipped("CGameUserProfileWrapper.Inputs_MouseSensitivityLaser_Raw", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameUserProfileWrapper.Inputs_Vehicles");
-    try { Json::Value values = Json::Array(); uint length = node.Inputs_Vehicles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameUserProfileWrapper.Inputs_Vehicles[" + i + "]"); values.Add(c.Link(node.Inputs_Vehicles[i], depth + 1)); } c.ArrayField(fields, "CGameUserProfileWrapper.Inputs_Vehicles", values, length); } catch { c.Skipped("CGameUserProfileWrapper.Inputs_Vehicles", "failed", "getter exception"); }
+    try { uint length = node.Inputs_Vehicles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameUserProfileWrapper.Inputs_Vehicles[" + i + "]"); c.ArrayElement("CGameUserProfileWrapper.Inputs_Vehicles", i, length, c.Link(node.Inputs_Vehicles[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameUserProfileWrapper.Inputs_Vehicles", captured, length); } catch { c.Skipped("CGameUserProfileWrapper.Inputs_Vehicles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CGameUserProfileWrapper.Adverts_Enabled");
     try { c.Field(fields, "CGameUserProfileWrapper.Adverts_Enabled", Json::Value(node.Adverts_Enabled)); } catch { c.Skipped("CGameUserProfileWrapper.Adverts_Enabled", "failed", "getter exception"); }
@@ -20212,7 +20212,7 @@ void DiagnosticsRead_CGameVideoScriptManager(DiagnosticsCapture@ c, CGameVideoSc
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameVideoScriptManager.Videos");
-    try { Json::Value values = Json::Array(); uint length = node.Videos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameVideoScriptManager.Videos[" + i + "]"); values.Add(c.Link(node.Videos[i], depth + 1)); } c.ArrayField(fields, "CGameVideoScriptManager.Videos", values, length); } catch { c.Skipped("CGameVideoScriptManager.Videos", "failed", "getter exception"); }
+    try { uint length = node.Videos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameVideoScriptManager.Videos[" + i + "]"); c.ArrayElement("CGameVideoScriptManager.Videos", i, length, c.Link(node.Videos[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameVideoScriptManager.Videos", captured, length); } catch { c.Skipped("CGameVideoScriptManager.Videos", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameVideoScriptVideo(DiagnosticsCapture@ c, CGameVideoScriptVideo@ node, Json::Value &inout fields, uint depth)
 {
@@ -20260,14 +20260,14 @@ void DiagnosticsRead_CGameWebServicesNotificationManagerScript(DiagnosticsCaptur
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameWebServicesNotificationManagerScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameWebServicesNotificationManagerScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameWebServicesNotificationManagerScript.TaskResults", values, length); } catch { c.Skipped("CGameWebServicesNotificationManagerScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameWebServicesNotificationManagerScript.TaskResults[" + i + "]"); c.ArrayElement("CGameWebServicesNotificationManagerScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameWebServicesNotificationManagerScript.TaskResults", captured, length); } catch { c.Skipped("CGameWebServicesNotificationManagerScript.TaskResults", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CGameZoneManagerScript(DiagnosticsCapture@ c, CGameZoneManagerScript@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CGameZoneManagerScript.TaskResults");
-    try { Json::Value values = Json::Array(); uint length = node.TaskResults.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameZoneManagerScript.TaskResults[" + i + "]"); values.Add(c.Link(node.TaskResults[i], depth + 1)); } c.ArrayField(fields, "CGameZoneManagerScript.TaskResults", values, length); } catch { c.Skipped("CGameZoneManagerScript.TaskResults", "failed", "getter exception"); }
+    try { uint length = node.TaskResults.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CGameZoneManagerScript.TaskResults[" + i + "]"); c.ArrayElement("CGameZoneManagerScript.TaskResults", i, length, c.Link(node.TaskResults[i], depth + 1)); captured++; } c.ArrayField(fields, "CGameZoneManagerScript.TaskResults", captured, length); } catch { c.Skipped("CGameZoneManagerScript.TaskResults", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CHmsAmbientOcc(DiagnosticsCapture@ c, CHmsAmbientOcc@ node, Json::Value &inout fields, uint depth)
 {
@@ -20761,7 +20761,7 @@ void DiagnosticsRead_CHmsViewport(DiagnosticsCapture@ c, CHmsViewport@ node, Jso
     try { c.Field(fields, "CHmsViewport.RenderZoneVPacker", Json::Value(node.RenderZoneVPacker)); } catch { c.Skipped("CHmsViewport.RenderZoneVPacker", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsViewport.DisplayNames");
-    try { Json::Value values = Json::Array(); uint length = node.DisplayNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsViewport.DisplayNames[" + i + "]"); values.Add(c.Text(string(node.DisplayNames[i]))); } c.ArrayField(fields, "CHmsViewport.DisplayNames", values, length); } catch { c.Skipped("CHmsViewport.DisplayNames", "failed", "getter exception"); }
+    try { uint length = node.DisplayNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsViewport.DisplayNames[" + i + "]"); c.ArrayElement("CHmsViewport.DisplayNames", i, length, c.Text(string(node.DisplayNames[i]))); captured++; } c.ArrayField(fields, "CHmsViewport.DisplayNames", captured, length); } catch { c.Skipped("CHmsViewport.DisplayNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsViewport.ScreenShotFullName");
     try { c.Field(fields, "CHmsViewport.ScreenShotFullName", c.Text(string(node.ScreenShotFullName))); } catch { c.Skipped("CHmsViewport.ScreenShotFullName", "failed", "getter exception"); }
@@ -20797,13 +20797,13 @@ void DiagnosticsRead_CHmsViewport(DiagnosticsCapture@ c, CHmsViewport@ node, Jso
     try { c.Field(fields, "CHmsViewport.DisableOverlayRender", Json::Value(node.DisableOverlayRender)); } catch { c.Skipped("CHmsViewport.DisableOverlayRender", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsViewport.Underlays");
-    try { Json::Value values = Json::Array(); uint length = node.Underlays.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsViewport.Underlays[" + i + "]"); values.Add(c.Link(node.Underlays[i], depth + 1)); } c.ArrayField(fields, "CHmsViewport.Underlays", values, length); } catch { c.Skipped("CHmsViewport.Underlays", "failed", "getter exception"); }
+    try { uint length = node.Underlays.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsViewport.Underlays[" + i + "]"); c.ArrayElement("CHmsViewport.Underlays", i, length, c.Link(node.Underlays[i], depth + 1)); captured++; } c.ArrayField(fields, "CHmsViewport.Underlays", captured, length); } catch { c.Skipped("CHmsViewport.Underlays", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsViewport.Cameras");
-    try { Json::Value values = Json::Array(); uint length = node.Cameras.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsViewport.Cameras[" + i + "]"); values.Add(c.Link(node.Cameras[i], depth + 1)); } c.ArrayField(fields, "CHmsViewport.Cameras", values, length); } catch { c.Skipped("CHmsViewport.Cameras", "failed", "getter exception"); }
+    try { uint length = node.Cameras.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsViewport.Cameras[" + i + "]"); c.ArrayElement("CHmsViewport.Cameras", i, length, c.Link(node.Cameras[i], depth + 1)); captured++; } c.ArrayField(fields, "CHmsViewport.Cameras", captured, length); } catch { c.Skipped("CHmsViewport.Cameras", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsViewport.Overlays");
-    try { Json::Value values = Json::Array(); uint length = node.Overlays.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsViewport.Overlays[" + i + "]"); values.Add(c.Link(node.Overlays[i], depth + 1)); } c.ArrayField(fields, "CHmsViewport.Overlays", values, length); } catch { c.Skipped("CHmsViewport.Overlays", "failed", "getter exception"); }
+    try { uint length = node.Overlays.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsViewport.Overlays[" + i + "]"); c.ArrayElement("CHmsViewport.Overlays", i, length, c.Link(node.Overlays[i], depth + 1)); captured++; } c.ArrayField(fields, "CHmsViewport.Overlays", captured, length); } catch { c.Skipped("CHmsViewport.Overlays", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsViewport.SystemConfig");
     try { c.Field(fields, "CHmsViewport.SystemConfig", c.Link(node.SystemConfig, depth + 1)); } catch { c.Skipped("CHmsViewport.SystemConfig", "failed", "getter exception"); }
@@ -20849,16 +20849,16 @@ void DiagnosticsRead_CHmsZone(DiagnosticsCapture@ c, CHmsZone@ node, Json::Value
     try { c.Field(fields, "CHmsZone.FogExpDensity", c.Number(double(node.FogExpDensity))); } catch { c.Skipped("CHmsZone.FogExpDensity", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZone.PrecalcRenders");
-    try { Json::Value values = Json::Array(); uint length = node.PrecalcRenders.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.PrecalcRenders[" + i + "]"); values.Add(c.Link(node.PrecalcRenders[i], depth + 1)); } c.ArrayField(fields, "CHmsZone.PrecalcRenders", values, length); } catch { c.Skipped("CHmsZone.PrecalcRenders", "failed", "getter exception"); }
+    try { uint length = node.PrecalcRenders.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.PrecalcRenders[" + i + "]"); c.ArrayElement("CHmsZone.PrecalcRenders", i, length, c.Link(node.PrecalcRenders[i], depth + 1)); captured++; } c.ArrayField(fields, "CHmsZone.PrecalcRenders", captured, length); } catch { c.Skipped("CHmsZone.PrecalcRenders", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZone.DynamicLightArrays");
-    try { Json::Value values = Json::Array(); uint length = node.DynamicLightArrays.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.DynamicLightArrays[" + i + "]"); values.Add(c.Link(node.DynamicLightArrays[i], depth + 1)); } c.ArrayField(fields, "CHmsZone.DynamicLightArrays", values, length); } catch { c.Skipped("CHmsZone.DynamicLightArrays", "failed", "getter exception"); }
+    try { uint length = node.DynamicLightArrays.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.DynamicLightArrays[" + i + "]"); c.ArrayElement("CHmsZone.DynamicLightArrays", i, length, c.Link(node.DynamicLightArrays[i], depth + 1)); captured++; } c.ArrayField(fields, "CHmsZone.DynamicLightArrays", captured, length); } catch { c.Skipped("CHmsZone.DynamicLightArrays", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZone.DynamicDecalArrays");
-    try { Json::Value values = Json::Array(); uint length = node.DynamicDecalArrays.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.DynamicDecalArrays[" + i + "]"); values.Add(c.Link(node.DynamicDecalArrays[i], depth + 1)); } c.ArrayField(fields, "CHmsZone.DynamicDecalArrays", values, length); } catch { c.Skipped("CHmsZone.DynamicDecalArrays", "failed", "getter exception"); }
+    try { uint length = node.DynamicDecalArrays.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.DynamicDecalArrays[" + i + "]"); c.ArrayElement("CHmsZone.DynamicDecalArrays", i, length, c.Link(node.DynamicDecalArrays[i], depth + 1)); captured++; } c.ArrayField(fields, "CHmsZone.DynamicDecalArrays", captured, length); } catch { c.Skipped("CHmsZone.DynamicDecalArrays", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZone.StaticDecalArrays");
-    try { Json::Value values = Json::Array(); uint length = node.StaticDecalArrays.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.StaticDecalArrays[" + i + "]"); values.Add(c.Link(node.StaticDecalArrays[i], depth + 1)); } c.ArrayField(fields, "CHmsZone.StaticDecalArrays", values, length); } catch { c.Skipped("CHmsZone.StaticDecalArrays", "failed", "getter exception"); }
+    try { uint length = node.StaticDecalArrays.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.StaticDecalArrays[" + i + "]"); c.ArrayElement("CHmsZone.StaticDecalArrays", i, length, c.Link(node.StaticDecalArrays[i], depth + 1)); captured++; } c.ArrayField(fields, "CHmsZone.StaticDecalArrays", captured, length); } catch { c.Skipped("CHmsZone.StaticDecalArrays", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZone.MRMaskWater");
     try { c.Field(fields, "CHmsZone.MRMaskWater", Json::Value(node.MRMaskWater)); } catch { c.Skipped("CHmsZone.MRMaskWater", "failed", "getter exception"); }
@@ -20873,7 +20873,7 @@ void DiagnosticsRead_CHmsZone(DiagnosticsCapture@ c, CHmsZone@ node, Json::Value
     try { c.Field(fields, "CHmsZone.MRNormal", c.Text(tostring(node.MRNormal))); } catch { c.Skipped("CHmsZone.MRNormal", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZone.WaterPlaneEqInWs");
-    try { Json::Value values = Json::Array(); uint length = node.WaterPlaneEqInWs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.WaterPlaneEqInWs[" + i + "]"); values.Add(c.Text(tostring(node.WaterPlaneEqInWs[i]))); } c.ArrayField(fields, "CHmsZone.WaterPlaneEqInWs", values, length); } catch { c.Skipped("CHmsZone.WaterPlaneEqInWs", "failed", "getter exception"); }
+    try { uint length = node.WaterPlaneEqInWs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZone.WaterPlaneEqInWs[" + i + "]"); c.ArrayElement("CHmsZone.WaterPlaneEqInWs", i, length, c.Text(tostring(node.WaterPlaneEqInWs[i]))); captured++; } c.ArrayField(fields, "CHmsZone.WaterPlaneEqInWs", captured, length); } catch { c.Skipped("CHmsZone.WaterPlaneEqInWs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZone.IVIdMaskReflected");
     try { c.Field(fields, "CHmsZone.IVIdMaskReflected", Json::Value(node.IVIdMaskReflected)); } catch { c.Skipped("CHmsZone.IVIdMaskReflected", "failed", "getter exception"); }
@@ -21139,7 +21139,7 @@ void DiagnosticsRead_CHmsZoneOverlay(DiagnosticsCapture@ c, CHmsZoneOverlay@ nod
     try { c.Field(fields, "CHmsZoneOverlay.ClearColor", c.Text(tostring(node.ClearColor))); } catch { c.Skipped("CHmsZoneOverlay.ClearColor", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZoneOverlay.m_CorpusVisibles");
-    try { Json::Value values = Json::Array(); uint length = node.m_CorpusVisibles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZoneOverlay.m_CorpusVisibles[" + i + "]"); values.Add(c.Link(node.m_CorpusVisibles[i], depth + 1)); } c.ArrayField(fields, "CHmsZoneOverlay.m_CorpusVisibles", values, length); } catch { c.Skipped("CHmsZoneOverlay.m_CorpusVisibles", "failed", "getter exception"); }
+    try { uint length = node.m_CorpusVisibles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CHmsZoneOverlay.m_CorpusVisibles[" + i + "]"); c.ArrayElement("CHmsZoneOverlay.m_CorpusVisibles", i, length, c.Link(node.m_CorpusVisibles[i], depth + 1)); captured++; } c.ArrayField(fields, "CHmsZoneOverlay.m_CorpusVisibles", captured, length); } catch { c.Skipped("CHmsZoneOverlay.m_CorpusVisibles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CHmsZoneOverlay.m_ClipRects");
     try { c.Skipped("CHmsZoneOverlay.m_ClipRects", "unsupported", "MwFastBuffer<NHmsZoneOverlay_SClipRect>"); } catch { c.Skipped("CHmsZoneOverlay.m_ClipRects", "failed", "getter exception"); }
@@ -21254,7 +21254,7 @@ void DiagnosticsRead_CInputPort(DiagnosticsCapture@ c, CInputPort@ node, Json::V
     try { c.Field(fields, "CInputPort.DevicePlugEventCount", Json::Value(node.DevicePlugEventCount)); } catch { c.Skipped("CInputPort.DevicePlugEventCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputPort.ConnectedDevices");
-    try { Json::Value values = Json::Array(); uint length = node.ConnectedDevices.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputPort.ConnectedDevices[" + i + "]"); values.Add(c.Link(node.ConnectedDevices[i], depth + 1)); } c.ArrayField(fields, "CInputPort.ConnectedDevices", values, length); } catch { c.Skipped("CInputPort.ConnectedDevices", "failed", "getter exception"); }
+    try { uint length = node.ConnectedDevices.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputPort.ConnectedDevices[" + i + "]"); c.ArrayElement("CInputPort.ConnectedDevices", i, length, c.Link(node.ConnectedDevices[i], depth + 1)); captured++; } c.ArrayField(fields, "CInputPort.ConnectedDevices", captured, length); } catch { c.Skipped("CInputPort.ConnectedDevices", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputPort.MaxSampleRate");
     try { c.Field(fields, "CInputPort.MaxSampleRate", Json::Value(node.MaxSampleRate)); } catch { c.Skipped("CInputPort.MaxSampleRate", "failed", "getter exception"); }
@@ -21278,7 +21278,7 @@ void DiagnosticsRead_CInputPort(DiagnosticsCapture@ c, CInputPort@ node, Json::V
     try { c.Field(fields, "CInputPort.IsPadModuleExclusive", Json::Value(node.IsPadModuleExclusive)); } catch { c.Skipped("CInputPort.IsPadModuleExclusive", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputPort.Script_Pads");
-    try { Json::Value values = Json::Array(); uint length = node.Script_Pads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputPort.Script_Pads[" + i + "]"); values.Add(c.Link(node.Script_Pads[i], depth + 1)); } c.ArrayField(fields, "CInputPort.Script_Pads", values, length); } catch { c.Skipped("CInputPort.Script_Pads", "failed", "getter exception"); }
+    try { uint length = node.Script_Pads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputPort.Script_Pads[" + i + "]"); c.ArrayElement("CInputPort.Script_Pads", i, length, c.Link(node.Script_Pads[i], depth + 1)); captured++; } c.ArrayField(fields, "CInputPort.Script_Pads", captured, length); } catch { c.Skipped("CInputPort.Script_Pads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputPort.AutoRepeat_InitialDelay");
     try { c.Field(fields, "CInputPort.AutoRepeat_InitialDelay", Json::Value(node.AutoRepeat_InitialDelay)); } catch { c.Skipped("CInputPort.AutoRepeat_InitialDelay", "failed", "getter exception"); }
@@ -21357,7 +21357,7 @@ void DiagnosticsRead_CInputScriptManager(DiagnosticsCapture@ c, CInputScriptMana
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CInputScriptManager.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptManager.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CInputScriptManager.PendingEvents", values, length); } catch { c.Skipped("CInputScriptManager.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptManager.PendingEvents[" + i + "]"); c.ArrayElement("CInputScriptManager.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CInputScriptManager.PendingEvents", captured, length); } catch { c.Skipped("CInputScriptManager.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputScriptManager.Now");
     try { c.Field(fields, "CInputScriptManager.Now", Json::Value(node.Now)); } catch { c.Skipped("CInputScriptManager.Now", "failed", "getter exception"); }
@@ -21366,7 +21366,7 @@ void DiagnosticsRead_CInputScriptManager(DiagnosticsCapture@ c, CInputScriptMana
     try { c.Field(fields, "CInputScriptManager.Period", Json::Value(node.Period)); } catch { c.Skipped("CInputScriptManager.Period", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputScriptManager.Pads");
-    try { Json::Value values = Json::Array(); uint length = node.Pads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptManager.Pads[" + i + "]"); values.Add(c.Link(node.Pads[i], depth + 1)); } c.ArrayField(fields, "CInputScriptManager.Pads", values, length); } catch { c.Skipped("CInputScriptManager.Pads", "failed", "getter exception"); }
+    try { uint length = node.Pads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptManager.Pads[" + i + "]"); c.ArrayElement("CInputScriptManager.Pads", i, length, c.Link(node.Pads[i], depth + 1)); captured++; } c.ArrayField(fields, "CInputScriptManager.Pads", captured, length); } catch { c.Skipped("CInputScriptManager.Pads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputScriptManager.MousePos");
     try { c.Field(fields, "CInputScriptManager.MousePos", c.Text(tostring(node.MousePos))); } catch { c.Skipped("CInputScriptManager.MousePos", "failed", "getter exception"); }
@@ -21384,10 +21384,10 @@ void DiagnosticsRead_CInputScriptManager(DiagnosticsCapture@ c, CInputScriptMana
     try { c.Field(fields, "CInputScriptManager.MouseMiddleButton", Json::Value(node.MouseMiddleButton)); } catch { c.Skipped("CInputScriptManager.MouseMiddleButton", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputScriptManager.TouchPoints_Cur");
-    try { Json::Value values = Json::Array(); uint length = node.TouchPoints_Cur.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptManager.TouchPoints_Cur[" + i + "]"); values.Add(c.Text(tostring(node.TouchPoints_Cur[i]))); } c.ArrayField(fields, "CInputScriptManager.TouchPoints_Cur", values, length); } catch { c.Skipped("CInputScriptManager.TouchPoints_Cur", "failed", "getter exception"); }
+    try { uint length = node.TouchPoints_Cur.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptManager.TouchPoints_Cur[" + i + "]"); c.ArrayElement("CInputScriptManager.TouchPoints_Cur", i, length, c.Text(tostring(node.TouchPoints_Cur[i]))); captured++; } c.ArrayField(fields, "CInputScriptManager.TouchPoints_Cur", captured, length); } catch { c.Skipped("CInputScriptManager.TouchPoints_Cur", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputScriptManager.TouchPoints_Init");
-    try { Json::Value values = Json::Array(); uint length = node.TouchPoints_Init.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptManager.TouchPoints_Init[" + i + "]"); values.Add(c.Text(tostring(node.TouchPoints_Init[i]))); } c.ArrayField(fields, "CInputScriptManager.TouchPoints_Init", values, length); } catch { c.Skipped("CInputScriptManager.TouchPoints_Init", "failed", "getter exception"); }
+    try { uint length = node.TouchPoints_Init.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptManager.TouchPoints_Init[" + i + "]"); c.ArrayElement("CInputScriptManager.TouchPoints_Init", i, length, c.Text(tostring(node.TouchPoints_Init[i]))); captured++; } c.ArrayField(fields, "CInputScriptManager.TouchPoints_Init", captured, length); } catch { c.Skipped("CInputScriptManager.TouchPoints_Init", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputScriptManager.JapanStylePadButtons");
     try { c.Field(fields, "CInputScriptManager.JapanStylePadButtons", Json::Value(node.JapanStylePadButtons)); } catch { c.Skipped("CInputScriptManager.JapanStylePadButtons", "failed", "getter exception"); }
@@ -21502,7 +21502,7 @@ void DiagnosticsRead_CInputScriptPad(DiagnosticsCapture@ c, CInputScriptPad@ nod
     try { c.Field(fields, "CInputScriptPad.R2", c.Number(double(node.R2))); } catch { c.Skipped("CInputScriptPad.R2", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CInputScriptPad.ButtonEvents");
-    try { Json::Value values = Json::Array(); uint length = node.ButtonEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptPad.ButtonEvents[" + i + "]"); values.Add(Json::Value(int(node.ButtonEvents[i]))); } c.ArrayField(fields, "CInputScriptPad.ButtonEvents", values, length); } catch { c.Skipped("CInputScriptPad.ButtonEvents", "failed", "getter exception"); }
+    try { uint length = node.ButtonEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CInputScriptPad.ButtonEvents[" + i + "]"); c.ArrayElement("CInputScriptPad.ButtonEvents", i, length, Json::Value(int(node.ButtonEvents[i]))); captured++; } c.ArrayField(fields, "CInputScriptPad.ButtonEvents", captured, length); } catch { c.Skipped("CInputScriptPad.ButtonEvents", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CMwCmd(DiagnosticsCapture@ c, CMwCmd@ node, Json::Value &inout fields, uint depth)
 {
@@ -21546,7 +21546,7 @@ void DiagnosticsRead_CMwRefBuffer(DiagnosticsCapture@ c, CMwRefBuffer@ node, Jso
     try { c.Field(fields, "CMwRefBuffer.Count", Json::Value(node.Count)); } catch { c.Skipped("CMwRefBuffer.Count", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CMwRefBuffer.Nods");
-    try { Json::Value values = Json::Array(); uint length = node.Nods.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CMwRefBuffer.Nods[" + i + "]"); values.Add(c.Link(node.Nods[i], depth + 1)); } c.ArrayField(fields, "CMwRefBuffer.Nods", values, length); } catch { c.Skipped("CMwRefBuffer.Nods", "failed", "getter exception"); }
+    try { uint length = node.Nods.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CMwRefBuffer.Nods[" + i + "]"); c.ArrayElement("CMwRefBuffer.Nods", i, length, c.Link(node.Nods[i], depth + 1)); captured++; } c.ArrayField(fields, "CMwRefBuffer.Nods", captured, length); } catch { c.Skipped("CMwRefBuffer.Nods", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CMwRefBuffer.UseAddRefRelease");
     try { c.Field(fields, "CMwRefBuffer.UseAddRefRelease", Json::Value(node.UseAddRefRelease)); } catch { c.Skipped("CMwRefBuffer.UseAddRefRelease", "failed", "getter exception"); }
@@ -21580,7 +21580,7 @@ void DiagnosticsRead_CMwStatsValue(DiagnosticsCapture@ c, CMwStatsValue@ node, J
     try { c.Field(fields, "CMwStatsValue.AutoBuckets", Json::Value(node.AutoBuckets)); } catch { c.Skipped("CMwStatsValue.AutoBuckets", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CMwStatsValue.BucketsRanges");
-    try { Json::Value values = Json::Array(); uint length = node.BucketsRanges.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CMwStatsValue.BucketsRanges[" + i + "]"); values.Add(c.Number(double(node.BucketsRanges[i]))); } c.ArrayField(fields, "CMwStatsValue.BucketsRanges", values, length); } catch { c.Skipped("CMwStatsValue.BucketsRanges", "failed", "getter exception"); }
+    try { uint length = node.BucketsRanges.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CMwStatsValue.BucketsRanges[" + i + "]"); c.ArrayElement("CMwStatsValue.BucketsRanges", i, length, c.Number(double(node.BucketsRanges[i]))); captured++; } c.ArrayField(fields, "CMwStatsValue.BucketsRanges", captured, length); } catch { c.Skipped("CMwStatsValue.BucketsRanges", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CMwStatsValue.NbSamples");
     try { c.Field(fields, "CMwStatsValue.NbSamples", Json::Value(node.NbSamples)); } catch { c.Skipped("CMwStatsValue.NbSamples", "failed", "getter exception"); }
@@ -21616,7 +21616,7 @@ void DiagnosticsRead_CMwStatsValue(DiagnosticsCapture@ c, CMwStatsValue@ node, J
     try { c.Field(fields, "CMwStatsValue.DeviatedMean", c.Number(double(node.DeviatedMean))); } catch { c.Skipped("CMwStatsValue.DeviatedMean", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CMwStatsValue.BucketsRatio");
-    try { Json::Value values = Json::Array(); uint length = node.BucketsRatio.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CMwStatsValue.BucketsRatio[" + i + "]"); values.Add(c.Number(double(node.BucketsRatio[i]))); } c.ArrayField(fields, "CMwStatsValue.BucketsRatio", values, length); } catch { c.Skipped("CMwStatsValue.BucketsRatio", "failed", "getter exception"); }
+    try { uint length = node.BucketsRatio.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CMwStatsValue.BucketsRatio[" + i + "]"); c.ArrayElement("CMwStatsValue.BucketsRatio", i, length, c.Number(double(node.BucketsRatio[i]))); captured++; } c.ArrayField(fields, "CMwStatsValue.BucketsRatio", captured, length); } catch { c.Skipped("CMwStatsValue.BucketsRatio", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CNadeoServicesMap(DiagnosticsCapture@ c, CNadeoServicesMap@ node, Json::Value &inout fields, uint depth)
 {
@@ -21742,7 +21742,7 @@ void DiagnosticsRead_CNetClient(DiagnosticsCapture@ c, CNetClient@ node, Json::V
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CNetClient.Connections");
-    try { Json::Value values = Json::Array(); uint length = node.Connections.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetClient.Connections[" + i + "]"); values.Add(c.Link(node.Connections[i], depth + 1)); } c.ArrayField(fields, "CNetClient.Connections", values, length); } catch { c.Skipped("CNetClient.Connections", "failed", "getter exception"); }
+    try { uint length = node.Connections.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetClient.Connections[" + i + "]"); c.ArrayElement("CNetClient.Connections", i, length, c.Link(node.Connections[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetClient.Connections", captured, length); } catch { c.Skipped("CNetClient.Connections", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetClient.NbrNewConnections");
     try { c.Field(fields, "CNetClient.NbrNewConnections", Json::Value(node.NbrNewConnections)); } catch { c.Skipped("CNetClient.NbrNewConnections", "failed", "getter exception"); }
@@ -21966,16 +21966,16 @@ void DiagnosticsRead_CNetFileTransfer(DiagnosticsCapture@ c, CNetFileTransfer@ n
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CNetFileTransfer.IPSources");
-    try { Json::Value values = Json::Array(); uint length = node.IPSources.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransfer.IPSources[" + i + "]"); values.Add(c.Link(node.IPSources[i], depth + 1)); } c.ArrayField(fields, "CNetFileTransfer.IPSources", values, length); } catch { c.Skipped("CNetFileTransfer.IPSources", "failed", "getter exception"); }
+    try { uint length = node.IPSources.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransfer.IPSources[" + i + "]"); c.ArrayElement("CNetFileTransfer.IPSources", i, length, c.Link(node.IPSources[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetFileTransfer.IPSources", captured, length); } catch { c.Skipped("CNetFileTransfer.IPSources", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetFileTransfer.Uploads");
-    try { Json::Value values = Json::Array(); uint length = node.Uploads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransfer.Uploads[" + i + "]"); values.Add(c.Link(node.Uploads[i], depth + 1)); } c.ArrayField(fields, "CNetFileTransfer.Uploads", values, length); } catch { c.Skipped("CNetFileTransfer.Uploads", "failed", "getter exception"); }
+    try { uint length = node.Uploads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransfer.Uploads[" + i + "]"); c.ArrayElement("CNetFileTransfer.Uploads", i, length, c.Link(node.Uploads[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetFileTransfer.Uploads", captured, length); } catch { c.Skipped("CNetFileTransfer.Uploads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetFileTransfer.Downloads");
-    try { Json::Value values = Json::Array(); uint length = node.Downloads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransfer.Downloads[" + i + "]"); values.Add(c.Link(node.Downloads[i], depth + 1)); } c.ArrayField(fields, "CNetFileTransfer.Downloads", values, length); } catch { c.Skipped("CNetFileTransfer.Downloads", "failed", "getter exception"); }
+    try { uint length = node.Downloads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransfer.Downloads[" + i + "]"); c.ArrayElement("CNetFileTransfer.Downloads", i, length, c.Link(node.Downloads[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetFileTransfer.Downloads", captured, length); } catch { c.Skipped("CNetFileTransfer.Downloads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetFileTransfer.TerminatedDownloads");
-    try { Json::Value values = Json::Array(); uint length = node.TerminatedDownloads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransfer.TerminatedDownloads[" + i + "]"); values.Add(c.Link(node.TerminatedDownloads[i], depth + 1)); } c.ArrayField(fields, "CNetFileTransfer.TerminatedDownloads", values, length); } catch { c.Skipped("CNetFileTransfer.TerminatedDownloads", "failed", "getter exception"); }
+    try { uint length = node.TerminatedDownloads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransfer.TerminatedDownloads[" + i + "]"); c.ArrayElement("CNetFileTransfer.TerminatedDownloads", i, length, c.Link(node.TerminatedDownloads[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetFileTransfer.TerminatedDownloads", captured, length); } catch { c.Skipped("CNetFileTransfer.TerminatedDownloads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetFileTransfer.DownloadEnabled");
     try { c.Field(fields, "CNetFileTransfer.DownloadEnabled", Json::Value(node.DownloadEnabled)); } catch { c.Skipped("CNetFileTransfer.DownloadEnabled", "failed", "getter exception"); }
@@ -22132,7 +22132,7 @@ void DiagnosticsRead_CNetFileTransferDownload(DiagnosticsCapture@ c, CNetFileTra
     try { c.Field(fields, "CNetFileTransferDownload.PriorityFlags", Json::Value(node.PriorityFlags)); } catch { c.Skipped("CNetFileTransferDownload.PriorityFlags", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetFileTransferDownload.Sources");
-    try { Json::Value values = Json::Array(); uint length = node.Sources.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransferDownload.Sources[" + i + "]"); values.Add(c.Link(node.Sources[i], depth + 1)); } c.ArrayField(fields, "CNetFileTransferDownload.Sources", values, length); } catch { c.Skipped("CNetFileTransferDownload.Sources", "failed", "getter exception"); }
+    try { uint length = node.Sources.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetFileTransferDownload.Sources[" + i + "]"); c.ArrayElement("CNetFileTransferDownload.Sources", i, length, c.Link(node.Sources[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetFileTransferDownload.Sources", captured, length); } catch { c.Skipped("CNetFileTransferDownload.Sources", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetFileTransferDownload.NbOfEffectiveSources");
     try { c.Field(fields, "CNetFileTransferDownload.NbOfEffectiveSources", Json::Value(node.NbOfEffectiveSources)); } catch { c.Skipped("CNetFileTransferDownload.NbOfEffectiveSources", "failed", "getter exception"); }
@@ -22330,7 +22330,7 @@ void DiagnosticsRead_CNetHttpClient(DiagnosticsCapture@ c, CNetHttpClient@ node,
     try { c.Field(fields, "CNetHttpClient.UserAgentHeader", c.Text(node.UserAgentHeader)); } catch { c.Skipped("CNetHttpClient.UserAgentHeader", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetHttpClient.Requests");
-    try { Json::Value values = Json::Array(); uint length = node.Requests.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetHttpClient.Requests[" + i + "]"); values.Add(c.Link(node.Requests[i], depth + 1)); } c.ArrayField(fields, "CNetHttpClient.Requests", values, length); } catch { c.Skipped("CNetHttpClient.Requests", "failed", "getter exception"); }
+    try { uint length = node.Requests.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetHttpClient.Requests[" + i + "]"); c.ArrayElement("CNetHttpClient.Requests", i, length, c.Link(node.Requests[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetHttpClient.Requests", captured, length); } catch { c.Skipped("CNetHttpClient.Requests", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CNetHttpResult(DiagnosticsCapture@ c, CNetHttpResult@ node, Json::Value &inout fields, uint depth)
 {
@@ -22437,16 +22437,16 @@ void DiagnosticsRead_CNetIPSource(DiagnosticsCapture@ c, CNetIPSource@ node, Jso
     try { c.Field(fields, "CNetIPSource.CanBeConnectedBy", Json::Value(node.CanBeConnectedBy)); } catch { c.Skipped("CNetIPSource.CanBeConnectedBy", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetIPSource.SourcesUsingConnectionFrom");
-    try { Json::Value values = Json::Array(); uint length = node.SourcesUsingConnectionFrom.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetIPSource.SourcesUsingConnectionFrom[" + i + "]"); values.Add(c.Link(node.SourcesUsingConnectionFrom[i], depth + 1)); } c.ArrayField(fields, "CNetIPSource.SourcesUsingConnectionFrom", values, length); } catch { c.Skipped("CNetIPSource.SourcesUsingConnectionFrom", "failed", "getter exception"); }
+    try { uint length = node.SourcesUsingConnectionFrom.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetIPSource.SourcesUsingConnectionFrom[" + i + "]"); c.ArrayElement("CNetIPSource.SourcesUsingConnectionFrom", i, length, c.Link(node.SourcesUsingConnectionFrom[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetIPSource.SourcesUsingConnectionFrom", captured, length); } catch { c.Skipped("CNetIPSource.SourcesUsingConnectionFrom", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetIPSource.UploadsUsingConnectionFrom");
-    try { Json::Value values = Json::Array(); uint length = node.UploadsUsingConnectionFrom.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetIPSource.UploadsUsingConnectionFrom[" + i + "]"); values.Add(c.Link(node.UploadsUsingConnectionFrom[i], depth + 1)); } c.ArrayField(fields, "CNetIPSource.UploadsUsingConnectionFrom", values, length); } catch { c.Skipped("CNetIPSource.UploadsUsingConnectionFrom", "failed", "getter exception"); }
+    try { uint length = node.UploadsUsingConnectionFrom.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetIPSource.UploadsUsingConnectionFrom[" + i + "]"); c.ArrayElement("CNetIPSource.UploadsUsingConnectionFrom", i, length, c.Link(node.UploadsUsingConnectionFrom[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetIPSource.UploadsUsingConnectionFrom", captured, length); } catch { c.Skipped("CNetIPSource.UploadsUsingConnectionFrom", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetIPSource.SourcesUsingConnectionTo");
-    try { Json::Value values = Json::Array(); uint length = node.SourcesUsingConnectionTo.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetIPSource.SourcesUsingConnectionTo[" + i + "]"); values.Add(c.Link(node.SourcesUsingConnectionTo[i], depth + 1)); } c.ArrayField(fields, "CNetIPSource.SourcesUsingConnectionTo", values, length); } catch { c.Skipped("CNetIPSource.SourcesUsingConnectionTo", "failed", "getter exception"); }
+    try { uint length = node.SourcesUsingConnectionTo.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetIPSource.SourcesUsingConnectionTo[" + i + "]"); c.ArrayElement("CNetIPSource.SourcesUsingConnectionTo", i, length, c.Link(node.SourcesUsingConnectionTo[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetIPSource.SourcesUsingConnectionTo", captured, length); } catch { c.Skipped("CNetIPSource.SourcesUsingConnectionTo", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetIPSource.UploadsUsingConnectionTo");
-    try { Json::Value values = Json::Array(); uint length = node.UploadsUsingConnectionTo.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetIPSource.UploadsUsingConnectionTo[" + i + "]"); values.Add(c.Link(node.UploadsUsingConnectionTo[i], depth + 1)); } c.ArrayField(fields, "CNetIPSource.UploadsUsingConnectionTo", values, length); } catch { c.Skipped("CNetIPSource.UploadsUsingConnectionTo", "failed", "getter exception"); }
+    try { uint length = node.UploadsUsingConnectionTo.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetIPSource.UploadsUsingConnectionTo[" + i + "]"); c.ArrayElement("CNetIPSource.UploadsUsingConnectionTo", i, length, c.Link(node.UploadsUsingConnectionTo[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetIPSource.UploadsUsingConnectionTo", captured, length); } catch { c.Skipped("CNetIPSource.UploadsUsingConnectionTo", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetIPSource.ForceCancel");
     try { c.Field(fields, "CNetIPSource.ForceCancel", Json::Value(node.ForceCancel)); } catch { c.Skipped("CNetIPSource.ForceCancel", "failed", "getter exception"); }
@@ -22469,25 +22469,25 @@ void DiagnosticsRead_CNetMasterServer(DiagnosticsCapture@ c, CNetMasterServer@ n
     try { c.Field(fields, "CNetMasterServer.GameVersion", c.Text(node.GameVersion)); } catch { c.Skipped("CNetMasterServer.GameVersion", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetMasterServer.MasterServerUserInfos");
-    try { Json::Value values = Json::Array(); uint length = node.MasterServerUserInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.MasterServerUserInfos[" + i + "]"); values.Add(c.Link(node.MasterServerUserInfos[i], depth + 1)); } c.ArrayField(fields, "CNetMasterServer.MasterServerUserInfos", values, length); } catch { c.Skipped("CNetMasterServer.MasterServerUserInfos", "failed", "getter exception"); }
+    try { uint length = node.MasterServerUserInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.MasterServerUserInfos[" + i + "]"); c.ArrayElement("CNetMasterServer.MasterServerUserInfos", i, length, c.Link(node.MasterServerUserInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetMasterServer.MasterServerUserInfos", captured, length); } catch { c.Skipped("CNetMasterServer.MasterServerUserInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetMasterServer.Downloads");
-    try { Json::Value values = Json::Array(); uint length = node.Downloads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.Downloads[" + i + "]"); values.Add(c.Link(node.Downloads[i], depth + 1)); } c.ArrayField(fields, "CNetMasterServer.Downloads", values, length); } catch { c.Skipped("CNetMasterServer.Downloads", "failed", "getter exception"); }
+    try { uint length = node.Downloads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.Downloads[" + i + "]"); c.ArrayElement("CNetMasterServer.Downloads", i, length, c.Link(node.Downloads[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetMasterServer.Downloads", captured, length); } catch { c.Skipped("CNetMasterServer.Downloads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetMasterServer.CurrentDownloads");
-    try { Json::Value values = Json::Array(); uint length = node.CurrentDownloads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.CurrentDownloads[" + i + "]"); values.Add(c.Link(node.CurrentDownloads[i], depth + 1)); } c.ArrayField(fields, "CNetMasterServer.CurrentDownloads", values, length); } catch { c.Skipped("CNetMasterServer.CurrentDownloads", "failed", "getter exception"); }
+    try { uint length = node.CurrentDownloads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.CurrentDownloads[" + i + "]"); c.ArrayElement("CNetMasterServer.CurrentDownloads", i, length, c.Link(node.CurrentDownloads[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetMasterServer.CurrentDownloads", captured, length); } catch { c.Skipped("CNetMasterServer.CurrentDownloads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetMasterServer.HttpDownloadClients");
-    try { Json::Value values = Json::Array(); uint length = node.HttpDownloadClients.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.HttpDownloadClients[" + i + "]"); values.Add(c.Link(node.HttpDownloadClients[i], depth + 1)); } c.ArrayField(fields, "CNetMasterServer.HttpDownloadClients", values, length); } catch { c.Skipped("CNetMasterServer.HttpDownloadClients", "failed", "getter exception"); }
+    try { uint length = node.HttpDownloadClients.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.HttpDownloadClients[" + i + "]"); c.ArrayElement("CNetMasterServer.HttpDownloadClients", i, length, c.Link(node.HttpDownloadClients[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetMasterServer.HttpDownloadClients", captured, length); } catch { c.Skipped("CNetMasterServer.HttpDownloadClients", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetMasterServer.UpToDateChecks");
-    try { Json::Value values = Json::Array(); uint length = node.UpToDateChecks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.UpToDateChecks[" + i + "]"); values.Add(c.Link(node.UpToDateChecks[i], depth + 1)); } c.ArrayField(fields, "CNetMasterServer.UpToDateChecks", values, length); } catch { c.Skipped("CNetMasterServer.UpToDateChecks", "failed", "getter exception"); }
+    try { uint length = node.UpToDateChecks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.UpToDateChecks[" + i + "]"); c.ArrayElement("CNetMasterServer.UpToDateChecks", i, length, c.Link(node.UpToDateChecks[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetMasterServer.UpToDateChecks", captured, length); } catch { c.Skipped("CNetMasterServer.UpToDateChecks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetMasterServer.CurrentUpToDateChecks");
-    try { Json::Value values = Json::Array(); uint length = node.CurrentUpToDateChecks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.CurrentUpToDateChecks[" + i + "]"); values.Add(c.Link(node.CurrentUpToDateChecks[i], depth + 1)); } c.ArrayField(fields, "CNetMasterServer.CurrentUpToDateChecks", values, length); } catch { c.Skipped("CNetMasterServer.CurrentUpToDateChecks", "failed", "getter exception"); }
+    try { uint length = node.CurrentUpToDateChecks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.CurrentUpToDateChecks[" + i + "]"); c.ArrayElement("CNetMasterServer.CurrentUpToDateChecks", i, length, c.Link(node.CurrentUpToDateChecks[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetMasterServer.CurrentUpToDateChecks", captured, length); } catch { c.Skipped("CNetMasterServer.CurrentUpToDateChecks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CNetMasterServer.HttpCheckUpToDateClients");
-    try { Json::Value values = Json::Array(); uint length = node.HttpCheckUpToDateClients.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.HttpCheckUpToDateClients[" + i + "]"); values.Add(c.Link(node.HttpCheckUpToDateClients[i], depth + 1)); } c.ArrayField(fields, "CNetMasterServer.HttpCheckUpToDateClients", values, length); } catch { c.Skipped("CNetMasterServer.HttpCheckUpToDateClients", "failed", "getter exception"); }
+    try { uint length = node.HttpCheckUpToDateClients.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CNetMasterServer.HttpCheckUpToDateClients[" + i + "]"); c.ArrayElement("CNetMasterServer.HttpCheckUpToDateClients", i, length, c.Link(node.HttpCheckUpToDateClients[i], depth + 1)); captured++; } c.ArrayField(fields, "CNetMasterServer.HttpCheckUpToDateClients", captured, length); } catch { c.Skipped("CNetMasterServer.HttpCheckUpToDateClients", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CNetMasterServerDownload(DiagnosticsCapture@ c, CNetMasterServerDownload@ node, Json::Value &inout fields, uint depth)
 {
@@ -22902,17 +22902,17 @@ void DiagnosticsRead_CPlugAdnRandomGenList(DiagnosticsCapture@ c, CPlugAdnRandom
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAdnRandomGenList.Datas");
-    try { Json::Value values = Json::Array(); uint length = node.Datas.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAdnRandomGenList.Datas[" + i + "]"); values.Add(c.Link(node.Datas[i], depth + 1)); } c.ArrayField(fields, "CPlugAdnRandomGenList.Datas", values, length); } catch { c.Skipped("CPlugAdnRandomGenList.Datas", "failed", "getter exception"); }
+    try { uint length = node.Datas.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAdnRandomGenList.Datas[" + i + "]"); c.ArrayElement("CPlugAdnRandomGenList.Datas", i, length, c.Link(node.Datas[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugAdnRandomGenList.Datas", captured, length); } catch { c.Skipped("CPlugAdnRandomGenList.Datas", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugAnimChannelGroup(DiagnosticsCapture@ c, CPlugAnimChannelGroup@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimChannelGroup.ChannelNames");
-    try { Json::Value values = Json::Array(); uint length = node.ChannelNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimChannelGroup.ChannelNames[" + i + "]"); values.Add(Json::Value(node.ChannelNames[i].Value)); } c.ArrayField(fields, "CPlugAnimChannelGroup.ChannelNames", values, length); } catch { c.Skipped("CPlugAnimChannelGroup.ChannelNames", "failed", "getter exception"); }
+    try { uint length = node.ChannelNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimChannelGroup.ChannelNames[" + i + "]"); c.ArrayElement("CPlugAnimChannelGroup.ChannelNames", i, length, Json::Value(node.ChannelNames[i].Value)); captured++; } c.ArrayField(fields, "CPlugAnimChannelGroup.ChannelNames", captured, length); } catch { c.Skipped("CPlugAnimChannelGroup.ChannelNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimChannelGroup.ChannelWeights");
-    try { Json::Value values = Json::Array(); uint length = node.ChannelWeights.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimChannelGroup.ChannelWeights[" + i + "]"); values.Add(c.Number(double(node.ChannelWeights[i]))); } c.ArrayField(fields, "CPlugAnimChannelGroup.ChannelWeights", values, length); } catch { c.Skipped("CPlugAnimChannelGroup.ChannelWeights", "failed", "getter exception"); }
+    try { uint length = node.ChannelWeights.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimChannelGroup.ChannelWeights[" + i + "]"); c.ArrayElement("CPlugAnimChannelGroup.ChannelWeights", i, length, c.Number(double(node.ChannelWeights[i]))); captured++; } c.ArrayField(fields, "CPlugAnimChannelGroup.ChannelWeights", captured, length); } catch { c.Skipped("CPlugAnimChannelGroup.ChannelWeights", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimChannelGroup.ChannelTypeRanges");
     try { c.Skipped("CPlugAnimChannelGroup.ChannelTypeRanges", "unsupported", "UnknownType"); } catch { c.Skipped("CPlugAnimChannelGroup.ChannelTypeRanges", "failed", "getter exception"); }
@@ -22921,7 +22921,7 @@ void DiagnosticsRead_CPlugAnimChannelGroup(DiagnosticsCapture@ c, CPlugAnimChann
     try { c.Field(fields, "CPlugAnimChannelGroup.OldSkel", c.Link(node.OldSkel, depth + 1)); } catch { c.Skipped("CPlugAnimChannelGroup.OldSkel", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimChannelGroup.OldJointIndexs");
-    try { Json::Value values = Json::Array(); uint length = node.OldJointIndexs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimChannelGroup.OldJointIndexs[" + i + "]"); values.Add(Json::Value(node.OldJointIndexs[i])); } c.ArrayField(fields, "CPlugAnimChannelGroup.OldJointIndexs", values, length); } catch { c.Skipped("CPlugAnimChannelGroup.OldJointIndexs", "failed", "getter exception"); }
+    try { uint length = node.OldJointIndexs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimChannelGroup.OldJointIndexs[" + i + "]"); c.ArrayElement("CPlugAnimChannelGroup.OldJointIndexs", i, length, Json::Value(node.OldJointIndexs[i])); captured++; } c.ArrayField(fields, "CPlugAnimChannelGroup.OldJointIndexs", captured, length); } catch { c.Skipped("CPlugAnimChannelGroup.OldJointIndexs", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugAnimClipBaked(DiagnosticsCapture@ c, CPlugAnimClipBaked@ node, Json::Value &inout fields, uint depth)
 {
@@ -22937,7 +22937,7 @@ void DiagnosticsRead_CPlugAnimClipBaked(DiagnosticsCapture@ c, CPlugAnimClipBake
     try { c.Skipped("CPlugAnimClipBaked.Flags", "unsupported", "CPlugAnimClipFlags"); } catch { c.Skipped("CPlugAnimClipBaked.Flags", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimClipBaked.Data");
-    try { Json::Value values = Json::Array(); uint length = node.Data.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimClipBaked.Data[" + i + "]"); values.Add(Json::Value(node.Data[i])); } c.ArrayField(fields, "CPlugAnimClipBaked.Data", values, length); } catch { c.Skipped("CPlugAnimClipBaked.Data", "failed", "getter exception"); }
+    try { uint length = node.Data.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimClipBaked.Data[" + i + "]"); c.ArrayElement("CPlugAnimClipBaked.Data", i, length, Json::Value(node.Data[i])); captured++; } c.ArrayField(fields, "CPlugAnimClipBaked.Data", captured, length); } catch { c.Skipped("CPlugAnimClipBaked.Data", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimClipBaked.RootMotionFrames");
     try { c.Skipped("CPlugAnimClipBaked.RootMotionFrames", "unsupported", "MwFastBuffer<GmTransYaw>"); } catch { c.Skipped("CPlugAnimClipBaked.RootMotionFrames", "failed", "getter exception"); }
@@ -22966,7 +22966,7 @@ void DiagnosticsRead_CPlugAnimFile(DiagnosticsCapture@ c, CPlugAnimFile@ node, J
     try { c.Skipped("CPlugAnimFile.RigToSkels", "unsupported", "MwFastBuffer<SMwIdRefRigToSkel>"); } catch { c.Skipped("CPlugAnimFile.RigToSkels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.BakedClips");
-    try { Json::Value values = Json::Array(); uint length = node.BakedClips.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.BakedClips[" + i + "]"); values.Add(c.Link(node.BakedClips[i], depth + 1)); } c.ArrayField(fields, "CPlugAnimFile.BakedClips", values, length); } catch { c.Skipped("CPlugAnimFile.BakedClips", "failed", "getter exception"); }
+    try { uint length = node.BakedClips.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.BakedClips[" + i + "]"); c.ArrayElement("CPlugAnimFile.BakedClips", i, length, c.Link(node.BakedClips[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugAnimFile.BakedClips", captured, length); } catch { c.Skipped("CPlugAnimFile.BakedClips", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.ChannelGroups");
     try { c.Skipped("CPlugAnimFile.ChannelGroups", "unsupported", "MwFastBuffer<SMwIdRefChannelGroup>"); } catch { c.Skipped("CPlugAnimFile.ChannelGroups", "failed", "getter exception"); }
@@ -22975,16 +22975,16 @@ void DiagnosticsRead_CPlugAnimFile(DiagnosticsCapture@ c, CPlugAnimFile@ node, J
     try { c.Skipped("CPlugAnimFile.JointExprGroups", "unsupported", "MwFastBuffer<SMwIdRefJointExprGroup>"); } catch { c.Skipped("CPlugAnimFile.JointExprGroups", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.VariantGroups");
-    try { Json::Value values = Json::Array(); uint length = node.VariantGroups.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.VariantGroups[" + i + "]"); values.Add(c.Link(node.VariantGroups[i], depth + 1)); } c.ArrayField(fields, "CPlugAnimFile.VariantGroups", values, length); } catch { c.Skipped("CPlugAnimFile.VariantGroups", "failed", "getter exception"); }
+    try { uint length = node.VariantGroups.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.VariantGroups[" + i + "]"); c.ArrayElement("CPlugAnimFile.VariantGroups", i, length, c.Link(node.VariantGroups[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugAnimFile.VariantGroups", captured, length); } catch { c.Skipped("CPlugAnimFile.VariantGroups", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.PoseGrids");
-    try { Json::Value values = Json::Array(); uint length = node.PoseGrids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.PoseGrids[" + i + "]"); values.Add(c.Link(node.PoseGrids[i], depth + 1)); } c.ArrayField(fields, "CPlugAnimFile.PoseGrids", values, length); } catch { c.Skipped("CPlugAnimFile.PoseGrids", "failed", "getter exception"); }
+    try { uint length = node.PoseGrids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.PoseGrids[" + i + "]"); c.ArrayElement("CPlugAnimFile.PoseGrids", i, length, c.Link(node.PoseGrids[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugAnimFile.PoseGrids", captured, length); } catch { c.Skipped("CPlugAnimFile.PoseGrids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.PoseGroups");
-    try { Json::Value values = Json::Array(); uint length = node.PoseGroups.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.PoseGroups[" + i + "]"); values.Add(c.Link(node.PoseGroups[i], depth + 1)); } c.ArrayField(fields, "CPlugAnimFile.PoseGroups", values, length); } catch { c.Skipped("CPlugAnimFile.PoseGroups", "failed", "getter exception"); }
+    try { uint length = node.PoseGroups.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.PoseGroups[" + i + "]"); c.ArrayElement("CPlugAnimFile.PoseGroups", i, length, c.Link(node.PoseGroups[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugAnimFile.PoseGroups", captured, length); } catch { c.Skipped("CPlugAnimFile.PoseGroups", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.EditionClips");
-    try { Json::Value values = Json::Array(); uint length = node.EditionClips.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.EditionClips[" + i + "]"); values.Add(c.Link(node.EditionClips[i], depth + 1)); } c.ArrayField(fields, "CPlugAnimFile.EditionClips", values, length); } catch { c.Skipped("CPlugAnimFile.EditionClips", "failed", "getter exception"); }
+    try { uint length = node.EditionClips.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.EditionClips[" + i + "]"); c.ArrayElement("CPlugAnimFile.EditionClips", i, length, c.Link(node.EditionClips[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugAnimFile.EditionClips", captured, length); } catch { c.Skipped("CPlugAnimFile.EditionClips", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.Clips");
     try { c.Skipped("CPlugAnimFile.Clips", "unsupported", "MwFastBuffer<SMwIdRefClip>"); } catch { c.Skipped("CPlugAnimFile.Clips", "failed", "getter exception"); }
@@ -22993,7 +22993,7 @@ void DiagnosticsRead_CPlugAnimFile(DiagnosticsCapture@ c, CPlugAnimFile@ node, J
     try { c.Skipped("CPlugAnimFile.GraphContextClassIds", "unsupported", "MwArrayInPlaceDyn<MwClassId>"); } catch { c.Skipped("CPlugAnimFile.GraphContextClassIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.NodeGraphs");
-    try { Json::Value values = Json::Array(); uint length = node.NodeGraphs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.NodeGraphs[" + i + "]"); values.Add(c.Link(node.NodeGraphs[i], depth + 1)); } c.ArrayField(fields, "CPlugAnimFile.NodeGraphs", values, length); } catch { c.Skipped("CPlugAnimFile.NodeGraphs", "failed", "getter exception"); }
+    try { uint length = node.NodeGraphs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimFile.NodeGraphs[" + i + "]"); c.ArrayElement("CPlugAnimFile.NodeGraphs", i, length, c.Link(node.NodeGraphs[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugAnimFile.NodeGraphs", captured, length); } catch { c.Skipped("CPlugAnimFile.NodeGraphs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimFile.Spots");
     try { c.Skipped("CPlugAnimFile.Spots", "unsupported", "MwFastBuffer<CPlugAnimSpotModel>"); } catch { c.Skipped("CPlugAnimFile.Spots", "failed", "getter exception"); }
@@ -23057,7 +23057,7 @@ void DiagnosticsRead_CPlugAnimGraphNode_ClipGroupPlay(DiagnosticsCapture@ c, CPl
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimGraphNode_ClipGroupPlay.Clip_Names");
-    try { Json::Value values = Json::Array(); uint length = node.Clip_Names.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimGraphNode_ClipGroupPlay.Clip_Names[" + i + "]"); values.Add(Json::Value(node.Clip_Names[i].Value)); } c.ArrayField(fields, "CPlugAnimGraphNode_ClipGroupPlay.Clip_Names", values, length); } catch { c.Skipped("CPlugAnimGraphNode_ClipGroupPlay.Clip_Names", "failed", "getter exception"); }
+    try { uint length = node.Clip_Names.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimGraphNode_ClipGroupPlay.Clip_Names[" + i + "]"); c.ArrayElement("CPlugAnimGraphNode_ClipGroupPlay.Clip_Names", i, length, Json::Value(node.Clip_Names[i].Value)); captured++; } c.ArrayField(fields, "CPlugAnimGraphNode_ClipGroupPlay.Clip_Names", captured, length); } catch { c.Skipped("CPlugAnimGraphNode_ClipGroupPlay.Clip_Names", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimGraphNode_ClipGroupPlay.Play_Speed_Expr");
     try { c.Field(fields, "CPlugAnimGraphNode_ClipGroupPlay.Play_Speed_Expr", c.Text(node.Play_Speed_Expr)); } catch { c.Skipped("CPlugAnimGraphNode_ClipGroupPlay.Play_Speed_Expr", "failed", "getter exception"); }
@@ -23147,7 +23147,7 @@ void DiagnosticsRead_CPlugAnimGraphNode_Graph(DiagnosticsCapture@ c, CPlugAnimGr
     try { c.Skipped("CPlugAnimGraphNode_Graph.Clip_Groups", "unsupported", "MwFastBuffer<SPlugAnimClipGroup>"); } catch { c.Skipped("CPlugAnimGraphNode_Graph.Clip_Groups", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimGraphNode_Graph.Macros");
-    try { Json::Value values = Json::Array(); uint length = node.Macros.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimGraphNode_Graph.Macros[" + i + "]"); values.Add(c.Text(node.Macros[i])); } c.ArrayField(fields, "CPlugAnimGraphNode_Graph.Macros", values, length); } catch { c.Skipped("CPlugAnimGraphNode_Graph.Macros", "failed", "getter exception"); }
+    try { uint length = node.Macros.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimGraphNode_Graph.Macros[" + i + "]"); c.ArrayElement("CPlugAnimGraphNode_Graph.Macros", i, length, c.Text(node.Macros[i])); captured++; } c.ArrayField(fields, "CPlugAnimGraphNode_Graph.Macros", captured, length); } catch { c.Skipped("CPlugAnimGraphNode_Graph.Macros", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugAnimGraphNode_GraphOutput(DiagnosticsCapture@ c, CPlugAnimGraphNode_GraphOutput@ node, Json::Value &inout fields, uint depth)
 {
@@ -23400,22 +23400,22 @@ void DiagnosticsRead_CPlugAnimPoseGrid(DiagnosticsCapture@ c, CPlugAnimPoseGrid@
     try { c.Field(fields, "CPlugAnimPoseGrid.ChannelGroup", c.Link(node.ChannelGroup, depth + 1)); } catch { c.Skipped("CPlugAnimPoseGrid.ChannelGroup", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGrid.Xs");
-    try { Json::Value values = Json::Array(); uint length = node.Xs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.Xs[" + i + "]"); values.Add(c.Number(double(node.Xs[i]))); } c.ArrayField(fields, "CPlugAnimPoseGrid.Xs", values, length); } catch { c.Skipped("CPlugAnimPoseGrid.Xs", "failed", "getter exception"); }
+    try { uint length = node.Xs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.Xs[" + i + "]"); c.ArrayElement("CPlugAnimPoseGrid.Xs", i, length, c.Number(double(node.Xs[i]))); captured++; } c.ArrayField(fields, "CPlugAnimPoseGrid.Xs", captured, length); } catch { c.Skipped("CPlugAnimPoseGrid.Xs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGrid.Ys");
-    try { Json::Value values = Json::Array(); uint length = node.Ys.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.Ys[" + i + "]"); values.Add(c.Number(double(node.Ys[i]))); } c.ArrayField(fields, "CPlugAnimPoseGrid.Ys", values, length); } catch { c.Skipped("CPlugAnimPoseGrid.Ys", "failed", "getter exception"); }
+    try { uint length = node.Ys.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.Ys[" + i + "]"); c.ArrayElement("CPlugAnimPoseGrid.Ys", i, length, c.Number(double(node.Ys[i]))); captured++; } c.ArrayField(fields, "CPlugAnimPoseGrid.Ys", captured, length); } catch { c.Skipped("CPlugAnimPoseGrid.Ys", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGrid.RefPoseGlobalJoints");
-    try { Json::Value values = Json::Array(); uint length = node.RefPoseGlobalJoints.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.RefPoseGlobalJoints[" + i + "]"); values.Add(c.Text(tostring(node.RefPoseGlobalJoints[i]))); } c.ArrayField(fields, "CPlugAnimPoseGrid.RefPoseGlobalJoints", values, length); } catch { c.Skipped("CPlugAnimPoseGrid.RefPoseGlobalJoints", "failed", "getter exception"); }
+    try { uint length = node.RefPoseGlobalJoints.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.RefPoseGlobalJoints[" + i + "]"); c.ArrayElement("CPlugAnimPoseGrid.RefPoseGlobalJoints", i, length, c.Text(tostring(node.RefPoseGlobalJoints[i]))); captured++; } c.ArrayField(fields, "CPlugAnimPoseGrid.RefPoseGlobalJoints", captured, length); } catch { c.Skipped("CPlugAnimPoseGrid.RefPoseGlobalJoints", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGrid.JointOffsets");
-    try { Json::Value values = Json::Array(); uint length = node.JointOffsets.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.JointOffsets[" + i + "]"); values.Add(c.Text(tostring(node.JointOffsets[i]))); } c.ArrayField(fields, "CPlugAnimPoseGrid.JointOffsets", values, length); } catch { c.Skipped("CPlugAnimPoseGrid.JointOffsets", "failed", "getter exception"); }
+    try { uint length = node.JointOffsets.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.JointOffsets[" + i + "]"); c.ArrayElement("CPlugAnimPoseGrid.JointOffsets", i, length, c.Text(tostring(node.JointOffsets[i]))); captured++; } c.ArrayField(fields, "CPlugAnimPoseGrid.JointOffsets", captured, length); } catch { c.Skipped("CPlugAnimPoseGrid.JointOffsets", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGrid.RefPoseName");
     try { c.Field(fields, "CPlugAnimPoseGrid.RefPoseName", Json::Value(node.RefPoseName.Value)); } catch { c.Skipped("CPlugAnimPoseGrid.RefPoseName", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGrid.PoseNames");
-    try { Json::Value values = Json::Array(); uint length = node.PoseNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.PoseNames[" + i + "]"); values.Add(Json::Value(node.PoseNames[i].Value)); } c.ArrayField(fields, "CPlugAnimPoseGrid.PoseNames", values, length); } catch { c.Skipped("CPlugAnimPoseGrid.PoseNames", "failed", "getter exception"); }
+    try { uint length = node.PoseNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGrid.PoseNames[" + i + "]"); c.ArrayElement("CPlugAnimPoseGrid.PoseNames", i, length, Json::Value(node.PoseNames[i].Value)); captured++; } c.ArrayField(fields, "CPlugAnimPoseGrid.PoseNames", captured, length); } catch { c.Skipped("CPlugAnimPoseGrid.PoseNames", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugAnimPoseGroup(DiagnosticsCapture@ c, CPlugAnimPoseGroup@ node, Json::Value &inout fields, uint depth)
 {
@@ -23431,10 +23431,10 @@ void DiagnosticsRead_CPlugAnimPoseGroup(DiagnosticsCapture@ c, CPlugAnimPoseGrou
     try { c.Field(fields, "CPlugAnimPoseGroup.cPose", Json::Value(node.cPose)); } catch { c.Skipped("CPlugAnimPoseGroup.cPose", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGroup.PoseCoords");
-    try { Json::Value values = Json::Array(); uint length = node.PoseCoords.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGroup.PoseCoords[" + i + "]"); values.Add(c.Text(tostring(node.PoseCoords[i]))); } c.ArrayField(fields, "CPlugAnimPoseGroup.PoseCoords", values, length); } catch { c.Skipped("CPlugAnimPoseGroup.PoseCoords", "failed", "getter exception"); }
+    try { uint length = node.PoseCoords.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGroup.PoseCoords[" + i + "]"); c.ArrayElement("CPlugAnimPoseGroup.PoseCoords", i, length, c.Text(tostring(node.PoseCoords[i]))); captured++; } c.ArrayField(fields, "CPlugAnimPoseGroup.PoseCoords", captured, length); } catch { c.Skipped("CPlugAnimPoseGroup.PoseCoords", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGroup.PoseNames");
-    try { Json::Value values = Json::Array(); uint length = node.PoseNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGroup.PoseNames[" + i + "]"); values.Add(Json::Value(node.PoseNames[i].Value)); } c.ArrayField(fields, "CPlugAnimPoseGroup.PoseNames", values, length); } catch { c.Skipped("CPlugAnimPoseGroup.PoseNames", "failed", "getter exception"); }
+    try { uint length = node.PoseNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugAnimPoseGroup.PoseNames[" + i + "]"); c.ArrayElement("CPlugAnimPoseGroup.PoseNames", i, length, Json::Value(node.PoseNames[i].Value)); captured++; } c.ArrayField(fields, "CPlugAnimPoseGroup.PoseNames", captured, length); } catch { c.Skipped("CPlugAnimPoseGroup.PoseNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugAnimPoseGroup.IsDifference");
     try { c.Field(fields, "CPlugAnimPoseGroup.IsDifference", Json::Value(node.IsDifference)); } catch { c.Skipped("CPlugAnimPoseGroup.IsDifference", "failed", "getter exception"); }
@@ -23574,7 +23574,7 @@ void DiagnosticsRead_CPlugBeamEmitterModel(DiagnosticsCapture@ c, CPlugBeamEmitt
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBeamEmitterModel.SubModels");
-    try { Json::Value values = Json::Array(); uint length = node.SubModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBeamEmitterModel.SubModels[" + i + "]"); values.Add(c.Link(node.SubModels[i], depth + 1)); } c.ArrayField(fields, "CPlugBeamEmitterModel.SubModels", values, length); } catch { c.Skipped("CPlugBeamEmitterModel.SubModels", "failed", "getter exception"); }
+    try { uint length = node.SubModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBeamEmitterModel.SubModels[" + i + "]"); c.ArrayElement("CPlugBeamEmitterModel.SubModels", i, length, c.Link(node.SubModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBeamEmitterModel.SubModels", captured, length); } catch { c.Skipped("CPlugBeamEmitterModel.SubModels", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugBeamEmitterSubModel(DiagnosticsCapture@ c, CPlugBeamEmitterSubModel@ node, Json::Value &inout fields, uint depth)
 {
@@ -23587,7 +23587,7 @@ void DiagnosticsRead_CPlugBeamEmitterSubModel(DiagnosticsCapture@ c, CPlugBeamEm
     try { c.Field(fields, "CPlugBeamEmitterSubModel.Material", c.Link(node.Material, depth + 1)); } catch { c.Skipped("CPlugBeamEmitterSubModel.Material", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBeamEmitterSubModel.AdditionalMaterials");
-    try { Json::Value values = Json::Array(); uint length = node.AdditionalMaterials.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBeamEmitterSubModel.AdditionalMaterials[" + i + "]"); values.Add(c.Link(node.AdditionalMaterials[i], depth + 1)); } c.ArrayField(fields, "CPlugBeamEmitterSubModel.AdditionalMaterials", values, length); } catch { c.Skipped("CPlugBeamEmitterSubModel.AdditionalMaterials", "failed", "getter exception"); }
+    try { uint length = node.AdditionalMaterials.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBeamEmitterSubModel.AdditionalMaterials[" + i + "]"); c.ArrayElement("CPlugBeamEmitterSubModel.AdditionalMaterials", i, length, c.Link(node.AdditionalMaterials[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBeamEmitterSubModel.AdditionalMaterials", captured, length); } catch { c.Skipped("CPlugBeamEmitterSubModel.AdditionalMaterials", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBeamEmitterSubModel.DisplayType");
     try { c.Field(fields, "CPlugBeamEmitterSubModel.DisplayType", Json::Value(int(node.DisplayType))); } catch { c.Skipped("CPlugBeamEmitterSubModel.DisplayType", "failed", "getter exception"); }
@@ -23951,7 +23951,7 @@ void DiagnosticsRead_CPlugBitmap(DiagnosticsCapture@ c, CPlugBitmap@ node, Json:
     try { c.Field(fields, "CPlugBitmap.MipMapLowerAlpha", c.Number(double(node.MipMapLowerAlpha))); } catch { c.Skipped("CPlugBitmap.MipMapLowerAlpha", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmap.MipMapFadeAlphas");
-    try { Json::Value values = Json::Array(); uint length = node.MipMapFadeAlphas.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmap.MipMapFadeAlphas[" + i + "]"); values.Add(c.Number(double(node.MipMapFadeAlphas[i]))); } c.ArrayField(fields, "CPlugBitmap.MipMapFadeAlphas", values, length); } catch { c.Skipped("CPlugBitmap.MipMapFadeAlphas", "failed", "getter exception"); }
+    try { uint length = node.MipMapFadeAlphas.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmap.MipMapFadeAlphas[" + i + "]"); c.ArrayElement("CPlugBitmap.MipMapFadeAlphas", i, length, c.Number(double(node.MipMapFadeAlphas[i]))); captured++; } c.ArrayField(fields, "CPlugBitmap.MipMapFadeAlphas", captured, length); } catch { c.Skipped("CPlugBitmap.MipMapFadeAlphas", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmap.MipMapAlpha01");
     try { c.Field(fields, "CPlugBitmap.MipMapAlpha01", Json::Value(int(node.MipMapAlpha01))); } catch { c.Skipped("CPlugBitmap.MipMapAlpha01", "failed", "getter exception"); }
@@ -24032,7 +24032,7 @@ void DiagnosticsRead_CPlugBitmap(DiagnosticsCapture@ c, CPlugBitmap@ node, Json:
     try { c.Field(fields, "CPlugBitmap.ImageArray_Suffix", c.Text(node.ImageArray_Suffix)); } catch { c.Skipped("CPlugBitmap.ImageArray_Suffix", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmap.ImageArrayFids");
-    try { Json::Value values = Json::Array(); uint length = node.ImageArrayFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmap.ImageArrayFids[" + i + "]"); values.Add(c.Link(node.ImageArrayFids[i], depth + 1)); } c.ArrayField(fields, "CPlugBitmap.ImageArrayFids", values, length); } catch { c.Skipped("CPlugBitmap.ImageArrayFids", "failed", "getter exception"); }
+    try { uint length = node.ImageArrayFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmap.ImageArrayFids[" + i + "]"); c.ArrayElement("CPlugBitmap.ImageArrayFids", i, length, c.Link(node.ImageArrayFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBitmap.ImageArrayFids", captured, length); } catch { c.Skipped("CPlugBitmap.ImageArrayFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmap.CanUpscaleSliceInArray");
     try { c.Field(fields, "CPlugBitmap.CanUpscaleSliceInArray", Json::Value(node.CanUpscaleSliceInArray)); } catch { c.Skipped("CPlugBitmap.CanUpscaleSliceInArray", "failed", "getter exception"); }
@@ -24151,7 +24151,7 @@ void DiagnosticsRead_CPlugBitmapDecals(DiagnosticsCapture@ c, CPlugBitmapDecals@
     try { c.Field(fields, "CPlugBitmapDecals.MatterId", Json::Value(node.MatterId.Value)); } catch { c.Skipped("CPlugBitmapDecals.MatterId", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapDecals.DecalModels");
-    try { Json::Value values = Json::Array(); uint length = node.DecalModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapDecals.DecalModels[" + i + "]"); values.Add(c.Link(node.DecalModels[i], depth + 1)); } c.ArrayField(fields, "CPlugBitmapDecals.DecalModels", values, length); } catch { c.Skipped("CPlugBitmapDecals.DecalModels", "failed", "getter exception"); }
+    try { uint length = node.DecalModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapDecals.DecalModels[" + i + "]"); c.ArrayElement("CPlugBitmapDecals.DecalModels", i, length, c.Link(node.DecalModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBitmapDecals.DecalModels", captured, length); } catch { c.Skipped("CPlugBitmapDecals.DecalModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapDecals.DecalSetCount");
     try { c.Field(fields, "CPlugBitmapDecals.DecalSetCount", Json::Value(node.DecalSetCount)); } catch { c.Skipped("CPlugBitmapDecals.DecalSetCount", "failed", "getter exception"); }
@@ -24188,7 +24188,7 @@ void DiagnosticsRead_CPlugBitmapPack(DiagnosticsCapture@ c, CPlugBitmapPack@ nod
     try { c.Field(fields, "CPlugBitmapPack.Bitmap", c.Link(node.Bitmap, depth + 1)); } catch { c.Skipped("CPlugBitmapPack.Bitmap", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapPack.PackElems");
-    try { Json::Value values = Json::Array(); uint length = node.PackElems.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapPack.PackElems[" + i + "]"); values.Add(c.Link(node.PackElems[i], depth + 1)); } c.ArrayField(fields, "CPlugBitmapPack.PackElems", values, length); } catch { c.Skipped("CPlugBitmapPack.PackElems", "failed", "getter exception"); }
+    try { uint length = node.PackElems.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapPack.PackElems[" + i + "]"); c.ArrayElement("CPlugBitmapPack.PackElems", i, length, c.Link(node.PackElems[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBitmapPack.PackElems", captured, length); } catch { c.Skipped("CPlugBitmapPack.PackElems", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugBitmapPackElem(DiagnosticsCapture@ c, CPlugBitmapPackElem@ node, Json::Value &inout fields, uint depth)
 {
@@ -24217,7 +24217,7 @@ void DiagnosticsRead_CPlugBitmapPackInput(DiagnosticsCapture@ c, CPlugBitmapPack
     try { c.Field(fields, "CPlugBitmapPackInput.LayerCount", Json::Value(node.LayerCount)); } catch { c.Skipped("CPlugBitmapPackInput.LayerCount", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapPackInput.FidBitmaps");
-    try { Json::Value values = Json::Array(); uint length = node.FidBitmaps.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapPackInput.FidBitmaps[" + i + "]"); values.Add(c.Link(node.FidBitmaps[i], depth + 1)); } c.ArrayField(fields, "CPlugBitmapPackInput.FidBitmaps", values, length); } catch { c.Skipped("CPlugBitmapPackInput.FidBitmaps", "failed", "getter exception"); }
+    try { uint length = node.FidBitmaps.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapPackInput.FidBitmaps[" + i + "]"); c.ArrayElement("CPlugBitmapPackInput.FidBitmaps", i, length, c.Link(node.FidBitmaps[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBitmapPackInput.FidBitmaps", captured, length); } catch { c.Skipped("CPlugBitmapPackInput.FidBitmaps", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugBitmapPacker(DiagnosticsCapture@ c, CPlugBitmapPacker@ node, Json::Value &inout fields, uint depth)
 {
@@ -24227,7 +24227,7 @@ void DiagnosticsRead_CPlugBitmapPacker(DiagnosticsCapture@ c, CPlugBitmapPacker@
     try { c.Field(fields, "CPlugBitmapPacker.BitmapSizeMax", Json::Value(node.BitmapSizeMax)); } catch { c.Skipped("CPlugBitmapPacker.BitmapSizeMax", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapPacker.Packs");
-    try { Json::Value values = Json::Array(); uint length = node.Packs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapPacker.Packs[" + i + "]"); values.Add(c.Link(node.Packs[i], depth + 1)); } c.ArrayField(fields, "CPlugBitmapPacker.Packs", values, length); } catch { c.Skipped("CPlugBitmapPacker.Packs", "failed", "getter exception"); }
+    try { uint length = node.Packs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapPacker.Packs[" + i + "]"); c.ArrayElement("CPlugBitmapPacker.Packs", i, length, c.Link(node.Packs[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBitmapPacker.Packs", captured, length); } catch { c.Skipped("CPlugBitmapPacker.Packs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapPacker.FidsBrowseMaterials");
     try { c.Field(fields, "CPlugBitmapPacker.FidsBrowseMaterials", c.Link(node.FidsBrowseMaterials, depth + 1)); } catch { c.Skipped("CPlugBitmapPacker.FidsBrowseMaterials", "failed", "getter exception"); }
@@ -24236,7 +24236,7 @@ void DiagnosticsRead_CPlugBitmapPacker(DiagnosticsCapture@ c, CPlugBitmapPacker@
     try { c.Field(fields, "CPlugBitmapPacker.FidsBrowseSolids", c.Link(node.FidsBrowseSolids, depth + 1)); } catch { c.Skipped("CPlugBitmapPacker.FidsBrowseSolids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapPacker.PackInputs");
-    try { Json::Value values = Json::Array(); uint length = node.PackInputs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapPacker.PackInputs[" + i + "]"); values.Add(c.Link(node.PackInputs[i], depth + 1)); } c.ArrayField(fields, "CPlugBitmapPacker.PackInputs", values, length); } catch { c.Skipped("CPlugBitmapPacker.PackInputs", "failed", "getter exception"); }
+    try { uint length = node.PackInputs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapPacker.PackInputs[" + i + "]"); c.ArrayElement("CPlugBitmapPacker.PackInputs", i, length, c.Link(node.PackInputs[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBitmapPacker.PackInputs", captured, length); } catch { c.Skipped("CPlugBitmapPacker.PackInputs", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugBitmapRender(DiagnosticsCapture@ c, CPlugBitmapRender@ node, Json::Value &inout fields, uint depth)
 {
@@ -24790,10 +24790,10 @@ void DiagnosticsRead_CPlugBitmapRenderSolid(DiagnosticsCapture@ c, CPlugBitmapRe
     try { c.Field(fields, "CPlugBitmapRenderSolid.Shader", c.Link(node.Shader, depth + 1)); } catch { c.Skipped("CPlugBitmapRenderSolid.Shader", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapRenderSolid.Solids");
-    try { Json::Value values = Json::Array(); uint length = node.Solids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapRenderSolid.Solids[" + i + "]"); values.Add(c.Link(node.Solids[i], depth + 1)); } c.ArrayField(fields, "CPlugBitmapRenderSolid.Solids", values, length); } catch { c.Skipped("CPlugBitmapRenderSolid.Solids", "failed", "getter exception"); }
+    try { uint length = node.Solids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapRenderSolid.Solids[" + i + "]"); c.ArrayElement("CPlugBitmapRenderSolid.Solids", i, length, c.Link(node.Solids[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugBitmapRenderSolid.Solids", captured, length); } catch { c.Skipped("CPlugBitmapRenderSolid.Solids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBitmapRenderSolid.Locations");
-    try { Json::Value values = Json::Array(); uint length = node.Locations.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapRenderSolid.Locations[" + i + "]"); values.Add(c.Text(tostring(node.Locations[i]))); } c.ArrayField(fields, "CPlugBitmapRenderSolid.Locations", values, length); } catch { c.Skipped("CPlugBitmapRenderSolid.Locations", "failed", "getter exception"); }
+    try { uint length = node.Locations.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBitmapRenderSolid.Locations[" + i + "]"); c.ArrayElement("CPlugBitmapRenderSolid.Locations", i, length, c.Text(tostring(node.Locations[i]))); captured++; } c.ArrayField(fields, "CPlugBitmapRenderSolid.Locations", captured, length); } catch { c.Skipped("CPlugBitmapRenderSolid.Locations", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugBitmapRenderSub(DiagnosticsCapture@ c, CPlugBitmapRenderSub@ node, Json::Value &inout fields, uint depth)
 {
@@ -24945,7 +24945,7 @@ void DiagnosticsRead_CPlugBlendShapes(DiagnosticsCapture@ c, CPlugBlendShapes@ n
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBlendShapes.BlendVals");
-    try { Json::Value values = Json::Array(); uint length = node.BlendVals.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBlendShapes.BlendVals[" + i + "]"); values.Add(c.Number(double(node.BlendVals[i]))); } c.ArrayField(fields, "CPlugBlendShapes.BlendVals", values, length); } catch { c.Skipped("CPlugBlendShapes.BlendVals", "failed", "getter exception"); }
+    try { uint length = node.BlendVals.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBlendShapes.BlendVals[" + i + "]"); c.ArrayElement("CPlugBlendShapes.BlendVals", i, length, c.Number(double(node.BlendVals[i]))); captured++; } c.ArrayField(fields, "CPlugBlendShapes.BlendVals", captured, length); } catch { c.Skipped("CPlugBlendShapes.BlendVals", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBlendShapes.NormalizeNormals");
     try { c.Field(fields, "CPlugBlendShapes.NormalizeNormals", Json::Value(node.NormalizeNormals)); } catch { c.Skipped("CPlugBlendShapes.NormalizeNormals", "failed", "getter exception"); }
@@ -25204,7 +25204,7 @@ void DiagnosticsRead_CPlugBulletModel(DiagnosticsCapture@ c, CPlugBulletModel@ n
     try { c.Field(fields, "CPlugBulletModel.FireBulletCountSpeedCoef", c.Number(double(node.FireBulletCountSpeedCoef))); } catch { c.Skipped("CPlugBulletModel.FireBulletCountSpeedCoef", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBulletModel.FireBulletSpreads");
-    try { Json::Value values = Json::Array(); uint length = node.FireBulletSpreads.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBulletModel.FireBulletSpreads[" + i + "]"); values.Add(c.Text(tostring(node.FireBulletSpreads[i]))); } c.ArrayField(fields, "CPlugBulletModel.FireBulletSpreads", values, length); } catch { c.Skipped("CPlugBulletModel.FireBulletSpreads", "failed", "getter exception"); }
+    try { uint length = node.FireBulletSpreads.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBulletModel.FireBulletSpreads[" + i + "]"); c.ArrayElement("CPlugBulletModel.FireBulletSpreads", i, length, c.Text(tostring(node.FireBulletSpreads[i]))); captured++; } c.ArrayField(fields, "CPlugBulletModel.FireBulletSpreads", captured, length); } catch { c.Skipped("CPlugBulletModel.FireBulletSpreads", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBulletModel.FireBulletPattern_Mode");
     try { c.Field(fields, "CPlugBulletModel.FireBulletPattern_Mode", Json::Value(int(node.FireBulletPattern_Mode))); } catch { c.Skipped("CPlugBulletModel.FireBulletPattern_Mode", "failed", "getter exception"); }
@@ -25213,7 +25213,7 @@ void DiagnosticsRead_CPlugBulletModel(DiagnosticsCapture@ c, CPlugBulletModel@ n
     try { c.Field(fields, "CPlugBulletModel.FireBulletPattern_OnlyVisual", Json::Value(node.FireBulletPattern_OnlyVisual)); } catch { c.Skipped("CPlugBulletModel.FireBulletPattern_OnlyVisual", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBulletModel.FireBulletPattern_GrowingOffset_Offsets");
-    try { Json::Value values = Json::Array(); uint length = node.FireBulletPattern_GrowingOffset_Offsets.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBulletModel.FireBulletPattern_GrowingOffset_Offsets[" + i + "]"); values.Add(c.Text(tostring(node.FireBulletPattern_GrowingOffset_Offsets[i]))); } c.ArrayField(fields, "CPlugBulletModel.FireBulletPattern_GrowingOffset_Offsets", values, length); } catch { c.Skipped("CPlugBulletModel.FireBulletPattern_GrowingOffset_Offsets", "failed", "getter exception"); }
+    try { uint length = node.FireBulletPattern_GrowingOffset_Offsets.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBulletModel.FireBulletPattern_GrowingOffset_Offsets[" + i + "]"); c.ArrayElement("CPlugBulletModel.FireBulletPattern_GrowingOffset_Offsets", i, length, c.Text(tostring(node.FireBulletPattern_GrowingOffset_Offsets[i]))); captured++; } c.ArrayField(fields, "CPlugBulletModel.FireBulletPattern_GrowingOffset_Offsets", captured, length); } catch { c.Skipped("CPlugBulletModel.FireBulletPattern_GrowingOffset_Offsets", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBulletModel.FireBulletPattern_InitialBlendDuration");
     try { c.Field(fields, "CPlugBulletModel.FireBulletPattern_InitialBlendDuration", c.Number(double(node.FireBulletPattern_InitialBlendDuration))); } catch { c.Skipped("CPlugBulletModel.FireBulletPattern_InitialBlendDuration", "failed", "getter exception"); }
@@ -25240,7 +25240,7 @@ void DiagnosticsRead_CPlugBulletModel(DiagnosticsCapture@ c, CPlugBulletModel@ n
     try { c.Field(fields, "CPlugBulletModel.FireBulletPattern_ChaosSpiral_Spin", Json::Value(node.FireBulletPattern_ChaosSpiral_Spin)); } catch { c.Skipped("CPlugBulletModel.FireBulletPattern_ChaosSpiral_Spin", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBulletModel.FireBulletPattern_ChaosSpiral_Offsets");
-    try { Json::Value values = Json::Array(); uint length = node.FireBulletPattern_ChaosSpiral_Offsets.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBulletModel.FireBulletPattern_ChaosSpiral_Offsets[" + i + "]"); values.Add(c.Number(double(node.FireBulletPattern_ChaosSpiral_Offsets[i]))); } c.ArrayField(fields, "CPlugBulletModel.FireBulletPattern_ChaosSpiral_Offsets", values, length); } catch { c.Skipped("CPlugBulletModel.FireBulletPattern_ChaosSpiral_Offsets", "failed", "getter exception"); }
+    try { uint length = node.FireBulletPattern_ChaosSpiral_Offsets.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugBulletModel.FireBulletPattern_ChaosSpiral_Offsets[" + i + "]"); c.ArrayElement("CPlugBulletModel.FireBulletPattern_ChaosSpiral_Offsets", i, length, c.Number(double(node.FireBulletPattern_ChaosSpiral_Offsets[i]))); captured++; } c.ArrayField(fields, "CPlugBulletModel.FireBulletPattern_ChaosSpiral_Offsets", captured, length); } catch { c.Skipped("CPlugBulletModel.FireBulletPattern_ChaosSpiral_Offsets", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugBulletModel.SoundFire");
     try { c.Field(fields, "CPlugBulletModel.SoundFire", c.Link(node.SoundFire, depth + 1)); } catch { c.Skipped("CPlugBulletModel.SoundFire", "failed", "getter exception"); }
@@ -25395,7 +25395,7 @@ void DiagnosticsRead_CPlugCloudsSolids(DiagnosticsCapture@ c, CPlugCloudsSolids@
     try { c.Field(fields, "CPlugCloudsSolids.GridSizeXZ", c.Text(tostring(node.GridSizeXZ))); } catch { c.Skipped("CPlugCloudsSolids.GridSizeXZ", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugCloudsSolids.SolidFids");
-    try { Json::Value values = Json::Array(); uint length = node.SolidFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugCloudsSolids.SolidFids[" + i + "]"); values.Add(c.Link(node.SolidFids[i], depth + 1)); } c.ArrayField(fields, "CPlugCloudsSolids.SolidFids", values, length); } catch { c.Skipped("CPlugCloudsSolids.SolidFids", "failed", "getter exception"); }
+    try { uint length = node.SolidFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugCloudsSolids.SolidFids[" + i + "]"); c.ArrayElement("CPlugCloudsSolids.SolidFids", i, length, c.Link(node.SolidFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugCloudsSolids.SolidFids", captured, length); } catch { c.Skipped("CPlugCloudsSolids.SolidFids", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugCrystal(DiagnosticsCapture@ c, CPlugCrystal@ node, Json::Value &inout fields, uint depth)
 {
@@ -25621,10 +25621,10 @@ void DiagnosticsRead_CPlugCustomBulletModel(DiagnosticsCapture@ c, CPlugCustomBu
     try { c.Field(fields, "CPlugCustomBulletModel.BulletHomingSoundVolume", c.Number(double(node.BulletHomingSoundVolume))); } catch { c.Skipped("CPlugCustomBulletModel.BulletHomingSoundVolume", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugCustomBulletModel.m_AliveParticleEmitterSubModels");
-    try { Json::Value values = Json::Array(); uint length = node.m_AliveParticleEmitterSubModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugCustomBulletModel.m_AliveParticleEmitterSubModels[" + i + "]"); values.Add(c.Link(node.m_AliveParticleEmitterSubModels[i], depth + 1)); } c.ArrayField(fields, "CPlugCustomBulletModel.m_AliveParticleEmitterSubModels", values, length); } catch { c.Skipped("CPlugCustomBulletModel.m_AliveParticleEmitterSubModels", "failed", "getter exception"); }
+    try { uint length = node.m_AliveParticleEmitterSubModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugCustomBulletModel.m_AliveParticleEmitterSubModels[" + i + "]"); c.ArrayElement("CPlugCustomBulletModel.m_AliveParticleEmitterSubModels", i, length, c.Link(node.m_AliveParticleEmitterSubModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugCustomBulletModel.m_AliveParticleEmitterSubModels", captured, length); } catch { c.Skipped("CPlugCustomBulletModel.m_AliveParticleEmitterSubModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugCustomBulletModel.m_ExplosionParticleEmitterSubModels");
-    try { Json::Value values = Json::Array(); uint length = node.m_ExplosionParticleEmitterSubModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugCustomBulletModel.m_ExplosionParticleEmitterSubModels[" + i + "]"); values.Add(c.Link(node.m_ExplosionParticleEmitterSubModels[i], depth + 1)); } c.ArrayField(fields, "CPlugCustomBulletModel.m_ExplosionParticleEmitterSubModels", values, length); } catch { c.Skipped("CPlugCustomBulletModel.m_ExplosionParticleEmitterSubModels", "failed", "getter exception"); }
+    try { uint length = node.m_ExplosionParticleEmitterSubModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugCustomBulletModel.m_ExplosionParticleEmitterSubModels[" + i + "]"); c.ArrayElement("CPlugCustomBulletModel.m_ExplosionParticleEmitterSubModels", i, length, c.Link(node.m_ExplosionParticleEmitterSubModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugCustomBulletModel.m_ExplosionParticleEmitterSubModels", captured, length); } catch { c.Skipped("CPlugCustomBulletModel.m_ExplosionParticleEmitterSubModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugCustomBulletModel.BulletShowPlayerExplosion");
     try { c.Field(fields, "CPlugCustomBulletModel.BulletShowPlayerExplosion", Json::Value(node.BulletShowPlayerExplosion)); } catch { c.Skipped("CPlugCustomBulletModel.BulletShowPlayerExplosion", "failed", "getter exception"); }
@@ -25701,7 +25701,7 @@ void DiagnosticsRead_CPlugDecoratorSolid(DiagnosticsCapture@ c, CPlugDecoratorSo
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugDecoratorSolid.TreeDecorators");
-    try { Json::Value values = Json::Array(); uint length = node.TreeDecorators.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugDecoratorSolid.TreeDecorators[" + i + "]"); values.Add(c.Link(node.TreeDecorators[i], depth + 1)); } c.ArrayField(fields, "CPlugDecoratorSolid.TreeDecorators", values, length); } catch { c.Skipped("CPlugDecoratorSolid.TreeDecorators", "failed", "getter exception"); }
+    try { uint length = node.TreeDecorators.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugDecoratorSolid.TreeDecorators[" + i + "]"); c.ArrayElement("CPlugDecoratorSolid.TreeDecorators", i, length, c.Link(node.TreeDecorators[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugDecoratorSolid.TreeDecorators", captured, length); } catch { c.Skipped("CPlugDecoratorSolid.TreeDecorators", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugDecoratorTree(DiagnosticsCapture@ c, CPlugDecoratorTree@ node, Json::Value &inout fields, uint depth)
 {
@@ -25963,10 +25963,10 @@ void DiagnosticsRead_CPlugFileGen(DiagnosticsCapture@ c, CPlugFileGen@ node, Jso
     try { c.Field(fields, "CPlugFileGen.GenKind", Json::Value(int(node.GenKind))); } catch { c.Skipped("CPlugFileGen.GenKind", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugFileGen.ArrayOfImages");
-    try { Json::Value values = Json::Array(); uint length = node.ArrayOfImages.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFileGen.ArrayOfImages[" + i + "]"); values.Add(c.Link(node.ArrayOfImages[i], depth + 1)); } c.ArrayField(fields, "CPlugFileGen.ArrayOfImages", values, length); } catch { c.Skipped("CPlugFileGen.ArrayOfImages", "failed", "getter exception"); }
+    try { uint length = node.ArrayOfImages.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFileGen.ArrayOfImages[" + i + "]"); c.ArrayElement("CPlugFileGen.ArrayOfImages", i, length, c.Link(node.ArrayOfImages[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugFileGen.ArrayOfImages", captured, length); } catch { c.Skipped("CPlugFileGen.ArrayOfImages", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugFileGen.GenImages");
-    try { Json::Value values = Json::Array(); uint length = node.GenImages.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFileGen.GenImages[" + i + "]"); values.Add(c.Link(node.GenImages[i], depth + 1)); } c.ArrayField(fields, "CPlugFileGen.GenImages", values, length); } catch { c.Skipped("CPlugFileGen.GenImages", "failed", "getter exception"); }
+    try { uint length = node.GenImages.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFileGen.GenImages[" + i + "]"); c.ArrayElement("CPlugFileGen.GenImages", i, length, c.Link(node.GenImages[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugFileGen.GenImages", captured, length); } catch { c.Skipped("CPlugFileGen.GenImages", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugFileI18n(DiagnosticsCapture@ c, CPlugFileI18n@ node, Json::Value &inout fields, uint depth)
 {
@@ -26284,7 +26284,7 @@ void DiagnosticsRead_CPlugFontBitmap(DiagnosticsCapture@ c, CPlugFontBitmap@ nod
     try { c.Field(fields, "CPlugFontBitmap.NbPages", Json::Value(node.NbPages)); } catch { c.Skipped("CPlugFontBitmap.NbPages", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugFontBitmap.PageShaders");
-    try { Json::Value values = Json::Array(); uint length = node.PageShaders.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFontBitmap.PageShaders[" + i + "]"); values.Add(c.Link(node.PageShaders[i], depth + 1)); } c.ArrayField(fields, "CPlugFontBitmap.PageShaders", values, length); } catch { c.Skipped("CPlugFontBitmap.PageShaders", "failed", "getter exception"); }
+    try { uint length = node.PageShaders.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFontBitmap.PageShaders[" + i + "]"); c.ArrayElement("CPlugFontBitmap.PageShaders", i, length, c.Link(node.PageShaders[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugFontBitmap.PageShaders", captured, length); } catch { c.Skipped("CPlugFontBitmap.PageShaders", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugFontBitmap.FontHeight");
     try { c.Field(fields, "CPlugFontBitmap.FontHeight", Json::Value(node.FontHeight)); } catch { c.Skipped("CPlugFontBitmap.FontHeight", "failed", "getter exception"); }
@@ -26305,10 +26305,10 @@ void DiagnosticsRead_CPlugFontBitmap(DiagnosticsCapture@ c, CPlugFontBitmap@ nod
     try { c.Field(fields, "CPlugFontBitmap.CustomMaterialModel", c.Link(node.CustomMaterialModel, depth + 1)); } catch { c.Skipped("CPlugFontBitmap.CustomMaterialModel", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugFontBitmap.PageTextureFids");
-    try { Json::Value values = Json::Array(); uint length = node.PageTextureFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFontBitmap.PageTextureFids[" + i + "]"); values.Add(c.Link(node.PageTextureFids[i], depth + 1)); } c.ArrayField(fields, "CPlugFontBitmap.PageTextureFids", values, length); } catch { c.Skipped("CPlugFontBitmap.PageTextureFids", "failed", "getter exception"); }
+    try { uint length = node.PageTextureFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFontBitmap.PageTextureFids[" + i + "]"); c.ArrayElement("CPlugFontBitmap.PageTextureFids", i, length, c.Link(node.PageTextureFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugFontBitmap.PageTextureFids", captured, length); } catch { c.Skipped("CPlugFontBitmap.PageTextureFids", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugFontBitmap.PageTextureDataRefs");
-    try { Json::Value values = Json::Array(); uint length = node.PageTextureDataRefs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFontBitmap.PageTextureDataRefs[" + i + "]"); values.Add(c.Text(string(node.PageTextureDataRefs[i]))); } c.ArrayField(fields, "CPlugFontBitmap.PageTextureDataRefs", values, length); } catch { c.Skipped("CPlugFontBitmap.PageTextureDataRefs", "failed", "getter exception"); }
+    try { uint length = node.PageTextureDataRefs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugFontBitmap.PageTextureDataRefs[" + i + "]"); c.ArrayElement("CPlugFontBitmap.PageTextureDataRefs", i, length, c.Text(string(node.PageTextureDataRefs[i]))); captured++; } c.ArrayField(fields, "CPlugFontBitmap.PageTextureDataRefs", captured, length); } catch { c.Skipped("CPlugFontBitmap.PageTextureDataRefs", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugFxHdrScales_Tech3(DiagnosticsCapture@ c, CPlugFxHdrScales_Tech3@ node, Json::Value &inout fields, uint depth)
 {
@@ -26355,7 +26355,7 @@ void DiagnosticsRead_CPlugGraphNode_Graph(DiagnosticsCapture@ c, CPlugGraphNode_
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugGraphNode_Graph.Nodes");
-    try { Json::Value values = Json::Array(); uint length = node.Nodes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugGraphNode_Graph.Nodes[" + i + "]"); values.Add(c.Link(node.Nodes[i], depth + 1)); } c.ArrayField(fields, "CPlugGraphNode_Graph.Nodes", values, length); } catch { c.Skipped("CPlugGraphNode_Graph.Nodes", "failed", "getter exception"); }
+    try { uint length = node.Nodes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugGraphNode_Graph.Nodes[" + i + "]"); c.ArrayElement("CPlugGraphNode_Graph.Nodes", i, length, c.Link(node.Nodes[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugGraphNode_Graph.Nodes", captured, length); } catch { c.Skipped("CPlugGraphNode_Graph.Nodes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugGraphNode_Graph.Connections");
     try { c.Skipped("CPlugGraphNode_Graph.Connections", "unsupported", "MwFastBuffer<SPlugGraphNodeConnection>"); } catch { c.Skipped("CPlugGraphNode_Graph.Connections", "failed", "getter exception"); }
@@ -26700,14 +26700,14 @@ void DiagnosticsRead_CPlugMaterial_VertexIndex(DiagnosticsCapture@ c, CPlugMater
     try { c.Field(fields, "CPlugMaterial_VertexIndex.PyH2", c.Link(node.PyH2, depth + 1)); } catch { c.Skipped("CPlugMaterial_VertexIndex.PyH2", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugMaterial_VertexIndex.Materials");
-    try { Json::Value values = Json::Array(); uint length = node.Materials.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugMaterial_VertexIndex.Materials[" + i + "]"); values.Add(c.Link(node.Materials[i], depth + 1)); } c.ArrayField(fields, "CPlugMaterial_VertexIndex.Materials", values, length); } catch { c.Skipped("CPlugMaterial_VertexIndex.Materials", "failed", "getter exception"); }
+    try { uint length = node.Materials.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugMaterial_VertexIndex.Materials[" + i + "]"); c.ArrayElement("CPlugMaterial_VertexIndex.Materials", i, length, c.Link(node.Materials[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugMaterial_VertexIndex.Materials", captured, length); } catch { c.Skipped("CPlugMaterial_VertexIndex.Materials", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugMediaClipList(DiagnosticsCapture@ c, CPlugMediaClipList@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugMediaClipList.MediaClipFids");
-    try { Json::Value values = Json::Array(); uint length = node.MediaClipFids.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugMediaClipList.MediaClipFids[" + i + "]"); values.Add(c.Link(node.MediaClipFids[i], depth + 1)); } c.ArrayField(fields, "CPlugMediaClipList.MediaClipFids", values, length); } catch { c.Skipped("CPlugMediaClipList.MediaClipFids", "failed", "getter exception"); }
+    try { uint length = node.MediaClipFids.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugMediaClipList.MediaClipFids[" + i + "]"); c.ArrayElement("CPlugMediaClipList.MediaClipFids", i, length, c.Link(node.MediaClipFids[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugMediaClipList.MediaClipFids", captured, length); } catch { c.Skipped("CPlugMediaClipList.MediaClipFids", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugModel(DiagnosticsCapture@ c, CPlugModel@ node, Json::Value &inout fields, uint depth)
 {
@@ -26824,26 +26824,26 @@ void DiagnosticsRead_CPlugModelMesh(DiagnosticsCapture@ c, CPlugModelMesh@ node,
     try { c.Field(fields, "CPlugModelMesh.SpriteIsTextureSubId", Json::Value(node.SpriteIsTextureSubId)); } catch { c.Skipped("CPlugModelMesh.SpriteIsTextureSubId", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelMesh.Exts");
-    try { Json::Value values = Json::Array(); uint length = node.Exts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelMesh.Exts[" + i + "]"); values.Add(c.Link(node.Exts[i], depth + 1)); } c.ArrayField(fields, "CPlugModelMesh.Exts", values, length); } catch { c.Skipped("CPlugModelMesh.Exts", "failed", "getter exception"); }
+    try { uint length = node.Exts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelMesh.Exts[" + i + "]"); c.ArrayElement("CPlugModelMesh.Exts", i, length, c.Link(node.Exts[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugModelMesh.Exts", captured, length); } catch { c.Skipped("CPlugModelMesh.Exts", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugModelTree(DiagnosticsCapture@ c, CPlugModelTree@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.Childs");
-    try { Json::Value values = Json::Array(); uint length = node.Childs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.Childs[" + i + "]"); values.Add(c.Link(node.Childs[i], depth + 1)); } c.ArrayField(fields, "CPlugModelTree.Childs", values, length); } catch { c.Skipped("CPlugModelTree.Childs", "failed", "getter exception"); }
+    try { uint length = node.Childs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.Childs[" + i + "]"); c.ArrayElement("CPlugModelTree.Childs", i, length, c.Link(node.Childs[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugModelTree.Childs", captured, length); } catch { c.Skipped("CPlugModelTree.Childs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.LodMeshes");
-    try { Json::Value values = Json::Array(); uint length = node.LodMeshes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.LodMeshes[" + i + "]"); values.Add(c.Link(node.LodMeshes[i], depth + 1)); } c.ArrayField(fields, "CPlugModelTree.LodMeshes", values, length); } catch { c.Skipped("CPlugModelTree.LodMeshes", "failed", "getter exception"); }
+    try { uint length = node.LodMeshes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.LodMeshes[" + i + "]"); c.ArrayElement("CPlugModelTree.LodMeshes", i, length, c.Link(node.LodMeshes[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugModelTree.LodMeshes", captured, length); } catch { c.Skipped("CPlugModelTree.LodMeshes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.LodMeshesLocs");
-    try { Json::Value values = Json::Array(); uint length = node.LodMeshesLocs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.LodMeshesLocs[" + i + "]"); values.Add(c.Text(tostring(node.LodMeshesLocs[i]))); } c.ArrayField(fields, "CPlugModelTree.LodMeshesLocs", values, length); } catch { c.Skipped("CPlugModelTree.LodMeshesLocs", "failed", "getter exception"); }
+    try { uint length = node.LodMeshesLocs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.LodMeshesLocs[" + i + "]"); c.ArrayElement("CPlugModelTree.LodMeshesLocs", i, length, c.Text(tostring(node.LodMeshesLocs[i]))); captured++; } c.ArrayField(fields, "CPlugModelTree.LodMeshesLocs", captured, length); } catch { c.Skipped("CPlugModelTree.LodMeshesLocs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.Surfaces");
-    try { Json::Value values = Json::Array(); uint length = node.Surfaces.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.Surfaces[" + i + "]"); values.Add(c.Link(node.Surfaces[i], depth + 1)); } c.ArrayField(fields, "CPlugModelTree.Surfaces", values, length); } catch { c.Skipped("CPlugModelTree.Surfaces", "failed", "getter exception"); }
+    try { uint length = node.Surfaces.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.Surfaces[" + i + "]"); c.ArrayElement("CPlugModelTree.Surfaces", i, length, c.Link(node.Surfaces[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugModelTree.Surfaces", captured, length); } catch { c.Skipped("CPlugModelTree.Surfaces", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.SurfaceLocs");
-    try { Json::Value values = Json::Array(); uint length = node.SurfaceLocs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.SurfaceLocs[" + i + "]"); values.Add(c.Text(tostring(node.SurfaceLocs[i]))); } c.ArrayField(fields, "CPlugModelTree.SurfaceLocs", values, length); } catch { c.Skipped("CPlugModelTree.SurfaceLocs", "failed", "getter exception"); }
+    try { uint length = node.SurfaceLocs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.SurfaceLocs[" + i + "]"); c.ArrayElement("CPlugModelTree.SurfaceLocs", i, length, c.Text(tostring(node.SurfaceLocs[i]))); captured++; } c.ArrayField(fields, "CPlugModelTree.SurfaceLocs", captured, length); } catch { c.Skipped("CPlugModelTree.SurfaceLocs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.RotationPivot");
     try { c.Field(fields, "CPlugModelTree.RotationPivot", c.Text(tostring(node.RotationPivot))); } catch { c.Skipped("CPlugModelTree.RotationPivot", "failed", "getter exception"); }
@@ -26855,16 +26855,16 @@ void DiagnosticsRead_CPlugModelTree(DiagnosticsCapture@ c, CPlugModelTree@ node,
     try { c.Field(fields, "CPlugModelTree.Location", c.Text(tostring(node.Location))); } catch { c.Skipped("CPlugModelTree.Location", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.ChildGens");
-    try { Json::Value values = Json::Array(); uint length = node.ChildGens.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.ChildGens[" + i + "]"); values.Add(c.Link(node.ChildGens[i], depth + 1)); } c.ArrayField(fields, "CPlugModelTree.ChildGens", values, length); } catch { c.Skipped("CPlugModelTree.ChildGens", "failed", "getter exception"); }
+    try { uint length = node.ChildGens.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.ChildGens[" + i + "]"); c.ArrayElement("CPlugModelTree.ChildGens", i, length, c.Link(node.ChildGens[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugModelTree.ChildGens", captured, length); } catch { c.Skipped("CPlugModelTree.ChildGens", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.ChildGensLocs");
-    try { Json::Value values = Json::Array(); uint length = node.ChildGensLocs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.ChildGensLocs[" + i + "]"); values.Add(c.Text(tostring(node.ChildGensLocs[i]))); } c.ArrayField(fields, "CPlugModelTree.ChildGensLocs", values, length); } catch { c.Skipped("CPlugModelTree.ChildGensLocs", "failed", "getter exception"); }
+    try { uint length = node.ChildGensLocs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.ChildGensLocs[" + i + "]"); c.ArrayElement("CPlugModelTree.ChildGensLocs", i, length, c.Text(tostring(node.ChildGensLocs[i]))); captured++; } c.ArrayField(fields, "CPlugModelTree.ChildGensLocs", captured, length); } catch { c.Skipped("CPlugModelTree.ChildGensLocs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.ChildGensIds");
-    try { Json::Value values = Json::Array(); uint length = node.ChildGensIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.ChildGensIds[" + i + "]"); values.Add(Json::Value(node.ChildGensIds[i].Value)); } c.ArrayField(fields, "CPlugModelTree.ChildGensIds", values, length); } catch { c.Skipped("CPlugModelTree.ChildGensIds", "failed", "getter exception"); }
+    try { uint length = node.ChildGensIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.ChildGensIds[" + i + "]"); c.ArrayElement("CPlugModelTree.ChildGensIds", i, length, Json::Value(node.ChildGensIds[i].Value)); captured++; } c.ArrayField(fields, "CPlugModelTree.ChildGensIds", captured, length); } catch { c.Skipped("CPlugModelTree.ChildGensIds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.ChildGensDisableSurface");
-    try { Json::Value values = Json::Array(); uint length = node.ChildGensDisableSurface.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.ChildGensDisableSurface[" + i + "]"); values.Add(Json::Value(node.ChildGensDisableSurface[i])); } c.ArrayField(fields, "CPlugModelTree.ChildGensDisableSurface", values, length); } catch { c.Skipped("CPlugModelTree.ChildGensDisableSurface", "failed", "getter exception"); }
+    try { uint length = node.ChildGensDisableSurface.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugModelTree.ChildGensDisableSurface[" + i + "]"); c.ArrayElement("CPlugModelTree.ChildGensDisableSurface", i, length, Json::Value(node.ChildGensDisableSurface[i])); captured++; } c.ArrayField(fields, "CPlugModelTree.ChildGensDisableSurface", captured, length); } catch { c.Skipped("CPlugModelTree.ChildGensDisableSurface", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugModelTree.OptimIsKeepTree");
     try { c.Field(fields, "CPlugModelTree.OptimIsKeepTree", Json::Value(node.OptimIsKeepTree)); } catch { c.Skipped("CPlugModelTree.OptimIsKeepTree", "failed", "getter exception"); }
@@ -26895,7 +26895,7 @@ void DiagnosticsRead_CPlugParticleEmitterModel(DiagnosticsCapture@ c, CPlugParti
     try { c.Field(fields, "CPlugParticleEmitterModel.IsSplashMode", Json::Value(node.IsSplashMode)); } catch { c.Skipped("CPlugParticleEmitterModel.IsSplashMode", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugParticleEmitterModel.ParticleEmitterSubModels");
-    try { Json::Value values = Json::Array(); uint length = node.ParticleEmitterSubModels.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugParticleEmitterModel.ParticleEmitterSubModels[" + i + "]"); values.Add(c.Link(node.ParticleEmitterSubModels[i], depth + 1)); } c.ArrayField(fields, "CPlugParticleEmitterModel.ParticleEmitterSubModels", values, length); } catch { c.Skipped("CPlugParticleEmitterModel.ParticleEmitterSubModels", "failed", "getter exception"); }
+    try { uint length = node.ParticleEmitterSubModels.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugParticleEmitterModel.ParticleEmitterSubModels[" + i + "]"); c.ArrayElement("CPlugParticleEmitterModel.ParticleEmitterSubModels", i, length, c.Link(node.ParticleEmitterSubModels[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugParticleEmitterModel.ParticleEmitterSubModels", captured, length); } catch { c.Skipped("CPlugParticleEmitterModel.ParticleEmitterSubModels", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugParticleEmitterModel.ShadowMapTexelSize");
     try { c.Field(fields, "CPlugParticleEmitterModel.ShadowMapTexelSize", c.Number(double(node.ShadowMapTexelSize))); } catch { c.Skipped("CPlugParticleEmitterModel.ShadowMapTexelSize", "failed", "getter exception"); }
@@ -27030,7 +27030,7 @@ void DiagnosticsRead_CPlugScriptWithSettings(DiagnosticsCapture@ c, CPlugScriptW
     try { c.Field(fields, "CPlugScriptWithSettings.Script", c.Link(node.Script, depth + 1)); } catch { c.Skipped("CPlugScriptWithSettings.Script", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugScriptWithSettings.Settings");
-    try { Json::Value values = Json::Array(); uint length = node.Settings.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugScriptWithSettings.Settings[" + i + "]"); values.Add(c.Link(node.Settings[i], depth + 1)); } c.ArrayField(fields, "CPlugScriptWithSettings.Settings", values, length); } catch { c.Skipped("CPlugScriptWithSettings.Settings", "failed", "getter exception"); }
+    try { uint length = node.Settings.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugScriptWithSettings.Settings[" + i + "]"); c.ArrayElement("CPlugScriptWithSettings.Settings", i, length, c.Link(node.Settings[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugScriptWithSettings.Settings", captured, length); } catch { c.Skipped("CPlugScriptWithSettings.Settings", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugShader(DiagnosticsCapture@ c, CPlugShader@ node, Json::Value &inout fields, uint depth)
 {
@@ -27052,13 +27052,13 @@ void DiagnosticsRead_CPlugSkel(DiagnosticsCapture@ c, CPlugSkel@ node, Json::Val
     try { c.Field(fields, "CPlugSkel.cJoint", Json::Value(node.cJoint)); } catch { c.Skipped("CPlugSkel.cJoint", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.JointNames");
-    try { Json::Value values = Json::Array(); uint length = node.JointNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointNames[" + i + "]"); values.Add(Json::Value(node.JointNames[i].Value)); } c.ArrayField(fields, "CPlugSkel.JointNames", values, length); } catch { c.Skipped("CPlugSkel.JointNames", "failed", "getter exception"); }
+    try { uint length = node.JointNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointNames[" + i + "]"); c.ArrayElement("CPlugSkel.JointNames", i, length, Json::Value(node.JointNames[i].Value)); captured++; } c.ArrayField(fields, "CPlugSkel.JointNames", captured, length); } catch { c.Skipped("CPlugSkel.JointNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.JointParentIndexs");
-    try { Json::Value values = Json::Array(); uint length = node.JointParentIndexs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointParentIndexs[" + i + "]"); values.Add(Json::Value(node.JointParentIndexs[i])); } c.ArrayField(fields, "CPlugSkel.JointParentIndexs", values, length); } catch { c.Skipped("CPlugSkel.JointParentIndexs", "failed", "getter exception"); }
+    try { uint length = node.JointParentIndexs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointParentIndexs[" + i + "]"); c.ArrayElement("CPlugSkel.JointParentIndexs", i, length, Json::Value(node.JointParentIndexs[i])); captured++; } c.ArrayField(fields, "CPlugSkel.JointParentIndexs", captured, length); } catch { c.Skipped("CPlugSkel.JointParentIndexs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.RefGlobalJoints");
-    try { Json::Value values = Json::Array(); uint length = node.RefGlobalJoints.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.RefGlobalJoints[" + i + "]"); values.Add(c.Text(tostring(node.RefGlobalJoints[i]))); } c.ArrayField(fields, "CPlugSkel.RefGlobalJoints", values, length); } catch { c.Skipped("CPlugSkel.RefGlobalJoints", "failed", "getter exception"); }
+    try { uint length = node.RefGlobalJoints.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.RefGlobalJoints[" + i + "]"); c.ArrayElement("CPlugSkel.RefGlobalJoints", i, length, c.Text(tostring(node.RefGlobalJoints[i]))); captured++; } c.ArrayField(fields, "CPlugSkel.RefGlobalJoints", captured, length); } catch { c.Skipped("CPlugSkel.RefGlobalJoints", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.RefGlobalJointsTQ");
     try { c.Skipped("CPlugSkel.RefGlobalJointsTQ", "unsupported", "MwSArray<GmTransQuat>"); } catch { c.Skipped("CPlugSkel.RefGlobalJointsTQ", "failed", "getter exception"); }
@@ -27067,19 +27067,19 @@ void DiagnosticsRead_CPlugSkel(DiagnosticsCapture@ c, CPlugSkel@ node, Json::Val
     try { c.Skipped("CPlugSkel.LodMaxDists", "unsupported", "UnknownType"); } catch { c.Skipped("CPlugSkel.LodMaxDists", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.JointMaxLods");
-    try { Json::Value values = Json::Array(); uint length = node.JointMaxLods.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointMaxLods[" + i + "]"); values.Add(Json::Value(node.JointMaxLods[i])); } c.ArrayField(fields, "CPlugSkel.JointMaxLods", values, length); } catch { c.Skipped("CPlugSkel.JointMaxLods", "failed", "getter exception"); }
+    try { uint length = node.JointMaxLods.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointMaxLods[" + i + "]"); c.ArrayElement("CPlugSkel.JointMaxLods", i, length, Json::Value(node.JointMaxLods[i])); captured++; } c.ArrayField(fields, "CPlugSkel.JointMaxLods", captured, length); } catch { c.Skipped("CPlugSkel.JointMaxLods", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.JointFixedTranss");
-    try { Json::Value values = Json::Array(); uint length = node.JointFixedTranss.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointFixedTranss[" + i + "]"); values.Add(Json::Value(node.JointFixedTranss[i])); } c.ArrayField(fields, "CPlugSkel.JointFixedTranss", values, length); } catch { c.Skipped("CPlugSkel.JointFixedTranss", "failed", "getter exception"); }
+    try { uint length = node.JointFixedTranss.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointFixedTranss[" + i + "]"); c.ArrayElement("CPlugSkel.JointFixedTranss", i, length, Json::Value(node.JointFixedTranss[i])); captured++; } c.ArrayField(fields, "CPlugSkel.JointFixedTranss", captured, length); } catch { c.Skipped("CPlugSkel.JointFixedTranss", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.RefGlobalJointInvsCustomForMesh");
-    try { Json::Value values = Json::Array(); uint length = node.RefGlobalJointInvsCustomForMesh.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.RefGlobalJointInvsCustomForMesh[" + i + "]"); values.Add(c.Text(tostring(node.RefGlobalJointInvsCustomForMesh[i]))); } c.ArrayField(fields, "CPlugSkel.RefGlobalJointInvsCustomForMesh", values, length); } catch { c.Skipped("CPlugSkel.RefGlobalJointInvsCustomForMesh", "failed", "getter exception"); }
+    try { uint length = node.RefGlobalJointInvsCustomForMesh.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.RefGlobalJointInvsCustomForMesh[" + i + "]"); c.ArrayElement("CPlugSkel.RefGlobalJointInvsCustomForMesh", i, length, c.Text(tostring(node.RefGlobalJointInvsCustomForMesh[i]))); captured++; } c.ArrayField(fields, "CPlugSkel.RefGlobalJointInvsCustomForMesh", captured, length); } catch { c.Skipped("CPlugSkel.RefGlobalJointInvsCustomForMesh", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.JointChildIndexs");
-    try { Json::Value values = Json::Array(); uint length = node.JointChildIndexs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointChildIndexs[" + i + "]"); values.Add(Json::Value(node.JointChildIndexs[i])); } c.ArrayField(fields, "CPlugSkel.JointChildIndexs", values, length); } catch { c.Skipped("CPlugSkel.JointChildIndexs", "failed", "getter exception"); }
+    try { uint length = node.JointChildIndexs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointChildIndexs[" + i + "]"); c.ArrayElement("CPlugSkel.JointChildIndexs", i, length, Json::Value(node.JointChildIndexs[i])); captured++; } c.ArrayField(fields, "CPlugSkel.JointChildIndexs", captured, length); } catch { c.Skipped("CPlugSkel.JointChildIndexs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.JointChildArrays");
-    try { Json::Value values = Json::Array(); uint length = node.JointChildArrays.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointChildArrays[" + i + "]"); values.Add(Json::Value(node.JointChildArrays[i])); } c.ArrayField(fields, "CPlugSkel.JointChildArrays", values, length); } catch { c.Skipped("CPlugSkel.JointChildArrays", "failed", "getter exception"); }
+    try { uint length = node.JointChildArrays.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.JointChildArrays[" + i + "]"); c.ArrayElement("CPlugSkel.JointChildArrays", i, length, Json::Value(node.JointChildArrays[i])); captured++; } c.ArrayField(fields, "CPlugSkel.JointChildArrays", captured, length); } catch { c.Skipped("CPlugSkel.JointChildArrays", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.DevNonOrtho");
     try { c.Field(fields, "CPlugSkel.DevNonOrtho", Json::Value(node.DevNonOrtho)); } catch { c.Skipped("CPlugSkel.DevNonOrtho", "failed", "getter exception"); }
@@ -27088,13 +27088,13 @@ void DiagnosticsRead_CPlugSkel(DiagnosticsCapture@ c, CPlugSkel@ node, Json::Val
     try { c.Field(fields, "CPlugSkel.Setup", c.Link(node.Setup, depth + 1)); } catch { c.Skipped("CPlugSkel.Setup", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.RefLocalJointsTranss");
-    try { Json::Value values = Json::Array(); uint length = node.RefLocalJointsTranss.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.RefLocalJointsTranss[" + i + "]"); values.Add(c.Text(tostring(node.RefLocalJointsTranss[i]))); } c.ArrayField(fields, "CPlugSkel.RefLocalJointsTranss", values, length); } catch { c.Skipped("CPlugSkel.RefLocalJointsTranss", "failed", "getter exception"); }
+    try { uint length = node.RefLocalJointsTranss.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.RefLocalJointsTranss[" + i + "]"); c.ArrayElement("CPlugSkel.RefLocalJointsTranss", i, length, c.Text(tostring(node.RefLocalJointsTranss[i]))); captured++; } c.ArrayField(fields, "CPlugSkel.RefLocalJointsTranss", captured, length); } catch { c.Skipped("CPlugSkel.RefLocalJointsTranss", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.cLod");
     try { c.Field(fields, "CPlugSkel.cLod", Json::Value(node.cLod)); } catch { c.Skipped("CPlugSkel.cLod", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.LodJointCounts");
-    try { Json::Value values = Json::Array(); uint length = node.LodJointCounts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.LodJointCounts[" + i + "]"); values.Add(Json::Value(node.LodJointCounts[i])); } c.ArrayField(fields, "CPlugSkel.LodJointCounts", values, length); } catch { c.Skipped("CPlugSkel.LodJointCounts", "failed", "getter exception"); }
+    try { uint length = node.LodJointCounts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSkel.LodJointCounts[" + i + "]"); c.ArrayElement("CPlugSkel.LodJointCounts", i, length, Json::Value(node.LodJointCounts[i])); captured++; } c.ArrayField(fields, "CPlugSkel.LodJointCounts", captured, length); } catch { c.Skipped("CPlugSkel.LodJointCounts", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSkel.Sockets");
     try { c.Skipped("CPlugSkel.Sockets", "unsupported", "MwFastBuffer<SPlugSkelSocket>"); } catch { c.Skipped("CPlugSkel.Sockets", "failed", "getter exception"); }
@@ -27265,7 +27265,7 @@ void DiagnosticsRead_CPlugSoundEngine(DiagnosticsCapture@ c, CPlugSoundEngine@ n
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundEngine.Components");
-    try { Json::Value values = Json::Array(); uint length = node.Components.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundEngine.Components[" + i + "]"); values.Add(c.Link(node.Components[i], depth + 1)); } c.ArrayField(fields, "CPlugSoundEngine.Components", values, length); } catch { c.Skipped("CPlugSoundEngine.Components", "failed", "getter exception"); }
+    try { uint length = node.Components.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundEngine.Components[" + i + "]"); c.ArrayElement("CPlugSoundEngine.Components", i, length, c.Link(node.Components[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugSoundEngine.Components", captured, length); } catch { c.Skipped("CPlugSoundEngine.Components", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundEngine.MaxRpm");
     try { c.Field(fields, "CPlugSoundEngine.MaxRpm", c.Number(double(node.MaxRpm))); } catch { c.Skipped("CPlugSoundEngine.MaxRpm", "failed", "getter exception"); }
@@ -27637,23 +27637,23 @@ void DiagnosticsRead_CPlugSoundMood(DiagnosticsCapture@ c, CPlugSoundMood@ node,
     try { c.Field(fields, "CPlugSoundMood.InsideFileSnd", c.Link(node.InsideFileSnd, depth + 1)); } catch { c.Skipped("CPlugSoundMood.InsideFileSnd", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundMood.EventSounds");
-    try { Json::Value values = Json::Array(); uint length = node.EventSounds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundMood.EventSounds[" + i + "]"); values.Add(c.Link(node.EventSounds[i], depth + 1)); } c.ArrayField(fields, "CPlugSoundMood.EventSounds", values, length); } catch { c.Skipped("CPlugSoundMood.EventSounds", "failed", "getter exception"); }
+    try { uint length = node.EventSounds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundMood.EventSounds[" + i + "]"); c.ArrayElement("CPlugSoundMood.EventSounds", i, length, c.Link(node.EventSounds[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugSoundMood.EventSounds", captured, length); } catch { c.Skipped("CPlugSoundMood.EventSounds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundMood.EventPeriods");
-    try { Json::Value values = Json::Array(); uint length = node.EventPeriods.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundMood.EventPeriods[" + i + "]"); values.Add(c.Number(double(node.EventPeriods[i]))); } c.ArrayField(fields, "CPlugSoundMood.EventPeriods", values, length); } catch { c.Skipped("CPlugSoundMood.EventPeriods", "failed", "getter exception"); }
+    try { uint length = node.EventPeriods.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundMood.EventPeriods[" + i + "]"); c.ArrayElement("CPlugSoundMood.EventPeriods", i, length, c.Number(double(node.EventPeriods[i]))); captured++; } c.ArrayField(fields, "CPlugSoundMood.EventPeriods", captured, length); } catch { c.Skipped("CPlugSoundMood.EventPeriods", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugSoundMulti(DiagnosticsCapture@ c, CPlugSoundMulti@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundMulti.AdditionalSounds");
-    try { Json::Value values = Json::Array(); uint length = node.AdditionalSounds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundMulti.AdditionalSounds[" + i + "]"); values.Add(c.Link(node.AdditionalSounds[i], depth + 1)); } c.ArrayField(fields, "CPlugSoundMulti.AdditionalSounds", values, length); } catch { c.Skipped("CPlugSoundMulti.AdditionalSounds", "failed", "getter exception"); }
+    try { uint length = node.AdditionalSounds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundMulti.AdditionalSounds[" + i + "]"); c.ArrayElement("CPlugSoundMulti.AdditionalSounds", i, length, c.Link(node.AdditionalSounds[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugSoundMulti.AdditionalSounds", captured, length); } catch { c.Skipped("CPlugSoundMulti.AdditionalSounds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundMulti.InputMapping");
     try { c.Field(fields, "CPlugSoundMulti.InputMapping", Json::Value(int(node.InputMapping))); } catch { c.Skipped("CPlugSoundMulti.InputMapping", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundMulti.PreferedDistances");
-    try { Json::Value values = Json::Array(); uint length = node.PreferedDistances.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundMulti.PreferedDistances[" + i + "]"); values.Add(c.Text(tostring(node.PreferedDistances[i]))); } c.ArrayField(fields, "CPlugSoundMulti.PreferedDistances", values, length); } catch { c.Skipped("CPlugSoundMulti.PreferedDistances", "failed", "getter exception"); }
+    try { uint length = node.PreferedDistances.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundMulti.PreferedDistances[" + i + "]"); c.ArrayElement("CPlugSoundMulti.PreferedDistances", i, length, c.Text(tostring(node.PreferedDistances[i]))); captured++; } c.ArrayField(fields, "CPlugSoundMulti.PreferedDistances", captured, length); } catch { c.Skipped("CPlugSoundMulti.PreferedDistances", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundMulti.VolumeFromInput");
     try { c.Field(fields, "CPlugSoundMulti.VolumeFromInput", c.Link(node.VolumeFromInput, depth + 1)); } catch { c.Skipped("CPlugSoundMulti.VolumeFromInput", "failed", "getter exception"); }
@@ -27681,10 +27681,10 @@ void DiagnosticsRead_CPlugSoundSurface(DiagnosticsCapture@ c, CPlugSoundSurface@
     try { c.Field(fields, "CPlugSoundSurface.EdMaxSpeedKmh", c.Number(double(node.EdMaxSpeedKmh))); } catch { c.Skipped("CPlugSoundSurface.EdMaxSpeedKmh", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundSurface.Texture");
-    try { Json::Value values = Json::Array(); uint length = node.Texture.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundSurface.Texture[" + i + "]"); values.Add(c.Link(node.Texture[i], depth + 1)); } c.ArrayField(fields, "CPlugSoundSurface.Texture", values, length); } catch { c.Skipped("CPlugSoundSurface.Texture", "failed", "getter exception"); }
+    try { uint length = node.Texture.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundSurface.Texture[" + i + "]"); c.ArrayElement("CPlugSoundSurface.Texture", i, length, c.Link(node.Texture[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugSoundSurface.Texture", captured, length); } catch { c.Skipped("CPlugSoundSurface.Texture", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundSurface.Skid");
-    try { Json::Value values = Json::Array(); uint length = node.Skid.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundSurface.Skid[" + i + "]"); values.Add(c.Link(node.Skid[i], depth + 1)); } c.ArrayField(fields, "CPlugSoundSurface.Skid", values, length); } catch { c.Skipped("CPlugSoundSurface.Skid", "failed", "getter exception"); }
+    try { uint length = node.Skid.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSoundSurface.Skid[" + i + "]"); c.ArrayElement("CPlugSoundSurface.Skid", i, length, c.Link(node.Skid[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugSoundSurface.Skid", captured, length); } catch { c.Skipped("CPlugSoundSurface.Skid", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSoundSurface.SkidVolumeFromIntensity");
     try { c.Field(fields, "CPlugSoundSurface.SkidVolumeFromIntensity", c.Link(node.SkidVolumeFromIntensity, depth + 1)); } catch { c.Skipped("CPlugSoundSurface.SkidVolumeFromIntensity", "failed", "getter exception"); }
@@ -27760,7 +27760,7 @@ void DiagnosticsRead_CPlugSurface(DiagnosticsCapture@ c, CPlugSurface@ node, Jso
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSurface.Materials");
-    try { Json::Value values = Json::Array(); uint length = node.Materials.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSurface.Materials[" + i + "]"); values.Add(c.Link(node.Materials[i], depth + 1)); } c.ArrayField(fields, "CPlugSurface.Materials", values, length); } catch { c.Skipped("CPlugSurface.Materials", "failed", "getter exception"); }
+    try { uint length = node.Materials.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugSurface.Materials[" + i + "]"); c.ArrayElement("CPlugSurface.Materials", i, length, c.Link(node.Materials[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugSurface.Materials", captured, length); } catch { c.Skipped("CPlugSurface.Materials", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugSurface.MaterialIds");
     try { c.Skipped("CPlugSurface.MaterialIds", "unsupported", "MwFastBuffer<GmSurfaceIds>"); } catch { c.Skipped("CPlugSurface.MaterialIds", "failed", "getter exception"); }
@@ -27780,7 +27780,7 @@ void DiagnosticsRead_CPlugTree(DiagnosticsCapture@ c, CPlugTree@ node, Json::Val
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugTree.Childs");
-    try { Json::Value values = Json::Array(); uint length = node.Childs.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugTree.Childs[" + i + "]"); values.Add(c.Link(node.Childs[i], depth + 1)); } c.ArrayField(fields, "CPlugTree.Childs", values, length); } catch { c.Skipped("CPlugTree.Childs", "failed", "getter exception"); }
+    try { uint length = node.Childs.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugTree.Childs[" + i + "]"); c.ArrayElement("CPlugTree.Childs", i, length, c.Link(node.Childs[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugTree.Childs", captured, length); } catch { c.Skipped("CPlugTree.Childs", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugTree.IsVisible");
     try { c.Field(fields, "CPlugTree.IsVisible", Json::Value(node.IsVisible)); } catch { c.Skipped("CPlugTree.IsVisible", "failed", "getter exception"); }
@@ -27962,10 +27962,10 @@ void DiagnosticsRead_CPlugTreeVisualMip(DiagnosticsCapture@ c, CPlugTreeVisualMi
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugTreeVisualMip.LevelsFarZ");
-    try { Json::Value values = Json::Array(); uint length = node.LevelsFarZ.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugTreeVisualMip.LevelsFarZ[" + i + "]"); values.Add(c.Number(double(node.LevelsFarZ[i]))); } c.ArrayField(fields, "CPlugTreeVisualMip.LevelsFarZ", values, length); } catch { c.Skipped("CPlugTreeVisualMip.LevelsFarZ", "failed", "getter exception"); }
+    try { uint length = node.LevelsFarZ.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugTreeVisualMip.LevelsFarZ[" + i + "]"); c.ArrayElement("CPlugTreeVisualMip.LevelsFarZ", i, length, c.Number(double(node.LevelsFarZ[i]))); captured++; } c.ArrayField(fields, "CPlugTreeVisualMip.LevelsFarZ", captured, length); } catch { c.Skipped("CPlugTreeVisualMip.LevelsFarZ", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugTreeVisualMip.LevelsTree");
-    try { Json::Value values = Json::Array(); uint length = node.LevelsTree.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugTreeVisualMip.LevelsTree[" + i + "]"); values.Add(c.Link(node.LevelsTree[i], depth + 1)); } c.ArrayField(fields, "CPlugTreeVisualMip.LevelsTree", values, length); } catch { c.Skipped("CPlugTreeVisualMip.LevelsTree", "failed", "getter exception"); }
+    try { uint length = node.LevelsTree.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugTreeVisualMip.LevelsTree[" + i + "]"); c.ArrayElement("CPlugTreeVisualMip.LevelsTree", i, length, c.Link(node.LevelsTree[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugTreeVisualMip.LevelsTree", captured, length); } catch { c.Skipped("CPlugTreeVisualMip.LevelsTree", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CPlugTriggerAction(DiagnosticsCapture@ c, CPlugTriggerAction@ node, Json::Value &inout fields, uint depth)
 {
@@ -28080,7 +28080,7 @@ void DiagnosticsRead_CPlugVehicleVisStyles(DiagnosticsCapture@ c, CPlugVehicleVi
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugVehicleVisStyles.RandomGroups");
-    try { Json::Value values = Json::Array(); uint length = node.RandomGroups.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugVehicleVisStyles.RandomGroups[" + i + "]"); values.Add(c.Link(node.RandomGroups[i], depth + 1)); } c.ArrayField(fields, "CPlugVehicleVisStyles.RandomGroups", values, length); } catch { c.Skipped("CPlugVehicleVisStyles.RandomGroups", "failed", "getter exception"); }
+    try { uint length = node.RandomGroups.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CPlugVehicleVisStyles.RandomGroups[" + i + "]"); c.ArrayElement("CPlugVehicleVisStyles.RandomGroups", i, length, c.Link(node.RandomGroups[i], depth + 1)); captured++; } c.ArrayField(fields, "CPlugVehicleVisStyles.RandomGroups", captured, length); } catch { c.Skipped("CPlugVehicleVisStyles.RandomGroups", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CPlugVehicleVisStyles.UnwantedTrafficVehiclesMatchName");
     try { c.Field(fields, "CPlugVehicleVisStyles.UnwantedTrafficVehiclesMatchName", c.Text(node.UnwantedTrafficVehiclesMatchName)); } catch { c.Skipped("CPlugVehicleVisStyles.UnwantedTrafficVehiclesMatchName", "failed", "getter exception"); }
@@ -28231,10 +28231,10 @@ void DiagnosticsRead_CScene(DiagnosticsCapture@ c, CScene@ node, Json::Value &in
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CScene.Mobils");
-    try { Json::Value values = Json::Array(); uint length = node.Mobils.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CScene.Mobils[" + i + "]"); values.Add(c.Link(node.Mobils[i], depth + 1)); } c.ArrayField(fields, "CScene.Mobils", values, length); } catch { c.Skipped("CScene.Mobils", "failed", "getter exception"); }
+    try { uint length = node.Mobils.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CScene.Mobils[" + i + "]"); c.ArrayElement("CScene.Mobils", i, length, c.Link(node.Mobils[i], depth + 1)); captured++; } c.ArrayField(fields, "CScene.Mobils", captured, length); } catch { c.Skipped("CScene.Mobils", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CScene.Lights");
-    try { Json::Value values = Json::Array(); uint length = node.Lights.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CScene.Lights[" + i + "]"); values.Add(c.Link(node.Lights[i], depth + 1)); } c.ArrayField(fields, "CScene.Lights", values, length); } catch { c.Skipped("CScene.Lights", "failed", "getter exception"); }
+    try { uint length = node.Lights.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CScene.Lights[" + i + "]"); c.ArrayElement("CScene.Lights", i, length, c.Link(node.Lights[i], depth + 1)); captured++; } c.ArrayField(fields, "CScene.Lights", captured, length); } catch { c.Skipped("CScene.Lights", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CScene.SceneVis");
     try { c.Skipped("CScene.SceneVis", "unsupported", "ISceneVis@"); } catch { c.Skipped("CScene.SceneVis", "failed", "getter exception"); }
@@ -28268,7 +28268,7 @@ void DiagnosticsRead_CScene2d(DiagnosticsCapture@ c, CScene2d@ node, Json::Value
     try { c.Field(fields, "CScene2d.OverlayMax", c.Text(tostring(node.OverlayMax))); } catch { c.Skipped("CScene2d.OverlayMax", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CScene2d.Lights");
-    try { Json::Value values = Json::Array(); uint length = node.Lights.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CScene2d.Lights[" + i + "]"); values.Add(c.Link(node.Lights[i], depth + 1)); } c.ArrayField(fields, "CScene2d.Lights", values, length); } catch { c.Skipped("CScene2d.Lights", "failed", "getter exception"); }
+    try { uint length = node.Lights.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CScene2d.Lights[" + i + "]"); c.ArrayElement("CScene2d.Lights", i, length, c.Link(node.Lights[i], depth + 1)); captured++; } c.ArrayField(fields, "CScene2d.Lights", captured, length); } catch { c.Skipped("CScene2d.Lights", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CSceneFx(DiagnosticsCapture@ c, CSceneFx@ node, Json::Value &inout fields, uint depth)
 {
@@ -28297,7 +28297,7 @@ void DiagnosticsRead_CSceneFxBloom(DiagnosticsCapture@ c, CSceneFxBloom@ node, J
     try { c.Field(fields, "CSceneFxBloom.DualData", Json::Value(node.DualData)); } catch { c.Skipped("CSceneFxBloom.DualData", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSceneFxBloom.Datas");
-    try { Json::Value values = Json::Array(); uint length = node.Datas.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSceneFxBloom.Datas[" + i + "]"); values.Add(c.Link(node.Datas[i], depth + 1)); } c.ArrayField(fields, "CSceneFxBloom.Datas", values, length); } catch { c.Skipped("CSceneFxBloom.Datas", "failed", "getter exception"); }
+    try { uint length = node.Datas.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSceneFxBloom.Datas[" + i + "]"); c.ArrayElement("CSceneFxBloom.Datas", i, length, c.Link(node.Datas[i], depth + 1)); captured++; } c.ArrayField(fields, "CSceneFxBloom.Datas", captured, length); } catch { c.Skipped("CSceneFxBloom.Datas", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSceneFxBloom.RadialInput");
     try { c.Field(fields, "CSceneFxBloom.RadialInput", Json::Value(int(node.RadialInput))); } catch { c.Skipped("CSceneFxBloom.RadialInput", "failed", "getter exception"); }
@@ -28711,7 +28711,7 @@ void DiagnosticsRead_CSceneVehicleCarMarksModel(DiagnosticsCapture@ c, CSceneVeh
     try { c.Field(fields, "CSceneVehicleCarMarksModel.Disabled", Json::Value(node.Disabled)); } catch { c.Skipped("CSceneVehicleCarMarksModel.Disabled", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSceneVehicleCarMarksModel.Models");
-    try { Json::Value values = Json::Array(); uint length = node.Models.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSceneVehicleCarMarksModel.Models[" + i + "]"); values.Add(c.Link(node.Models[i], depth + 1)); } c.ArrayField(fields, "CSceneVehicleCarMarksModel.Models", values, length); } catch { c.Skipped("CSceneVehicleCarMarksModel.Models", "failed", "getter exception"); }
+    try { uint length = node.Models.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSceneVehicleCarMarksModel.Models[" + i + "]"); c.ArrayElement("CSceneVehicleCarMarksModel.Models", i, length, c.Link(node.Models[i], depth + 1)); captured++; } c.ArrayField(fields, "CSceneVehicleCarMarksModel.Models", captured, length); } catch { c.Skipped("CSceneVehicleCarMarksModel.Models", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CSceneVehicleCarMarksModelSub(DiagnosticsCapture@ c, CSceneVehicleCarMarksModelSub@ node, Json::Value &inout fields, uint depth)
 {
@@ -28788,7 +28788,7 @@ void DiagnosticsRead_CSceneVehicleCarMarksSamples(DiagnosticsCapture@ c, CSceneV
     try { c.Field(fields, "CSceneVehicleCarMarksSamples.Disabled", Json::Value(node.Disabled)); } catch { c.Skipped("CSceneVehicleCarMarksSamples.Disabled", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSceneVehicleCarMarksSamples.Stops");
-    try { Json::Value values = Json::Array(); uint length = node.Stops.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSceneVehicleCarMarksSamples.Stops[" + i + "]"); values.Add(Json::Value(node.Stops[i])); } c.ArrayField(fields, "CSceneVehicleCarMarksSamples.Stops", values, length); } catch { c.Skipped("CSceneVehicleCarMarksSamples.Stops", "failed", "getter exception"); }
+    try { uint length = node.Stops.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSceneVehicleCarMarksSamples.Stops[" + i + "]"); c.ArrayElement("CSceneVehicleCarMarksSamples.Stops", i, length, Json::Value(node.Stops[i])); captured++; } c.ArrayField(fields, "CSceneVehicleCarMarksSamples.Stops", captured, length); } catch { c.Skipped("CSceneVehicleCarMarksSamples.Stops", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CScriptBaseConstEvent(DiagnosticsCapture@ c, CScriptBaseConstEvent@ node, Json::Value &inout fields, uint depth)
 {
@@ -28909,7 +28909,7 @@ void DiagnosticsRead_CShootMania(DiagnosticsCapture@ c, CShootMania@ node, Json:
     try { c.Field(fields, "CShootMania.Server", c.Link(node.Server, depth + 1)); } catch { c.Skipped("CShootMania.Server", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CShootMania.Clients");
-    try { Json::Value values = Json::Array(); uint length = node.Clients.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CShootMania.Clients[" + i + "]"); values.Add(c.Link(node.Clients[i], depth + 1)); } c.ArrayField(fields, "CShootMania.Clients", values, length); } catch { c.Skipped("CShootMania.Clients", "failed", "getter exception"); }
+    try { uint length = node.Clients.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CShootMania.Clients[" + i + "]"); c.ArrayElement("CShootMania.Clients", i, length, c.Link(node.Clients[i], depth + 1)); captured++; } c.ArrayField(fields, "CShootMania.Clients", captured, length); } catch { c.Skipped("CShootMania.Clients", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CSmActionInstance(DiagnosticsCapture@ c, CSmActionInstance@ node, Json::Value &inout fields, uint depth)
 {
@@ -28931,7 +28931,7 @@ void DiagnosticsRead_CSmActionInstance(DiagnosticsCapture@ c, CSmActionInstance@
     try { c.Field(fields, "CSmActionInstance.Variant3", Json::Value(node.Variant3)); } catch { c.Skipped("CSmActionInstance.Variant3", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmActionInstance.Players");
-    try { Json::Value values = Json::Array(); uint length = node.Players.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmActionInstance.Players[" + i + "]"); values.Add(c.Link(node.Players[i], depth + 1)); } c.ArrayField(fields, "CSmActionInstance.Players", values, length); } catch { c.Skipped("CSmActionInstance.Players", "failed", "getter exception"); }
+    try { uint length = node.Players.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmActionInstance.Players[" + i + "]"); c.ArrayElement("CSmActionInstance.Players", i, length, c.Link(node.Players[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmActionInstance.Players", captured, length); } catch { c.Skipped("CSmActionInstance.Players", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmActionInstance.Owner");
     try { c.Field(fields, "CSmActionInstance.Owner", c.Link(node.Owner, depth + 1)); } catch { c.Skipped("CSmActionInstance.Owner", "failed", "getter exception"); }
@@ -28976,7 +28976,7 @@ void DiagnosticsRead_CSmActionInstance(DiagnosticsCapture@ c, CSmActionInstance@
     try { c.Field(fields, "CSmActionInstance.State_Boolean1", Json::Value(node.State_Boolean1)); } catch { c.Skipped("CSmActionInstance.State_Boolean1", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmActionInstance.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmActionInstance.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CSmActionInstance.PendingEvents", values, length); } catch { c.Skipped("CSmActionInstance.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmActionInstance.PendingEvents[" + i + "]"); c.ArrayElement("CSmActionInstance.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmActionInstance.PendingEvents", captured, length); } catch { c.Skipped("CSmActionInstance.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmActionInstance.IsJumping");
     try { c.Field(fields, "CSmActionInstance.IsJumping", Json::Value(node.IsJumping)); } catch { c.Skipped("CSmActionInstance.IsJumping", "failed", "getter exception"); }
@@ -29133,43 +29133,43 @@ void DiagnosticsRead_CSmArena(DiagnosticsCapture@ c, CSmArena@ node, Json::Value
     try { c.Field(fields, "CSmArena.Resources", c.Link(node.Resources, depth + 1)); } catch { c.Skipped("CSmArena.Resources", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.Players");
-    try { Json::Value values = Json::Array(); uint length = node.Players.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.Players[" + i + "]"); values.Add(c.Link(node.Players[i], depth + 1)); } c.ArrayField(fields, "CSmArena.Players", values, length); } catch { c.Skipped("CSmArena.Players", "failed", "getter exception"); }
+    try { uint length = node.Players.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.Players[" + i + "]"); c.ArrayElement("CSmArena.Players", i, length, c.Link(node.Players[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.Players", captured, length); } catch { c.Skipped("CSmArena.Players", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.Objects");
-    try { Json::Value values = Json::Array(); uint length = node.Objects.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.Objects[" + i + "]"); values.Add(c.Link(node.Objects[i], depth + 1)); } c.ArrayField(fields, "CSmArena.Objects", values, length); } catch { c.Skipped("CSmArena.Objects", "failed", "getter exception"); }
+    try { uint length = node.Objects.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.Objects[" + i + "]"); c.ArrayElement("CSmArena.Objects", i, length, c.Link(node.Objects[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.Objects", captured, length); } catch { c.Skipped("CSmArena.Objects", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapBases");
-    try { Json::Value values = Json::Array(); uint length = node.MapBases.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapBases[" + i + "]"); values.Add(c.Link(node.MapBases[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapBases", values, length); } catch { c.Skipped("CSmArena.MapBases", "failed", "getter exception"); }
+    try { uint length = node.MapBases.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapBases[" + i + "]"); c.ArrayElement("CSmArena.MapBases", i, length, c.Link(node.MapBases[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapBases", captured, length); } catch { c.Skipped("CSmArena.MapBases", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapGates");
-    try { Json::Value values = Json::Array(); uint length = node.MapGates.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapGates[" + i + "]"); values.Add(c.Link(node.MapGates[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapGates", values, length); } catch { c.Skipped("CSmArena.MapGates", "failed", "getter exception"); }
+    try { uint length = node.MapGates.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapGates[" + i + "]"); c.ArrayElement("CSmArena.MapGates", i, length, c.Link(node.MapGates[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapGates", captured, length); } catch { c.Skipped("CSmArena.MapGates", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapGauges");
-    try { Json::Value values = Json::Array(); uint length = node.MapGauges.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapGauges[" + i + "]"); values.Add(c.Link(node.MapGauges[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapGauges", values, length); } catch { c.Skipped("CSmArena.MapGauges", "failed", "getter exception"); }
+    try { uint length = node.MapGauges.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapGauges[" + i + "]"); c.ArrayElement("CSmArena.MapGauges", i, length, c.Link(node.MapGauges[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapGauges", captured, length); } catch { c.Skipped("CSmArena.MapGauges", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapLandmarks");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapLandmarks[" + i + "]"); values.Add(c.Link(node.MapLandmarks[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapLandmarks", values, length); } catch { c.Skipped("CSmArena.MapLandmarks", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapLandmarks[" + i + "]"); c.ArrayElement("CSmArena.MapLandmarks", i, length, c.Link(node.MapLandmarks[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapLandmarks", captured, length); } catch { c.Skipped("CSmArena.MapLandmarks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapSectors");
-    try { Json::Value values = Json::Array(); uint length = node.MapSectors.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapSectors[" + i + "]"); values.Add(c.Link(node.MapSectors[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapSectors", values, length); } catch { c.Skipped("CSmArena.MapSectors", "failed", "getter exception"); }
+    try { uint length = node.MapSectors.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapSectors[" + i + "]"); c.ArrayElement("CSmArena.MapSectors", i, length, c.Link(node.MapSectors[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapSectors", captured, length); } catch { c.Skipped("CSmArena.MapSectors", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapPlayerSpawns");
-    try { Json::Value values = Json::Array(); uint length = node.MapPlayerSpawns.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapPlayerSpawns[" + i + "]"); values.Add(c.Link(node.MapPlayerSpawns[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapPlayerSpawns", values, length); } catch { c.Skipped("CSmArena.MapPlayerSpawns", "failed", "getter exception"); }
+    try { uint length = node.MapPlayerSpawns.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapPlayerSpawns[" + i + "]"); c.ArrayElement("CSmArena.MapPlayerSpawns", i, length, c.Link(node.MapPlayerSpawns[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapPlayerSpawns", captured, length); } catch { c.Skipped("CSmArena.MapPlayerSpawns", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapBotPaths");
     try { c.Skipped("CSmArena.MapBotPaths", "excluded", "sensitive-name policy"); } catch { c.Skipped("CSmArena.MapBotPaths", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapBotSpawns");
-    try { Json::Value values = Json::Array(); uint length = node.MapBotSpawns.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapBotSpawns[" + i + "]"); values.Add(c.Link(node.MapBotSpawns[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapBotSpawns", values, length); } catch { c.Skipped("CSmArena.MapBotSpawns", "failed", "getter exception"); }
+    try { uint length = node.MapBotSpawns.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapBotSpawns[" + i + "]"); c.ArrayElement("CSmArena.MapBotSpawns", i, length, c.Link(node.MapBotSpawns[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapBotSpawns", captured, length); } catch { c.Skipped("CSmArena.MapBotSpawns", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapObjectAnchors");
-    try { Json::Value values = Json::Array(); uint length = node.MapObjectAnchors.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapObjectAnchors[" + i + "]"); values.Add(c.Link(node.MapObjectAnchors[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapObjectAnchors", values, length); } catch { c.Skipped("CSmArena.MapObjectAnchors", "failed", "getter exception"); }
+    try { uint length = node.MapObjectAnchors.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapObjectAnchors[" + i + "]"); c.ArrayElement("CSmArena.MapObjectAnchors", i, length, c.Link(node.MapObjectAnchors[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapObjectAnchors", captured, length); } catch { c.Skipped("CSmArena.MapObjectAnchors", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapVehicleAnchors");
-    try { Json::Value values = Json::Array(); uint length = node.MapVehicleAnchors.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapVehicleAnchors[" + i + "]"); values.Add(c.Link(node.MapVehicleAnchors[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapVehicleAnchors", values, length); } catch { c.Skipped("CSmArena.MapVehicleAnchors", "failed", "getter exception"); }
+    try { uint length = node.MapVehicleAnchors.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapVehicleAnchors[" + i + "]"); c.ArrayElement("CSmArena.MapVehicleAnchors", i, length, c.Link(node.MapVehicleAnchors[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapVehicleAnchors", captured, length); } catch { c.Skipped("CSmArena.MapVehicleAnchors", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArena.MapWaypoints");
-    try { Json::Value values = Json::Array(); uint length = node.MapWaypoints.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapWaypoints[" + i + "]"); values.Add(c.Link(node.MapWaypoints[i], depth + 1)); } c.ArrayField(fields, "CSmArena.MapWaypoints", values, length); } catch { c.Skipped("CSmArena.MapWaypoints", "failed", "getter exception"); }
+    try { uint length = node.MapWaypoints.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArena.MapWaypoints[" + i + "]"); c.ArrayElement("CSmArena.MapWaypoints", i, length, c.Link(node.MapWaypoints[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArena.MapWaypoints", captured, length); } catch { c.Skipped("CSmArena.MapWaypoints", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CSmArenaClient(DiagnosticsCapture@ c, CSmArenaClient@ node, Json::Value &inout fields, uint depth)
 {
@@ -29237,46 +29237,46 @@ void DiagnosticsRead_CSmArenaInterfaceManialinkScripHandler(DiagnosticsCapture@ 
     try { c.Field(fields, "CSmArenaInterfaceManialinkScripHandler.GUIPlayer", c.Link(node.GUIPlayer, depth + 1)); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.GUIPlayer", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.Players");
-    try { Json::Value values = Json::Array(); uint length = node.Players.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.Players[" + i + "]"); values.Add(c.Link(node.Players[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.Players", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.Players", "failed", "getter exception"); }
+    try { uint length = node.Players.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.Players[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.Players", i, length, c.Link(node.Players[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.Players", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.Players", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.Vehicles");
-    try { Json::Value values = Json::Array(); uint length = node.Vehicles.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.Vehicles[" + i + "]"); values.Add(c.Link(node.Vehicles[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.Vehicles", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.Vehicles", "failed", "getter exception"); }
+    try { uint length = node.Vehicles.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.Vehicles[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.Vehicles", i, length, c.Link(node.Vehicles[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.Vehicles", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.Vehicles", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.Scores");
-    try { Json::Value values = Json::Array(); uint length = node.Scores.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.Scores[" + i + "]"); values.Add(c.Link(node.Scores[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.Scores", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.Scores", "failed", "getter exception"); }
+    try { uint length = node.Scores.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.Scores[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.Scores", i, length, c.Link(node.Scores[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.Scores", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.Scores", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.ClanScores");
-    try { Json::Value values = Json::Array(); uint length = node.ClanScores.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.ClanScores[" + i + "]"); values.Add(Json::Value(node.ClanScores[i])); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.ClanScores", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.ClanScores", "failed", "getter exception"); }
+    try { uint length = node.ClanScores.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.ClanScores[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.ClanScores", i, length, Json::Value(node.ClanScores[i])); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.ClanScores", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.ClanScores", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.HideResumePlayingButton");
     try { c.Field(fields, "CSmArenaInterfaceManialinkScripHandler.HideResumePlayingButton", Json::Value(node.HideResumePlayingButton)); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.HideResumePlayingButton", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapBases");
-    try { Json::Value values = Json::Array(); uint length = node.MapBases.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapBases[" + i + "]"); values.Add(c.Link(node.MapBases[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapBases", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapBases", "failed", "getter exception"); }
+    try { uint length = node.MapBases.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapBases[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.MapBases", i, length, c.Link(node.MapBases[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapBases", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapBases", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapLandmarks");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks[" + i + "]"); values.Add(c.Link(node.MapLandmarks[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.MapLandmarks", i, length, c.Link(node.MapLandmarks[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_PlayerSpawn");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_PlayerSpawn.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_PlayerSpawn[" + i + "]"); values.Add(c.Link(node.MapLandmarks_PlayerSpawn[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_PlayerSpawn", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_PlayerSpawn", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_PlayerSpawn.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_PlayerSpawn[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_PlayerSpawn", i, length, c.Link(node.MapLandmarks_PlayerSpawn[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_PlayerSpawn", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_PlayerSpawn", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gauge");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_Gauge.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gauge[" + i + "]"); values.Add(c.Link(node.MapLandmarks_Gauge[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gauge", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gauge", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_Gauge.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gauge[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gauge", i, length, c.Link(node.MapLandmarks_Gauge[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gauge", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gauge", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Sector");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_Sector.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Sector[" + i + "]"); values.Add(c.Link(node.MapLandmarks_Sector[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Sector", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Sector", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_Sector.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Sector[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Sector", i, length, c.Link(node.MapLandmarks_Sector[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Sector", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Sector", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_BotPath");
     try { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_BotPath", "excluded", "sensitive-name policy"); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_BotPath", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_ObjectAnchor");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_ObjectAnchor.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_ObjectAnchor[" + i + "]"); values.Add(c.Link(node.MapLandmarks_ObjectAnchor[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_ObjectAnchor", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_ObjectAnchor", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_ObjectAnchor.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_ObjectAnchor[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_ObjectAnchor", i, length, c.Link(node.MapLandmarks_ObjectAnchor[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_ObjectAnchor", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_ObjectAnchor", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gate");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_Gate.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gate[" + i + "]"); values.Add(c.Link(node.MapLandmarks_Gate[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gate", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gate", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_Gate.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gate[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gate", i, length, c.Link(node.MapLandmarks_Gate[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gate", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Gate", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Foundation");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_Foundation.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Foundation[" + i + "]"); values.Add(c.Link(node.MapLandmarks_Foundation[i], depth + 1)); } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Foundation", values, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Foundation", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_Foundation.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Foundation[" + i + "]"); c.ArrayElement("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Foundation", i, length, c.Link(node.MapLandmarks_Foundation[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Foundation", captured, length); } catch { c.Skipped("CSmArenaInterfaceManialinkScripHandler.MapLandmarks_Foundation", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CSmArenaInterfaceUI(DiagnosticsCapture@ c, CSmArenaInterfaceUI@ node, Json::Value &inout fields, uint depth)
 {
@@ -29466,7 +29466,7 @@ void DiagnosticsRead_CSmArenaRules(DiagnosticsCapture@ c, CSmArenaRules@ node, J
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRules.Scores");
-    try { Json::Value values = Json::Array(); uint length = node.Scores.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRules.Scores[" + i + "]"); values.Add(c.Link(node.Scores[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRules.Scores", values, length); } catch { c.Skipped("CSmArenaRules.Scores", "failed", "getter exception"); }
+    try { uint length = node.Scores.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRules.Scores[" + i + "]"); c.ArrayElement("CSmArenaRules.Scores", i, length, c.Link(node.Scores[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRules.Scores", captured, length); } catch { c.Skipped("CSmArenaRules.Scores", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRules.RulesMode");
     try { c.Field(fields, "CSmArenaRules.RulesMode", c.Link(node.RulesMode, depth + 1)); } catch { c.Skipped("CSmArenaRules.RulesMode", "failed", "getter exception"); }
@@ -29650,7 +29650,7 @@ void DiagnosticsRead_CSmArenaRulesEvent(DiagnosticsCapture@ c, CSmArenaRulesEven
     try { c.Field(fields, "CSmArenaRulesEvent.Param1", c.Text(string(node.Param1))); } catch { c.Skipped("CSmArenaRulesEvent.Param1", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesEvent.Param2");
-    try { Json::Value values = Json::Array(); uint length = node.Param2.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesEvent.Param2[" + i + "]"); values.Add(c.Text(string(node.Param2[i]))); } c.ArrayField(fields, "CSmArenaRulesEvent.Param2", values, length); } catch { c.Skipped("CSmArenaRulesEvent.Param2", "failed", "getter exception"); }
+    try { uint length = node.Param2.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesEvent.Param2[" + i + "]"); c.ArrayElement("CSmArenaRulesEvent.Param2", i, length, c.Text(string(node.Param2[i]))); captured++; } c.ArrayField(fields, "CSmArenaRulesEvent.Param2", captured, length); } catch { c.Skipped("CSmArenaRulesEvent.Param2", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesEvent.Object");
     try { c.Field(fields, "CSmArenaRulesEvent.Object", c.Link(node.Object, depth + 1)); } catch { c.Skipped("CSmArenaRulesEvent.Object", "failed", "getter exception"); }
@@ -29870,61 +29870,61 @@ void DiagnosticsRead_CSmArenaRulesMode(DiagnosticsCapture@ c, CSmArenaRulesMode@
     try { c.Field(fields, "CSmArenaRulesMode.ClansNbDead", Json::Value(node.ClansNbDead)); } catch { c.Skipped("CSmArenaRulesMode.ClansNbDead", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.ClansNbPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.ClansNbPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.ClansNbPlayers[" + i + "]"); values.Add(Json::Value(node.ClansNbPlayers[i])); } c.ArrayField(fields, "CSmArenaRulesMode.ClansNbPlayers", values, length); } catch { c.Skipped("CSmArenaRulesMode.ClansNbPlayers", "failed", "getter exception"); }
+    try { uint length = node.ClansNbPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.ClansNbPlayers[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.ClansNbPlayers", i, length, Json::Value(node.ClansNbPlayers[i])); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.ClansNbPlayers", captured, length); } catch { c.Skipped("CSmArenaRulesMode.ClansNbPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.ClansNbPlayersAlive");
-    try { Json::Value values = Json::Array(); uint length = node.ClansNbPlayersAlive.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.ClansNbPlayersAlive[" + i + "]"); values.Add(Json::Value(node.ClansNbPlayersAlive[i])); } c.ArrayField(fields, "CSmArenaRulesMode.ClansNbPlayersAlive", values, length); } catch { c.Skipped("CSmArenaRulesMode.ClansNbPlayersAlive", "failed", "getter exception"); }
+    try { uint length = node.ClansNbPlayersAlive.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.ClansNbPlayersAlive[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.ClansNbPlayersAlive", i, length, Json::Value(node.ClansNbPlayersAlive[i])); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.ClansNbPlayersAlive", captured, length); } catch { c.Skipped("CSmArenaRulesMode.ClansNbPlayersAlive", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.Players");
-    try { Json::Value values = Json::Array(); uint length = node.Players.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.Players[" + i + "]"); values.Add(c.Link(node.Players[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.Players", values, length); } catch { c.Skipped("CSmArenaRulesMode.Players", "failed", "getter exception"); }
+    try { uint length = node.Players.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.Players[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.Players", i, length, c.Link(node.Players[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.Players", captured, length); } catch { c.Skipped("CSmArenaRulesMode.Players", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.BotPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.BotPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.BotPlayers[" + i + "]"); values.Add(c.Link(node.BotPlayers[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.BotPlayers", values, length); } catch { c.Skipped("CSmArenaRulesMode.BotPlayers", "failed", "getter exception"); }
+    try { uint length = node.BotPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.BotPlayers[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.BotPlayers", i, length, c.Link(node.BotPlayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.BotPlayers", captured, length); } catch { c.Skipped("CSmArenaRulesMode.BotPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.Spectators");
-    try { Json::Value values = Json::Array(); uint length = node.Spectators.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.Spectators[" + i + "]"); values.Add(c.Link(node.Spectators[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.Spectators", values, length); } catch { c.Skipped("CSmArenaRulesMode.Spectators", "failed", "getter exception"); }
+    try { uint length = node.Spectators.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.Spectators[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.Spectators", i, length, c.Link(node.Spectators[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.Spectators", captured, length); } catch { c.Skipped("CSmArenaRulesMode.Spectators", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.AllPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.AllPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.AllPlayers[" + i + "]"); values.Add(c.Link(node.AllPlayers[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.AllPlayers", values, length); } catch { c.Skipped("CSmArenaRulesMode.AllPlayers", "failed", "getter exception"); }
+    try { uint length = node.AllPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.AllPlayers[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.AllPlayers", i, length, c.Link(node.AllPlayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.AllPlayers", captured, length); } catch { c.Skipped("CSmArenaRulesMode.AllPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.PendingEvents");
-    try { Json::Value values = Json::Array(); uint length = node.PendingEvents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.PendingEvents[" + i + "]"); values.Add(c.Link(node.PendingEvents[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.PendingEvents", values, length); } catch { c.Skipped("CSmArenaRulesMode.PendingEvents", "failed", "getter exception"); }
+    try { uint length = node.PendingEvents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.PendingEvents[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.PendingEvents", i, length, c.Link(node.PendingEvents[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.PendingEvents", captured, length); } catch { c.Skipped("CSmArenaRulesMode.PendingEvents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapBases");
-    try { Json::Value values = Json::Array(); uint length = node.MapBases.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapBases[" + i + "]"); values.Add(c.Link(node.MapBases[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapBases", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapBases", "failed", "getter exception"); }
+    try { uint length = node.MapBases.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapBases[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapBases", i, length, c.Link(node.MapBases[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapBases", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapBases", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks[" + i + "]"); values.Add(c.Link(node.MapLandmarks[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapLandmarks", i, length, c.Link(node.MapLandmarks[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks_PlayerSpawn");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_PlayerSpawn.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_PlayerSpawn[" + i + "]"); values.Add(c.Link(node.MapLandmarks_PlayerSpawn[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_PlayerSpawn", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_PlayerSpawn", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_PlayerSpawn.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_PlayerSpawn[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapLandmarks_PlayerSpawn", i, length, c.Link(node.MapLandmarks_PlayerSpawn[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_PlayerSpawn", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_PlayerSpawn", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks_Gauge");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_Gauge.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_Gauge[" + i + "]"); values.Add(c.Link(node.MapLandmarks_Gauge[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_Gauge", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_Gauge", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_Gauge.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_Gauge[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapLandmarks_Gauge", i, length, c.Link(node.MapLandmarks_Gauge[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_Gauge", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_Gauge", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks_Sector");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_Sector.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_Sector[" + i + "]"); values.Add(c.Link(node.MapLandmarks_Sector[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_Sector", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_Sector", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_Sector.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_Sector[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapLandmarks_Sector", i, length, c.Link(node.MapLandmarks_Sector[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_Sector", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_Sector", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks_BotPath");
     try { c.Skipped("CSmArenaRulesMode.MapLandmarks_BotPath", "excluded", "sensitive-name policy"); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_BotPath", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks_BotSpawn");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_BotSpawn.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_BotSpawn[" + i + "]"); values.Add(c.Link(node.MapLandmarks_BotSpawn[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_BotSpawn", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_BotSpawn", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_BotSpawn.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_BotSpawn[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapLandmarks_BotSpawn", i, length, c.Link(node.MapLandmarks_BotSpawn[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_BotSpawn", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_BotSpawn", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks_ObjectAnchor");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_ObjectAnchor.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_ObjectAnchor[" + i + "]"); values.Add(c.Link(node.MapLandmarks_ObjectAnchor[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_ObjectAnchor", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_ObjectAnchor", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_ObjectAnchor.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_ObjectAnchor[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapLandmarks_ObjectAnchor", i, length, c.Link(node.MapLandmarks_ObjectAnchor[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_ObjectAnchor", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_ObjectAnchor", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks_Gate");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_Gate.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_Gate[" + i + "]"); values.Add(c.Link(node.MapLandmarks_Gate[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_Gate", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_Gate", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_Gate.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_Gate[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapLandmarks_Gate", i, length, c.Link(node.MapLandmarks_Gate[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_Gate", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_Gate", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.MapLandmarks_Foundation");
-    try { Json::Value values = Json::Array(); uint length = node.MapLandmarks_Foundation.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_Foundation[" + i + "]"); values.Add(c.Link(node.MapLandmarks_Foundation[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_Foundation", values, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_Foundation", "failed", "getter exception"); }
+    try { uint length = node.MapLandmarks_Foundation.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.MapLandmarks_Foundation[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.MapLandmarks_Foundation", i, length, c.Link(node.MapLandmarks_Foundation[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.MapLandmarks_Foundation", captured, length); } catch { c.Skipped("CSmArenaRulesMode.MapLandmarks_Foundation", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.UiScoresPointsLimit");
     try { c.Field(fields, "CSmArenaRulesMode.UiScoresPointsLimit", Json::Value(node.UiScoresPointsLimit)); } catch { c.Skipped("CSmArenaRulesMode.UiScoresPointsLimit", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.Scores");
-    try { Json::Value values = Json::Array(); uint length = node.Scores.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.Scores[" + i + "]"); values.Add(c.Link(node.Scores[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.Scores", values, length); } catch { c.Skipped("CSmArenaRulesMode.Scores", "failed", "getter exception"); }
+    try { uint length = node.Scores.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.Scores[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.Scores", i, length, c.Link(node.Scores[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.Scores", captured, length); } catch { c.Skipped("CSmArenaRulesMode.Scores", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.Clan1Score");
     try { c.Field(fields, "CSmArenaRulesMode.Clan1Score", Json::Value(node.Clan1Score)); } catch { c.Skipped("CSmArenaRulesMode.Clan1Score", "failed", "getter exception"); }
@@ -29933,7 +29933,7 @@ void DiagnosticsRead_CSmArenaRulesMode(DiagnosticsCapture@ c, CSmArenaRulesMode@
     try { c.Field(fields, "CSmArenaRulesMode.Clan2Score", Json::Value(node.Clan2Score)); } catch { c.Skipped("CSmArenaRulesMode.Clan2Score", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.ClanScores");
-    try { Json::Value values = Json::Array(); uint length = node.ClanScores.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.ClanScores[" + i + "]"); values.Add(Json::Value(node.ClanScores[i])); } c.ArrayField(fields, "CSmArenaRulesMode.ClanScores", values, length); } catch { c.Skipped("CSmArenaRulesMode.ClanScores", "failed", "getter exception"); }
+    try { uint length = node.ClanScores.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.ClanScores[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.ClanScores", i, length, Json::Value(node.ClanScores[i])); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.ClanScores", captured, length); } catch { c.Skipped("CSmArenaRulesMode.ClanScores", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.Scores_SortCriteria");
     try { c.Field(fields, "CSmArenaRulesMode.Scores_SortCriteria", Json::Value(int(node.Scores_SortCriteria))); } catch { c.Skipped("CSmArenaRulesMode.Scores_SortCriteria", "failed", "getter exception"); }
@@ -29963,13 +29963,13 @@ void DiagnosticsRead_CSmArenaRulesMode(DiagnosticsCapture@ c, CSmArenaRulesMode@
     try { c.Field(fields, "CSmArenaRulesMode.CrudeExtrapolation_AllowDelay", Json::Value(node.CrudeExtrapolation_AllowDelay)); } catch { c.Skipped("CSmArenaRulesMode.CrudeExtrapolation_AllowDelay", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.Objects");
-    try { Json::Value values = Json::Array(); uint length = node.Objects.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.Objects[" + i + "]"); values.Add(c.Link(node.Objects[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.Objects", values, length); } catch { c.Skipped("CSmArenaRulesMode.Objects", "failed", "getter exception"); }
+    try { uint length = node.Objects.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.Objects[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.Objects", i, length, c.Link(node.Objects[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.Objects", captured, length); } catch { c.Skipped("CSmArenaRulesMode.Objects", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.GhostMgr");
     try { c.Field(fields, "CSmArenaRulesMode.GhostMgr", c.Link(node.GhostMgr, depth + 1)); } catch { c.Skipped("CSmArenaRulesMode.GhostMgr", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaRulesMode.GhostRecorder_Ghosts");
-    try { Json::Value values = Json::Array(); uint length = node.GhostRecorder_Ghosts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.GhostRecorder_Ghosts[" + i + "]"); values.Add(c.Link(node.GhostRecorder_Ghosts[i], depth + 1)); } c.ArrayField(fields, "CSmArenaRulesMode.GhostRecorder_Ghosts", values, length); } catch { c.Skipped("CSmArenaRulesMode.GhostRecorder_Ghosts", "failed", "getter exception"); }
+    try { uint length = node.GhostRecorder_Ghosts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaRulesMode.GhostRecorder_Ghosts[" + i + "]"); c.ArrayElement("CSmArenaRulesMode.GhostRecorder_Ghosts", i, length, c.Link(node.GhostRecorder_Ghosts[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmArenaRulesMode.GhostRecorder_Ghosts", captured, length); } catch { c.Skipped("CSmArenaRulesMode.GhostRecorder_Ghosts", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CSmArenaScore(DiagnosticsCapture@ c, CSmArenaScore@ node, Json::Value &inout fields, uint depth)
 {
@@ -30000,16 +30000,16 @@ void DiagnosticsRead_CSmArenaScore(DiagnosticsCapture@ c, CSmArenaScore@ node, J
     try { c.Field(fields, "CSmArenaScore.DamageTaken", Json::Value(node.DamageTaken)); } catch { c.Skipped("CSmArenaScore.DamageTaken", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaScore.BestRaceTimes");
-    try { Json::Value values = Json::Array(); uint length = node.BestRaceTimes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaScore.BestRaceTimes[" + i + "]"); values.Add(Json::Value(node.BestRaceTimes[i])); } c.ArrayField(fields, "CSmArenaScore.BestRaceTimes", values, length); } catch { c.Skipped("CSmArenaScore.BestRaceTimes", "failed", "getter exception"); }
+    try { uint length = node.BestRaceTimes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaScore.BestRaceTimes[" + i + "]"); c.ArrayElement("CSmArenaScore.BestRaceTimes", i, length, Json::Value(node.BestRaceTimes[i])); captured++; } c.ArrayField(fields, "CSmArenaScore.BestRaceTimes", captured, length); } catch { c.Skipped("CSmArenaScore.BestRaceTimes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaScore.PrevRaceTimes");
-    try { Json::Value values = Json::Array(); uint length = node.PrevRaceTimes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaScore.PrevRaceTimes[" + i + "]"); values.Add(Json::Value(node.PrevRaceTimes[i])); } c.ArrayField(fields, "CSmArenaScore.PrevRaceTimes", values, length); } catch { c.Skipped("CSmArenaScore.PrevRaceTimes", "failed", "getter exception"); }
+    try { uint length = node.PrevRaceTimes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaScore.PrevRaceTimes[" + i + "]"); c.ArrayElement("CSmArenaScore.PrevRaceTimes", i, length, Json::Value(node.PrevRaceTimes[i])); captured++; } c.ArrayField(fields, "CSmArenaScore.PrevRaceTimes", captured, length); } catch { c.Skipped("CSmArenaScore.PrevRaceTimes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaScore.BestLapTimes");
-    try { Json::Value values = Json::Array(); uint length = node.BestLapTimes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaScore.BestLapTimes[" + i + "]"); values.Add(Json::Value(node.BestLapTimes[i])); } c.ArrayField(fields, "CSmArenaScore.BestLapTimes", values, length); } catch { c.Skipped("CSmArenaScore.BestLapTimes", "failed", "getter exception"); }
+    try { uint length = node.BestLapTimes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaScore.BestLapTimes[" + i + "]"); c.ArrayElement("CSmArenaScore.BestLapTimes", i, length, Json::Value(node.BestLapTimes[i])); captured++; } c.ArrayField(fields, "CSmArenaScore.BestLapTimes", captured, length); } catch { c.Skipped("CSmArenaScore.BestLapTimes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaScore.PrevLapTimes");
-    try { Json::Value values = Json::Array(); uint length = node.PrevLapTimes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaScore.PrevLapTimes[" + i + "]"); values.Add(Json::Value(node.PrevLapTimes[i])); } c.ArrayField(fields, "CSmArenaScore.PrevLapTimes", values, length); } catch { c.Skipped("CSmArenaScore.PrevLapTimes", "failed", "getter exception"); }
+    try { uint length = node.PrevLapTimes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmArenaScore.PrevLapTimes[" + i + "]"); c.ArrayElement("CSmArenaScore.PrevLapTimes", i, length, Json::Value(node.PrevLapTimes[i])); captured++; } c.ArrayField(fields, "CSmArenaScore.PrevLapTimes", captured, length); } catch { c.Skipped("CSmArenaScore.PrevLapTimes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmArenaScore.BestRaceNbRespawns");
     try { c.Field(fields, "CSmArenaScore.BestRaceNbRespawns", Json::Value(node.BestRaceNbRespawns)); } catch { c.Skipped("CSmArenaScore.BestRaceNbRespawns", "failed", "getter exception"); }
@@ -30058,10 +30058,10 @@ void DiagnosticsRead_CSmEditorPluginMapType(DiagnosticsCapture@ c, CSmEditorPlug
     try { c.Field(fields, "CSmEditorPluginMapType.Mode", c.Link(node.Mode, depth + 1)); } catch { c.Skipped("CSmEditorPluginMapType.Mode", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmEditorPluginMapType.AllPlayers");
-    try { Json::Value values = Json::Array(); uint length = node.AllPlayers.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmEditorPluginMapType.AllPlayers[" + i + "]"); values.Add(c.Link(node.AllPlayers[i], depth + 1)); } c.ArrayField(fields, "CSmEditorPluginMapType.AllPlayers", values, length); } catch { c.Skipped("CSmEditorPluginMapType.AllPlayers", "failed", "getter exception"); }
+    try { uint length = node.AllPlayers.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmEditorPluginMapType.AllPlayers[" + i + "]"); c.ArrayElement("CSmEditorPluginMapType.AllPlayers", i, length, c.Link(node.AllPlayers[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmEditorPluginMapType.AllPlayers", captured, length); } catch { c.Skipped("CSmEditorPluginMapType.AllPlayers", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmEditorPluginMapType.Players");
-    try { Json::Value values = Json::Array(); uint length = node.Players.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmEditorPluginMapType.Players[" + i + "]"); values.Add(c.Link(node.Players[i], depth + 1)); } c.ArrayField(fields, "CSmEditorPluginMapType.Players", values, length); } catch { c.Skipped("CSmEditorPluginMapType.Players", "failed", "getter exception"); }
+    try { uint length = node.Players.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmEditorPluginMapType.Players[" + i + "]"); c.ArrayElement("CSmEditorPluginMapType.Players", i, length, c.Link(node.Players[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmEditorPluginMapType.Players", captured, length); } catch { c.Skipped("CSmEditorPluginMapType.Players", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CSmModuleScoresTable(DiagnosticsCapture@ c, CSmModuleScoresTable@ node, Json::Value &inout fields, uint depth)
 {
@@ -30293,7 +30293,7 @@ void DiagnosticsRead_CSmPlayerDriver(DiagnosticsCapture@ c, CSmPlayerDriver@ nod
     try { c.Field(fields, "CSmPlayerDriver.ForcedTarget", c.Link(node.ForcedTarget, depth + 1)); } catch { c.Skipped("CSmPlayerDriver.ForcedTarget", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmPlayerDriver.TargetsToAvoid");
-    try { Json::Value values = Json::Array(); uint length = node.TargetsToAvoid.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmPlayerDriver.TargetsToAvoid[" + i + "]"); values.Add(c.Link(node.TargetsToAvoid[i], depth + 1)); } c.ArrayField(fields, "CSmPlayerDriver.TargetsToAvoid", values, length); } catch { c.Skipped("CSmPlayerDriver.TargetsToAvoid", "failed", "getter exception"); }
+    try { uint length = node.TargetsToAvoid.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmPlayerDriver.TargetsToAvoid[" + i + "]"); c.ArrayElement("CSmPlayerDriver.TargetsToAvoid", i, length, c.Link(node.TargetsToAvoid[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmPlayerDriver.TargetsToAvoid", captured, length); } catch { c.Skipped("CSmPlayerDriver.TargetsToAvoid", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmPlayerDriver.PredictJump");
     try { c.Field(fields, "CSmPlayerDriver.PredictJump", Json::Value(node.PredictJump)); } catch { c.Skipped("CSmPlayerDriver.PredictJump", "failed", "getter exception"); }
@@ -30317,7 +30317,7 @@ void DiagnosticsRead_CSmPlayerDriver(DiagnosticsCapture@ c, CSmPlayerDriver@ nod
     try { c.Field(fields, "CSmPlayerDriver.LostTargetChaseDuration", Json::Value(node.LostTargetChaseDuration)); } catch { c.Skipped("CSmPlayerDriver.LostTargetChaseDuration", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmPlayerDriver.FlockPartners");
-    try { Json::Value values = Json::Array(); uint length = node.FlockPartners.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmPlayerDriver.FlockPartners[" + i + "]"); values.Add(c.Link(node.FlockPartners[i], depth + 1)); } c.ArrayField(fields, "CSmPlayerDriver.FlockPartners", values, length); } catch { c.Skipped("CSmPlayerDriver.FlockPartners", "failed", "getter exception"); }
+    try { uint length = node.FlockPartners.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmPlayerDriver.FlockPartners[" + i + "]"); c.ArrayElement("CSmPlayerDriver.FlockPartners", i, length, c.Link(node.FlockPartners[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmPlayerDriver.FlockPartners", captured, length); } catch { c.Skipped("CSmPlayerDriver.FlockPartners", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmPlayerDriver.FlockRadius");
     try { c.Field(fields, "CSmPlayerDriver.FlockRadius", c.Number(double(node.FlockRadius))); } catch { c.Skipped("CSmPlayerDriver.FlockRadius", "failed", "getter exception"); }
@@ -30424,16 +30424,16 @@ void DiagnosticsRead_CSmScriptPlayer(DiagnosticsCapture@ c, CSmScriptPlayer@ nod
     try { c.Field(fields, "CSmScriptPlayer.EndTime", Json::Value(node.EndTime)); } catch { c.Skipped("CSmScriptPlayer.EndTime", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmScriptPlayer.RaceWaypointTimes");
-    try { Json::Value values = Json::Array(); uint length = node.RaceWaypointTimes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.RaceWaypointTimes[" + i + "]"); values.Add(Json::Value(node.RaceWaypointTimes[i])); } c.ArrayField(fields, "CSmScriptPlayer.RaceWaypointTimes", values, length); } catch { c.Skipped("CSmScriptPlayer.RaceWaypointTimes", "failed", "getter exception"); }
+    try { uint length = node.RaceWaypointTimes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.RaceWaypointTimes[" + i + "]"); c.ArrayElement("CSmScriptPlayer.RaceWaypointTimes", i, length, Json::Value(node.RaceWaypointTimes[i])); captured++; } c.ArrayField(fields, "CSmScriptPlayer.RaceWaypointTimes", captured, length); } catch { c.Skipped("CSmScriptPlayer.RaceWaypointTimes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmScriptPlayer.LapWaypointTimes");
-    try { Json::Value values = Json::Array(); uint length = node.LapWaypointTimes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.LapWaypointTimes[" + i + "]"); values.Add(Json::Value(node.LapWaypointTimes[i])); } c.ArrayField(fields, "CSmScriptPlayer.LapWaypointTimes", values, length); } catch { c.Skipped("CSmScriptPlayer.LapWaypointTimes", "failed", "getter exception"); }
+    try { uint length = node.LapWaypointTimes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.LapWaypointTimes[" + i + "]"); c.ArrayElement("CSmScriptPlayer.LapWaypointTimes", i, length, Json::Value(node.LapWaypointTimes[i])); captured++; } c.ArrayField(fields, "CSmScriptPlayer.LapWaypointTimes", captured, length); } catch { c.Skipped("CSmScriptPlayer.LapWaypointTimes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmScriptPlayer.CurrentLapWaypointTimes");
-    try { Json::Value values = Json::Array(); uint length = node.CurrentLapWaypointTimes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.CurrentLapWaypointTimes[" + i + "]"); values.Add(Json::Value(node.CurrentLapWaypointTimes[i])); } c.ArrayField(fields, "CSmScriptPlayer.CurrentLapWaypointTimes", values, length); } catch { c.Skipped("CSmScriptPlayer.CurrentLapWaypointTimes", "failed", "getter exception"); }
+    try { uint length = node.CurrentLapWaypointTimes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.CurrentLapWaypointTimes[" + i + "]"); c.ArrayElement("CSmScriptPlayer.CurrentLapWaypointTimes", i, length, Json::Value(node.CurrentLapWaypointTimes[i])); captured++; } c.ArrayField(fields, "CSmScriptPlayer.CurrentLapWaypointTimes", captured, length); } catch { c.Skipped("CSmScriptPlayer.CurrentLapWaypointTimes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmScriptPlayer.PreviousLapWaypointTimes");
-    try { Json::Value values = Json::Array(); uint length = node.PreviousLapWaypointTimes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.PreviousLapWaypointTimes[" + i + "]"); values.Add(Json::Value(node.PreviousLapWaypointTimes[i])); } c.ArrayField(fields, "CSmScriptPlayer.PreviousLapWaypointTimes", values, length); } catch { c.Skipped("CSmScriptPlayer.PreviousLapWaypointTimes", "failed", "getter exception"); }
+    try { uint length = node.PreviousLapWaypointTimes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.PreviousLapWaypointTimes[" + i + "]"); c.ArrayElement("CSmScriptPlayer.PreviousLapWaypointTimes", i, length, Json::Value(node.PreviousLapWaypointTimes[i])); captured++; } c.ArrayField(fields, "CSmScriptPlayer.PreviousLapWaypointTimes", captured, length); } catch { c.Skipped("CSmScriptPlayer.PreviousLapWaypointTimes", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmScriptPlayer.CurrentLapNumber");
     try { c.Field(fields, "CSmScriptPlayer.CurrentLapNumber", Json::Value(node.CurrentLapNumber)); } catch { c.Skipped("CSmScriptPlayer.CurrentLapNumber", "failed", "getter exception"); }
@@ -30673,7 +30673,7 @@ void DiagnosticsRead_CSmScriptPlayer(DiagnosticsCapture@ c, CSmScriptPlayer@ nod
     try { c.Field(fields, "CSmScriptPlayer.CapturedLandmark", c.Link(node.CapturedLandmark, depth + 1)); } catch { c.Skipped("CSmScriptPlayer.CapturedLandmark", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmScriptPlayer.Objects");
-    try { Json::Value values = Json::Array(); uint length = node.Objects.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.Objects[" + i + "]"); values.Add(c.Link(node.Objects[i], depth + 1)); } c.ArrayField(fields, "CSmScriptPlayer.Objects", values, length); } catch { c.Skipped("CSmScriptPlayer.Objects", "failed", "getter exception"); }
+    try { uint length = node.Objects.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSmScriptPlayer.Objects[" + i + "]"); c.ArrayElement("CSmScriptPlayer.Objects", i, length, c.Link(node.Objects[i], depth + 1)); captured++; } c.ArrayField(fields, "CSmScriptPlayer.Objects", captured, length); } catch { c.Skipped("CSmScriptPlayer.Objects", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSmScriptPlayer.Vehicle");
     try { c.Field(fields, "CSmScriptPlayer.Vehicle", c.Link(node.Vehicle, depth + 1)); } catch { c.Skipped("CSmScriptPlayer.Vehicle", "failed", "getter exception"); }
@@ -31278,7 +31278,7 @@ void DiagnosticsRead_CSystemDependenciesList(DiagnosticsCapture@ c, CSystemDepen
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CSystemDependenciesList.Files");
-    try { Json::Value values = Json::Array(); uint length = node.Files.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSystemDependenciesList.Files[" + i + "]"); values.Add(c.Link(node.Files[i], depth + 1)); } c.ArrayField(fields, "CSystemDependenciesList.Files", values, length); } catch { c.Skipped("CSystemDependenciesList.Files", "failed", "getter exception"); }
+    try { uint length = node.Files.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSystemDependenciesList.Files[" + i + "]"); c.ArrayElement("CSystemDependenciesList.Files", i, length, c.Link(node.Files[i], depth + 1)); captured++; } c.ArrayField(fields, "CSystemDependenciesList.Files", captured, length); } catch { c.Skipped("CSystemDependenciesList.Files", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSystemDependenciesList.Folders");
     try { c.Skipped("CSystemDependenciesList.Folders", "excluded", "sensitive-name policy"); } catch { c.Skipped("CSystemDependenciesList.Folders", "failed", "getter exception"); }
@@ -31338,10 +31338,10 @@ void DiagnosticsRead_CSystemFidsFolder(DiagnosticsCapture@ c, CSystemFidsFolder@
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CSystemFidsFolder.Trees");
-    try { Json::Value values = Json::Array(); uint length = node.Trees.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSystemFidsFolder.Trees[" + i + "]"); values.Add(c.Link(node.Trees[i], depth + 1)); } c.ArrayField(fields, "CSystemFidsFolder.Trees", values, length); } catch { c.Skipped("CSystemFidsFolder.Trees", "failed", "getter exception"); }
+    try { uint length = node.Trees.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSystemFidsFolder.Trees[" + i + "]"); c.ArrayElement("CSystemFidsFolder.Trees", i, length, c.Link(node.Trees[i], depth + 1)); captured++; } c.ArrayField(fields, "CSystemFidsFolder.Trees", captured, length); } catch { c.Skipped("CSystemFidsFolder.Trees", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSystemFidsFolder.Leaves");
-    try { Json::Value values = Json::Array(); uint length = node.Leaves.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSystemFidsFolder.Leaves[" + i + "]"); values.Add(c.Link(node.Leaves[i], depth + 1)); } c.ArrayField(fields, "CSystemFidsFolder.Leaves", values, length); } catch { c.Skipped("CSystemFidsFolder.Leaves", "failed", "getter exception"); }
+    try { uint length = node.Leaves.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CSystemFidsFolder.Leaves[" + i + "]"); c.ArrayElement("CSystemFidsFolder.Leaves", i, length, c.Link(node.Leaves[i], depth + 1)); captured++; } c.ArrayField(fields, "CSystemFidsFolder.Leaves", captured, length); } catch { c.Skipped("CSystemFidsFolder.Leaves", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CSystemFidsFolder.ByteSize");
     try { c.Field(fields, "CSystemFidsFolder.ByteSize", Json::Value(node.ByteSize)); } catch { c.Skipped("CSystemFidsFolder.ByteSize", "failed", "getter exception"); }
@@ -31477,17 +31477,17 @@ void DiagnosticsRead_CTmRaceResultNod(DiagnosticsCapture@ c, CTmRaceResultNod@ n
     try { c.Field(fields, "CTmRaceResultNod.SpawnLandmarkId", Json::Value(node.SpawnLandmarkId.Value)); } catch { c.Skipped("CTmRaceResultNod.SpawnLandmarkId", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CTmRaceResultNod.Checkpoints");
-    try { Json::Value values = Json::Array(); uint length = node.Checkpoints.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CTmRaceResultNod.Checkpoints[" + i + "]"); values.Add(Json::Value(node.Checkpoints[i])); } c.ArrayField(fields, "CTmRaceResultNod.Checkpoints", values, length); } catch { c.Skipped("CTmRaceResultNod.Checkpoints", "failed", "getter exception"); }
+    try { uint length = node.Checkpoints.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CTmRaceResultNod.Checkpoints[" + i + "]"); c.ArrayElement("CTmRaceResultNod.Checkpoints", i, length, Json::Value(node.Checkpoints[i])); captured++; } c.ArrayField(fields, "CTmRaceResultNod.Checkpoints", captured, length); } catch { c.Skipped("CTmRaceResultNod.Checkpoints", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CTmRaceResultNod.CheckpointLandmarkIds");
-    try { Json::Value values = Json::Array(); uint length = node.CheckpointLandmarkIds.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CTmRaceResultNod.CheckpointLandmarkIds[" + i + "]"); values.Add(Json::Value(node.CheckpointLandmarkIds[i].Value)); } c.ArrayField(fields, "CTmRaceResultNod.CheckpointLandmarkIds", values, length); } catch { c.Skipped("CTmRaceResultNod.CheckpointLandmarkIds", "failed", "getter exception"); }
+    try { uint length = node.CheckpointLandmarkIds.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CTmRaceResultNod.CheckpointLandmarkIds[" + i + "]"); c.ArrayElement("CTmRaceResultNod.CheckpointLandmarkIds", i, length, Json::Value(node.CheckpointLandmarkIds[i].Value)); captured++; } c.ArrayField(fields, "CTmRaceResultNod.CheckpointLandmarkIds", captured, length); } catch { c.Skipped("CTmRaceResultNod.CheckpointLandmarkIds", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CTrackMania(DiagnosticsCapture@ c, CTrackMania@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CTrackMania.MatchSettings");
-    try { Json::Value values = Json::Array(); uint length = node.MatchSettings.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CTrackMania.MatchSettings[" + i + "]"); values.Add(c.Link(node.MatchSettings[i], depth + 1)); } c.ArrayField(fields, "CTrackMania.MatchSettings", values, length); } catch { c.Skipped("CTrackMania.MatchSettings", "failed", "getter exception"); }
+    try { uint length = node.MatchSettings.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CTrackMania.MatchSettings[" + i + "]"); c.ArrayElement("CTrackMania.MatchSettings", i, length, c.Link(node.MatchSettings[i], depth + 1)); captured++; } c.ArrayField(fields, "CTrackMania.MatchSettings", captured, length); } catch { c.Skipped("CTrackMania.MatchSettings", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CTrackManiaControlCard(DiagnosticsCapture@ c, CTrackManiaControlCard@ node, Json::Value &inout fields, uint depth)
 {
@@ -31582,7 +31582,7 @@ void DiagnosticsRead_CTrackManiaMatchSettings(DiagnosticsCapture@ c, CTrackMania
     try { c.Field(fields, "CTrackManiaMatchSettings.HotSeat_Rounds", Json::Value(node.HotSeat_Rounds)); } catch { c.Skipped("CTrackManiaMatchSettings.HotSeat_Rounds", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CTrackManiaMatchSettings.ChallengeInfos");
-    try { Json::Value values = Json::Array(); uint length = node.ChallengeInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CTrackManiaMatchSettings.ChallengeInfos[" + i + "]"); values.Add(c.Link(node.ChallengeInfos[i], depth + 1)); } c.ArrayField(fields, "CTrackManiaMatchSettings.ChallengeInfos", values, length); } catch { c.Skipped("CTrackManiaMatchSettings.ChallengeInfos", "failed", "getter exception"); }
+    try { uint length = node.ChallengeInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CTrackManiaMatchSettings.ChallengeInfos[" + i + "]"); c.ArrayElement("CTrackManiaMatchSettings.ChallengeInfos", i, length, c.Link(node.ChallengeInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CTrackManiaMatchSettings.ChallengeInfos", captured, length); } catch { c.Skipped("CTrackManiaMatchSettings.ChallengeInfos", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CTrackManiaMenus(DiagnosticsCapture@ c, CTrackManiaMenus@ node, Json::Value &inout fields, uint depth)
 {
@@ -32037,7 +32037,7 @@ void DiagnosticsRead_CVisionViewport(DiagnosticsCapture@ c, CVisionViewport@ nod
     try { c.Field(fields, "CVisionViewport.EmulateCursor", Json::Value(node.EmulateCursor)); } catch { c.Skipped("CVisionViewport.EmulateCursor", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CVisionViewport.Display_Win32DeviceNames");
-    try { Json::Value values = Json::Array(); uint length = node.Display_Win32DeviceNames.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CVisionViewport.Display_Win32DeviceNames[" + i + "]"); values.Add(c.Text(string(node.Display_Win32DeviceNames[i]))); } c.ArrayField(fields, "CVisionViewport.Display_Win32DeviceNames", values, length); } catch { c.Skipped("CVisionViewport.Display_Win32DeviceNames", "failed", "getter exception"); }
+    try { uint length = node.Display_Win32DeviceNames.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CVisionViewport.Display_Win32DeviceNames[" + i + "]"); c.ArrayElement("CVisionViewport.Display_Win32DeviceNames", i, length, c.Text(string(node.Display_Win32DeviceNames[i]))); captured++; } c.ArrayField(fields, "CVisionViewport.Display_Win32DeviceNames", captured, length); } catch { c.Skipped("CVisionViewport.Display_Win32DeviceNames", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CVisionViewport.Alpha01BlendEdges");
     try { c.Field(fields, "CVisionViewport.Alpha01BlendEdges", Json::Value(node.Alpha01BlendEdges)); } catch { c.Skipped("CVisionViewport.Alpha01BlendEdges", "failed", "getter exception"); }
@@ -32182,7 +32182,7 @@ void DiagnosticsRead_CWebServicesTaskResult_FileListScript(DiagnosticsCapture@ c
     try { c.Skipped("CWebServicesTaskResult_FileListScript.Path", "excluded", "sensitive-name policy"); } catch { c.Skipped("CWebServicesTaskResult_FileListScript.Path", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_FileListScript.Files");
-    try { Json::Value values = Json::Array(); uint length = node.Files.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_FileListScript.Files[" + i + "]"); values.Add(c.Text(string(node.Files[i]))); } c.ArrayField(fields, "CWebServicesTaskResult_FileListScript.Files", values, length); } catch { c.Skipped("CWebServicesTaskResult_FileListScript.Files", "failed", "getter exception"); }
+    try { uint length = node.Files.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_FileListScript.Files[" + i + "]"); c.ArrayElement("CWebServicesTaskResult_FileListScript.Files", i, length, c.Text(string(node.Files[i]))); captured++; } c.ArrayField(fields, "CWebServicesTaskResult_FileListScript.Files", captured, length); } catch { c.Skipped("CWebServicesTaskResult_FileListScript.Files", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_FileListScript.SubFolders");
     try { c.Skipped("CWebServicesTaskResult_FileListScript.SubFolders", "excluded", "sensitive-name policy"); } catch { c.Skipped("CWebServicesTaskResult_FileListScript.SubFolders", "failed", "getter exception"); }
@@ -32196,7 +32196,7 @@ void DiagnosticsRead_CWebServicesTaskResult_GameModeListScript(DiagnosticsCaptur
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_GameModeListScript.GameModes");
-    try { Json::Value values = Json::Array(); uint length = node.GameModes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_GameModeListScript.GameModes[" + i + "]"); values.Add(c.Link(node.GameModes[i], depth + 1)); } c.ArrayField(fields, "CWebServicesTaskResult_GameModeListScript.GameModes", values, length); } catch { c.Skipped("CWebServicesTaskResult_GameModeListScript.GameModes", "failed", "getter exception"); }
+    try { uint length = node.GameModes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_GameModeListScript.GameModes[" + i + "]"); c.ArrayElement("CWebServicesTaskResult_GameModeListScript.GameModes", i, length, c.Link(node.GameModes[i], depth + 1)); captured++; } c.ArrayField(fields, "CWebServicesTaskResult_GameModeListScript.GameModes", captured, length); } catch { c.Skipped("CWebServicesTaskResult_GameModeListScript.GameModes", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CWebServicesTaskResult_GetDisplayNameScriptResult(DiagnosticsCapture@ c, CWebServicesTaskResult_GetDisplayNameScriptResult@ node, Json::Value &inout fields, uint depth)
 {
@@ -32215,7 +32215,7 @@ void DiagnosticsRead_CWebServicesTaskResult_GhostListScript(DiagnosticsCapture@ 
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_GhostListScript.Ghosts");
-    try { Json::Value values = Json::Array(); uint length = node.Ghosts.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_GhostListScript.Ghosts[" + i + "]"); values.Add(c.Link(node.Ghosts[i], depth + 1)); } c.ArrayField(fields, "CWebServicesTaskResult_GhostListScript.Ghosts", values, length); } catch { c.Skipped("CWebServicesTaskResult_GhostListScript.Ghosts", "failed", "getter exception"); }
+    try { uint length = node.Ghosts.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_GhostListScript.Ghosts[" + i + "]"); c.ArrayElement("CWebServicesTaskResult_GhostListScript.Ghosts", i, length, c.Link(node.Ghosts[i], depth + 1)); captured++; } c.ArrayField(fields, "CWebServicesTaskResult_GhostListScript.Ghosts", captured, length); } catch { c.Skipped("CWebServicesTaskResult_GhostListScript.Ghosts", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CWebServicesTaskResult_GhostScript(DiagnosticsCapture@ c, CWebServicesTaskResult_GhostScript@ node, Json::Value &inout fields, uint depth)
 {
@@ -32235,7 +32235,7 @@ void DiagnosticsRead_CWebServicesTaskResult_MapListScript(DiagnosticsCapture@ c,
     try { c.Skipped("CWebServicesTaskResult_MapListScript.Path", "excluded", "sensitive-name policy"); } catch { c.Skipped("CWebServicesTaskResult_MapListScript.Path", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_MapListScript.MapInfos");
-    try { Json::Value values = Json::Array(); uint length = node.MapInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_MapListScript.MapInfos[" + i + "]"); values.Add(c.Link(node.MapInfos[i], depth + 1)); } c.ArrayField(fields, "CWebServicesTaskResult_MapListScript.MapInfos", values, length); } catch { c.Skipped("CWebServicesTaskResult_MapListScript.MapInfos", "failed", "getter exception"); }
+    try { uint length = node.MapInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_MapListScript.MapInfos[" + i + "]"); c.ArrayElement("CWebServicesTaskResult_MapListScript.MapInfos", i, length, c.Link(node.MapInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CWebServicesTaskResult_MapListScript.MapInfos", captured, length); } catch { c.Skipped("CWebServicesTaskResult_MapListScript.MapInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_MapListScript.SubFolders");
     try { c.Skipped("CWebServicesTaskResult_MapListScript.SubFolders", "excluded", "sensitive-name policy"); } catch { c.Skipped("CWebServicesTaskResult_MapListScript.SubFolders", "failed", "getter exception"); }
@@ -32257,7 +32257,7 @@ void DiagnosticsRead_CWebServicesTaskResult_NadeoServicesMapListScript(Diagnosti
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_NadeoServicesMapListScript.MapList");
-    try { Json::Value values = Json::Array(); uint length = node.MapList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_NadeoServicesMapListScript.MapList[" + i + "]"); values.Add(c.Link(node.MapList[i], depth + 1)); } c.ArrayField(fields, "CWebServicesTaskResult_NadeoServicesMapListScript.MapList", values, length); } catch { c.Skipped("CWebServicesTaskResult_NadeoServicesMapListScript.MapList", "failed", "getter exception"); }
+    try { uint length = node.MapList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_NadeoServicesMapListScript.MapList[" + i + "]"); c.ArrayElement("CWebServicesTaskResult_NadeoServicesMapListScript.MapList", i, length, c.Link(node.MapList[i], depth + 1)); captured++; } c.ArrayField(fields, "CWebServicesTaskResult_NadeoServicesMapListScript.MapList", captured, length); } catch { c.Skipped("CWebServicesTaskResult_NadeoServicesMapListScript.MapList", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CWebServicesTaskResult_NadeoServicesMapScript(DiagnosticsCapture@ c, CWebServicesTaskResult_NadeoServicesMapScript@ node, Json::Value &inout fields, uint depth)
 {
@@ -32279,7 +32279,7 @@ void DiagnosticsRead_CWebServicesTaskResult_NadeoServicesSkinListScript(Diagnost
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_NadeoServicesSkinListScript.SkinList");
-    try { Json::Value values = Json::Array(); uint length = node.SkinList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_NadeoServicesSkinListScript.SkinList[" + i + "]"); values.Add(c.Link(node.SkinList[i], depth + 1)); } c.ArrayField(fields, "CWebServicesTaskResult_NadeoServicesSkinListScript.SkinList", values, length); } catch { c.Skipped("CWebServicesTaskResult_NadeoServicesSkinListScript.SkinList", "failed", "getter exception"); }
+    try { uint length = node.SkinList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_NadeoServicesSkinListScript.SkinList[" + i + "]"); c.ArrayElement("CWebServicesTaskResult_NadeoServicesSkinListScript.SkinList", i, length, c.Link(node.SkinList[i], depth + 1)); captured++; } c.ArrayField(fields, "CWebServicesTaskResult_NadeoServicesSkinListScript.SkinList", captured, length); } catch { c.Skipped("CWebServicesTaskResult_NadeoServicesSkinListScript.SkinList", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CWebServicesTaskResult_NadeoServicesSkinScript(DiagnosticsCapture@ c, CWebServicesTaskResult_NadeoServicesSkinScript@ node, Json::Value &inout fields, uint depth)
 {
@@ -32325,7 +32325,7 @@ void DiagnosticsRead_CWebServicesTaskResult_ReplayListScript(DiagnosticsCapture@
     try { c.Skipped("CWebServicesTaskResult_ReplayListScript.Path", "excluded", "sensitive-name policy"); } catch { c.Skipped("CWebServicesTaskResult_ReplayListScript.Path", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_ReplayListScript.ReplayInfos");
-    try { Json::Value values = Json::Array(); uint length = node.ReplayInfos.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_ReplayListScript.ReplayInfos[" + i + "]"); values.Add(c.Link(node.ReplayInfos[i], depth + 1)); } c.ArrayField(fields, "CWebServicesTaskResult_ReplayListScript.ReplayInfos", values, length); } catch { c.Skipped("CWebServicesTaskResult_ReplayListScript.ReplayInfos", "failed", "getter exception"); }
+    try { uint length = node.ReplayInfos.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_ReplayListScript.ReplayInfos[" + i + "]"); c.ArrayElement("CWebServicesTaskResult_ReplayListScript.ReplayInfos", i, length, c.Link(node.ReplayInfos[i], depth + 1)); captured++; } c.ArrayField(fields, "CWebServicesTaskResult_ReplayListScript.ReplayInfos", captured, length); } catch { c.Skipped("CWebServicesTaskResult_ReplayListScript.ReplayInfos", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_ReplayListScript.SubFolders");
     try { c.Skipped("CWebServicesTaskResult_ReplayListScript.SubFolders", "excluded", "sensitive-name policy"); } catch { c.Skipped("CWebServicesTaskResult_ReplayListScript.SubFolders", "failed", "getter exception"); }
@@ -32339,7 +32339,7 @@ void DiagnosticsRead_CWebServicesTaskResult_SeasonListScript(DiagnosticsCapture@
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CWebServicesTaskResult_SeasonListScript.SeasonList");
-    try { Json::Value values = Json::Array(); uint length = node.SeasonList.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_SeasonListScript.SeasonList[" + i + "]"); values.Add(c.Link(node.SeasonList[i], depth + 1)); } c.ArrayField(fields, "CWebServicesTaskResult_SeasonListScript.SeasonList", values, length); } catch { c.Skipped("CWebServicesTaskResult_SeasonListScript.SeasonList", "failed", "getter exception"); }
+    try { uint length = node.SeasonList.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CWebServicesTaskResult_SeasonListScript.SeasonList[" + i + "]"); c.ArrayElement("CWebServicesTaskResult_SeasonListScript.SeasonList", i, length, c.Link(node.SeasonList[i], depth + 1)); captured++; } c.ArrayField(fields, "CWebServicesTaskResult_SeasonListScript.SeasonList", captured, length); } catch { c.Skipped("CWebServicesTaskResult_SeasonListScript.SeasonList", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CWebServicesTaskResult_ServerInfo(DiagnosticsCapture@ c, CWebServicesTaskResult_ServerInfo@ node, Json::Value &inout fields, uint depth)
 {
@@ -32360,7 +32360,7 @@ void DiagnosticsRead_CXmlScriptParsingDocumentJson(DiagnosticsCapture@ c, CXmlSc
     try { c.Field(fields, "CXmlScriptParsingDocumentJson.Root", c.Link(node.Root, depth + 1)); } catch { c.Skipped("CXmlScriptParsingDocumentJson.Root", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingDocumentJson.Nodes");
-    try { Json::Value values = Json::Array(); uint length = node.Nodes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingDocumentJson.Nodes[" + i + "]"); values.Add(c.Link(node.Nodes[i], depth + 1)); } c.ArrayField(fields, "CXmlScriptParsingDocumentJson.Nodes", values, length); } catch { c.Skipped("CXmlScriptParsingDocumentJson.Nodes", "failed", "getter exception"); }
+    try { uint length = node.Nodes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingDocumentJson.Nodes[" + i + "]"); c.ArrayElement("CXmlScriptParsingDocumentJson.Nodes", i, length, c.Link(node.Nodes[i], depth + 1)); captured++; } c.ArrayField(fields, "CXmlScriptParsingDocumentJson.Nodes", captured, length); } catch { c.Skipped("CXmlScriptParsingDocumentJson.Nodes", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CXmlScriptParsingDocumentXml(DiagnosticsCapture@ c, CXmlScriptParsingDocumentXml@ node, Json::Value &inout fields, uint depth)
 {
@@ -32373,7 +32373,7 @@ void DiagnosticsRead_CXmlScriptParsingDocumentXml(DiagnosticsCapture@ c, CXmlScr
     try { c.Field(fields, "CXmlScriptParsingDocumentXml.Root", c.Link(node.Root, depth + 1)); } catch { c.Skipped("CXmlScriptParsingDocumentXml.Root", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingDocumentXml.Nodes");
-    try { Json::Value values = Json::Array(); uint length = node.Nodes.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingDocumentXml.Nodes[" + i + "]"); values.Add(c.Link(node.Nodes[i], depth + 1)); } c.ArrayField(fields, "CXmlScriptParsingDocumentXml.Nodes", values, length); } catch { c.Skipped("CXmlScriptParsingDocumentXml.Nodes", "failed", "getter exception"); }
+    try { uint length = node.Nodes.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingDocumentXml.Nodes[" + i + "]"); c.ArrayElement("CXmlScriptParsingDocumentXml.Nodes", i, length, c.Link(node.Nodes[i], depth + 1)); captured++; } c.ArrayField(fields, "CXmlScriptParsingDocumentXml.Nodes", captured, length); } catch { c.Skipped("CXmlScriptParsingDocumentXml.Nodes", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CXmlScriptParsingManager(DiagnosticsCapture@ c, CXmlScriptParsingManager@ node, Json::Value &inout fields, uint depth)
 {
@@ -32383,23 +32383,23 @@ void DiagnosticsRead_CXmlScriptParsingManager(DiagnosticsCapture@ c, CXmlScriptP
     try { c.Field(fields, "CXmlScriptParsingManager.DocumentsSlotsLimit", Json::Value(node.DocumentsSlotsLimit)); } catch { c.Skipped("CXmlScriptParsingManager.DocumentsSlotsLimit", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingManager.Documents");
-    try { Json::Value values = Json::Array(); uint length = node.Documents.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingManager.Documents[" + i + "]"); values.Add(c.Link(node.Documents[i], depth + 1)); } c.ArrayField(fields, "CXmlScriptParsingManager.Documents", values, length); } catch { c.Skipped("CXmlScriptParsingManager.Documents", "failed", "getter exception"); }
+    try { uint length = node.Documents.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingManager.Documents[" + i + "]"); c.ArrayElement("CXmlScriptParsingManager.Documents", i, length, c.Link(node.Documents[i], depth + 1)); captured++; } c.ArrayField(fields, "CXmlScriptParsingManager.Documents", captured, length); } catch { c.Skipped("CXmlScriptParsingManager.Documents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingManager.DocumentsXml");
-    try { Json::Value values = Json::Array(); uint length = node.DocumentsXml.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingManager.DocumentsXml[" + i + "]"); values.Add(c.Link(node.DocumentsXml[i], depth + 1)); } c.ArrayField(fields, "CXmlScriptParsingManager.DocumentsXml", values, length); } catch { c.Skipped("CXmlScriptParsingManager.DocumentsXml", "failed", "getter exception"); }
+    try { uint length = node.DocumentsXml.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingManager.DocumentsXml[" + i + "]"); c.ArrayElement("CXmlScriptParsingManager.DocumentsXml", i, length, c.Link(node.DocumentsXml[i], depth + 1)); captured++; } c.ArrayField(fields, "CXmlScriptParsingManager.DocumentsXml", captured, length); } catch { c.Skipped("CXmlScriptParsingManager.DocumentsXml", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingManager.DocumentsJson");
-    try { Json::Value values = Json::Array(); uint length = node.DocumentsJson.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingManager.DocumentsJson[" + i + "]"); values.Add(c.Link(node.DocumentsJson[i], depth + 1)); } c.ArrayField(fields, "CXmlScriptParsingManager.DocumentsJson", values, length); } catch { c.Skipped("CXmlScriptParsingManager.DocumentsJson", "failed", "getter exception"); }
+    try { uint length = node.DocumentsJson.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingManager.DocumentsJson[" + i + "]"); c.ArrayElement("CXmlScriptParsingManager.DocumentsJson", i, length, c.Link(node.DocumentsJson[i], depth + 1)); captured++; } c.ArrayField(fields, "CXmlScriptParsingManager.DocumentsJson", captured, length); } catch { c.Skipped("CXmlScriptParsingManager.DocumentsJson", "failed", "getter exception"); }
 }
 void DiagnosticsRead_CXmlScriptParsingNodeJson(DiagnosticsCapture@ c, CXmlScriptParsingNodeJson@ node, Json::Value &inout fields, uint depth)
 {
     if (node is null) return;
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingNodeJson.Keys");
-    try { Json::Value values = Json::Array(); uint length = node.Keys.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingNodeJson.Keys[" + i + "]"); values.Add(c.Text(string(node.Keys[i]))); } c.ArrayField(fields, "CXmlScriptParsingNodeJson.Keys", values, length); } catch { c.Skipped("CXmlScriptParsingNodeJson.Keys", "failed", "getter exception"); }
+    try { uint length = node.Keys.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingNodeJson.Keys[" + i + "]"); c.ArrayElement("CXmlScriptParsingNodeJson.Keys", i, length, c.Text(string(node.Keys[i]))); captured++; } c.ArrayField(fields, "CXmlScriptParsingNodeJson.Keys", captured, length); } catch { c.Skipped("CXmlScriptParsingNodeJson.Keys", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingNodeJson.Children");
-    try { Json::Value values = Json::Array(); uint length = node.Children.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingNodeJson.Children[" + i + "]"); values.Add(c.Link(node.Children[i], depth + 1)); } c.ArrayField(fields, "CXmlScriptParsingNodeJson.Children", values, length); } catch { c.Skipped("CXmlScriptParsingNodeJson.Children", "failed", "getter exception"); }
+    try { uint length = node.Children.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingNodeJson.Children[" + i + "]"); c.ArrayElement("CXmlScriptParsingNodeJson.Children", i, length, c.Link(node.Children[i], depth + 1)); captured++; } c.ArrayField(fields, "CXmlScriptParsingNodeJson.Children", captured, length); } catch { c.Skipped("CXmlScriptParsingNodeJson.Children", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingNodeJson.AsText");
     try { c.Field(fields, "CXmlScriptParsingNodeJson.AsText", c.Text(string(node.AsText))); } catch { c.Skipped("CXmlScriptParsingNodeJson.AsText", "failed", "getter exception"); }
@@ -32433,7 +32433,7 @@ void DiagnosticsRead_CXmlScriptParsingNodeXml(DiagnosticsCapture@ c, CXmlScriptP
     try { c.Field(fields, "CXmlScriptParsingNodeXml.TextRecursiveContents", c.Text(node.TextRecursiveContents)); } catch { c.Skipped("CXmlScriptParsingNodeXml.TextRecursiveContents", "failed", "getter exception"); }
     if (c.Checkpoint()) return;
     c.BeginMember("CXmlScriptParsingNodeXml.Children");
-    try { Json::Value values = Json::Array(); uint length = node.Children.Length; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingNodeXml.Children[" + i + "]"); values.Add(c.Link(node.Children[i], depth + 1)); } c.ArrayField(fields, "CXmlScriptParsingNodeXml.Children", values, length); } catch { c.Skipped("CXmlScriptParsingNodeXml.Children", "failed", "getter exception"); }
+    try { uint length = node.Children.Length; uint captured = 0; for (uint i = 0; i < length && i < c.maxArray; i++) { if (c.Checkpoint()) break; c.Trace("array-element", "CXmlScriptParsingNodeXml.Children[" + i + "]"); c.ArrayElement("CXmlScriptParsingNodeXml.Children", i, length, c.Link(node.Children[i], depth + 1)); captured++; } c.ArrayField(fields, "CXmlScriptParsingNodeXml.Children", captured, length); } catch { c.Skipped("CXmlScriptParsingNodeXml.Children", "failed", "getter exception"); }
 }
 string DiagnosticsInventoryHash() { return "98c5b7448da7b39db75ec4f2340bfcc54fcbaedb5daf9139c5a34d5dec86a06d"; }
 #endif

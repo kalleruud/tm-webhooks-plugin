@@ -1,8 +1,27 @@
 #if DIAGNOSTICS
 bool g_diagnosticsBusy;
 bool g_diagnosticsCancel;
-string g_diagnosticsStatus = "Idle. Full dumps may contain sensitive game data.";
-const string DIAGNOSTICS_SPOOL = "diagnostics-pending.json";
+bool g_diagnosticsPeriodic;
+bool g_diagnosticsWorker;
+string g_diagnosticsStatus = "Idle. Delivery is best-effort.";
+uint g_diagnosticsStarted;
+uint g_diagnosticsFailed;
+uint g_diagnosticsDropped;
+array<DiagnosticsPacket@> g_diagnosticsQueue;
+array<DiagnosticsRequest@> g_diagnosticsRequests;
+
+class DiagnosticsPacket
+{
+    string body;
+    string endpoint;
+    string token;
+}
+
+class DiagnosticsRequest
+{
+    Net::HttpRequest@ request;
+    uint started;
+}
 
 string DiagnosticsGame()
 {
@@ -13,149 +32,123 @@ string DiagnosticsGame()
 #endif
 }
 
+bool DiagnosticsConfigured()
+{
+    return (Setting_DiagnosticsEndpoint.StartsWith("http://") || Setting_DiagnosticsEndpoint.StartsWith("https://")) && Setting_DiagnosticsToken.Length > 0;
+}
+
+void DiagnosticsEnsureWorker()
+{
+    if (g_diagnosticsWorker) return;
+    g_diagnosticsWorker = true;
+    startnew(CoroutineFunc(DiagnosticsWorker));
+}
+
+bool DiagnosticsEnqueue(const string &in id, uint index, const string &in kind, const string &in data, const string &in endpoint, const string &in token)
+{
+    if (g_diagnosticsQueue.Length >= 64 || endpoint.Length == 0 || token.Length == 0) { g_diagnosticsDropped++; return false; }
+    DiagnosticsPacket@ packet = DiagnosticsPacket();
+    // id/game/kind are generated constants; data is already serialized JSON.
+    packet.body = "{\"schemaVersion\":\"1.1.0\",\"captureId\":\"" + id + "\",\"game\":\"" + DiagnosticsGame() + "\",\"index\":" + index + ",\"kind\":\"" + kind + "\",\"data\":" + data + "}";
+    packet.endpoint = endpoint;
+    packet.token = token;
+    g_diagnosticsQueue.InsertLast(packet);
+    DiagnosticsEnsureWorker();
+    return true;
+}
+
+void DiagnosticsWorker()
+{
+    uint nextCapture = Time::Now;
+    while (g_diagnosticsPeriodic || g_diagnosticsBusy || !g_diagnosticsQueue.IsEmpty() || !g_diagnosticsRequests.IsEmpty()) {
+        for (int i = int(g_diagnosticsRequests.Length) - 1; i >= 0; i--) {
+            auto pending = g_diagnosticsRequests[i];
+            bool done = pending.request.Finished();
+            if (done || Time::Now - pending.started >= 5000) {
+                if (!done) { pending.request.Cancel(); g_diagnosticsFailed++; }
+                else if (pending.request.ResponseCode() < 200 || pending.request.ResponseCode() >= 300) g_diagnosticsFailed++;
+                g_diagnosticsRequests.RemoveAt(i);
+            }
+        }
+        // Never wait for a response in the collection coroutine. Keep request
+        // handles alive here, cap in-flight work and discard on failure/timeout.
+        while (g_diagnosticsRequests.Length < 4 && !g_diagnosticsQueue.IsEmpty()) {
+            auto packet = g_diagnosticsQueue[0];
+            g_diagnosticsQueue.RemoveAt(0);
+            try {
+                DiagnosticsRequest@ pending = DiagnosticsRequest();
+                @pending.request = Net::HttpRequest();
+                pending.request.Url = packet.endpoint;
+                pending.request.Method = Net::HttpMethod::Post;
+                pending.request.Redirect = false;
+                pending.request.Headers["Content-Type"] = "application/json; charset=utf-8";
+                pending.request.Headers["Authorization"] = "Bearer " + packet.token;
+                pending.request.Body = packet.body;
+                pending.started = Time::Now;
+                pending.request.Start();
+                g_diagnosticsRequests.InsertLast(pending);
+                g_diagnosticsStarted++;
+            } catch { g_diagnosticsFailed++; }
+        }
+        if (g_diagnosticsPeriodic && !g_diagnosticsBusy && Time::Now >= nextCapture) {
+            nextCapture = Time::Now + uint(Math::Clamp(int(Setting_DiagnosticsIntervalSeconds), 1, 300)) * 1000;
+            startnew(CoroutineFunc(DiagnosticsCaptureAndUpload));
+        }
+        sleep(10);
+    }
+    g_diagnosticsWorker = false;
+}
+
+void DiagnosticsStartPeriodic()
+{
+    if (!DiagnosticsConfigured()) { g_diagnosticsStatus = "Set the dedicated diagnostics endpoint and token first."; return; }
+    g_diagnosticsPeriodic = true;
+    DiagnosticsEnsureWorker();
+}
+
+void DiagnosticsStop()
+{
+    g_diagnosticsPeriodic = false;
+    g_diagnosticsCancel = true;
+    g_diagnosticsDropped += g_diagnosticsQueue.Length;
+    g_diagnosticsQueue.RemoveRange(0, g_diagnosticsQueue.Length);
+    for (uint i = 0; i < g_diagnosticsRequests.Length; i++) g_diagnosticsRequests[i].request.Cancel();
+    g_diagnosticsRequests.RemoveRange(0, g_diagnosticsRequests.Length);
+    g_diagnosticsStatus = "Stopped. Already received records remain on the receiver.";
+}
+
 void RenderMenu()
 {
-    if (UI::MenuItem("Capture diagnostics dump", "", false, !g_diagnosticsBusy)) startnew(DiagnosticsCaptureAndUpload);
+    if (UI::MenuItem("Start periodic diagnostics", "", false, !g_diagnosticsPeriodic)) DiagnosticsStartPeriodic();
+    if (UI::MenuItem("Stop diagnostics", "", false, g_diagnosticsPeriodic || g_diagnosticsBusy)) DiagnosticsStop();
 }
 
 [SettingsTab name="Diagnostics status"]
 void RenderDiagnosticsSettings()
 {
-    UI::TextWrapped("DIAGNOSTICS BUILD: traverses exposed game objects. Sensitive member names are excluded, but free-text game values may still contain private data. Review local dumps before sharing them.");
-    UI::TextWrapped(Setting_DiagnosticsReadValues ? "Native value reads enabled (experimental)." : "Metadata-only capture: native value reads disabled.");
-    UI::TextWrapped("If capture hangs, restart and share diagnostics-last-operation.json from this plugin's storage folder.");
+    UI::TextWrapped("Best-effort streaming: collection does not wait for HTTP acknowledgements. Records can be dropped; no retries or local dump spool.");
+    UI::TextWrapped(Setting_DiagnosticsReadValues ? "Native value reads enabled (experimental; native getters can block)." : "Metadata-only capture: native value reads disabled.");
     UI::TextWrapped(g_diagnosticsStatus);
-    if (!g_diagnosticsBusy) {
-        if (UI::Button("Capture diagnostics dump and upload")) startnew(DiagnosticsCaptureAndUpload);
-        if (IO::FileExists(IO::FromStorageFolder(DIAGNOSTICS_SPOOL))) {
-            if (UI::Button("Retry pending upload")) startnew(DiagnosticsRetryUpload);
-            if (UI::Button("Delete pending local dump")) {
-                IO::Delete(IO::FromStorageFolder(DIAGNOSTICS_SPOOL));
-                g_diagnosticsStatus = "Pending local dump deleted.";
-            }
-        }
-    } else if (UI::Button("Cancel diagnostics job")) g_diagnosticsCancel = true;
-}
-
-void DiagnosticsWriteSpool(Json::Value &in capture)
-{
-    string path = IO::FromStorageFolder(DIAGNOSTICS_SPOOL);
-    IO::File file(path + ".tmp", IO::FileMode::Write);
-    file.Write(Json::Write(capture));
-    file.Close();
-    // Keep the previous spool unless the replacement has been written fully.
-    if (IO::FileExists(path)) throw("Pending diagnostics capture already exists");
-    IO::Move(path + ".tmp", path);
+    UI::Text("Requests started: " + g_diagnosticsStarted + ", failed: " + g_diagnosticsFailed + ", dropped locally: " + g_diagnosticsDropped);
+    if (!g_diagnosticsPeriodic && UI::Button("Start periodic diagnostics")) DiagnosticsStartPeriodic();
+    if (!g_diagnosticsBusy && !g_diagnosticsPeriodic && UI::Button("Send one capture")) startnew(CoroutineFunc(DiagnosticsCaptureAndUpload));
+    if ((g_diagnosticsPeriodic || g_diagnosticsBusy) && UI::Button("Stop diagnostics")) DiagnosticsStop();
 }
 
 void DiagnosticsCaptureAndUpload()
 {
     if (g_diagnosticsBusy) return;
-    if (IO::FileExists(IO::FromStorageFolder(DIAGNOSTICS_SPOOL))) {
-        g_diagnosticsStatus = "Retry or delete the pending dump before starting another capture.";
-        return;
-    }
+    if (!DiagnosticsConfigured()) { g_diagnosticsStatus = "Set the dedicated diagnostics endpoint and token first."; return; }
     g_diagnosticsBusy = true;
     g_diagnosticsCancel = false;
+    DiagnosticsEnsureWorker();
     try {
         DiagnosticsCapture capture;
-        try { capture.Run(); } catch { capture.captureFailed = true; capture.reason = "collector exception"; capture.Flush(); }
+        try { capture.Run(); } catch { capture.captureFailed = true; capture.reason = "collector exception"; }
         capture.nodes.RemoveRange(0, capture.nodes.Length);
-        // A valid capture always has at least one records chunk and a manifest.
-        if (capture.chunks.IsEmpty()) capture.chunks.InsertLast("[]");
-        capture.Trace("assembling-upload");
-        yield();
-        Json::Value saved = Json::Object();
-        saved["captureId"] = capture.id;
-        saved["game"] = DiagnosticsGame();
-        Json::Value chunks = Json::Array();
-        for (uint i = 0; i < capture.chunks.Length; i++) { chunks.Add(Json::Parse(capture.chunks[i])); yield(); }
-        saved["chunks"] = chunks;
-        saved["manifest"] = capture.Manifest();
-        capture.Trace("writing-spool");
-        DiagnosticsWriteSpool(saved);
-        capture.Trace("uploading");
-        if (!g_diagnosticsCancel) DiagnosticsUpload(saved);
-        else g_diagnosticsStatus = "Capture cancelled; partial dump saved locally. Retry to upload it.";
-    } catch {
-        g_diagnosticsStatus = "Diagnostics failed. Check pending local dump; game getters may be unavailable in this state.";
-    }
+        if (!g_diagnosticsCancel) capture.SendManifest();
+        g_diagnosticsStatus = "Capture finished; " + capture.packetIndex + " records attempted. Delivery is best-effort.";
+    } catch { g_diagnosticsStatus = "Capture failed; records already sent remain on the receiver."; }
     g_diagnosticsBusy = false;
-}
-
-void DiagnosticsRetryUpload()
-{
-    if (g_diagnosticsBusy) return;
-    g_diagnosticsBusy = true;
-    g_diagnosticsCancel = false;
-    try {
-        IO::File file(IO::FromStorageFolder(DIAGNOSTICS_SPOOL), IO::FileMode::Read);
-        Json::Value capture = Json::Parse(file.ReadToEnd());
-        file.Close();
-        DiagnosticsUpload(capture);
-    } catch { g_diagnosticsStatus = "Could not read pending dump. Delete it to start a new capture."; }
-    g_diagnosticsBusy = false;
-}
-
-void DiagnosticsUpload(Json::Value &in capture)
-{
-    // Bind the entire job to one explicit destination and token. Never borrow
-    // webhook settings or mix receivers when settings change during a yield.
-    string endpoint = Setting_DiagnosticsEndpoint;
-    string token = Setting_DiagnosticsToken;
-    if (endpoint.Length == 0 || token.Length == 0) {
-        g_diagnosticsStatus = "Dump saved locally. Set the diagnostics endpoint and dedicated token, then retry.";
-        return;
-    }
-    if (!endpoint.StartsWith("http://") && !endpoint.StartsWith("https://")) {
-        g_diagnosticsStatus = "Diagnostics endpoint must be an HTTP or HTTPS URL.";
-        return;
-    }
-    uint count = capture["chunks"].Length + 1;
-    for (uint i = 0; i < count; i++) {
-        Json::Value envelope = Json::Object();
-        envelope["schemaVersion"] = "1.0.0";
-        envelope["captureId"] = capture["captureId"];
-        envelope["game"] = capture["game"];
-        envelope["index"] = i;
-        envelope["total"] = count;
-        envelope["kind"] = i + 1 == count ? "manifest" : "records";
-        envelope["data"] = i + 1 == count ? capture["manifest"] : capture["chunks"][i];
-        string body = Json::Write(envelope);
-        bool accepted;
-        for (uint attempt = 0; attempt < 4 && !g_diagnosticsCancel; attempt++) {
-            g_diagnosticsStatus = "Uploading chunk " + (i + 1) + "/" + count + ", attempt " + (attempt + 1);
-            Net::HttpRequest@ request = Net::HttpRequest();
-            request.Url = endpoint;
-            request.Method = Net::HttpMethod::Post;
-            request.Redirect = false;
-            request.Headers["Content-Type"] = "application/json; charset=utf-8";
-            request.Headers["Authorization"] = "Bearer " + token;
-            request.Body = body;
-            request.Start();
-            uint started = Time::Now;
-            while (!request.Finished() && !g_diagnosticsCancel && Time::Now - started < 15000) yield();
-            bool timedOut = !request.Finished();
-            if (timedOut) request.Cancel();
-            if (g_diagnosticsCancel) break;
-            int status = timedOut ? 0 : request.ResponseCode();
-            if (status >= 200 && status < 300) { accepted = true; break; }
-            if (!(status == 0 || status == 408 || status == 429 || status >= 500)) break;
-            uint delay = 1000 * (1 << attempt);
-            string retryAfter = request.ResponseHeader("Retry-After");
-            if (retryAfter.Length > 0) {
-                int seconds = Text::ParseInt(retryAfter);
-                if (seconds > 0) delay = uint(Math::Min(seconds, 60)) * 1000;
-            }
-            uint waitStart = Time::Now;
-            while (!g_diagnosticsCancel && Time::Now - waitStart < delay) yield();
-        }
-        if (!accepted) {
-            g_diagnosticsStatus = g_diagnosticsCancel ? "Upload cancelled; dump retained locally." : "Upload failed; dump retained locally. Retry replays idempotent chunks.";
-            return;
-        }
-    }
-    IO::Delete(IO::FromStorageFolder(DIAGNOSTICS_SPOOL));
-    g_diagnosticsStatus = "Diagnostics capture uploaded successfully.";
 }
 #endif

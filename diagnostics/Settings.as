@@ -9,7 +9,13 @@ string Setting_DiagnosticsToken = "";
 bool Setting_DiagnosticsReadValues = false;
 
 [Setting name="Write last-operation breadcrumb" description="Flushes diagnostics-last-operation.json before native reads and major capture stages. Helps identify a getter that blocks the game; adds disk overhead." category="Diagnostics"]
-bool Setting_DiagnosticsTrace = true;
+bool Setting_DiagnosticsTrace = false;
+
+[Setting name="Capture interval (seconds)" description="Minimum time between periodic capture starts. Captures never overlap; missed intervals are skipped." category="Diagnostics" min=1 max=300]
+uint Setting_DiagnosticsIntervalSeconds = 5;
+
+[Setting name="Include static API catalogue" description="Stream static definitions as individual records. Usually unnecessary on every periodic capture." category="Diagnostics"]
+bool Setting_DiagnosticsIncludeAPI = false;
 
 [Setting name="Maximum objects" category="Diagnostics" min=1 max=10000]
 uint Setting_DiagnosticsObjects = 4096;
@@ -21,7 +27,7 @@ uint Setting_DiagnosticsDepth = 12;
 uint Setting_DiagnosticsArray = 128;
 
 [Setting name="Maximum string bytes" category="Diagnostics" min=64 max=16384]
-uint Setting_DiagnosticsString = 4096;
+uint Setting_DiagnosticsString = 512;
 
 [Setting name="Maximum capture time (seconds)" category="Diagnostics" min=1 max=120]
 uint Setting_DiagnosticsSeconds = 30;
