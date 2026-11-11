@@ -73,9 +73,10 @@ class DiagnosticsRunRecorder
 
     void Run()
     {
+        print("[diagnostics] recording started id=" + id + " collector=1.2.1 interval=" + intervalMs + "ms");
         Json::Value begin = Json::Object();
         begin["kind"] = "run-recording-start";
-        begin["collectorVersion"] = "1.2.0";
+        begin["collectorVersion"] = "1.2.1";
         begin["game"] = DiagnosticsGame();
         begin["sampleIntervalMs"] = intervalMs;
         begin["sources"] = DiagnosticsRunSources();
@@ -117,7 +118,7 @@ class DiagnosticsRunRecorder
         Json::Value manifest = Json::Object();
         manifest["startedAt"] = startedAt;
         manifest["endedAt"] = OccurredAtUtc();
-        manifest["collectorVersion"] = "1.2.0";
+        manifest["collectorVersion"] = "1.2.1";
         manifest["captureMode"] = "run-recorder";
         manifest["status"] = limited || dropped > 0 ? "truncated" : "complete";
         manifest["reason"] = end["reason"];
@@ -126,6 +127,7 @@ class DiagnosticsRunRecorder
         manifest["sampleCount"] = sampleSequence;
         manifest["durationMs"] = Time::Now - started;
         DiagnosticsEnqueue(id, packetIndex, "manifest", Json::Write(manifest), endpoint, token);
+        print("[diagnostics] recording finished id=" + id + " records=" + packetIndex + " local-drops=" + dropped);
     }
 
     void Error(const string &in section, const string &in reason)

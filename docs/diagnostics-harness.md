@@ -4,7 +4,7 @@ The harness has a standalone Bun receiver and an explicit diagnostics plugin bui
 for Turbo and Next. Production packages exclude the diagnostics directory, settings,
 callbacks and collectors. Race webhook behavior and its FIFO remain independent.
 
-## Record a whole run (collector 1.2.0)
+## Record a whole run (collector 1.2.1)
 
 **Use run recorder** is now on by default. Set the dedicated diagnostics endpoint
 and token, click **Start run recording**, play, then click **Stop diagnostics**.
@@ -42,7 +42,9 @@ Samples intentionally include requested player/leaderboard names and user detail
 credentials, tokens, unrelated chat and profile resources are not collected. Up to
 16 playground players, 32 score rows, 256 checkpoint times and eight per-score Next
 race times are retained per snapshot. Source counts/truncation flags identify caps.
-Unexposed values are omitted rather than replaced with zero. Mismatched Next
+Unexposed values are omitted rather than replaced with zero. Turbo's raw state
+and result time remain available; inactive cars with a default Finished enum and
+result -1 are not treated as valid finishes or active racing. Mismatched Next
 checkpoint-count/history sources are marked so analysis will not pair wrong times.
 
 Native race events are polled on each recorder loop/frame and deduplicated by a
@@ -135,8 +137,12 @@ collection coroutine. A yield follows each record serialization. This removes th
 large `Flush()` operation that exceeded Turbo's one-second script execution limit.
 It does not guarantee that an individual native getter or serializer cannot block.
 
-An independent worker starts up to four HTTP requests concurrently. It retains
-handles until completion or five-second expiry; it never retries, parses response
+A diagnostics-only per-frame Update hook starts at most one HTTP request and
+checks at most one pending request each frame, with up to four requests in flight.
+It replaces the long-lived sender coroutine that hit Turbo's script execution
+timeout. Both packaging scripts strip the guarded hook from production sources.
+The sender retains handles until completion or approximately five-second expiry (checked on
+subsequent frames); it never retries, parses response
 bodies, or gates capture on server success. The queue holds at most 64 packets.
 Overflow, oversized records and failures are dropped. Status reports requests
 started, failed requests and locally dropped packets; **finished collection does

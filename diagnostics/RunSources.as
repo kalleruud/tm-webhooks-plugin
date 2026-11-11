@@ -28,8 +28,8 @@ Json::Value DiagnosticsRunSources()
     sources["race.checkpointLapTimeMs"] = "CTrackManiaPlayer.CurCheckpointLapTime";
     sources["race.continuousRank"] = "CTrackManiaPlayer.CurRaceContinuousRank";
     sources["race.state"] = "CTrackManiaPlayer.RaceState";
-    sources["race.racing"] = "CTrackManiaPlayer.RaceState == Running or Finished";
-    sources["race.finished"] = "CTrackManiaPlayer.RaceState == Finished";
+    sources["race.racing"] = "CTrackManiaPlayer.IsSpawned and RaceStartTime > 0 and (RaceState == Running or Finished)";
+    sources["race.finished"] = "CTrackManiaPlayer.RaceState == Finished and CurRace.Time >= 0";
 #else
     sources["input.throttle"] = "CSmScriptPlayer.InputGasPedal";
     sources["input.brake"] = "CSmScriptPlayer.InputIsBraking";

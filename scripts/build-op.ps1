@@ -53,6 +53,10 @@ try {
         $manifest += "`ndefines = [""DIAGNOSTICS""]`n"
         [System.IO.File]::WriteAllText((Join-Path $stage "info.toml"), $manifest)
         $entries += $diagnostics
+    } else {
+        $mainPath = Join-Path $stage "src/Main.as"
+        $main = (Get-Content -LiteralPath $mainPath -Raw) -replace '(?ms)^// DIAGNOSTICS_FRAME_PUMP_BEGIN\r?\n.*?^// DIAGNOSTICS_FRAME_PUMP_END\r?\n?', ''
+        [System.IO.File]::WriteAllText($mainPath, $main)
     }
     Compress-Archive -LiteralPath $entries -DestinationPath $temporaryZip -CompressionLevel Optimal
     Copy-Item -LiteralPath $temporaryZip -Destination $artifactPath -Force

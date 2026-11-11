@@ -129,6 +129,10 @@ class DiagnosticsTests(unittest.TestCase):
                                 self.assertNotIn('Diagnostics', archive.read(name).decode())
                     else:
                         self.assertIn('defines = ["DIAGNOSTICS"]', manifest)
+                        self.assertIn('DiagnosticsTick();', archive.read('src/Main.as').decode())
+                        harness = archive.read('diagnostics/Harness.as').decode()
+                        self.assertNotIn('void DiagnosticsWorker()', harness)
+                        self.assertNotIn('sleep(10)', harness)
                         self.assertIn('diagnostics/generated/turbo.as', names)
                         self.assertIn('diagnostics/generated/next.as', names)
                         self.assertIn('diagnostics/generated/turbo-api.json', names)

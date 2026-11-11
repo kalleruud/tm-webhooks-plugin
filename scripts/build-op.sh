@@ -45,10 +45,13 @@ if [[ "$profile" == "diagnostics" ]]; then
   cp -- "$repository_root"/diagnostics/*.as "$stage/diagnostics/"
   cp -- "$repository_root"/diagnostics/generated/*.as "$stage/diagnostics/generated/"
   cp -- "$repository_root"/diagnostics/generated/*-api.json "$stage/diagnostics/generated/"
-  # The define enables diagnostics-only entry points. No production source
-  # references diagnostics; the release workflow continues using the default.
+  # The define enables diagnostics-only entry points and the Update hook.
   sed -i 's/name = "TM Webhooks"/name = "TM Webhooks (Diagnostics)"/; /siteid = /d' "$stage/info.toml"
   printf '\ndefines = ["DIAGNOSTICS"]\n' >> "$stage/info.toml"
+else
+  # Strip even the guarded integration hook from production archive sources.
+  sed '/^\/\/ DIAGNOSTICS_FRAME_PUMP_BEGIN$/,/^\/\/ DIAGNOSTICS_FRAME_PUMP_END$/d' "$stage/src/Main.as" > "$stage/src/Main.as.tmp"
+  mv -- "$stage/src/Main.as.tmp" "$stage/src/Main.as"
 fi
 rm -f -- "$artifact"
 (

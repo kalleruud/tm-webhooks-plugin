@@ -407,3 +407,9 @@ Timeline analysis keeps native events distinct from sampled transitions. An
 `impact_candidate` is explicitly an inference, not a confirmed wall collision.
 Sampling gaps and delivery gaps remain visible. See the run sample schema in
 OpenAPI and the harness guide for source mappings, timing and retention limits.
+
+Collector/build 1.2.1 keeps the same envelope and record shapes. HTTP dispatch now
+runs as bounded per-frame work: at most one request launch and one pending-request
+check per frame, with four requests in flight. It replaces the long-lived sender
+coroutine that exceeded Turbo's execution-time limit; collection still never
+waits for acknowledgements. Production packaging removes the diagnostic hook.

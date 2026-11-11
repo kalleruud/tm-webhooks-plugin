@@ -29,6 +29,11 @@ void DeliveryLoop() { g_delivery.Run(); }
 
 void Update(float dt)
 {
+// DIAGNOSTICS_FRAME_PUMP_BEGIN
+#if DIAGNOSTICS
+    DiagnosticsTick();
+#endif
+// DIAGNOSTICS_FRAME_PUMP_END
     LogConfigurationState();
     if (g_adapter is null || g_tracker is null) return;
     g_tracker.Update(g_adapter.Observe());

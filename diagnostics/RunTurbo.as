@@ -24,8 +24,8 @@ void DiagnosticsRunPlayers(DiagnosticsRunRecorder@ recorder)
         sample["apiType"] = "CTrackManiaPlayer";
         Json::Value race = Json::Object();
         race["state"] = int(player.RaceState);
-        race["racing"] = player.RaceState == CTrackManiaPlayer::ERaceState::Running || player.RaceState == CTrackManiaPlayer::ERaceState::Finished;
-        race["finished"] = player.RaceState == CTrackManiaPlayer::ERaceState::Finished;
+        race["racing"] = player.IsSpawned && player.RaceStartTime > 0 && (player.RaceState == CTrackManiaPlayer::ERaceState::Running || player.RaceState == CTrackManiaPlayer::ERaceState::Finished);
+        race["finished"] = false;
         race["spawned"] = player.IsSpawned;
         race["clan"] = player.CurrentClan;
         race["startTime"] = player.RaceStartTime;
@@ -44,7 +44,11 @@ void DiagnosticsRunPlayers(DiagnosticsRunRecorder@ recorder)
             for (uint j = 0; j < player.CurRace.Checkpoints.Length && j < 256; j++) times.Add(Json::Value(player.CurRace.Checkpoints[j]));
             race["checkpointTimesMs"] = times;
             race["checkpointTimesTruncated"] = player.CurRace.Checkpoints.Length > 256;
-            if (player.RaceState == CTrackManiaPlayer::ERaceState::Finished) race["finishTimeMs"] = player.CurRace.Time;
+            race["resultTimeRaw"] = player.CurRace.Time;
+            if (player.RaceState == CTrackManiaPlayer::ERaceState::Finished && player.CurRace.Time >= 0) {
+                race["finished"] = true;
+                race["finishTimeMs"] = player.CurRace.Time;
+            }
         }
         sample["race"] = race;
         Json::Value input = Json::Object();
