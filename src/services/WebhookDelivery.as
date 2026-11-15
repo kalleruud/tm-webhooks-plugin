@@ -65,7 +65,6 @@ class WebhookDelivery
         request.Url = Setting_EndpointUrl;
         request.Method = Net::HttpMethod::Post;
         request.Headers["Content-Type"] = "application/json; charset=utf-8";
-        request.Headers["event_type"] = eventType;
         request.Headers["event-type"] = eventType;
         request.Headers["event-id"] = eventId;
         request.Headers["event-sequence"] = tostring(eventSequence);

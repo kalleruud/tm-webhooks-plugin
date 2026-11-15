@@ -23,20 +23,10 @@ paths:
         - bearerAuth: []
         - {}
       parameters:
-        - name: event_type
-          in: header
-          required: true
-          description: Event discriminator matching the request body's `type` property. Retained for existing receivers; `event-type` carries the same value.
-          schema:
-            type: string
-            enum: [start, first_throttle, checkpoint, lap, respawn, finish, end]
         - name: event-type
           in: header
           required: true
-          description: >-
-            Hyphenated alias of `event_type` for receivers behind proxies that
-            drop header names containing underscores. Always equal to
-            `event_type` and the request body's `type` property.
+          description: Event discriminator matching the request body's `type` property.
           schema:
             type: string
             enum: [start, first_throttle, checkpoint, lap, respawn, finish, end]
