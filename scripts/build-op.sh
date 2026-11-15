@@ -41,10 +41,8 @@ cp -R -- "$repository_root/src" "$stage/src"
 artifact="$output_directory/tm-webhooks.op"
 if [[ "$profile" == "diagnostics" ]]; then
   artifact="$output_directory/tm-webhooks-diagnostics.op"
-  mkdir -p "$stage/diagnostics/generated"
+  mkdir -p "$stage/diagnostics"
   cp -- "$repository_root"/diagnostics/*.as "$stage/diagnostics/"
-  cp -- "$repository_root"/diagnostics/generated/*.as "$stage/diagnostics/generated/"
-  cp -- "$repository_root"/diagnostics/generated/*-api.json "$stage/diagnostics/generated/"
   # The define enables diagnostics-only entry points and the Update hook.
   sed -i 's/name = "TM Webhooks"/name = "TM Webhooks (Diagnostics)"/; /siteid = /d' "$stage/info.toml"
   printf '\ndefines = ["DIAGNOSTICS"]\n' >> "$stage/info.toml"

@@ -3,12 +3,11 @@ class DiagnosticsRunRecorder
 {
     string id = CreateUuidV4();
     string endpoint = Setting_DiagnosticsEndpoint;
-    string token = Setting_DiagnosticsToken;
     string startedAt = OccurredAtUtc();
     uint started = Time::Now;
     uint packetIndex;
     uint sampleSequence;
-    uint intervalMs = uint(Math::Clamp(int(Setting_DiagnosticsSampleMs), 50, 2000));
+    uint intervalMs = 100;
     uint dropped;
     uint bytes;
     uint sendSteps;
@@ -55,7 +54,7 @@ class DiagnosticsRunRecorder
         uint index = packetIndex++;
         if (body.Length > 24 * 1024) { dropped++; return; }
         bytes += body.Length;
-        if (!DiagnosticsEnqueue(id, index, "record", body, endpoint, token)) dropped++;
+        if (!DiagnosticsEnqueue(id, index, "record", body, endpoint)) dropped++;
         // Small, bounded records; four serializations at most between yields.
         if (++sendSteps >= 4) { sendSteps = 0; yield(); }
     }
@@ -73,10 +72,10 @@ class DiagnosticsRunRecorder
 
     void Run()
     {
-        print("[diagnostics] recording started id=" + id + " collector=1.2.1 interval=" + intervalMs + "ms");
+        print("[diagnostics] recording started id=" + id + " collector=" + DIAGNOSTICS_VERSION + " interval=" + intervalMs + "ms");
         Json::Value begin = Json::Object();
         begin["kind"] = "run-recording-start";
-        begin["collectorVersion"] = "1.2.1";
+        begin["collectorVersion"] = DIAGNOSTICS_VERSION;
         begin["game"] = DiagnosticsGame();
         begin["sampleIntervalMs"] = intervalMs;
         begin["sources"] = DiagnosticsRunSources();
@@ -87,7 +86,8 @@ class DiagnosticsRunRecorder
         Emit(begin);
         uint nextSample = Time::Now;
         uint nextContext = Time::Now;
-        uint duration = uint(Math::Clamp(int(Setting_DiagnosticsRecordingMinutes), 1, 60)) * 60000;
+        // Long sessions roll over into a new recording every 15 minutes.
+        uint duration = 15 * 60000;
         while (!g_diagnosticsCancel && !limited && Time::Now - started < duration) {
             try { DiagnosticsRunEvents(this); }
             catch { Error("native-events", "getter exception"); }
@@ -109,8 +109,8 @@ class DiagnosticsRunRecorder
         }
         Json::Value end = Json::Object();
         end["kind"] = "run-recording-end";
-        end["reason"] = g_diagnosticsCancel ? "user-stopped" : (limited ? limitReason : "duration-limit");
-        // Stopping a recording retains queued packets and queues its manifest.
+        end["reason"] = g_diagnosticsCancel ? "disabled" : (limited ? limitReason : "duration-limit");
+        // Disabling retains queued packets and queues the manifest.
         bool wasCancelled = g_diagnosticsCancel;
         g_diagnosticsCancel = false;
         if (!limited) Emit(end);
@@ -118,7 +118,7 @@ class DiagnosticsRunRecorder
         Json::Value manifest = Json::Object();
         manifest["startedAt"] = startedAt;
         manifest["endedAt"] = OccurredAtUtc();
-        manifest["collectorVersion"] = "1.2.1";
+        manifest["collectorVersion"] = DIAGNOSTICS_VERSION;
         manifest["captureMode"] = "run-recorder";
         manifest["status"] = limited || dropped > 0 ? "truncated" : "complete";
         manifest["reason"] = end["reason"];
@@ -126,7 +126,7 @@ class DiagnosticsRunRecorder
         manifest["locallyDroppedRecords"] = dropped;
         manifest["sampleCount"] = sampleSequence;
         manifest["durationMs"] = Time::Now - started;
-        DiagnosticsEnqueue(id, packetIndex, "manifest", Json::Write(manifest), endpoint, token);
+        DiagnosticsEnqueue(id, packetIndex, "manifest", Json::Write(manifest), endpoint);
         print("[diagnostics] recording finished id=" + id + " records=" + packetIndex + " local-drops=" + dropped);
     }
 

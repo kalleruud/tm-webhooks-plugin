@@ -92,20 +92,16 @@ distribution requires the normal Openplanet review and signing process.
 
 ## Optional diagnostics harness
 
-Build `bash scripts/build-op.sh diagnostics` (Windows:
-`.\scripts\build-op.ps1 diagnostics`) and run the standalone Bun receiver with a
-dedicated `DIAGNOSTICS_TOKEN`. Production packages exclude diagnostics entirely.
+A separate diagnostics build records timestamped player, race, vehicle and
+leaderboard data to a local, unauthenticated Bun receiver, for agents testing or
+investigating game behavior. Production packages exclude diagnostics entirely.
 
-Configure the separate diagnostics endpoint/token, click **Start run recording**,
-play a run, then **Stop diagnostics**. The recorder samples relevant player/race/
-vehicle/input APIs at a 100 ms target, captures map/environment/mode/player details
-and leaderboard names, and retains native events where exposed. One recording ID
-and timestamped samples support timeline reconstruction. Best-effort streaming
-uses bounded queues with no retries or acknowledgement waits.
+```bash
+bash scripts/build-op.sh diagnostics   # dist/tm-webhooks-diagnostics.op
+bun tools/diagnostics-receiver/server.mjs
+```
 
-Use `inspect.mjs timeline` to analyze start/checkpoint/lap/respawn/finish and input
-transitions, acceleration evidence and labelled impact candidates. Wall hits are
-not fabricated where the API does not identify them. The older broad API crawler
-remains available with **Use run recorder** disabled.
+In the plugin settings, set **Receiver URL** and enable **Record runs**. Then use
+`inspect.mjs timeline` to reconstruct a recording.
 
 See [setup, source coverage and runtime validation](docs/diagnostics-harness.md).

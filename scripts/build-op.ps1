@@ -45,10 +45,8 @@ try {
     $entries = @((Join-Path $stage "info.toml"), (Join-Path $stage "src"))
     if ($Profile -eq "diagnostics") {
         $diagnostics = Join-Path $stage "diagnostics"
-        New-Item -ItemType Directory -Path (Join-Path $diagnostics "generated") -Force | Out-Null
+        New-Item -ItemType Directory -Path $diagnostics -Force | Out-Null
         Copy-Item -Path (Join-Path $repositoryRoot "diagnostics/*.as") -Destination $diagnostics
-        Copy-Item -Path (Join-Path $repositoryRoot "diagnostics/generated/*.as") -Destination (Join-Path $diagnostics "generated")
-        Copy-Item -Path (Join-Path $repositoryRoot "diagnostics/generated/*-api.json") -Destination (Join-Path $diagnostics "generated")
         $manifest = (Get-Content -LiteralPath $manifestPath -Raw) -replace 'name = "TM Webhooks"', 'name = "TM Webhooks (Diagnostics)"' -replace '(?m)^siteid = .*\r?\n', ''
         $manifest += "`ndefines = [""DIAGNOSTICS""]`n"
         [System.IO.File]::WriteAllText((Join-Path $stage "info.toml"), $manifest)

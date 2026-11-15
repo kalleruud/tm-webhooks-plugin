@@ -3,7 +3,7 @@ import { readFile, readdir } from 'node:fs/promises'
 import { resolve, join } from 'node:path'
 import { analyzeRecording } from './timeline.mjs'
 
-const [command = 'list', directory = './diagnostics-data', first, second] =
+const [command = 'list', directory = './diagnostics-data', first] =
   process.argv.slice(2)
 const root = resolve(directory)
 const uuid =
@@ -25,8 +25,7 @@ async function load(id) {
   for (const i of indices) {
     try {
       const chunk = JSON.parse(await readFile(join(dir, `${i}.json`), 'utf8'))
-      if (chunk.kind === 'records') records.push(...chunk.data)
-      else if (chunk.kind === 'record') records.push(chunk.data)
+      if (chunk.kind === 'record') records.push(chunk.data)
       else manifest = chunk.data
     } catch (error) {
       if (error.code === 'ENOENT') missing.push(i)
@@ -64,27 +63,7 @@ if (command === 'list') {
   console.log(JSON.stringify(await load(first), null, 2))
 } else if (command === 'timeline') {
   console.log(JSON.stringify(analyzeRecording(await load(first)), null, 2))
-} else if (command === 'diff') {
-  const a = await load(first),
-    b = await load(second)
-  // Paths describe the first route from GetApp; IDs are local to each capture.
-  const byPath = dump =>
-    new Map(
-      dump.records.map(record => [
-        record.path ||
-          `${record.kind}/${record.objectId ?? record.id ?? ''}/${(record.kind === 'api-member' ? record.member?.name : record.member) ?? record.name ?? ''}/${record.index ?? record.playerIndex ?? ''}/${record.type ?? ''}/${record.signature ?? ''}/${record.sampleSequence ?? record.recordSequence ?? ''}`,
-        record,
-      ])
-    )
-  const left = byPath(a),
-    right = byPath(b)
-  for (const path of new Set([...left.keys(), ...right.keys()])) {
-    if (JSON.stringify(left.get(path)) !== JSON.stringify(right.get(path)))
-      console.log(
-        JSON.stringify({ path, before: left.get(path), after: right.get(path) })
-      )
-  }
 } else
   throw new Error(
-    'Usage: inspect.mjs list|show|timeline|diff <directory> [capture UUID] [capture UUID]'
+    'Usage: inspect.mjs list|show|timeline <directory> [capture UUID]'
   )

@@ -5,12 +5,12 @@ permissions:
   contents: read
 jobs:
   diagnostics:
-    name: Validate diagnostics receiver and packages
+    name: Validate diagnostics receiver and production isolation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
-      - name: Receiver protocol and HTTP integration
+      - name: Receiver protocol, HTTP ingestion and timeline reconstruction
         run: bun test tests/diagnostics-receiver.test.mjs tests/diagnostics-timeline.test.mjs
-      - name: API generation and production isolation
-        run: python3 tests/diagnostics-generation.py
+      - name: Recorder API fields and production package isolation
+        run: python3 tests/diagnostics-recorder.py
