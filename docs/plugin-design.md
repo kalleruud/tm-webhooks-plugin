@@ -1,6 +1,6 @@
 # Trackmania Webhook Plugin
 
-The plugin sends ordered webhooks when race events occur in supported local
+The plugin sends sequenced webhooks when race events occur in supported local
 Trackmania modes. The detailed webhook payload model is defined in
 [`contract.md`](contract.md) and must remain synchronized with `openapi.yaml`.
 
@@ -49,7 +49,7 @@ mode metadata is omitted.
 - Use preprocessor guards only at game-specific integration boundaries.
 
 Recommended service boundaries are game detection, round tracking, event
-creation, timestamp creation, serialization, and FIFO delivery. Services must
+creation, timestamp creation, serialization, and concurrent delivery. Services must
 not expose game API details across those boundaries.
 
 ## Configuration
@@ -58,7 +58,6 @@ The Openplanet settings are:
 
 - Endpoint URL
 - Optional authentication token
-- Maximum retry count, default `3`, minimum `0`, maximum `10`
 
 Capture and delivery are disabled while the endpoint URL is empty. An empty
 token sends requests without an `Authorization` header. No URL validation is
@@ -119,33 +118,25 @@ by ascending player index. Priority is: `start`, `first_throttle`, `checkpoint`,
 
 ## Delivery
 
-Use one process-wide FIFO with at most one HTTP request in flight. Events from a
-new game are appended after pending events from earlier games. Changing game ID
-or settings does not clear the queue.
+Use one process-wide memory-only queue shared across games, with at most four
+HTTP requests in flight. There is no queue size or retry limit. Remove events
+only after a successful `2xx` response. Plugin unload or game exit discards
+pending events. Changing game ID or settings does not clear the queue.
 
-The queue is memory-only and has a fixed capacity of 1,000 events. Plugin or
-game shutdown discards pending events. When full, retain the queued prefix and
-drop newly occurring events. Log every overflow with the event ID.
+Each event has its own request, attempt count, and next-attempt deadline.
+Poll active requests every 50 ms and cancel requests after 10 seconds. Retry
+all unsuccessful deliveries, including network errors and every non-`2xx`
+response. Honor `Retry-After` as integer seconds or an HTTP date, without a
+local cap; otherwise use five seconds per failed attempt, capped at 60 seconds.
+Retry delays do not pause the queue, and a stalled request occupies only one
+of the four request slots. Log failures with event ID, attempt count, status,
+and a bounded response excerpt.
 
-Delivery rules:
-
-- Send JSON with `POST`, `Content-Type: application/json; charset=utf-8`,
-  `event_type: <type>`, `event-id: <eventId>`, and
-  `event-sequence: <sequence>`. Event headers match the payload and remain
-  unchanged across retries. Include `Authorization: Bearer <token>` only when
-  the token is nonempty.
-- Use a fixed 10-second request timeout. A timeout is a retryable network error.
-- Treat any `2xx` response as success and ignore its response body.
-- Retry network errors, `408`, `429`, and `5xx` responses.
-- Honor `Retry-After` as either integer seconds or an HTTP date, with no local
-  cap. If absent, wait `currentRetryAttempt * 5` seconds with no jitter.
-- Retry counts exclude the initial request. Read the current configured maximum
-  before each retry.
-- Drop other `4xx` and all `3xx` responses as permanent failures. Do not follow
-  redirects.
-- After a permanent failure or retry exhaustion, log the event ID, attempt
-  count, status, and a bounded response-body excerpt, with credentials redacted,
-  then advance the FIFO.
+Send JSON with `POST`, `Content-Type: application/json; charset=utf-8`,
+`event_type`, `event-id`, and `event-sequence` headers matching the payload.
+Include `Authorization: Bearer <token>` only when the token is nonempty.
+Receivers must accept out-of-order events, reconstruct capture order using
+`game.gameId` and `sequence`, and deduplicate using `eventId`.
 
 Retries reuse the immutable serialized event, including its ID, sequence,
 schema version, timestamp, and duration. They use only the current endpoint and

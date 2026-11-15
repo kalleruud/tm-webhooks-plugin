@@ -5,52 +5,53 @@ class WebhookDelivery
 
     void Enqueue(const string &in eventId, const string &in eventType, uint eventSequence, const string &in payload)
     {
-        if (queue.Length >= MAX_QUEUE_SIZE) {
-            error("[drop] event=" + eventId + " reason=queue-full");
-            return;
-        }
         queue.InsertLast(PendingWebhook(eventId, eventType, eventSequence, payload));
     }
 
     void Run()
     {
         while (!stopping) {
-            if (queue.IsEmpty() || !CaptureEnabled()) {
-                sleep(100);
-                continue;
-            }
-            DeliverFirst();
+            Poll();
+            sleep(50);
         }
     }
 
-    void DeliverFirst()
+    void Poll()
     {
-        PendingWebhook@ pending = queue[0];
-        uint retries = 0;
-        while (true) {
-            Net::HttpRequest@ request = CreateRequest(
-                pending.eventId,
-                pending.eventType,
-                pending.eventSequence,
-                pending.payload
-            );
-            request.Start();
-            uint startedAt = Time::Now;
-            while (!request.Finished() && Time::Now - startedAt < 10000) yield();
-            bool timedOut = !request.Finished();
-            if (timedOut) request.Cancel();
-            int status = timedOut ? 0 : request.ResponseCode();
-            if (!timedOut && status >= 200 && status < 300) break;
-            string response = timedOut ? "request timed out" : request.String();
-            LogResponseWarning(pending.eventId, retries + 1, status, response);
-            if (!IsRetryable(status) || retries >= Setting_MaximumRetryCount) {
-                LogDropped(pending.eventId, retries + 1, status, response);
-                break;
+        uint64 now = Time::Now;
+        uint inFlight = 0;
+        // Finish every active request independently, including while capture is paused.
+        for (int i = int(queue.Length) - 1; i >= 0; i--) {
+            PendingWebhook@ pending = queue[i];
+            if (pending.request is null) continue;
+            bool timedOut = !pending.request.Finished() && now - pending.startedAt >= 10000;
+            if (!pending.request.Finished() && !timedOut) {
+                inFlight++;
+                continue;
             }
-            retries++;
-            sleep(RetryDelayMs(request, retries));
+            if (timedOut) pending.request.Cancel();
+            int status = timedOut ? 0 : pending.request.ResponseCode();
+            if (!timedOut && status >= 200 && status < 300) {
+                queue.RemoveAt(i);
+                continue;
+            }
+            string response = timedOut ? "request timed out" : pending.request.String();
+            LogResponseWarning(pending.eventId, pending.attempts, status, response);
+            pending.nextAttemptAt = now + RetryDelayMs(pending.request, pending.attempts);
+            @pending.request = null;
         }
-        queue.RemoveAt(0);
+        if (!CaptureEnabled()) return;
+        // Backoff belongs to an event, never to the whole queue. Limit concurrency
+        // so an unavailable receiver cannot create an unbounded number of requests.
+        for (uint i = 0; i < queue.Length && inFlight < 4; i++) {
+            PendingWebhook@ pending = queue[i];
+            if (pending.request !is null || now < pending.nextAttemptAt) continue;
+            @pending.request = CreateRequest(pending.eventId, pending.eventType, pending.eventSequence, pending.payload);
+            if (pending.attempts < 4294967295) pending.attempts++;
+            pending.startedAt = now;
+            pending.request.Start();
+            inFlight++;
+        }
     }
 
     Net::HttpRequest@ CreateRequest(
@@ -74,22 +75,17 @@ class WebhookDelivery
         return request;
     }
 
-    bool IsRetryable(int status)
+    uint64 RetryDelayMs(Net::HttpRequest@ request, uint retry)
     {
-        return status == 0 || status == 408 || status == 429 || status >= 500;
-    }
-
-    uint RetryDelayMs(Net::HttpRequest@ request, uint retry)
-    {
-        if (!request.Finished()) return retry * 5000;
+        if (!request.Finished()) return uint64(Math::Min(retry, uint(12))) * 5000;
         string retryAfter = request.ResponseHeader("Retry-After");
         if (retryAfter.Length > 0) {
             int seconds = Text::ParseInt(retryAfter);
-            if (seconds > 0) return uint(seconds) * 1000;
+            if (seconds > 0) return uint64(seconds) * 1000;
             int64 retryAt = Time::ParseFormatString("%a, %d %b %Y %H:%M:%S GMT", retryAfter);
-            if (retryAt > Time::Stamp) return uint(retryAt - Time::Stamp) * 1000;
+            if (retryAt > Time::Stamp) return uint64(retryAt - Time::Stamp) * 1000;
         }
-        return retry * 5000;
+        return uint64(Math::Min(retry, uint(12))) * 5000;
     }
 
     void LogResponseWarning(const string &in id, uint attempt, int status, const string &in body)
@@ -99,10 +95,4 @@ class WebhookDelivery
             " status=" + status + " response=" + excerpt);
     }
 
-    void LogDropped(const string &in id, uint attempts, int status, const string &in body)
-    {
-        string excerpt = body.SubStr(0, Math::Min(256, body.Length));
-        error("[drop] event=" + id + " attempts=" + attempts +
-            " status=" + status + " response=" + excerpt);
-    }
 }

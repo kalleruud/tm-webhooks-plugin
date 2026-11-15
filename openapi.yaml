@@ -11,6 +11,14 @@ paths:
     post:
       operationId: receiveTrackmaniaEvent
       summary: Receive one Trackmania race event
+      description: >-
+        Events may arrive out of order and more than once. Deduplicate by eventId
+        and reconstruct capture order using game.gameId and sequence, accepting
+        events before start. The plugin keeps events in memory and retries all
+        unsuccessful deliveries until a 2xx response, with up to four concurrent
+        requests. Retry-After is honored; otherwise retry delays increase by five
+        seconds per failed attempt up to 60 seconds. There is no retry or queue
+        size limit. Pending events are lost on plugin unload or game exit.
       security:
         - bearerAuth: []
         - {}

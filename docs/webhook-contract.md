@@ -45,8 +45,16 @@ Errors use this forward-compatible shape:
 valid but arrived outside an active receiver session. It is retryable and may
 include `Retry-After` as integer seconds or an HTTP date.
 
-The plugin retries network errors, `408`, `429`, and all `5xx` responses. Other
-`4xx` and all `3xx` responses are permanent failures.
+The plugin retains events in memory until a `2xx` response and retries every
+unsuccessful delivery, including network errors, timeouts, and all non-`2xx`
+responses. Up to four requests run concurrently; retry delays never pause other
+events. Retries honor `Retry-After`; otherwise backoff increases by five seconds
+per failed attempt, capped at 60 seconds. There is no retry limit or queue size
+limit. Plugin unload or game exit discards pending events.
+
+Delivery may be out of order and duplicated (for example, after a response is
+lost). Receivers must deduplicate by `eventId` and reconstruct capture order
+using `game.gameId` and `sequence`, including accepting events before `start`.
 
 ## Models
 
