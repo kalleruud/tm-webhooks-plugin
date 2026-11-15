@@ -305,9 +305,10 @@ Emitted exactly once when a fully captured round begins.
 Emitted when the player first applies throttle during the game. It is emitted
 at most once per player per game and never re-armed.
 
-| Additional field | Type   | Description                         | Rules                                                 |
-| ---------------- | ------ | ----------------------------------- | ----------------------------------------------------- |
-| `player`         | Player | Full snapshot of the event's player | Required; matches `start.players[player.playerIndex]` |
+| Additional field | Type    | Description                         | Rules                                                  |
+| ---------------- | ------- | ----------------------------------- | ------------------------------------------------------ |
+| `player`         | Player  | Full snapshot of the event's player | Required; matches `start.players[player.playerIndex]`  |
+| `attempt`        | Attempt | Run and participant reference       | Required; matches `start.attempts[player.playerIndex]` |
 
 ```json
 {
