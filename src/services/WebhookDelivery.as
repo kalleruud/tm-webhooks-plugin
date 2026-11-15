@@ -81,6 +81,7 @@ class WebhookDelivery
 
     uint RetryDelayMs(Net::HttpRequest@ request, uint retry)
     {
+        if (!request.Finished()) return retry * 5000;
         string retryAfter = request.ResponseHeader("Retry-After");
         if (retryAfter.Length > 0) {
             int seconds = Text::ParseInt(retryAfter);
