@@ -14,20 +14,45 @@ class TurboGameAdapter : GameAdapter
     bool restartCandidate;
     uint endPendingSince;
 
+    array<CTrackManiaPlayer@> identityPlayers;
+    array<string> participantIds;
+    string participantScope;
+
+    string ParticipantId(CTrackManiaPlayer@ player, const string &in scope)
+    {
+        if (participantScope != scope) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
+            participantScope = scope;
+        }
+        for (uint i = 0; i < identityPlayers.Length; i++) {
+            if (identityPlayers[i] is player) return participantIds[i];
+        }
+        identityPlayers.InsertLast(player);
+        participantIds.InsertLast(CreateUuidV4());
+        return participantIds[participantIds.Length - 1];
+    }
+
     GameObservation@ Observe()
     {
         GameObservation@ observation = GameObservation();
         CGameManiaPlanet@ app = cast<CGameManiaPlanet>(GetApp());
         if (app is null) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             LogTurboState("app", "Turbo capture waiting for the game application.");
             return observation;
         }
         RememberTurboLaunchMode(app);
         if (app.CurrentPlayground is null) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             LogTurboState("playground", "Turbo capture waiting for a playground.");
             return observation;
         }
         if (app.Challenge is null) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             LogTurboState("map", "Turbo capture waiting for a map.");
             return observation;
         }
@@ -36,12 +61,24 @@ class TurboGameAdapter : GameAdapter
             return observation;
         }
         auto playground = app.CurrentPlayground;
+        // Retain only engine racers still present; replacement objects get new IDs.
+        for (int i = int(identityPlayers.Length) - 1; i >= 0; i--) {
+            bool present;
+            for (uint p = 0; p < playground.Players.Length; p++) {
+                if (identityPlayers[i] is cast<CTrackManiaPlayer>(playground.Players[p])) { present = true; break; }
+            }
+            if (!present) { identityPlayers.RemoveAt(i); participantIds.RemoveAt(i); }
+        }
         observation.local = playground.GameTerminals.Length > 0;
         if (!observation.local) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             LogTurboState("local", "Turbo capture paused: no local game terminal was detected.");
             return observation;
         }
         if (lastMap != app.Challenge.IdName) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             lastMap = app.Challenge.IdName;
             activeSessionKey = "";
             startArmed = false;
@@ -52,6 +89,8 @@ class TurboGameAdapter : GameAdapter
             restartCandidate = false;
             arcadeRoundCredits = -1;
         }
+        observation.sharedRacer = app.PlaygroundScript.ServerModeName == "TMC_HotSeat" ||
+            app.PlaygroundScript.ServerModeName == "TMC_LocalArcade";
         @observation.map = ReadTurboMap(app);
         auto uiConfig = app.PlaygroundScript.UIManager.LocalPlayerConfig;
         bool playingSequence = uiConfig !is null &&
@@ -93,6 +132,10 @@ class TurboGameAdapter : GameAdapter
             player.name = tmPlayer.Name;
             player.login = tmPlayer.Login;
             observation.players.InsertLast(player);
+            AttemptSnapshot@ attempt = AttemptSnapshot();
+            attempt.playerIndex = player.playerIndex;
+            attempt.participantId = ParticipantId(tmPlayer, app.PlaygroundScript.ServerModeName + ":" + playground.GameTerminals.Length);
+            observation.attempts.InsertLast(attempt);
             PlayerObservation@ state = PlayerObservation();
             @state.player = player;
             state.durationMs = app.PlaygroundScript.Now > tmPlayer.RaceStartTime

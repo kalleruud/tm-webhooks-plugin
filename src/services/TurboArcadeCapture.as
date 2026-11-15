@@ -22,6 +22,8 @@ class TurboArcadeCapture
     string submittedName;
     string lastRound;
     array<string> attempts;
+    array<string> participantIds;
+    array<string> participantSources;
 
     TurboArcadeCapture(WebhookDelivery@ sender) { @delivery = sender; }
 
@@ -29,6 +31,8 @@ class TurboArcadeCapture
     {
         turnId = "";
         attempts.Resize(0);
+        participantIds.Resize(0);
+        participantSources.Resize(0);
         submittedName = "";
         pendingIndex = -1;
         complete = false;
@@ -142,8 +146,20 @@ class TurboArcadeCapture
         if (phase == -1 && submittedName.Length == 0) ClearTurn();
         if (turnId.Length > 0) {
             for (uint i = 0; i < observation.players.Length; i++) {
-                observation.players[i].sessionId = sessionId;
-                observation.players[i].turnId = turnId;
+                string source = observation.attempts[i].participantId;
+                int participant = -1;
+                for (uint p = 0; p < participantSources.Length; p++) {
+                    if (participantSources[p] == source) { participant = int(p); break; }
+                }
+                if (participant < 0) {
+                    if (participantIds.Length >= 16) { complete = false; overflow = true; continue; }
+                    participant = int(participantIds.Length);
+                    participantSources.InsertLast(source);
+                    participantIds.InsertLast(CreateUuidV4());
+                }
+                observation.attempts[i].sessionId = sessionId;
+                observation.attempts[i].turnId = turnId;
+                observation.attempts[i].participantId = participantIds[participant];
             }
         }
     }
@@ -153,7 +169,7 @@ class TurboArcadeCapture
         if (!valid || turnId.Length == 0 || !round.running || round.gameId == lastRound) return;
         lastRound = round.gameId;
         for (uint i = 0; i < round.roster.Length; i++) {
-            auto player = round.roster[i];
+            auto player = round.attempts[i];
             if (player.sessionId != sessionId || player.turnId != turnId) { complete = false; continue; }
             if (attempts.Length >= 256) {
                 if (!overflow) warn("[arcade] Turn exceeded 256 captured attempts; score suppressed.");
@@ -176,6 +192,7 @@ class TurboArcadeCapture
         event.turnId = turnId;
         event.mapUid = mapUid;
         event.attemptIds = attempts;
+        event.participantIds = participantIds;
         event.captureComplete = complete;
         @event.player = PlayerSnapshot();
         event.player.name = submittedName;

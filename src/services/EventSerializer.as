@@ -7,14 +7,21 @@ Json::Value@ SerializePlayer(PlayerSnapshot@ player)
 {
     Json::Value@ json = Json::Object();
     json["playerIndex"] = player.playerIndex;
-    PutNonEmptyString(json, "attemptId", player.attemptId);
-    PutNonEmptyString(json, "sessionId", player.sessionId);
-    PutNonEmptyString(json, "turnId", player.turnId);
-    PutNonEmptyString(json, "participantId", player.participantId);
     PutNonEmptyString(json, "name", player.name);
     PutNonEmptyString(json, "login", player.login);
     PutNonEmptyString(json, "localId", player.localId);
     PutNonEmptyString(json, "accountId", player.accountId);
+    return json;
+}
+
+Json::Value@ SerializeAttempt(AttemptSnapshot@ attempt)
+{
+    Json::Value@ json = Json::Object();
+    json["playerIndex"] = attempt.playerIndex;
+    json["attemptId"] = attempt.attemptId;
+    json["participantId"] = attempt.participantId;
+    PutNonEmptyString(json, "sessionId", attempt.sessionId);
+    PutNonEmptyString(json, "turnId", attempt.turnId);
     return json;
 }
 
@@ -89,9 +96,12 @@ string SerializeEvent(CapturedEvent@ event)
             for (uint i = 0; i < event.attemptIds.Length; i++) attempts.Add(event.attemptIds[i]);
             json["attemptIds"] = attempts;
             json["captureComplete"] = event.captureComplete;
+            Json::Value@ participants = Json::Array();
+            for (uint i = 0; i < event.participantIds.Length; i++) participants.Add(event.participantIds[i]);
+            json["participantIds"] = participants;
         } else if (event.scoreMode == "hot-seat") {
             json["participantId"] = event.participantId;
-            json["attemptId"] = event.player.attemptId;
+            json["attemptId"] = event.attemptId;
             if (event.player.name.Length > 0) {
                 Json::Value@ player = Json::Object();
                 player["name"] = event.player.name;
@@ -106,12 +116,16 @@ string SerializeEvent(CapturedEvent@ event)
         Json::Value@ players = Json::Array();
         for (uint i = 0; i < event.players.Length; i++) players.Add(SerializePlayer(event.players[i]));
         json["players"] = players;
+        Json::Value@ attempts = Json::Array();
+        for (uint i = 0; i < event.attempts.Length; i++) attempts.Add(SerializeAttempt(event.attempts[i]));
+        json["attempts"] = attempts;
         json["map"] = SerializeMap(event.map);
         json["mode"] = SerializeMode(event.mode);
     } else if (event.eventType == "end") {
         PutNonEmptyString(json, "endReason", event.endReason);
     } else {
         json["player"] = SerializePlayer(event.player);
+        json["attempt"] = SerializeAttempt(event.attempt);
         if (event.eventType != "first_throttle") {
             Json::Value@ checkpoint = Json::Object();
             checkpoint["checkpointIndex"] = event.checkpointIndex;

@@ -79,39 +79,43 @@ models instead of repeating their fields at the event root.
 
 ### Player
 
-| Field           | Type                 | Description                          | Rules                                        |
-| --------------- | -------------------- | ------------------------------------ | -------------------------------------------- |
-| `sessionId`     | UUID string          | Local game session                   | Optional; verified arcade/Hot Seat capture   |
-| `turnId`        | UUID string          | Arcade turn across rounds            | Optional; arcade only                        |
-| `participantId` | UUID string          | Hot Seat human slot within session   | Optional; stable across confirmed renames    |
-| `attemptId`     | UUID string          | Identity of this captured attempt    | Required UUID v4, stable across all events   |
-| `playerIndex`   | non-negative integer | Position of the player in the roster | Required, zero-based, stable within the game |
-| `name`          | string               | Display name of the player           | Optional; omitted when unavailable           |
-| `login`         | string               | Game login of the player             | Optional; omitted when not exposed           |
-| `localId`       | string               | Decimal engine-local login ID        | Optional; Next-only                          |
-| `accountId`     | string               | Ubisoft/Nadeo WebServices account ID | Optional; Next-only                          |
+| Field         | Type                 | Description                          | Rules                                        |
+| ------------- | -------------------- | ------------------------------------ | -------------------------------------------- |
+| `playerIndex` | non-negative integer | Position of the player in the roster | Required, zero-based, stable within the game |
+| `name`        | string               | Display name of the player           | Optional; omitted when unavailable           |
+| `login`       | string               | Game login of the player             | Optional; omitted when not exposed           |
+| `localId`     | string               | Decimal engine-local login ID        | Optional; Next-only                          |
+| `accountId`   | string               | Ubisoft/Nadeo WebServices account ID | Optional; Next-only                          |
 
 `start.players` is ordered by contiguous index, so
 `players[i].playerIndex == i`. Its length equals `game.totalPlayers`.
-Each entry has an independently generated UUID v4 in `attemptId`. Player race
-events carry the same value in `player.attemptId` as the corresponding
-`start.players[i].attemptId`. Checkpoints, laps, and checkpoint respawns retain
-it. A restart or new round assigns fresh IDs to every captured player, even
-when names, accounts, player indices, and times are unchanged. A split-screen
-round has a distinct attempt ID for each player. `game.gameId` continues to
-identify the round; `end` has no player or attempt ID.
+Player contains display/account metadata only. Correlation lives separately.
 
-Receivers should use attempt IDs for attempt correlation instead of matching
-names or times. The attempt ID does not identify a human across hot-seat turns; participantId does.
-In standard Turbo arcade capture, `sessionId`
-and `turnId` are included in start player entries and player race events. In
-standard Turbo Hot Seat capture, `sessionId` and
-`participantId` are included instead.
-They correlate captured attempts across rounds. Session IDs reset on leaving
-arcade, map/script/UI replacement, or a change in the configured player count.
-Turn IDs follow observed arcade phase/credit lifecycle, never a count of finishes.
-Hot Seat participant IDs follow configured human slots independently of the
-shared engine player/login. Secret variants are not enabled.
+### Attempt and participant identity
+
+`start.attempts` contains one entry per `start.players` entry. Each entry has
+`playerIndex`, `attemptId` and `participantId`, plus optional `sessionId` and
+`turnId` when verified Turbo lifecycle information is available. Every player
+race event carries that same entry in `attempt`; `end` remains round-scoped.
+`attempt.playerIndex` joins the reference to player metadata. A new run gets a
+fresh attempt UUID; checkpoints, laps and respawns retain it.
+
+Every supported game and mode uses participant UUIDs. In ordinary play, an ID
+follows the observed engine racer object across runs while it remains present
+in the same map/mode. Removal, replacement, map/mode changes, leaving the
+playground, or plugin reload end that continuity. Names and account IDs are
+metadata, never identity keys. There is no persistent or cross-game person ID.
+An unobserved person swapping a controller cannot be detected.
+
+Verified standard Turbo Hot Seat overrides engine identity with a session-local
+human slot UUID, stable through handovers and confirmed renames. Standard
+arcade assigns participant UUIDs within each turn; a new turn can belong to a
+new human and gets new IDs. Arcade scores include `participantIds` in first-capture
+order and `attemptIds` in capture order. Join through captured attempts rather
+than matching names or result times. Unverified shared-racer Turbo arcade/Hot
+Seat variants get fresh participant IDs per attempt instead of claiming human
+continuity. Session IDs reset on map/script/UI replacement, exit or roster reset.
+Turn IDs follow the observed arcade lifecycle rather than counting finishes.
 
 Trackmania Next sources `login`, `localId`, and `accountId` from MLFeed V4's
 login, login MwId, and WebServices user ID. Turbo sources `name` and `login`
@@ -226,11 +230,12 @@ games. For Trackmania Next, `source.game` is `next`.
 
 Emitted exactly once when a fully captured round begins.
 
-| Additional field | Type     | Description                        | Rules                                                   |
-| ---------------- | -------- | ---------------------------------- | ------------------------------------------------------- |
-| `players`        | Player[] | Players participating in the round | Required; ordered and length equals `game.totalPlayers` |
-| `map`            | Map      | Map played during the round        | Nullable;                                               |
-| `mode`           | Mode     | Game mode used during the round    | Nullable;                                               |
+| Additional field | Type      | Description                        | Rules                                                   |
+| ---------------- | --------- | ---------------------------------- | ------------------------------------------------------- |
+| `players`        | Player[]  | Players participating in the round | Required; ordered and length equals `game.totalPlayers` |
+| `attempts`       | Attempt[] | Attempt and participant references | Required; same indices and length as `players`          |
+| `map`            | Map       | Map played during the round        | Nullable;                                               |
+| `mode`           | Mode      | Game mode used during the round    | Nullable;                                               |
 
 ```json
 {
@@ -252,7 +257,6 @@ Emitted exactly once when a fully captured round begins.
   "players": [
     {
       "playerIndex": 0,
-      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
       "name": "Player One",
       "login": "player-one"
     }
@@ -275,7 +279,14 @@ Emitted exactly once when a fully captured round begins.
   },
   "mode": {
     "name": "campaign"
-  }
+  },
+  "attempts": [
+    {
+      "playerIndex": 0,
+      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+      "participantId": "91852b93-8e35-4567-a049-2b7e16a04187"
+    }
+  ]
 }
 ```
 
@@ -307,9 +318,13 @@ at most once per player per game and never re-armed.
   },
   "player": {
     "playerIndex": 0,
-    "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
     "name": "Player One",
     "login": "player-one"
+  },
+  "attempt": {
+    "playerIndex": 0,
+    "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+    "participantId": "91852b93-8e35-4567-a049-2b7e16a04187"
   }
 }
 ```
@@ -325,10 +340,11 @@ These event types share one contract:
 | `respawn`    | A respawn action is detected for a player                | Indices identify the destination and are both `0` at start     |
 | `finish`     | A player finishes the round                              | At most once; `durationMs` is final and finish is not numbered |
 
-| Additional field | Type       | Description                         | Rules                                                 |
-| ---------------- | ---------- | ----------------------------------- | ----------------------------------------------------- |
-| `player`         | Player     | Full snapshot of the event's player | Required; matches `start.players[player.playerIndex]` |
-| `checkpoint`     | Checkpoint | Checkpoint state for the event      | Required                                              |
+| Additional field | Type       | Description                         | Rules                                                  |
+| ---------------- | ---------- | ----------------------------------- | ------------------------------------------------------ |
+| `player`         | Player     | Full snapshot of the event's player | Required; matches `start.players[player.playerIndex]`  |
+| `attempt`        | Attempt    | Run and participant reference       | Required; matches `start.attempts[player.playerIndex]` |
+| `checkpoint`     | Checkpoint | Checkpoint state for the event      | Required                                               |
 
 #### Example
 
@@ -351,7 +367,6 @@ These event types share one contract:
   },
   "player": {
     "playerIndex": 0,
-    "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
     "name": "Player One",
     "login": "player-one"
   },
@@ -359,6 +374,11 @@ These event types share one contract:
     "checkpointIndex": 1,
     "checkpointLapIndex": 1,
     "lapNumber": 1
+  },
+  "attempt": {
+    "playerIndex": 0,
+    "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+    "participantId": "91852b93-8e35-4567-a049-2b7e16a04187"
   }
 }
 ```
@@ -420,7 +440,7 @@ finish times. Timeout/default names do not change the submission trigger.
 
 A score includes common `schemaVersion`, `type`, `eventId`, `sequence`,
 `occurredAt`, and `source`, plus required `sessionId`, `turnId`,
-`mode: "arcade"`, `mapUid`, `player: {name}`, `attemptIds`, and
+`mode: "arcade"`, `mapUid`, `player: {name}`, `attemptIds`, `participantIds`, and
 `captureComplete`. It omits `game` and `durationMs`. No rank, time, or best
 attempt is claimed while reliable leaderboard/ghost association remains unverified.
 

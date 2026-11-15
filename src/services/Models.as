@@ -4,14 +4,20 @@ const string PLUGIN_NAME = "TM Webhooks";
 class PlayerSnapshot
 {
     uint playerIndex;
-    string attemptId;
-    string sessionId;
-    string turnId;
-    string participantId;
     string name;
     string login;
     string localId;
     string accountId;
+}
+
+// Correlation is separate from display/account metadata.
+class AttemptSnapshot
+{
+    uint playerIndex;
+    string attemptId;
+    string participantId;
+    string sessionId;
+    string turnId;
 }
 
 class MapSnapshot
@@ -58,9 +64,11 @@ class GameObservation
     bool local;
     bool active;
     bool pendingEnd;
+    bool sharedRacer;
     string sessionKey;
     string endReason = "unknown";
     array<PlayerSnapshot@> players;
+    array<AttemptSnapshot@> attempts;
     array<PlayerObservation@> playerStates;
     MapSnapshot@ map;
     ModeSnapshot@ mode;
@@ -76,7 +84,9 @@ class CapturedEvent
     uint durationMs;
     uint totalPlayers;
     PlayerSnapshot@ player;
+    AttemptSnapshot@ attempt;
     array<PlayerSnapshot@> players;
+    array<AttemptSnapshot@> attempts;
     MapSnapshot@ map;
     ModeSnapshot@ mode;
     uint checkpointIndex;
@@ -89,6 +99,8 @@ class CapturedEvent
     string turnId;
     string mapUid;
     array<string> attemptIds;
+    array<string> participantIds;
+    string attemptId;
     bool captureComplete;
     string participantId;
     string scoreMode;

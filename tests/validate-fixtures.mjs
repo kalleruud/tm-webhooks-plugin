@@ -25,7 +25,8 @@ function assertNoEmptyStrings(value, path = '$') {
 function assertPlayer(player, index) {
   assert.ok(player)
   assert.equal(player.playerIndex, index)
-  assert.match(player.attemptId, uuid)
+  for (const key of ['attemptId', 'participantId', 'sessionId', 'turnId'])
+    assert.ok(!(key in player))
   if ('name' in player) assert.equal(typeof player.name, 'string')
   if ('login' in player) {
     assert.equal(typeof player.login, 'string')
@@ -71,6 +72,16 @@ function validateFixture(events, expectedEventTypes) {
 
     if (event.type === 'start') {
       assert.equal(event.players.length, event.game.totalPlayers)
+      assert.equal(event.attempts.length, event.players.length)
+      assert.equal(
+        new Set(event.attempts.map(a => a.participantId)).size,
+        event.players.length
+      )
+      event.attempts.forEach((attempt, index) => {
+        assert.equal(attempt.playerIndex, index)
+        assert.match(attempt.attemptId, uuid)
+        assert.match(attempt.participantId, uuid)
+      })
       event.players.forEach((player, index) => assertPlayer(player, index))
       assert.ok('map' in event)
       assert.ok(event.mode)
@@ -114,10 +125,7 @@ function validateFixture(events, expectedEventTypes) {
       )
     } else {
       assertPlayer(event.player, event.player.playerIndex)
-      assert.equal(
-        event.player.attemptId,
-        start.players[event.player.playerIndex].attemptId
-      )
+      assert.deepEqual(event.attempt, start.attempts[event.player.playerIndex])
       if (event.type !== 'first_throttle') assert.ok(event.checkpoint)
     }
   }
@@ -179,6 +187,7 @@ for (const event of [arcade, name, score]) {
 assert.equal(arcade.type, 'score')
 assert.equal(arcade.mode, 'arcade')
 assert.match(arcade.turnId, uuid)
+arcade.participantIds.forEach(id => assert.match(id, uuid))
 arcade.attemptIds.forEach(id => assert.match(id, uuid))
 assert.equal(typeof arcade.captureComplete, 'boolean')
 assert.equal(name.type, 'player_name')

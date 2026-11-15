@@ -18,7 +18,8 @@
       "name": "2222"
     },
     "attemptIds": ["57ef73e9-9407-4219-a08f-f4dd8e79c558"],
-    "captureComplete": true
+    "captureComplete": true,
+    "participantIds": ["35340a39-0348-405f-85ba-d6e35ea8075d"]
   },
   {
     "schemaVersion": "1.1.0",

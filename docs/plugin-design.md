@@ -14,8 +14,8 @@ Trackmania modes. The detailed webhook payload model is defined in
   ends the round. A new timer session is a new round and game.
 - **Attempt**: One captured player's continuously timed run. Its UUID v4 is
   allocated by the shared round tracker before start serialization. The tracker
-  owns a frozen player snapshot, so adapter observations cannot change its ID
-  or metadata. All player events reuse it; respawns preserve it and a new round
+  owns separate frozen player metadata and attempt references, so adapter
+  observations cannot change either. All player events reuse it; respawns preserve it and a new round
   replaces it. It is not a hot-seat participant or arcade turn identity.
 - **Player index**: The required zero-based identity for a player within one
   game. Platform account identifiers are optional metadata.
@@ -23,8 +23,8 @@ Trackmania modes. The detailed webhook payload model is defined in
 In Trackmania Turbo hot seat, each player's continuously timed attempt is a
 separate round and game. The race roster contains observed engine players, while Hot Seat
 session tracking assigns a separate participant UUID to each configured human
-slot. Player-scoped race events retain their engine snapshot and add that
-participant reference; the engine login is not a human identity.
+slot. Player-scoped race events retain their engine metadata and a separate
+`attempt` reference; the engine login is not a human identity.
 
 ## Supported Games and Modes
 
@@ -215,3 +215,14 @@ Turbo modes. Secret and unverified multiple-racer variants are excluded. The
 shared serializer separates session envelopes from race envelopes. Next retains
 race capture with attempt IDs. A runtime name-access exception disables that
 service until plugin reload while race capture continues.
+
+## Participant identity
+
+Adapters assign UUIDs by observed engine object identity, retaining only racers
+still in the playground and resetting on map/mode changes or exit. The shared
+round tracker owns separate `AttemptSnapshot` records, not identity fields in
+`PlayerSnapshot`. Each start has parallel metadata and attempt arrays joined by
+player index; later player events carry the frozen attempt reference. Verified
+Turbo services override the engine participant with a human Hot Seat slot or
+arcade turn participant. Unverified shared-racer Turbo modes use a fresh
+participant per attempt. These IDs do not claim global human identity.

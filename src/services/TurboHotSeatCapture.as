@@ -119,8 +119,8 @@ class TurboHotSeatCapture
         previousTrigger = trigger;
         baseline = true;
         for (uint i = 0; i < observation.players.Length; i++) {
-            observation.players[i].sessionId = sessionId;
-            observation.players[i].participantId = participants[slot].id;
+            observation.attempts[i].sessionId = sessionId;
+            observation.attempts[i].participantId = participants[slot].id;
         }
     }
 
@@ -130,8 +130,9 @@ class TurboHotSeatCapture
         for (uint i = 0; i < observation.playerStates.Length; i++) {
             auto state = observation.playerStates[i];
             if (state is null || state.player is null || !state.finished || state.finishDurationMs < 0 || state.player.playerIndex >= round.roster.Length) continue;
-            auto snapshot = round.roster[state.player.playerIndex];
-            if (snapshot.sessionId != sessionId || snapshot.attemptId == scoredAttempt) continue;
+            auto snapshot = round.attempts[state.player.playerIndex];
+            if (snapshot.sessionId != sessionId || snapshot.attemptId == scoredAttempt ||
+                !round.tracked[state.player.playerIndex].finished) continue;
             HotSeatParticipant@ owner;
             for (uint p = 0; p < participants.Length; p++) {
                 if (participants[p].id == snapshot.participantId) { @owner = participants[p]; break; }
@@ -144,7 +145,7 @@ class TurboHotSeatCapture
             event.mapUid = mapUid;
             event.timeMs = state.finishDurationMs;
             @event.player = PlayerSnapshot();
-            event.player.attemptId = snapshot.attemptId;
+            event.attemptId = snapshot.attemptId;
             event.player.name = owner.name;
             scoredAttempt = snapshot.attemptId;
             Enqueue(event);

@@ -239,27 +239,12 @@ components:
     Player:
       type: object
       additionalProperties: true
-      required: [playerIndex, attemptId]
+      required: [playerIndex]
       properties:
-        sessionId:
-          type: string
-          format: uuid
-          description: Local arcade or hot-seat session identity when verified mode state is available.
-        turnId:
-          type: string
-          format: uuid
-          description: Arcade turn identity shared across its captured rounds; omitted outside arcade name capture.
-        participantId:
-          type: string
-          format: uuid
-          description: Hot-seat human slot identity within a session, stable across confirmed name edits and controller handovers; independent of engine player/login.
-        attemptId:
-          type: string
-          format: uuid
-          description: >-
-            UUID v4 for this captured player attempt, independent of names,
-            positions, and times. Shared by start.players and every player
-            race event; a new round allocates new attempt IDs, respawns do not.
+        attemptId: false
+        participantId: false
+        sessionId: false
+        turnId: false
         playerIndex:
           type: integer
           minimum: 0
@@ -279,13 +264,40 @@ components:
           description: >-
             Ubisoft/Nadeo WebServices account ID. Available in Trackmania Next;
             omitted when the runtime does not expose it.
+    Attempt:
+      type: object
+      additionalProperties: false
+      required: [playerIndex, attemptId, participantId]
+      properties:
+        playerIndex:
+          type: integer
+          minimum: 0
+          description: Joins this attempt to the race player metadata at the same index.
+        attemptId:
+          type: string
+          format: uuid
+          description: Fresh run UUID; retained across respawns, replaced on a new run.
+        participantId:
+          type: string
+          format: uuid
+          description: Local participant UUID independent of names and accounts. Ordinary modes track the observed engine racer; verified Hot Seat tracks the human slot and arcade tracks the participant within its turn. Not a permanent person identity.
+        sessionId:
+          type: string
+          format: uuid
+          description: Verified Turbo arcade or Hot Seat session, when available.
+        turnId:
+          type: string
+          format: uuid
+          description: Verified arcade turn, when available.
     PlayerEvent:
       allOf:
         - $ref: '#/components/schemas/RaceEvent'
         - type: object
           additionalProperties: true
-          required: [player]
+          required: [player, attempt]
           properties:
+            attempt:
+              $ref: '#/components/schemas/Attempt'
             player:
               $ref: '#/components/schemas/Player'
               description: Full snapshot of the player associated with the event.
@@ -441,7 +453,7 @@ components:
         - $ref: '#/components/schemas/RaceEvent'
         - type: object
           additionalProperties: true
-          required: [type, players, map, mode]
+          required: [type, players, attempts, map, mode]
           properties:
             type:
               type: string
@@ -454,6 +466,12 @@ components:
               items:
                 $ref: '#/components/schemas/Player'
               description: Ordered so players[i].playerIndex equals i.
+            attempts:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/Attempt'
+              description: One attempt per player; attempts[i].playerIndex equals players[i].playerIndex.
             map:
               oneOf:
                 - $ref: '#/components/schemas/Map'
@@ -612,9 +630,17 @@ components:
               mapUid,
               player,
               attemptIds,
+              participantIds,
               captureComplete,
             ]
           properties:
+            participantIds:
+              type: array
+              uniqueItems: true
+              items:
+                type: string
+                format: uuid
+              description: Captured participants in this turn, in first-capture order.
             game: false
             durationMs: false
             type:
