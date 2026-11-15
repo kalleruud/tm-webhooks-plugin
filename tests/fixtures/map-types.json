@@ -1,0 +1,16 @@
+[
+  { "raw": "TrackMania\\Race", "type": "TrackMania\\Race" },
+  { "raw": "Trackmania\\Race", "type": "TrackMania\\Race" },
+  { "raw": "TRACKMANIA\\Race", "type": "TrackMania\\Race" },
+  { "raw": "TrackMania\\RaceCE", "type": "TrackMania\\RaceCE" },
+  { "raw": "trackmania\\RaceCE", "type": "TrackMania\\RaceCE" },
+  { "raw": "TrackMania\\TM_Race", "type": "TrackMania\\TM_Race" },
+  { "raw": "Trackmania\\TM_Race", "type": "TrackMania\\TM_Race" },
+  {
+    "raw": "Trackmania\\TM_TimeAttack_Online",
+    "type": "TrackMania\\TM_TimeAttack_Online"
+  },
+  { "raw": "ShootMania\\Race", "type": "ShootMania\\Race" },
+  { "raw": "Race", "type": "Race" },
+  { "raw": "TrackManiaRace", "type": "TrackManiaRace" }
+]

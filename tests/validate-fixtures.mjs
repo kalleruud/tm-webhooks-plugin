@@ -45,6 +45,15 @@ async function readFixture(name) {
 
 const mapLevels = ['white', 'green', 'blue', 'red', 'black', 'custom']
 
+// Mirrors NormalizeMapType in src/adapters/GameAdapter.as.
+const mapTypePrefix = 'TrackMania\\'
+function normalizeMapType(value) {
+  return value.slice(0, mapTypePrefix.length).toLowerCase() ===
+    mapTypePrefix.toLowerCase()
+    ? mapTypePrefix + value.slice(mapTypePrefix.length)
+    : value
+}
+
 function validateFixture(events, expectedEventTypes) {
   assert.deepEqual(
     events.map(event => event.type),
@@ -78,6 +87,7 @@ function validateFixture(events, expectedEventTypes) {
           assert.equal(typeof event.map[field], 'string')
         }
         if ('level' in event.map) assert.ok(mapLevels.includes(event.map.level))
+        assert.equal(event.map.type, normalizeMapType(event.map.type))
         assert.ok(event.map.medalTimesMs)
         for (const medal of ['author', 'gold', 'silver', 'bronze']) {
           assert.ok(Number.isInteger(event.map.medalTimesMs[medal]))
@@ -206,4 +216,29 @@ const discriminatorTypes = [...mapping[1].matchAll(/^ {10}(\w+):/gm)].map(
 assert.deepEqual([...headerTypes].sort(), [...discriminatorTypes].sort())
 for (const event of [...turboEvents, ...nextEvents]) {
   assert.ok(headerTypes.includes(event.type))
+}
+
+// Equivalent Trackmania map-type prefixes normalise to TrackMania\ while
+// suffixes and unrelated values stay intact. Raw variants with another prefix
+// spelling must fail fixture validation.
+const mapTypeCases = await readFixture('map-types.json')
+for (const testCase of mapTypeCases) {
+  assert.equal(normalizeMapType(testCase.raw), testCase.type)
+  assert.equal(normalizeMapType(testCase.type), testCase.type)
+}
+assert.notEqual(
+  normalizeMapType('Trackmania\\Race'),
+  normalizeMapType('Trackmania\\RaceCE')
+)
+for (const events of [turboEvents, nextEvents]) {
+  const types = events.map(event => event.type)
+  for (const testCase of mapTypeCases) {
+    const variant = structuredClone(events)
+    variant[0].map.type = testCase.type
+    validateFixture(variant, types)
+    if (testCase.raw !== testCase.type) {
+      variant[0].map.type = testCase.raw
+      assert.throws(() => validateFixture(variant, types))
+    }
+  }
 }

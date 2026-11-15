@@ -37,3 +37,16 @@ string MapDifficultyLevel(uint difficulty)
     }
     return "";
 }
+
+// Turbo reports the Trackmania map-type prefix with inconsistent
+// capitalisation (for example TrackMania\Race and Trackmania\Race). Both games
+// emit the canonical TrackMania\ prefix; suffixes and other values stay raw.
+const string MAP_TYPE_PREFIX = "TrackMania\\";
+
+string NormalizeMapType(const string &in mapType)
+{
+    int prefixLength = MAP_TYPE_PREFIX.Length;
+    if (mapType.Length < prefixLength) return mapType;
+    if (mapType.SubStr(0, prefixLength).ToLower() != MAP_TYPE_PREFIX.ToLower()) return mapType;
+    return MAP_TYPE_PREFIX + mapType.SubStr(prefixLength);
+}

@@ -148,7 +148,7 @@ MapSnapshot@ ReadTurboMap(CGameManiaPlanet@ app)
     map.uid = challenge.IdName;
     map.author = challenge.AuthorNickName;
     map.environment = challenge.CollectionName;
-    map.mapType = challenge.MapType;
+    map.mapType = NormalizeMapType(string(challenge.MapType));
     map.level = MapDifficultyLevel(uint(challenge.Difficulty));
     map.isLaps = challenge.TMObjective_IsLapRace;
     map.totalLaps = challenge.TMObjective_NbLaps;
