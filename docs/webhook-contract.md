@@ -91,7 +91,21 @@ models instead of repeating their fields at the event root.
 `players[i].playerIndex == i`. Its length equals `game.totalPlayers`.
 Player contains display/account metadata only. Correlation lives separately.
 
-### Attempt and participant identity
+Trackmania Next sources `login`, `localId`, and `accountId` from MLFeed V4's
+login, login MwId, and WebServices user ID. Turbo sources `name` and `login`
+from `CTrackManiaPlayer`, and omits `localId` and `accountId` because its
+runtime does not expose equivalent values. Player string fields are emitted only
+when non-empty.
+
+### Attempt
+
+| Field           | Type                 | Description                                | Rules                                                     |
+| --------------- | -------------------- | ------------------------------------------ | --------------------------------------------------------- |
+| `playerIndex`   | non-negative integer | Joins the reference to player metadata     | Required; equals the corresponding player's index         |
+| `attemptId`     | UUID string          | Identity of one captured run               | Required UUID v4; fresh per run, retained across respawns |
+| `participantId` | UUID string          | Local participant associated with this run | Required UUID v4; lifetime depends on the observed mode   |
+| `sessionId`     | UUID string          | Local session containing the run           | Optional; verified standard Turbo arcade or Hot Seat      |
+| `turnId`        | UUID string          | Arcade turn containing the run             | Optional; verified standard Turbo arcade only             |
 
 `start.attempts` contains one entry per `start.players` entry. Each entry has
 `playerIndex`, `attemptId` and `participantId`, plus optional `sessionId` and
@@ -99,6 +113,8 @@ Player contains display/account metadata only. Correlation lives separately.
 race event carries that same entry in `attempt`; `end` remains round-scoped.
 `attempt.playerIndex` joins the reference to player metadata. A new run gets a
 fresh attempt UUID; checkpoints, laps and respawns retain it.
+
+#### Participant lifetime
 
 Every supported game and mode uses participant UUIDs. In ordinary play, an ID
 follows the observed engine racer object across runs while it remains present
@@ -116,12 +132,6 @@ than matching names or result times. Unverified shared-racer Turbo arcade/Hot
 Seat variants get fresh participant IDs per attempt instead of claiming human
 continuity. Session IDs reset on map/script/UI replacement, exit or roster reset.
 Turn IDs follow the observed arcade lifecycle rather than counting finishes.
-
-Trackmania Next sources `login`, `localId`, and `accountId` from MLFeed V4's
-login, login MwId, and WebServices user ID. Turbo sources `name` and `login`
-from `CTrackManiaPlayer`, and omits `localId` and `accountId` because its
-runtime does not expose equivalent values. Player string fields are emitted only
-when non-empty.
 
 ### Map
 
@@ -433,6 +443,17 @@ the playground, fall back to `aborted`.
 
 ### `score` (standard Turbo arcade)
 
+| Additional field  | Type        | Description                                       | Rules                                                                |
+| ----------------- | ----------- | ------------------------------------------------- | -------------------------------------------------------------------- |
+| `sessionId`       | UUID string | Local arcade session                              | Required                                                             |
+| `turnId`          | UUID string | Turn whose name was confirmed                     | Required                                                             |
+| `mode`            | string      | Score variant                                     | Required; `arcade`                                                   |
+| `mapUid`          | string      | Map identifier                                    | Required; nonempty                                                   |
+| `player`          | object      | Entered player metadata                           | Required; nonempty `name`                                            |
+| `attemptIds`      | UUID[]      | Captured attempts belonging to this turn          | Required; unique, in capture order; may be empty for partial capture |
+| `participantIds`  | UUID[]      | Participants associated with captured turn racers | Required; unique, in first-capture order                             |
+| `captureComplete` | boolean     | Whether the whole turn was captured               | Required; false for missing lifecycle/attempt observations           |
+
 With an endpoint configured, standard Turbo arcade emits one session-scoped score after a changed explicit UI name-submission
 trigger and subsequent insertion-index clearing. It does not depend on catching
 the transient ScoreWritten boolean, text stability, profile names, or matching
@@ -464,7 +485,40 @@ score instead of sending a misleading truncated list.
 `tests/fixtures/session-events.json` includes a representative arcade score.
 The unpublished schema remains `1.1.0`. Next emits no unverified equivalents.
 
+#### Example
+
+```json
+{
+  "schemaVersion": "1.1.0",
+  "type": "score",
+  "eventId": "e28f890d-eb39-4a70-8f69-ad139fe0e8f3",
+  "sequence": 0,
+  "occurredAt": "2026-11-09T17:43:33.750Z",
+  "source": {
+    "pluginName": "TM Webhooks",
+    "pluginVersion": "1.1.0",
+    "game": "turbo"
+  },
+  "sessionId": "08b71b17-dfa7-421b-895c-b28c2e55dbe3",
+  "turnId": "1367e330-058b-4a5c-b816-c1ffd437d9a9",
+  "mode": "arcade",
+  "mapUid": "ExampleMapUid",
+  "player": {
+    "name": "2222"
+  },
+  "attemptIds": ["57ef73e9-9407-4219-a08f-f4dd8e79c558"],
+  "captureComplete": true,
+  "participantIds": ["35340a39-0348-405f-85ba-d6e35ea8075d"]
+}
+```
+
 ### `player_name` (standard Turbo Hot Seat)
+
+| Additional field | Type        | Description                         | Rules                                          |
+| ---------------- | ----------- | ----------------------------------- | ---------------------------------------------- |
+| `sessionId`      | UUID string | Local Hot Seat session              | Required                                       |
+| `participantId`  | UUID string | Human slot whose name was confirmed | Required; stable across renames in the session |
+| `name`           | string      | Explicitly confirmed name           | Required; nonempty                             |
 
 Contains the common `schemaVersion`, `type`, `eventId`, `sequence`,
 `occurredAt`, and `source` metadata, plus required `sessionId`,
@@ -481,7 +535,39 @@ same session. Existing serialized race/score events remain immutable. Name and
 score events share one session-scoped sequence starting at zero; race events
 retain their separate per-game sequences and existing ordering/HTTP delivery.
 
+#### Example
+
+```json
+{
+  "schemaVersion": "1.1.0",
+  "type": "player_name",
+  "eventId": "0b2b5412-9da6-4700-8343-c92f512ccf97",
+  "sequence": 0,
+  "occurredAt": "2026-11-09T19:20:00.000Z",
+  "source": {
+    "pluginName": "TM Webhooks",
+    "pluginVersion": "1.1.0",
+    "game": "turbo"
+  },
+  "sessionId": "0e4cb220-49d7-4c84-a42b-e4d21c212947",
+  "participantId": "d2d1593a-ae5b-4fcf-9cdc-ecfd2530bce2",
+  "name": "7777"
+}
+```
+
 ### `score` (standard Turbo Hot Seat)
+
+| Additional field | Type                 | Description                              | Rules                                                    |
+| ---------------- | -------------------- | ---------------------------------------- | -------------------------------------------------------- |
+| `sessionId`      | UUID string          | Local Hot Seat session                   | Required                                                 |
+| `participantId`  | UUID string          | Human slot that owns the attempt         | Required                                                 |
+| `mode`           | string               | Score variant                            | Required; `hot-seat`                                     |
+| `mapUid`         | string               | Map identifier                           | Required; nonempty                                       |
+| `attemptId`      | UUID string          | Completed captured attempt               | Required; matches the race's `attempt.attemptId`         |
+| `result`         | object               | Completed-attempt result                 | Required; fields below                                   |
+| `result.status`  | string               | Result status                            | Required; `finished`                                     |
+| `result.timeMs`  | non-negative integer | Authoritative final time in milliseconds | Required                                                 |
+| `player`         | object               | Entered player metadata                  | Optional; contains nonempty `name`; omitted when unknown |
 
 Contains common event metadata plus required `sessionId`, `participantId`,
 `mode: "hot-seat"`, `mapUid`, `attemptId`, and
@@ -509,3 +595,32 @@ existing race path without these session events.
 
 Representative name and score payloads are in
 `tests/fixtures/session-events.json`.
+
+#### Example
+
+```json
+{
+  "schemaVersion": "1.1.0",
+  "type": "score",
+  "eventId": "908e2de4-61dc-40e5-86c4-799a9a2175b4",
+  "sequence": 1,
+  "occurredAt": "2026-11-09T19:20:00.000Z",
+  "source": {
+    "pluginName": "TM Webhooks",
+    "pluginVersion": "1.1.0",
+    "game": "turbo"
+  },
+  "sessionId": "0e4cb220-49d7-4c84-a42b-e4d21c212947",
+  "participantId": "d2d1593a-ae5b-4fcf-9cdc-ecfd2530bce2",
+  "mode": "hot-seat",
+  "mapUid": "ExampleMapUid",
+  "attemptId": "8d11a937-9e19-4382-97b7-0fcea4f1b10b",
+  "result": {
+    "status": "finished",
+    "timeMs": 26398
+  },
+  "player": {
+    "name": "7777"
+  }
+}
+```
