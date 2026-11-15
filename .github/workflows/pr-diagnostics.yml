@@ -10,6 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Diagnostics receiver OpenAPI
+        run: npx --yes @redocly/cli lint tools/diagnostics-receiver/openapi.yaml
       - name: Receiver protocol, HTTP ingestion and timeline reconstruction
         run: bun test tests/diagnostics-receiver.test.mjs tests/diagnostics-timeline.test.mjs
       - name: Recorder API fields and production package isolation

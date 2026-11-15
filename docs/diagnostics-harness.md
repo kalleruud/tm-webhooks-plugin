@@ -130,6 +130,10 @@ when bound to another address. When the game runs on a different machine, bind
 the receiver to a LAN interface and point **Receiver URL** at it. This
 repository does not install a service. Do not commit captured game data.
 
+The receiver protocol is specified in
+[tools/diagnostics-receiver/openapi.yaml](../tools/diagnostics-receiver/openapi.yaml),
+separately from the race webhook contract.
+
 `GET /health` returns `{"status":"ok","schemaVersions":["1.1.0"]}`. JSON POSTs to
 `/diagnostics/v1/chunks` carry one stream packet:
 

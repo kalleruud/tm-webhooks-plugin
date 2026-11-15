@@ -361,31 +361,3 @@ the playground, fall back to `aborted`.
   "endReason": "completed"
 }
 ```
-
-## Separate diagnostics transport
-
-Diagnostics builds optionally stream run recordings to a **different**, local
-receiver URL configured in the Diagnostics category. These are not race events,
-do not enter the race FIFO, and do not use race event headers, sequence numbers
-or authentication. Production archives omit diagnostics entirely.
-
-`POST /diagnostics/v1/chunks` accepts `schemaVersion: 1.1.0` stream packets with
-`captureId`, `game`, `index`, `kind` (`record` or `manifest`) and object `data`,
-with no declared `total`. The final manifest's index determines completion;
-missing records or manifests remain incomplete. Acknowledgements have
-`missing: null` until the final index is known. The plugin never waits for
-acknowledgements or retries failures. Each packet is limited to 32 KiB.
-
-Records include `run-recording-start`, `run-context`, `run-leaderboard`,
-`run-sample`, `run-native-event`, `run-coverage` and `run-recording-end`, followed
-by a manifest with `captureMode: run-recorder`. Each carries recording/record
-sequence and monotonic observation elapsed time. Player samples include
-recording-local player ID/roster slot, source user key, map/source attempt token,
-race/input/vehicle values and API provenance. Names and leaderboard player details
-are intentionally included. Missing native fields are omitted; native units are
-preserved without guessed conversions.
-
-Timeline analysis keeps native events distinct from sampled transitions. An
-`impact_candidate` is explicitly an inference, not a confirmed wall collision.
-See [the diagnostics harness](diagnostics-harness.md) and the run sample schema in
-[openapi.yaml](../openapi.yaml).
