@@ -160,7 +160,7 @@ MapSnapshot@ ReadNextMap(CTrackMania@ app)
     map.uid = app.RootMap.IdName;
     map.author = app.RootMap.AuthorNickName;
     map.environment = app.RootMap.CollectionName;
-    map.mapType = app.RootMap.MapType;
+    map.mapType = NormalizeMapType(string(app.RootMap.MapType));
     map.level = MapDifficultyLevel(uint(app.RootMap.Difficulty));
     map.isLaps = app.RootMap.TMObjective_IsLapRace;
     map.authorTime = app.RootMap.TMObjective_AuthorTime;

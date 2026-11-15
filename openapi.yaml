@@ -332,7 +332,12 @@ components:
           description: Raw CollectionName reported by the game API.
         type:
           type: string
-          description: Raw MapType reported by the game API.
+          description: >-
+            MapType reported by the game API. A case-insensitive
+            `TrackMania\` prefix is normalised to the canonical `TrackMania\`
+            capitalisation in both games; the suffix and values without that
+            prefix are preserved unchanged.
+          examples: ['TrackMania\TM_Race', 'TrackMania\RaceCE']
         level:
           type: string
           enum: [white, green, blue, red, black, custom]
