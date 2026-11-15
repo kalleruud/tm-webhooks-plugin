@@ -133,7 +133,8 @@ of the four request slots. Log failures with event ID, attempt count, status,
 and a bounded response excerpt.
 
 Send JSON with `POST`, `Content-Type: application/json; charset=utf-8`,
-`event_type`, `event-id`, and `event-sequence` headers matching the payload.
+`event_type`, `event-type` (same value as `event_type`), `event-id`, and
+`event-sequence` headers matching the payload.
 Include `Authorization: Bearer <token>` only when the token is nonempty.
 Receivers must accept out-of-order events, reconstruct capture order using
 `game.gameId` and `sequence`, and deduplicate using `eventId`.

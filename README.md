@@ -55,8 +55,9 @@ Open **Openplanet > Settings > TM Webhooks > Webhook** and set:
 - **Authentication token**: optional secret sent as `Authorization: Bearer <token>`
 
 Capture and delivery are disabled while the URL is empty. Requests use
-`Content-Type: application/json; charset=utf-8` plus `event_type`, `event-id`,
-and `event-sequence` headers matching the corresponding payload fields. When
+`Content-Type: application/json; charset=utf-8` plus `event_type`, its
+hyphenated alias `event-type`, `event-id`, and `event-sequence` headers matching
+the corresponding payload fields. When
 the token is empty, the request is sent without authentication. The token is
 masked and never logged.
 

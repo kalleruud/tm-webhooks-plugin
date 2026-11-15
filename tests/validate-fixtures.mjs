@@ -181,3 +181,36 @@ for (const events of [turboEvents, nextEvents]) {
     assert.throws(() => validateFixture(variant, types))
   }
 }
+
+// Both event type headers must stay declared, required, and interchangeable:
+// `event_type` for existing receivers and `event-type` for proxies that drop
+// underscore-bearing header names. Each must accept every fixture event type
+// and every discriminator value of the payload contract.
+const openapi = await readFile(
+  new URL('../openapi.yaml', import.meta.url),
+  'utf8'
+)
+function headerParameter(name) {
+  const block = openapi.match(
+    new RegExp(`- name: ${name}\\n((?: {10}.*\\n|\\s*\\n)+)`)
+  )
+  assert.ok(block, `openapi.yaml must declare the ${name} header`)
+  assert.match(block[1], /^ {10}in: header$/m, `${name} must be a header`)
+  assert.match(block[1], /^ {10}required: true$/m, `${name} must be required`)
+  const enumLine = block[1].match(/^ {12}enum: \[(.*)\]$/m)
+  assert.ok(enumLine, `${name} must declare an enum`)
+  return enumLine[1].split(',').map(value => value.trim())
+}
+const mapping = openapi.match(/ {8}mapping:\n((?: {10}\w+: .*\n)+)/)
+assert.ok(mapping, 'openapi.yaml must declare the Event discriminator mapping')
+const discriminatorTypes = [...mapping[1].matchAll(/^ {10}(\w+):/gm)].map(
+  match => match[1]
+)
+const legacyHeaderTypes = headerParameter('event_type')
+const aliasHeaderTypes = headerParameter('event-type')
+assert.deepEqual(aliasHeaderTypes, legacyHeaderTypes)
+assert.deepEqual([...legacyHeaderTypes].sort(), [...discriminatorTypes].sort())
+for (const event of [...turboEvents, ...nextEvents]) {
+  assert.ok(legacyHeaderTypes.includes(event.type))
+  assert.ok(aliasHeaderTypes.includes(event.type))
+}
