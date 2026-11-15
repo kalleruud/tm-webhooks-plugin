@@ -8,21 +8,51 @@ class TurboGameAdapter : GameAdapter
     bool roundCompleted;
     string pendingEndReason;
     string launchModeHint;
+    int arcadeRoundCredits = -1;
+    bool observedRound;
+    bool waitingForEnd;
+    bool restartCandidate;
+    uint endPendingSince;
+
+    array<CTrackManiaPlayer@> identityPlayers;
+    array<string> participantIds;
+    string participantScope;
+
+    string ParticipantId(CTrackManiaPlayer@ player, const string &in scope)
+    {
+        if (participantScope != scope) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
+            participantScope = scope;
+        }
+        for (uint i = 0; i < identityPlayers.Length; i++) {
+            if (identityPlayers[i] is player) return participantIds[i];
+        }
+        identityPlayers.InsertLast(player);
+        participantIds.InsertLast(CreateUuidV4());
+        return participantIds[participantIds.Length - 1];
+    }
 
     GameObservation@ Observe()
     {
         GameObservation@ observation = GameObservation();
         CGameManiaPlanet@ app = cast<CGameManiaPlanet>(GetApp());
         if (app is null) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             LogTurboState("app", "Turbo capture waiting for the game application.");
             return observation;
         }
         RememberTurboLaunchMode(app);
         if (app.CurrentPlayground is null) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             LogTurboState("playground", "Turbo capture waiting for a playground.");
             return observation;
         }
         if (app.Challenge is null) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             LogTurboState("map", "Turbo capture waiting for a map.");
             return observation;
         }
@@ -31,18 +61,36 @@ class TurboGameAdapter : GameAdapter
             return observation;
         }
         auto playground = app.CurrentPlayground;
+        // Retain only engine racers still present; replacement objects get new IDs.
+        for (int i = int(identityPlayers.Length) - 1; i >= 0; i--) {
+            bool present;
+            for (uint p = 0; p < playground.Players.Length; p++) {
+                if (identityPlayers[i] is cast<CTrackManiaPlayer>(playground.Players[p])) { present = true; break; }
+            }
+            if (!present) { identityPlayers.RemoveAt(i); participantIds.RemoveAt(i); }
+        }
         observation.local = playground.GameTerminals.Length > 0;
         if (!observation.local) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             LogTurboState("local", "Turbo capture paused: no local game terminal was detected.");
             return observation;
         }
         if (lastMap != app.Challenge.IdName) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             lastMap = app.Challenge.IdName;
             activeSessionKey = "";
             startArmed = false;
             roundCompleted = false;
             pendingEndReason = "";
+            observedRound = false;
+            waitingForEnd = false;
+            restartCandidate = false;
+            arcadeRoundCredits = -1;
         }
+        observation.sharedRacer = app.PlaygroundScript.ServerModeName == "TMC_HotSeat" ||
+            app.PlaygroundScript.ServerModeName == "TMC_LocalArcade";
         @observation.map = ReadTurboMap(app);
         auto uiConfig = app.PlaygroundScript.UIManager.LocalPlayerConfig;
         bool playingSequence = uiConfig !is null &&
@@ -53,7 +101,8 @@ class TurboGameAdapter : GameAdapter
             if (tmPlayer is null || tmPlayer.EnableOnlineMode || tmPlayer.AutoPilotEnabled) continue;
             if (tmPlayer.RaceState == CTrackManiaPlayer::ERaceState::BeforeStart) {
                 if (activeSessionKey.Length > 0) {
-                    pendingEndReason = roundCompleted ? "completed" : "restarted";
+                    if (roundCompleted) pendingEndReason = "completed";
+                    else if (pendingEndReason != "aborted") pendingEndReason = "restarted";
                 }
                 startArmed = true;
                 activeSessionKey = "";
@@ -73,6 +122,9 @@ class TurboGameAdapter : GameAdapter
                 startArmed = false;
                 roundCompleted = false;
                 pendingEndReason = "";
+                arcadeRoundCredits = -1;
+                int phase, credits;
+                if (ReadArcadeEndState(app, phase, credits)) arcadeRoundCredits = credits;
             }
             if (candidateSessionKey != activeSessionKey) continue;
             PlayerSnapshot@ player = PlayerSnapshot();
@@ -80,6 +132,10 @@ class TurboGameAdapter : GameAdapter
             player.name = tmPlayer.Name;
             player.login = tmPlayer.Login;
             observation.players.InsertLast(player);
+            AttemptSnapshot@ attempt = AttemptSnapshot();
+            attempt.playerIndex = player.playerIndex;
+            attempt.participantId = ParticipantId(tmPlayer, app.PlaygroundScript.ServerModeName + ":" + playground.GameTerminals.Length);
+            observation.attempts.InsertLast(attempt);
             PlayerObservation@ state = PlayerObservation();
             @state.player = player;
             state.durationMs = app.PlaygroundScript.Now > tmPlayer.RaceStartTime
@@ -110,16 +166,58 @@ class TurboGameAdapter : GameAdapter
         @observation.mode = ReadTurboMode(app, splitScreen, launchModeHint);
         observation.active = observation.local && !observation.playerStates.IsEmpty();
         if (observation.active) {
+            observedRound = true;
+            waitingForEnd = false;
             observation.sessionKey = activeSessionKey;
             LogTurboState("active", "Turbo capture detected an active local round with " + observation.players.Length + " player(s).");
         } else {
             observation.endReason = pendingEndReason.Length > 0
                 ? pendingEndReason
                 : (roundCompleted ? "completed" : "unknown");
+            // Mode state can lag the player's reset by several frames. The live
+            // cancel traces show credits 2->1 and 1->0 after the inactive frame.
+            bool standardArcade = observation.mode !is null && observation.mode.name == "arcade";
+            if (observedRound && !roundCompleted && standardArcade &&
+                (observation.endReason == "restarted" || observation.endReason == "unknown")) {
+                int phase, credits;
+                observation.endReason = "unknown";
+                if (!waitingForEnd) { waitingForEnd = true; restartCandidate = false; endPendingSince = Time::Now; }
+                bool haveState = ReadArcadeEndState(app, phase, credits);
+                if (haveState) {
+                    if (phase == 2 || phase == 3 || (arcadeRoundCredits >= 0 && credits < arcadeRoundCredits)) {
+                        observation.endReason = "aborted";
+                    } else if (phase == 0 && arcadeRoundCredits >= 0 && credits == arcadeRoundCredits) {
+                        restartCandidate = true;
+                    }
+                }
+                if (observation.endReason == "unknown") {
+                    if (Time::Now - endPendingSince < 250) {
+                        observation.pendingEnd = true;
+                        return observation;
+                    }
+                    if (haveState && restartCandidate && credits == arcadeRoundCredits) observation.endReason = "restarted";
+                }
+            }
+            observedRound = false;
+            waitingForEnd = false;
             pendingEndReason = "";
             LogTurboState("players", "Turbo capture armed and waiting for the race timer to start.");
         }
         return observation;
+    }
+
+    bool ReadArcadeEndState(CGameManiaPlanet@ app, int &out phase, int &out credits)
+    {
+        if (app.PlaygroundScript is null || app.PlaygroundScript.UIManager is null ||
+            app.PlaygroundScript.ServerModeName != "TMC_LocalArcade") return false;
+        auto ui = app.PlaygroundScript.UIManager.LocalPlayerConfig;
+        auto network = cast<CTrackManiaNetwork>(app.Network);
+        if (ui is null || network is null || network.TmRaceRules is null || TurboSecretModeType(network.TmRaceRules, "arcade").Length > 0) return false;
+        try {
+            string dump = app.PlaygroundScript.Dbg_DumpDeclareForVariables(ui, false);
+            return dump.Length <= 65536 && ReadTurboUiInteger(dump, "netread", "Net_GamePhase", phase) &&
+                ReadTurboUiInteger(dump, "netread", "Net_Credits_Count", credits) && phase >= -1 && phase <= 4 && credits >= 0 && credits <= 2;
+        } catch { return false; }
     }
 
     void LogTurboState(const string &in state, const string &in message)

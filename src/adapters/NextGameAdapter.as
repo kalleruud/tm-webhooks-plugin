@@ -10,21 +10,56 @@ class NextGameAdapter : GameAdapter
     uint replacementObservedAt;
     uint replacementSpawnIndex;
 
+    array<CSmPlayer@> identityPlayers;
+    array<string> participantIds;
+    string participantScope;
+
+    string ParticipantId(CSmPlayer@ player, const string &in scope)
+    {
+        if (participantScope != scope) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
+            participantScope = scope;
+        }
+        for (uint i = 0; i < identityPlayers.Length; i++) {
+            if (identityPlayers[i] is player) return participantIds[i];
+        }
+        identityPlayers.InsertLast(player);
+        participantIds.InsertLast(CreateUuidV4());
+        return participantIds[participantIds.Length - 1];
+    }
+
     GameObservation@ Observe()
     {
         observationIndex++;
         GameObservation@ observation = GameObservation();
         CTrackMania@ app = cast<CTrackMania>(GetApp());
         if (app is null || app.CurrentPlayground is null || app.RootMap is null) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             EndInterruptedRound(observation);
             return observation;
         }
         auto playground = app.CurrentPlayground;
+        // Retain only engine racers still present; replacement objects get new IDs.
+        for (int i = int(identityPlayers.Length) - 1; i >= 0; i--) {
+            bool present;
+            for (uint p = 0; p < playground.Players.Length; p++) {
+                if (identityPlayers[i] is cast<CSmPlayer>(playground.Players[p])) { present = true; break; }
+            }
+            if (!present) { identityPlayers.RemoveAt(i); participantIds.RemoveAt(i); }
+        }
         observation.local = app.Network !is null && app.Network.PlaygroundClientScriptAPI !is null &&
             app.Network.PlaygroundClientScriptAPI.IsServerOrSolo;
+        if (!observation.local) {
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
+        }
         @observation.map = ReadNextMap(app);
         if (lastMap != app.RootMap.IdName) {
             bool mapChangedDuringRound = lastMap.Length > 0 && roundActive;
+            identityPlayers.Resize(0);
+            participantIds.Resize(0);
             lastMap = app.RootMap.IdName;
             ResetRound();
             if (mapChangedDuringRound) {
@@ -74,6 +109,10 @@ class NextGameAdapter : GameAdapter
             if (feedPlayer.Login.Length > 0) player.localId = "" + feedPlayer.LoginMwId.Value;
             player.accountId = feedPlayer.WebServicesUserId;
             observation.players.InsertLast(player);
+            AttemptSnapshot@ attempt = AttemptSnapshot();
+            attempt.playerIndex = player.playerIndex;
+            attempt.participantId = ParticipantId(smPlayer, NextServerModeName(app) + ":" + playground.GameTerminals.Length);
+            observation.attempts.InsertLast(attempt);
             PlayerObservation@ state = PlayerObservation();
             @state.player = player;
             state.durationMs = uint(raceTime);

@@ -10,10 +10,10 @@ paths:
   /webhook:
     post:
       operationId: receiveTrackmaniaEvent
-      summary: Receive one Trackmania race event
+      summary: Receive one Trackmania race or session name/score event
       description: >-
         Events may arrive out of order and more than once. Deduplicate by eventId
-        and reconstruct capture order using game.gameId and sequence, accepting
+        and reconstruct capture order using game.gameId (race events) or sessionId (name/score events) and sequence, accepting
         events before start. The plugin keeps events in memory and retries all
         unsuccessful deliveries until a 2xx response, with up to four concurrent
         requests. Retry-After is honored; otherwise retry delays increase by five
@@ -29,7 +29,18 @@ paths:
           description: Event discriminator matching the request body's `type` property.
           schema:
             type: string
-            enum: [start, first_throttle, checkpoint, lap, respawn, finish, end]
+            enum:
+              [
+                start,
+                first_throttle,
+                checkpoint,
+                lap,
+                respawn,
+                finish,
+                end,
+                score,
+                player_name,
+              ]
         - name: event-id
           in: header
           required: true
@@ -127,6 +138,8 @@ components:
         - $ref: '#/components/schemas/FirstThrottleEvent'
         - $ref: '#/components/schemas/PlayerCheckpointEvent'
         - $ref: '#/components/schemas/EndEvent'
+        - $ref: '#/components/schemas/ScoreEvent'
+        - $ref: '#/components/schemas/PlayerNameEvent'
       discriminator:
         propertyName: type
         mapping:
@@ -137,6 +150,8 @@ components:
           respawn: '#/components/schemas/PlayerCheckpointEvent'
           finish: '#/components/schemas/PlayerCheckpointEvent'
           end: '#/components/schemas/EndEvent'
+          score: '#/components/schemas/ScoreEvent'
+          player_name: '#/components/schemas/PlayerNameEvent'
     BaseEvent:
       type: object
       additionalProperties: true
@@ -146,8 +161,6 @@ components:
         - eventId
         - sequence
         - occurredAt
-        - durationMs
-        - game
         - source
       properties:
         schemaVersion:
@@ -165,7 +178,7 @@ components:
           type: integer
           format: int64
           minimum: 0
-          description: Contiguous capture order within the game.
+          description: Capture order within game.gameId for race events or the combined player_name/score stream within sessionId.
         occurredAt:
           type: string
           format: date-time
@@ -179,6 +192,11 @@ components:
           $ref: '#/components/schemas/Game'
         source:
           $ref: '#/components/schemas/Source'
+    RaceEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          required: [game, durationMs]
     Source:
       type: object
       additionalProperties: true
@@ -223,12 +241,16 @@ components:
       additionalProperties: true
       required: [playerIndex]
       properties:
+        attemptId: false
+        participantId: false
+        sessionId: false
+        turnId: false
         playerIndex:
           type: integer
           minimum: 0
         name:
           type: string
-          description: Display name from the game API.
+          description: Display name from the game API; not necessarily the human name entered in local multiplayer.
         login:
           type: string
           description: Game login; omitted when not exposed by the runtime.
@@ -242,13 +264,40 @@ components:
           description: >-
             Ubisoft/Nadeo WebServices account ID. Available in Trackmania Next;
             omitted when the runtime does not expose it.
+    Attempt:
+      type: object
+      additionalProperties: false
+      required: [playerIndex, attemptId, participantId]
+      properties:
+        playerIndex:
+          type: integer
+          minimum: 0
+          description: Joins this attempt to the race player metadata at the same index.
+        attemptId:
+          type: string
+          format: uuid
+          description: Fresh run UUID; retained across respawns, replaced on a new run.
+        participantId:
+          type: string
+          format: uuid
+          description: Local participant UUID independent of names and accounts. Ordinary modes track the observed engine racer; verified Hot Seat tracks the human slot and arcade tracks the participant within its turn. Not a permanent person identity.
+        sessionId:
+          type: string
+          format: uuid
+          description: Verified Turbo arcade or Hot Seat session, when available.
+        turnId:
+          type: string
+          format: uuid
+          description: Verified arcade turn, when available.
     PlayerEvent:
       allOf:
-        - $ref: '#/components/schemas/BaseEvent'
+        - $ref: '#/components/schemas/RaceEvent'
         - type: object
           additionalProperties: true
-          required: [player]
+          required: [player, attempt]
           properties:
+            attempt:
+              $ref: '#/components/schemas/Attempt'
             player:
               $ref: '#/components/schemas/Player'
               description: Full snapshot of the player associated with the event.
@@ -401,10 +450,10 @@ components:
             rule family cannot be resolved.
     StartEvent:
       allOf:
-        - $ref: '#/components/schemas/BaseEvent'
+        - $ref: '#/components/schemas/RaceEvent'
         - type: object
           additionalProperties: true
-          required: [type, players, map, mode]
+          required: [type, players, attempts, map, mode]
           properties:
             type:
               type: string
@@ -417,6 +466,12 @@ components:
               items:
                 $ref: '#/components/schemas/Player'
               description: Ordered so players[i].playerIndex equals i.
+            attempts:
+              type: array
+              minItems: 1
+              items:
+                $ref: '#/components/schemas/Attempt'
+              description: One attempt per player; attempts[i].playerIndex equals players[i].playerIndex.
             map:
               oneOf:
                 - $ref: '#/components/schemas/Map'
@@ -464,7 +519,7 @@ components:
               $ref: '#/components/schemas/Checkpoint'
     EndEvent:
       allOf:
-        - $ref: '#/components/schemas/BaseEvent'
+        - $ref: '#/components/schemas/RaceEvent'
         - type: object
           additionalProperties: true
           required: [type, endReason]
@@ -481,10 +536,146 @@ components:
               description: >-
                 Possible values are `completed` when the round finished normally,
                 `restarted` when a restart ended it, `aborted` when capture ended
-                before completion (including Trackmania Turbo Give up), and
-                `unknown` when no more specific reason is available. Trackmania
+                before completion (including the Trackmania Turbo arcade end-turn button; standard arcade
+                uses its postgame/final phase or consumed credit to distinguish this from a restart), and
+                `unknown` when no more specific reason is available. Standard arcade can wait
+                up to 250 ms for delayed phase/credit state before emitting end. Trackmania
                 Next uses completed for a captured finish, restarted for a stable
                 replacement spawn, and aborted for other exits.
+    ScoreEvent:
+      oneOf:
+        - $ref: '#/components/schemas/ArcadeScoreEvent'
+        - $ref: '#/components/schemas/HotSeatScoreEvent'
+      discriminator:
+        propertyName: mode
+        mapping:
+          arcade: '#/components/schemas/ArcadeScoreEvent'
+          hot-seat: '#/components/schemas/HotSeatScoreEvent'
+    PlayerNameEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          required: [sessionId, participantId, name]
+          properties:
+            game: false
+            durationMs: false
+            type:
+              type: string
+              enum: [player_name]
+            sessionId:
+              type: string
+              format: uuid
+            participantId:
+              type: string
+              format: uuid
+            name:
+              type: string
+              minLength: 1
+              description: First explicitly confirmed name or a confirmed change; identical already-confirmed edits and participant switches emit nothing.
+    HotSeatScoreEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          required: [sessionId, participantId, mode, mapUid, attemptId, result]
+          properties:
+            game: false
+            durationMs: false
+            type:
+              type: string
+              enum: [score]
+            sessionId:
+              type: string
+              format: uuid
+            participantId:
+              type: string
+              format: uuid
+            mode:
+              type: string
+              enum: [hot-seat]
+            mapUid:
+              type: string
+              minLength: 1
+            attemptId:
+              type: string
+              format: uuid
+            player:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+              description: Omitted entirely until a name is explicitly confirmed for this participant.
+            result:
+              type: object
+              required: [status, timeMs]
+              properties:
+                status:
+                  type: string
+                  enum: [finished]
+                timeMs:
+                  type: integer
+                  format: int64
+                  minimum: 0
+                  description: Authoritative completed-attempt time, not the participant's historical best.
+    ArcadeScoreEvent:
+      allOf:
+        - $ref: '#/components/schemas/BaseEvent'
+        - type: object
+          required:
+            [
+              sessionId,
+              turnId,
+              mode,
+              mapUid,
+              player,
+              attemptIds,
+              participantIds,
+              captureComplete,
+            ]
+          properties:
+            participantIds:
+              type: array
+              uniqueItems: true
+              items:
+                type: string
+                format: uuid
+              description: Captured participants in this turn, in first-capture order.
+            game: false
+            durationMs: false
+            type:
+              type: string
+              enum: [score]
+            sessionId:
+              type: string
+              format: uuid
+            turnId:
+              type: string
+              format: uuid
+            mode:
+              type: string
+              enum: [arcade]
+            mapUid:
+              type: string
+              minLength: 1
+            player:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  description: Explicitly submitted name from the verified UI name trigger, not the engine profile name.
+            attemptIds:
+              type: array
+              uniqueItems: true
+              items:
+                type: string
+                format: uuid
+              description: Only captured attempt UUIDs, in capture order. May be empty for a late partial capture.
+            captureComplete:
+              type: boolean
+              description: True only when the turn's idle-to-preparation boundary and its attempts were observed without lifecycle gaps.
     ErrorResponse:
       type: object
       additionalProperties: true

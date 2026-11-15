@@ -10,6 +10,16 @@ class PlayerSnapshot
     string accountId;
 }
 
+// Correlation is separate from display/account metadata.
+class AttemptSnapshot
+{
+    uint playerIndex;
+    string attemptId;
+    string participantId;
+    string sessionId;
+    string turnId;
+}
+
 class MapSnapshot
 {
     string name;
@@ -53,9 +63,12 @@ class GameObservation
 {
     bool local;
     bool active;
+    bool pendingEnd;
+    bool sharedRacer;
     string sessionKey;
     string endReason = "unknown";
     array<PlayerSnapshot@> players;
+    array<AttemptSnapshot@> attempts;
     array<PlayerObservation@> playerStates;
     MapSnapshot@ map;
     ModeSnapshot@ mode;
@@ -71,7 +84,9 @@ class CapturedEvent
     uint durationMs;
     uint totalPlayers;
     PlayerSnapshot@ player;
+    AttemptSnapshot@ attempt;
     array<PlayerSnapshot@> players;
+    array<AttemptSnapshot@> attempts;
     MapSnapshot@ map;
     ModeSnapshot@ mode;
     uint checkpointIndex;
@@ -80,6 +95,16 @@ class CapturedEvent
     int theoreticalDurationMs = -1;
     int lostMs = -1;
     string endReason;
+    string sessionId;
+    string turnId;
+    string mapUid;
+    array<string> attemptIds;
+    array<string> participantIds;
+    string attemptId;
+    bool captureComplete;
+    string participantId;
+    string scoreMode;
+    int timeMs = -1;
 }
 
 class PendingWebhook

@@ -8,10 +8,13 @@
 
 ---
 
-The plugin sends a separate webhook for `start`, `first_throttle`,
-`checkpoint`, `lap`, `respawn`, `finish`, and `end`. Every event carries a UUID,
-an in-round sequence number, an RFC 3339 UTC timestamp, the in-game duration,
-and stable game/source metadata. See [the webhook contract](docs/webhook-contract.md)
+The plugin sends race webhooks for `start`, `first_throttle`, `checkpoint`,
+`lap`, `respawn`, `finish`, and `end`, with attempt IDs, per-round sequencing,
+UTC timestamps, in-game durations, and game/source metadata. Standard
+Turbo arcade capture adds confirmed-name `score` events. Standard Turbo
+Hot Seat capture adds `player_name` and completed-attempt `score` events with
+participant IDs and shared session sequencing. These session events omit
+race-only game/duration fields. See [the webhook contract](docs/webhook-contract.md)
 or [the OpenAPI description](openapi.yaml) for the complete payload model.
 
 ## Supported play
@@ -22,7 +25,8 @@ or [the OpenAPI description](openapi.yaml) for the complete payload model.
 Capture is conservative: it stays disabled unless a local playground can be
 identified. Pending events share one memory-only queue across rounds. Failed deliveries retry
 until a `2xx` response, independently of other events. Delivery may arrive out of
-order; receivers must use `game.gameId`, `sequence`, and `eventId` to reconstruct
+order; receivers must use `game.gameId` (race events) or `sessionId` (name/score events),
+`sequence`, and `eventId` to reconstruct
 and deduplicate events. Pending events are lost on plugin unload or game exit.
 
 ## Timing precision
@@ -91,3 +95,19 @@ The output file is `dist/tm-webhooks.op`. The archive contains the root
 
 Unsigned builds require Openplanet Developer signature mode. Public
 distribution requires the normal Openplanet review and signing process.
+
+## Name, score and participant contracts
+
+Player objects contain display/account metadata. Separate attempt references
+link race events to local participant UUIDs, with optional session and turn IDs.
+Participant IDs are local to the observed lifecycle, not permanent human IDs.
+
+Standard Turbo arcade emits `score` after explicit name confirmation and commit.
+Standard Turbo Hot Seat emits `player_name` on confirmed names/renames and
+`score` for captured completed attempts. Unsupported modes retain race capture.
+
+See the [Attempt object](docs/webhook-contract.md#attempt),
+[arcade score](docs/webhook-contract.md#score-standard-turbo-arcade),
+[Hot Seat name](docs/webhook-contract.md#player_name-standard-turbo-hot-seat) and
+[Hot Seat score](docs/webhook-contract.md#score-standard-turbo-hot-seat) sections
+for field tables, complete JSON examples, identity lifetimes and delivery rules.

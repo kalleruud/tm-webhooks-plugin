@@ -41,7 +41,14 @@
     },
     "mode": {
       "name": "campaign"
-    }
+    },
+    "attempts": [
+      {
+        "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+        "playerIndex": 0,
+        "participantId": "6799a01b-238b-44a4-9cb3-f9df73d5f5c7"
+      }
+    ]
   },
   {
     "schemaVersion": "1.1.0",
@@ -63,6 +70,11 @@
       "playerIndex": 0,
       "name": "Player One",
       "login": "player-one"
+    },
+    "attempt": {
+      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+      "playerIndex": 0,
+      "participantId": "6799a01b-238b-44a4-9cb3-f9df73d5f5c7"
     }
   },
   {
@@ -90,6 +102,11 @@
       "checkpointIndex": 1,
       "checkpointLapIndex": 1,
       "lapNumber": 1
+    },
+    "attempt": {
+      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+      "playerIndex": 0,
+      "participantId": "6799a01b-238b-44a4-9cb3-f9df73d5f5c7"
     }
   },
   {
@@ -117,6 +134,11 @@
       "checkpointIndex": 4,
       "checkpointLapIndex": 0,
       "lapNumber": 2
+    },
+    "attempt": {
+      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+      "playerIndex": 0,
+      "participantId": "6799a01b-238b-44a4-9cb3-f9df73d5f5c7"
     }
   },
   {
@@ -144,6 +166,11 @@
       "checkpointIndex": 4,
       "checkpointLapIndex": 0,
       "lapNumber": 2
+    },
+    "attempt": {
+      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+      "playerIndex": 0,
+      "participantId": "6799a01b-238b-44a4-9cb3-f9df73d5f5c7"
     }
   },
   {
@@ -171,6 +198,11 @@
       "checkpointIndex": 8,
       "checkpointLapIndex": 4,
       "lapNumber": 2
+    },
+    "attempt": {
+      "attemptId": "657ac0da-d1d5-4071-94f8-99dc0917636b",
+      "playerIndex": 0,
+      "participantId": "6799a01b-238b-44a4-9cb3-f9df73d5f5c7"
     }
   },
   {

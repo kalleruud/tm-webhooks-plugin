@@ -15,6 +15,8 @@ class RoundTracker
     uint sequence;
     uint lastDurationMs;
     array<PlayerSnapshot@> roster;
+    array<AttemptSnapshot@> attempts;
+    array<string> sourceParticipants;
     array<TrackedPlayer@> tracked;
     MapSnapshot@ roundMap;
 
@@ -26,6 +28,9 @@ class RoundTracker
             if (running && (observation is null || !observation.active)) Stop("aborted");
             return;
         }
+        // Turbo may need a few frames for its mode to publish an end reason.
+        // Keep the frozen round without replaying stale player observations.
+        if (observation.pendingEnd && running) return;
         if (!observation.active) {
             if (running) Stop(observation.endReason);
             return;
@@ -34,7 +39,7 @@ class RoundTracker
             if (running) Stop("restarted");
             Start(observation);
         }
-        CapturePlayers(observation.playerStates);
+        CapturePlayers(observation);
     }
 
     void Start(GameObservation@ observation)
@@ -44,28 +49,65 @@ class RoundTracker
         sessionKey = observation.sessionKey;
         sequence = 0;
         lastDurationMs = 0;
-        roster = observation.players;
+        // Own the snapshots: adapters may reuse their objects on a later frame.
+        // Allocate before start so every event for this attempt shares its UUID.
+        roster.Resize(0);
+        attempts.Resize(0);
+        sourceParticipants.Resize(0);
+        for (uint i = 0; i < observation.players.Length; i++) {
+            PlayerSnapshot@ source = observation.players[i];
+            PlayerSnapshot@ player = PlayerSnapshot();
+            player.playerIndex = source.playerIndex;
+            AttemptSnapshot@ attempt = AttemptSnapshot();
+            attempt.playerIndex = source.playerIndex;
+            attempt.attemptId = CreateUuidV4();
+            auto context = observation.attempts[i];
+            attempt.participantId = context.participantId;
+            sourceParticipants.InsertLast(context.participantId);
+            // A shared engine racer cannot identify unverified human handovers.
+            if (context.sessionId.Length == 0 && observation.sharedRacer) {
+                attempt.participantId = CreateUuidV4();
+            }
+            attempt.sessionId = context.sessionId;
+            attempt.turnId = context.turnId;
+            attempts.InsertLast(attempt);
+            player.name = source.name;
+            player.login = source.login;
+            player.localId = source.localId;
+            player.accountId = source.accountId;
+            roster.InsertLast(player);
+        }
         @roundMap = observation.map;
         tracked.Resize(roster.Length);
         for (uint i = 0; i < tracked.Length; i++) @tracked[i] = TrackedPlayer();
         CapturedEvent@ event = NewEvent("start", 0);
         event.players = roster;
+        event.attempts = attempts;
         @event.map = observation.map;
         @event.mode = observation.mode;
         Enqueue(event);
     }
 
-    void CapturePlayers(array<PlayerObservation@>@ states)
+    void CapturePlayers(GameObservation@ observation)
     {
+        auto states = observation.playerStates;
         for (uint i = 0; i < states.Length; i++) {
             PlayerObservation@ state = states[i];
-            if (state is null || state.player is null || state.player.playerIndex >= tracked.Length) continue;
-            uint index = state.player.playerIndex;
+            if (state is null || state.player is null || state.player.playerIndex >= observation.attempts.Length) continue;
+            string participant = observation.attempts[state.player.playerIndex].participantId;
+            int matched = -1;
+            for (uint p = 0; p < sourceParticipants.Length; p++) {
+                if (sourceParticipants[p] == participant) { matched = int(p); break; }
+            }
+            // A compacted roster index is not evidence of the same participant.
+            // New/unmatched racers wait for the next captured round.
+            if (matched < 0) continue;
+            uint index = uint(matched);
             lastDurationMs = Math::Max(lastDurationMs, state.durationMs);
             TrackedPlayer@ previous = tracked[index];
             if (!previous.throttled && state.throttle > 0) {
                 previous.throttled = true;
-                EmitPlayerEvent("first_throttle", state, state.durationMs);
+                EmitPlayerEvent("first_throttle", state, state.durationMs, index);
             }
             if (state.checkpointIndex > previous.checkpointIndex) {
                 string type = state.finished ? "finish" : (state.checkpointLapIndex == 0 ? "lap" : "checkpoint");
@@ -76,20 +118,21 @@ class RoundTracker
                 } else if (state.checkpointDurationMs >= 0) {
                     eventDurationMs = uint(state.checkpointDurationMs);
                 }
-                if (!previous.finished) EmitPlayerEvent(type, state, eventDurationMs);
+                if (!previous.finished) EmitPlayerEvent(type, state, eventDurationMs, index);
             }
             while (previous.respawnCount < state.respawnCount) {
                 previous.respawnCount++;
-                EmitPlayerEvent("respawn", state, state.durationMs);
+                EmitPlayerEvent("respawn", state, state.durationMs, index);
             }
             previous.finished = previous.finished || state.finished;
         }
     }
 
-    void EmitPlayerEvent(const string &in type, PlayerObservation@ state, uint durationMs)
+    void EmitPlayerEvent(const string &in type, PlayerObservation@ state, uint durationMs, uint index)
     {
         CapturedEvent@ event = NewEvent(type, durationMs);
-        @event.player = roster[state.player.playerIndex];
+        @event.player = roster[index];
+        @event.attempt = attempts[index];
         event.checkpointIndex = state.checkpointIndex;
         if (type == "lap") {
             event.checkpointLapIndex = 0;
@@ -112,6 +155,8 @@ class RoundTracker
         Enqueue(event);
         running = false;
         roster.Resize(0);
+        attempts.Resize(0);
+        sourceParticipants.Resize(0);
         tracked.Resize(0);
         @roundMap = null;
     }

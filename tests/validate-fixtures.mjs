@@ -25,6 +25,8 @@ function assertNoEmptyStrings(value, path = '$') {
 function assertPlayer(player, index) {
   assert.ok(player)
   assert.equal(player.playerIndex, index)
+  for (const key of ['attemptId', 'participantId', 'sessionId', 'turnId'])
+    assert.ok(!(key in player))
   if ('name' in player) assert.equal(typeof player.name, 'string')
   if ('login' in player) {
     assert.equal(typeof player.login, 'string')
@@ -70,6 +72,16 @@ function validateFixture(events, expectedEventTypes) {
 
     if (event.type === 'start') {
       assert.equal(event.players.length, event.game.totalPlayers)
+      assert.equal(event.attempts.length, event.players.length)
+      assert.equal(
+        new Set(event.attempts.map(a => a.participantId)).size,
+        event.players.length
+      )
+      event.attempts.forEach((attempt, index) => {
+        assert.equal(attempt.playerIndex, index)
+        assert.match(attempt.attemptId, uuid)
+        assert.match(attempt.participantId, uuid)
+      })
       event.players.forEach((player, index) => assertPlayer(player, index))
       assert.ok('map' in event)
       assert.ok(event.mode)
@@ -113,6 +125,7 @@ function validateFixture(events, expectedEventTypes) {
       )
     } else {
       assertPlayer(event.player, event.player.playerIndex)
+      assert.deepEqual(event.attempt, start.attempts[event.player.playerIndex])
       if (event.type !== 'first_throttle') assert.ok(event.checkpoint)
     }
   }
@@ -162,6 +175,32 @@ console.log(
   `Validated ${turboEvents.length + nextEvents.length} webhook event fixtures.`
 )
 
+// Representative session payloads: arcade score, confirmed Hot Seat name and finish.
+const [arcade, name, score] = await readFixture('session-events.json')
+for (const event of [arcade, name, score]) {
+  assertNoEmptyStrings(event)
+  assert.equal(event.schemaVersion, '1.1.0')
+  assert.match(event.eventId, uuid)
+  assert.match(event.sessionId, uuid)
+  assert.ok(!('game' in event) && !('durationMs' in event))
+}
+assert.equal(arcade.type, 'score')
+assert.equal(arcade.mode, 'arcade')
+assert.match(arcade.turnId, uuid)
+arcade.participantIds.forEach(id => assert.match(id, uuid))
+arcade.attemptIds.forEach(id => assert.match(id, uuid))
+assert.equal(typeof arcade.captureComplete, 'boolean')
+assert.equal(name.type, 'player_name')
+assert.match(name.participantId, uuid)
+assert.equal(score.mode, 'hot-seat')
+assert.equal(score.sessionId, name.sessionId)
+assert.equal(score.participantId, name.participantId)
+assert.equal(score.player.name, name.name)
+assert.equal(score.sequence, name.sequence + 1)
+assert.match(score.attemptId, uuid)
+assert.equal(score.result.status, 'finished')
+assert.ok(Number.isInteger(score.result.timeMs) && score.result.timeMs >= 0)
+console.log('Validated arcade score and Hot Seat name/score payloads.')
 // Validate every recognized level and omission, using complete event fixtures
 // from each game. Invalid strings and null must fail rather than imply a level.
 const levelCases = await readFixture('map-levels.json')

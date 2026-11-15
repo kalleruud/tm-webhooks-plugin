@@ -1,3 +1,7 @@
+#if TURBO
+TurboArcadeCapture@ g_arcadeCapture;
+TurboHotSeatCapture@ g_hotSeatCapture;
+#endif
 RoundTracker@ g_tracker;
 GameAdapter@ g_adapter;
 WebhookDelivery@ g_delivery;
@@ -13,6 +17,10 @@ void Main()
     @g_adapter = CreateGameAdapter();
     print("[init] " + AdapterGameName());
     startnew(CoroutineFunc(DeliveryLoop));
+#if TURBO
+    @g_arcadeCapture = TurboArcadeCapture(g_delivery);
+    @g_hotSeatCapture = TurboHotSeatCapture(g_delivery);
+#endif
 }
 
 #if TMNEXT
@@ -31,7 +39,24 @@ void Update(float dt)
 {
     LogConfigurationState();
     if (g_adapter is null || g_tracker is null) return;
-    g_tracker.Update(g_adapter.Observe());
+    auto observation = g_adapter.Observe();
+#if TURBO
+    try { g_arcadeCapture.BeforeRound(observation); }
+    catch {
+        g_arcadeCapture.Disable();
+        warn("[arcade] Name capture unavailable until plugin reload; race capture continues.");
+    }
+    try { g_hotSeatCapture.BeforeRound(observation); }
+    catch {
+        g_hotSeatCapture.Disable();
+        warn("[hot-seat] Name capture unavailable until plugin reload; race capture continues.");
+    }
+#endif
+    g_tracker.Update(observation);
+#if TURBO
+    g_arcadeCapture.AfterRound(g_tracker);
+    g_hotSeatCapture.AfterRound(g_tracker, observation);
+#endif
 }
 
 void LogConfigurationState()

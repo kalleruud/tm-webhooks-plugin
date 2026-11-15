@@ -14,6 +14,17 @@ Json::Value@ SerializePlayer(PlayerSnapshot@ player)
     return json;
 }
 
+Json::Value@ SerializeAttempt(AttemptSnapshot@ attempt)
+{
+    Json::Value@ json = Json::Object();
+    json["playerIndex"] = attempt.playerIndex;
+    json["attemptId"] = attempt.attemptId;
+    json["participantId"] = attempt.participantId;
+    PutNonEmptyString(json, "sessionId", attempt.sessionId);
+    PutNonEmptyString(json, "turnId", attempt.turnId);
+    return json;
+}
+
 Json::Value@ SerializeMap(MapSnapshot@ map)
 {
     if (map is null) return Json::Value();
@@ -55,27 +66,66 @@ string SerializeEvent(CapturedEvent@ event)
     PutNonEmptyString(json, "eventId", event.eventId);
     json["sequence"] = event.sequence;
     PutNonEmptyString(json, "occurredAt", event.occurredAt);
-    json["durationMs"] = event.durationMs;
-    Json::Value@ game = Json::Object();
-    PutNonEmptyString(game, "gameId", event.gameId);
-    game["totalPlayers"] = event.totalPlayers;
-    json["game"] = game;
+    if (event.eventType != "score" && event.eventType != "player_name") {
+        json["durationMs"] = event.durationMs;
+        Json::Value@ game = Json::Object();
+        PutNonEmptyString(game, "gameId", event.gameId);
+        game["totalPlayers"] = event.totalPlayers;
+        json["game"] = game;
+    }
     Json::Value@ source = Json::Object();
     PutNonEmptyString(source, "pluginName", PLUGIN_NAME);
     PutNonEmptyString(source, "pluginVersion", Meta::ExecutingPlugin().Version);
     PutNonEmptyString(source, "game", AdapterGameName());
     json["source"] = source;
 
-    if (event.eventType == "start") {
+    if (event.eventType == "player_name") {
+        json["sessionId"] = event.sessionId;
+        json["participantId"] = event.participantId;
+        json["name"] = event.player.name;
+    } else if (event.eventType == "score") {
+        json["sessionId"] = event.sessionId;
+        json["mapUid"] = event.mapUid;
+        json["mode"] = event.scoreMode;
+        if (event.scoreMode == "arcade") {
+            json["turnId"] = event.turnId;
+            Json::Value@ player = Json::Object();
+            player["name"] = event.player.name;
+            json["player"] = player;
+            Json::Value@ attempts = Json::Array();
+            for (uint i = 0; i < event.attemptIds.Length; i++) attempts.Add(event.attemptIds[i]);
+            json["attemptIds"] = attempts;
+            json["captureComplete"] = event.captureComplete;
+            Json::Value@ participants = Json::Array();
+            for (uint i = 0; i < event.participantIds.Length; i++) participants.Add(event.participantIds[i]);
+            json["participantIds"] = participants;
+        } else if (event.scoreMode == "hot-seat") {
+            json["participantId"] = event.participantId;
+            json["attemptId"] = event.attemptId;
+            if (event.player.name.Length > 0) {
+                Json::Value@ player = Json::Object();
+                player["name"] = event.player.name;
+                json["player"] = player;
+            }
+            Json::Value@ result = Json::Object();
+            result["status"] = "finished";
+            result["timeMs"] = event.timeMs;
+            json["result"] = result;
+        }
+    } else if (event.eventType == "start") {
         Json::Value@ players = Json::Array();
         for (uint i = 0; i < event.players.Length; i++) players.Add(SerializePlayer(event.players[i]));
         json["players"] = players;
+        Json::Value@ attempts = Json::Array();
+        for (uint i = 0; i < event.attempts.Length; i++) attempts.Add(SerializeAttempt(event.attempts[i]));
+        json["attempts"] = attempts;
         json["map"] = SerializeMap(event.map);
         json["mode"] = SerializeMode(event.mode);
     } else if (event.eventType == "end") {
         PutNonEmptyString(json, "endReason", event.endReason);
     } else {
         json["player"] = SerializePlayer(event.player);
+        json["attempt"] = SerializeAttempt(event.attempt);
         if (event.eventType != "first_throttle") {
             Json::Value@ checkpoint = Json::Object();
             checkpoint["checkpointIndex"] = event.checkpointIndex;
