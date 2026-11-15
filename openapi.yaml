@@ -23,7 +23,7 @@ paths:
         - bearerAuth: []
         - {}
       parameters:
-        - name: event_type
+        - name: event-type
           in: header
           required: true
           description: Event discriminator matching the request body's `type` property.

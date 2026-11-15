@@ -11,16 +11,17 @@ The plugin sends each event directly to the configured URL:
 ```http
 POST /
 Content-Type: application/json; charset=utf-8
-event_type: <type>
+event-type: <type>
 event-id: <eventId>
 event-sequence: <sequence>
 [Authorization: Bearer <token>]
 ```
 
-`event_type` is required and exactly matches the payload's `type` property.
+`event-type` is required and exactly matches the payload's `type` property.
 `event-id` and `event-sequence` are required and exactly match the payload's
 `eventId` and `sequence` properties. All three event headers remain unchanged
-across retries.
+across retries. The former `event_type` header is no longer sent, because some
+proxies drop header names containing underscores.
 `Authorization` is included only when a nonempty authentication token is
 configured. An empty token sends an unauthenticated request.
 
