@@ -89,3 +89,19 @@ The output file is `dist/tm-webhooks.op`. The archive contains the root
 
 Unsigned builds require Openplanet Developer signature mode. Public
 distribution requires the normal Openplanet review and signing process.
+
+## Optional diagnostics harness
+
+A separate diagnostics build records timestamped player, race, vehicle and
+leaderboard data to a local, unauthenticated Bun receiver, for agents testing or
+investigating game behavior. Production packages exclude diagnostics entirely.
+
+```bash
+bash scripts/build-op.sh diagnostics   # dist/tm-webhooks-diagnostics.op
+bun tools/diagnostics-receiver/server.mjs
+```
+
+In the plugin settings, set **Receiver URL** and enable **Record runs**. Then use
+`inspect.mjs timeline` to reconstruct a recording.
+
+See [setup, source coverage and runtime validation](docs/diagnostics-harness.md).
