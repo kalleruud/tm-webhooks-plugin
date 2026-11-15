@@ -45,8 +45,17 @@ Errors use this forward-compatible shape:
 valid but arrived outside an active receiver session. It is retryable and may
 include `Retry-After` as integer seconds or an HTTP date.
 
-The plugin retries network errors, `408`, `429`, and all `5xx` responses. Other
-`4xx` and all `3xx` responses are permanent failures.
+The plugin retains events in memory until a `2xx` response and retries every
+unsuccessful delivery, including network errors, timeouts, and all non-`2xx`
+responses. Up to four requests run concurrently; retry delays never pause other
+events. Retries honor `Retry-After`; otherwise backoff increases by five seconds
+per failed attempt, capped at 60 seconds. There is no retry limit or queue size
+limit. Plugin unload or game exit discards pending events.
+
+Delivery may be out of order and duplicated (for example, after a response is
+lost). Receivers must deduplicate by `eventId` and reconstruct capture order
+using `game.gameId` for race events or `sessionId` for name/score events, plus
+`sequence`, including accepting events before `start`.
 
 ## Models
 
@@ -112,19 +121,20 @@ when non-empty.
 
 ### Map
 
-| Field               | Type                 | Description                                | Rules                                          |
-| ------------------- | -------------------- | ------------------------------------------ | ---------------------------------------------- |
-| `name`              | string               | Display name of the map                    | Required                                       |
-| `uid`               | string               | Unique identifier of the map               | Required                                       |
-| `author`            | string               | Creator of the map                         | Required                                       |
-| `environment`       | string               | Environment or setting used by the map     | Required                                       |
-| `type`              | string               | Map type reported by the game              | Required                                       |
-| `medalTimesMs`      | MedalTimes           | Target medal times in milliseconds         | Required; zero values mean unknown/not exposed |
-| `isLaps`            | boolean              | Whether the map uses multiple laps         | Required                                       |
-| `totalLaps`         | positive integer     | Number of laps required to finish          | Optional; emitted only for lap maps when `> 0` |
-| `checkpointsPerLap` | non-negative integer | Number of intermediate checkpoints per lap | Required; excludes start and finish            |
+| Field               | Type                 | Description                                | Rules                                            |
+| ------------------- | -------------------- | ------------------------------------------ | ------------------------------------------------ |
+| `name`              | string               | Display name of the map                    | Required                                         |
+| `uid`               | string               | Unique identifier of the map               | Required                                         |
+| `author`            | string               | Creator of the map                         | Required                                         |
+| `environment`       | string               | Environment or setting used by the map     | Required                                         |
+| `type`              | string               | Map type reported by the game              | Required                                         |
+| `level`             | string               | Game-reported map difficulty               | Optional; white, green, blue, red, black, custom |
+| `medalTimesMs`      | MedalTimes           | Target medal times in milliseconds         | Required; zero values mean unknown/not exposed   |
+| `isLaps`            | boolean              | Whether the map uses multiple laps         | Required                                         |
+| `totalLaps`         | positive integer     | Number of laps required to finish          | Optional; emitted only for lap maps when `> 0`   |
+| `checkpointsPerLap` | non-negative integer | Number of intermediate checkpoints per lap | Required; excludes start and finish              |
 
-Trackmania Next sources the map from `app.RootMap`; Trackmania Turbo sources it from `app.Challenge`. `start.map` is always emitted. It is `null` only if a start event is emitted before the game exposes a map object; Map string fields are serialized from scalar game API values and are never emitted as empty strings. `environment` is sourced from the map's `CollectionName` in both games.
+Trackmania Next sources the map from `app.RootMap`; Trackmania Turbo sources it from `app.Challenge`. `start.map` is always emitted. It is `null` only if a start event is emitted before the game exposes a map object; Map string fields are serialized from scalar game API values and are never emitted as empty strings. `environment` preserves the map's raw `CollectionName`, and `type` preserves its raw `MapType` in both games. Optional `level` reads `CGameCtnChallenge.Difficulty` and emits only `white`, `green`, `blue`, `red`, `black`, or `custom`. Unknown or unavailable difficulty is omitted; names and medal times are never used to infer it. This property describes the map, not guaranteed campaign membership. Both [Turbo](https://turbo.openplanet.dev/lookup/CGameCtnChallenge) and [Next](https://next.openplanet.dev/lookup/CGameCtnChallenge) expose the unnamed enum in that order (values 0–5).
 
 ### MedalTimes
 
@@ -419,7 +429,8 @@ score in that session. Race sequences still restart for each `game.gameId`.
 Receivers choose sequence scope by event type and deduplicate retries by
 `eventId`. A score may arrive after the `end` events of its referenced attempts;
 `end` closes only a round, not the arcade turn or local session. Delivery uses
-the same HTTP headers and FIFO; retries preserve the serialized score.
+the same HTTP headers and concurrent delivery; retries preserve the serialized
+score. Arrival order can differ from session capture order.
 
 The tracker ignores stale submission triggers at attachment. Consecutive turns
 with identical submitted names can produce distinct scores because the trigger,

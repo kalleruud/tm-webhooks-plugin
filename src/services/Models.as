@@ -1,6 +1,5 @@
 const string SCHEMA_VERSION = "1.1.0";
 const string PLUGIN_NAME = "TM Webhooks";
-const uint MAX_QUEUE_SIZE = 1000;
 
 class PlayerSnapshot
 {
@@ -22,6 +21,7 @@ class MapSnapshot
     string author;
     string environment;
     string mapType;
+    string level;
     bool isLaps;
     uint totalLaps;
     uint checkpointsPerLap;
@@ -101,6 +101,10 @@ class PendingWebhook
     string eventType;
     uint eventSequence;
     string payload;
+    Net::HttpRequest@ request;
+    uint attempts;
+    uint64 startedAt;
+    uint64 nextAttemptAt;
 
     PendingWebhook(const string &in id, const string &in type, uint sequence, const string &in body)
     {

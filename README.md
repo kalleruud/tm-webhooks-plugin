@@ -3,7 +3,7 @@
 </div>
 
 <p align="center">
-  An Openplanet plugin that emits ordered race events from supported local modes in Trackmania Next (2020) and Trackmania Turbo.
+  An Openplanet plugin that emits race events from supported local modes in Trackmania Next (2020) and Trackmania Turbo.
 </p>
 
 ---
@@ -23,7 +23,11 @@ or [the OpenAPI description](openapi.yaml) for the complete payload model.
 - Trackmania Turbo campaign, hot seat, arcade, split screen, and secret modes
 
 Capture is conservative: it stays disabled unless a local playground can be
-identified. Pending events share one memory-only FIFO across rounds.
+identified. Pending events share one memory-only queue across rounds. Failed deliveries retry
+until a `2xx` response, independently of other events. Delivery may arrive out of
+order; receivers must use `game.gameId` (race events) or `sessionId` (name/score events),
+`sequence`, and `eventId` to reconstruct
+and deduplicate events. Pending events are lost on plugin unload or game exit.
 
 ## Timing precision
 
@@ -53,7 +57,6 @@ Open **Openplanet > Settings > TM Webhooks > Webhook** and set:
 
 - **Endpoint URL**: destination for HTTP POST requests
 - **Authentication token**: optional secret sent as `Authorization: Bearer <token>`
-- **Maximum retry count**: retries after the initial attempt, from 0 to 10
 
 Capture and delivery are disabled while the URL is empty. Requests use
 `Content-Type: application/json; charset=utf-8` plus `event_type`, `event-id`,

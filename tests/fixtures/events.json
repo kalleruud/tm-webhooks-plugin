@@ -37,7 +37,8 @@
       },
       "isLaps": true,
       "totalLaps": 2,
-      "checkpointsPerLap": 3
+      "checkpointsPerLap": 3,
+      "level": "white"
     },
     "mode": {
       "name": "campaign"

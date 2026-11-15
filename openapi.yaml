@@ -11,6 +11,14 @@ paths:
     post:
       operationId: receiveTrackmaniaEvent
       summary: Receive one Trackmania race or session name/score event
+      description: >-
+        Events may arrive out of order and more than once. Deduplicate by eventId
+        and reconstruct capture order using game.gameId (race events) or sessionId (name/score events) and sequence, accepting
+        events before start. The plugin keeps events in memory and retries all
+        unsuccessful deliveries until a 2xx response, with up to four concurrent
+        requests. Retry-After is honored; otherwise retry delays increase by five
+        seconds per failed attempt up to 60 seconds. There is no retry or queue
+        size limit. Pending events are lost on plugin unload or game exit.
       security:
         - bearerAuth: []
         - {}
@@ -358,10 +366,14 @@ components:
           description: Creator nickname from the game API.
         environment:
           type: string
-          description: Environment or setting used by the map.
+          description: Raw CollectionName reported by the game API.
         type:
           type: string
-          description: Map type reported by the game API.
+          description: Raw MapType reported by the game API.
+        level:
+          type: string
+          enum: [white, green, blue, red, black, custom]
+          description: Map Difficulty property, not guaranteed campaign membership. Omitted when unknown or unavailable; never inferred from names or medal times.
         medalTimesMs:
           $ref: '#/components/schemas/MedalTimes'
           description: Target medal times; zero means unknown or not exposed.

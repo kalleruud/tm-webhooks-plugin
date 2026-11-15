@@ -44,6 +44,8 @@ async function readFixture(name) {
   )
 }
 
+const mapLevels = ['white', 'green', 'blue', 'red', 'black', 'custom']
+
 function validateFixture(events, expectedEventTypes) {
   assert.deepEqual(
     events.map(event => event.type),
@@ -76,6 +78,7 @@ function validateFixture(events, expectedEventTypes) {
         for (const field of ['name', 'uid', 'author', 'environment', 'type']) {
           assert.equal(typeof event.map[field], 'string')
         }
+        if ('level' in event.map) assert.ok(mapLevels.includes(event.map.level))
         assert.ok(event.map.medalTimesMs)
         for (const medal of ['author', 'gold', 'silver', 'bronze']) {
           assert.ok(Number.isInteger(event.map.medalTimesMs[medal]))
@@ -189,3 +192,22 @@ assert.match(score.attemptId, uuid)
 assert.equal(score.result.status, 'finished')
 assert.ok(Number.isInteger(score.result.timeMs) && score.result.timeMs >= 0)
 console.log('Validated arcade score and Hot Seat name/score payloads.')
+// Validate every recognized level and omission, using complete event fixtures
+// from each game. Invalid strings and null must fail rather than imply a level.
+const levelCases = await readFixture('map-levels.json')
+for (const events of [turboEvents, nextEvents]) {
+  const types = events.map(event => event.type)
+  for (const testCase of levelCases) {
+    const variant = structuredClone(events)
+    delete variant[0].map.level
+    if ('level' in testCase) {
+      variant[0].map.level = testCase.level
+    }
+    validateFixture(variant, types)
+  }
+  for (const invalid of ['unknown', 'White', '', null, 0]) {
+    const variant = structuredClone(events)
+    variant[0].map.level = invalid
+    assert.throws(() => validateFixture(variant, types))
+  }
+}

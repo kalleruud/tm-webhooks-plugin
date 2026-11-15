@@ -161,6 +161,7 @@ MapSnapshot@ ReadNextMap(CTrackMania@ app)
     map.author = app.RootMap.AuthorNickName;
     map.environment = app.RootMap.CollectionName;
     map.mapType = app.RootMap.MapType;
+    map.level = MapDifficultyLevel(uint(app.RootMap.Difficulty));
     map.isLaps = app.RootMap.TMObjective_IsLapRace;
     map.authorTime = app.RootMap.TMObjective_AuthorTime;
     map.goldTime = app.RootMap.TMObjective_GoldTime;
